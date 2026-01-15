@@ -1,0 +1,29 @@
+# Sensitive configuration files
+mcp/servers.json
+
+# Logs
+hooks/tool-calls.log
+*.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# API keys and credentials
+**/secrets/
+**/*secret*
+**/*credential*
+**/*token*
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store
+
+# Backup files
+*.bak
+*.backup
+
+# User-specific settings that shouldn't be shared
+settings.local.json

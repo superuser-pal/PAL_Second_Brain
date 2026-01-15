@@ -1,0 +1,92 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+Library
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.env
+
+# API keys and secrets
+*.pem
+*.key
+*.cert
+*.p12
+*.pfx
+*_rsa
+*_rsa.pub
+*.crt
+*.cer
+
+# Logs
+*.log
+logs/
+Library/Logs/
+
+# Node/Bun
+node_modules/
+.npm
+.yarn
+.pnp.*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Build outputs
+dist/
+build/
+out/
+
+# Cache
+.cache/
+*.cache
+
+# Personal/Private data
+private/
+secrets/
+credentials/
+
+# PAI Runtime (ephemeral files)
+.claude/.runtime/
+
+# PAI Memory System (track structure, ignore data)
+.claude/skills/CORE/MEMORY/sessions/
+.claude/skills/CORE/MEMORY/learnings/
+.claude/skills/CORE/MEMORY/research/
+.claude/skills/CORE/MEMORY/decisions/
+.claude/skills/CORE/MEMORY/execution/
+.claude/skills/CORE/MEMORY/raw-outputs/
+.claude/skills/CORE/MEMORY/State/*.json
+.claude/skills/CORE/MEMORY/backups/
+.claude/skills/CORE/MEMORY/recovery/
+.claude/skills/CORE/MEMORY/security/
+.claude/skills/CORE/MEMORY/History/
+.claude/skills/CORE/MEMORY/Work/
+
+# PAI Active Configuration
+.claude/config/active-domain.json
+
+# PAI Update System (sideloading)
+.claude/pai_updates/
+.claude/pai_backups/
+.claude/.pai-sync-history
+
+# Documentation work-in-progress
+docs/other-agents/
+docs/other-skills/

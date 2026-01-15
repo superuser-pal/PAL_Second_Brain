@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Task",
+      "TodoWrite"
+    ],
+    "deny": [
+      "Read(~/.env)",
+      "Read(~/.env.*)",
+      "Read(~/.aws/**)",
+      "Read(~/.ssh/**)",
+      "Write(~/**)",
+      "Edit(~/**)"
+    ],
+    "ask": [
+      "Bash(git push*)",
+      "Bash(npm publish*)",
+      "Bash(rm -rf*)",
+      "WebFetch"
+    ]
+  },
+  "env": {
+    "CLAUDE_PROJECT_DIR": "/Users/rodrigocanoteran/projects/pal-framework",
+    "PROJECT_NAME": "pal-framework"
+  },
+  "model": "claude-sonnet-4-5-20250929",
+  "alwaysThinkingEnabled": false,
+  "sandbox": {
+    "enabled": true,
+    "excludedCommands": []
+  }
+}
