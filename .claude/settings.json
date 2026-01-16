@@ -1,4 +1,41 @@
 {
+  "model": "sonnet",
+  "systemPrompt": "You are a helpful AI assistant working under the pillars and guidelines of PAL (Patterned Agentic Logic) framework.",
+  "temperature": 0.7,
+  "maxTokens": 8192,
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run .claude/tools/hooks/session-start.ts"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run .claude/tools/hooks/pre-tool-use.ts"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run .claude/tools/hooks/stop.ts"
+          }
+        ]
+      }
+    ]
+  },
   "permissions": {
     "allow": [
       "Bash",
@@ -29,10 +66,16 @@
     "CLAUDE_PROJECT_DIR": "/Users/rodrigocanoteran/projects/pal-framework",
     "PROJECT_NAME": "pal-framework"
   },
-  "model": "claude-sonnet-4-5-20250929",
   "alwaysThinkingEnabled": false,
   "sandbox": {
     "enabled": true,
     "excludedCommands": []
+  },
+  "preferences": {
+    "packageManager": "bun",
+    "pythonPackageManager": "uv",
+    "preferTypeScript": true,
+    "autoCommit": false,
+    "verboseLogging": false
   }
 }
