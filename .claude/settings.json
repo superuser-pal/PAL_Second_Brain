@@ -1,4 +1,37 @@
 {
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run .claude/tools/hooks/session-start.ts"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run .claude/tools/hooks/pre-tool-use.ts"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run .claude/tools/hooks/stop.ts"
+          }
+        ]
+      }
+    ]
+  },
   "permissions": {
     "allow": [
       "Bash",
@@ -26,8 +59,8 @@
     ]
   },
   "env": {
-    "CLAUDE_PROJECT_DIR": "/Users/rodrigocanoteran/projects/pal-framework",
-    "PROJECT_NAME": "pal-framework"
+    "CLAUDE_PROJECT_DIR": "${PROJECT_DIR}",
+    "PROJECT_NAME": "${PROJECT_NAME}"
   },
   "model": "claude-sonnet-4-5-20250929",
   "alwaysThinkingEnabled": false,
