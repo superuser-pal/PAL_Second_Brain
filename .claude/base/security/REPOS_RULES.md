@@ -6,14 +6,6 @@ purpose: Private vs public data policies and sanitization rules
 last_updated: 2026-01-13
 ---
 
-# PAL Repository Rules
-
-**Version:** 1.0.0
-**Purpose:** Define data handling policies for private vs public repositories and sanitization rules
-**Layer:** SECURITY
-
----
-
 ## Section 1: Repository Classification
 
 ### Private vs Public Data

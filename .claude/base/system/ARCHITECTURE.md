@@ -1,34 +1,28 @@
 ---
-title: PAL System Architecture
-version: 1.0.0
+title: PAL Architecture System
+version: 1.1.0
 layer: SYSTEM
 purpose: Founding principles, philosophy, and master system map
-last_updated: 2026-01-13
+last_updated: 2026-01-18
 ---
 
-# PAL System Architecture
+// ADD TO THIS FILE THE AGENTS LOGIC FOR WORKING WIHT PAL 
 
-**Version:** 1.0.0
+# PAL Architecture System
+
+**Version:** 1.1.0
 **Purpose:** PAL's architectural foundation - the "Constitution" defining WHY the system works this way
 **Layer:** SYSTEM
 
 ---
 
-## Section 1: System Philosophy
-
-### PAL's Core Statement
+## PAL's Core Statement
 
 > "PAL is a pattern-based modular system that empowers non-technical professionals to architect AI systems through organized context engineering, educational documentation, and simple modular configuration."
 
-### What This Means
-
-**PAL is NOT:** Black box abstraction, automation replacement, pre-configured limits
-
-**PAL IS:** Transparent framework, tutorial-driven documentation, modular growth platform
-
 ---
 
-## Section 2: PAL's 10 Core Principles
+## Section 1: PAL's 10 Core Principles
 
 PAL's architecture is built on 10 foundational principles:
 
@@ -55,18 +49,6 @@ PAL's architecture is built on 10 foundational principles:
 - Organizing context in an editable and navigable way provides more control over system responses
 - Skills and agents inherit context from specific knowledge domains
 - Only necessary context is loaded to prevent system overload.
-
-**Example:**
-
-```
-Your TECHSTACK.md says: "Prefer TypeScript with strict mode"
-Your DIRECTIVES.md says: "Always explain trade-offs"
-
-PAL Master reads this BEFORE any task →
-Every coding task automatically uses TypeScript + explains decisions
-```
-
-**Trade-off:** Upfront configuration effort, but consistent behavior without repetitive prompting.
 
 #### 3. Plan-First Execution
 
@@ -158,19 +140,19 @@ Every coding task automatically uses TypeScript + explains decisions
 
 ---
 
-## Section 3: Layered Architecture
+## Section 2: Layered Architecture
 
 PAL organizes context and operations into 3 layers:
 
-| Layer        | Purpose                                         | Files   | Key Files                                                                         | Characteristics                                                                                                                                  | Access Pattern                                                                                  |
-| ------------ | ----------------------------------------------- | ------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
-| **USER**     | Personal context, preferences, domain knowledge | 8 files | ABOUTME, DIRECTIVES, DIGITALASSETS, CONTACTS, TECHSTACK, TERMINOLOGY, RESUME, ART | • Uppercase filenames<br>• User-editable, frequently updated<br>• YAML frontmatter<br>• Persistent context to PAL Master                         | SessionStart hook loads all → PAL Master has full context → Skills/agents inherit               |
-| **SYSTEM**   | Operational logic, orchestration, workflows     | 5 files | ARCHITECTURE, ORCHESTRATION, WORKFLOWS, MEMORY_LOGIC, TOOLBOX                     | • Uppercase filenames<br>• User-readable, infrequently modified<br>• YAML frontmatter<br>• Documents HOW system operates                         | PAL Master references for logic → Pattern Library provides education → Users read to understand |
-| **SECURITY** | Permissive security with catastrophic blocking  | 2 files | GUARDRAILS, REPOS_RULES                                                           | • Uppercase filenames<br>• User-configurable, rarely modified<br>• Enforced via PreToolUse hook<br>• Blocks catastrophic, allows controlled risk | PreToolUse hook reads files → Validates against rules → Block/warn/allow decision               |
+| Layer        | Purpose                                         | Files   | Key Files                                                                                              | Characteristics                                                                                                                                  | Access Pattern                                                                                  |
+| ------------ | ----------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| **USER**     | Personal context, preferences, domain knowledge | 8 files | ABOUTME, DIRECTIVES, DIGITALASSETS, CONTACTS, TECHSTACK, TERMINOLOGY, RESUME, ART                      | • Uppercase filenames<br>• User-editable, frequently updated<br>• YAML frontmatter<br>• Persistent context to PAL Master                         | SessionStart hook loads all → PAL Master has full context → Skills/agents inherit               |
+| **SYSTEM**   | Operational logic, orchestration, workflows     | 8 files | ARCHITECTURE, ORCHESTRATION, WORKFLOWS, MEMORY_LOGIC, TOOLBOX, AGENTS_LOGIC, SKILL_LOGIC, DOMAINS_LOGIC | • Uppercase filenames<br>• User-readable, infrequently modified<br>• YAML frontmatter<br>• Documents HOW system operates                         | PAL Master references for logic → Pattern Library provides education → Users read to understand |
+| **SECURITY** | Permissive security with catastrophic blocking  | 2 files | GUARDRAILS, REPOS_RULES                                                                                | • Uppercase filenames<br>• User-configurable, rarely modified<br>• Enforced via PreToolUse hook<br>• Blocks catastrophic, allows controlled risk | PreToolUse hook reads files → Validates against rules → Block/warn/allow decision               |
 
 ---
 
-## Section 4: Master System Map
+## Section 3: Master System Map
 
 ### Component Relationships
 
@@ -235,24 +217,6 @@ PAL organizes context and operations into 3 layers:
     └────────────────────────────────────────────────────────┘
 ```
 
-### Supporting Documentation
-
-```
-docs/patterns/                    [Pattern Library - Educational]
-├── Routing/
-│   ├── skill-routing-pattern.md      → How skills activate
-│   ├── agent-routing-pattern.md      → How agents load
-│   └── tool-routing-pattern.md       → How tools route (future)
-├── Execution/
-│   ├── sequential-execution-pattern.md → Linear workflows
-│   ├── conditional-execution-pattern.md → Branching logic
-│   └── nested-execution-pattern.md    → Workflow composition
-└── Integrity/
-    ├── security-validation-pattern.md → PreToolUse validation
-    ├── file-validation-pattern.md     → Structure checks
-    └── error-recovery-pattern.md      → Graceful degradation
-```
-
 ### Data Flow Visualization
 
 ```
@@ -289,7 +253,7 @@ Session End → Stop Hook (notifications)
 
 ---
 
-## Section 5: Skills Architecture
+## Section 4: Skills Architecture
 
 ### What Are Skills?
 
@@ -299,47 +263,103 @@ Session End → Stop Hook (notifications)
 
 **Purpose:** Execute domain-specific work (write blog posts, generate art, audit security, create prompts)
 
+**Authoritative Source:** [SKILL_LOGIC.md](SKILL_LOGIC.md)
+
 ### Skill Structure
 
 Each skill follows this structure:
 
 ```
-.claude/skills/Blogging/
-├── SKILL.md                 # Skill definition with YAML frontmatter
-├── workflows/               # Workflow definitions
-│   ├── create-blog-post.md
-│   ├── edit-blog-post.md
-│   └── publish-blog-post.md
-├── templates/ (optional)    # Reusable templates
-├── tools/ (optional)        # Skill-specific CLI tools
-└── examples/ (optional)     # Example outputs
+.claude/skills/blogging/           # lower-kebab-case directory
+├── SKILL.md                       # Skill definition with YAML frontmatter
+├── prosody_guide.md               # Context files in skill root (lower_snake_case)
+├── workflows/                     # Workflow definitions
+│   ├── create_post.md             # lower_snake_case workflow files
+│   ├── edit_post.md
+│   └── publish_post.md
+└── tools/                         # Skill-specific CLI tools (ALWAYS present)
+    └── publish.ts
 ```
+
+**Key Structure Rules:**
+- **Skill directories:** Use `lower-kebab-case`
+- **SKILL.md:** Always uppercase
+- **Context files:** Live in skill root, use `lower_snake_case`
+- **Workflow files:** Use `lower_snake_case`
+- **tools/ directory:** ALWAYS present (even if empty)
+- **NO templates/ or examples/ subdirectories**
 
 ### Skill Activation
 
-Skills activate via **intent-based routing** and user natural language.
+Skills activate via **intent-based routing** using the `USE WHEN` clause in the YAML description.
 
-```markdown
-# SKILL.md excerpt
-
-USE WHEN:
-
-- User wants to write, edit, or publish blog content
-- User needs blog post structure or templates
-- User asks about blogging best practices
-- User wants to manage blog drafts or published posts
+```yaml
+# SKILL.md YAML frontmatter
+---
+name: blogging
+description: Complete blog workflow. USE WHEN user mentions doing anything with their blog, website, site, including things like update, proofread, write, edit, publish, preview, blog posts, articles, headers, or website pages.
+---
 ```
 
 **How It Works:**
 
 1. User expresses intent: "I need to write a blog post about AI ethics"
-2. PAL Master reads all `SKILL.md` files
-3. Conceptually matches intent to Blogging skill USE WHEN clauses
-4. Activates Blogging skill (loads context into PAL Master)
+2. PAL Master reads all `SKILL.md` YAML descriptions
+3. Conceptually matches intent to blogging skill USE WHEN clause
+4. Activates blogging skill (loads context into PAL Master)
 5. Blogging workflows become available
 6. PAL Master suggests relevant workflow or user selects
 
-**See:** [Skill Routing Pattern](../../docs/patterns/Routing/skill-routing-pattern.md) for detailed documentation
+**See:** [SKILL_LOGIC.md](SKILL_LOGIC.md) for complete skill configuration rules
+
+---
+
+## Section 5: Domain Architecture
+
+### What Are Domains?
+
+**Domains** = Project workspaces for organizing project-specific work, documentation, and context
+
+**Location:** `domains/` directory at project root
+
+**Purpose:** Provide structured, siloed environments for project work. Each domain contains its own index, plans, sessions, and assets.
+
+**Authoritative Source:** [DOMAINS_LOGIC.md](DOMAINS_LOGIC.md)
+
+### Domain Structure
+
+Each domain follows this structure:
+
+```
+domains/project-alpha/            # lower-kebab-case directory
+├── INDEX.md                      # Source of Truth (domain overview)
+├── CONNECTIONS.yaml              # External sources configuration
+├── 01_PLANS/                     # Active planning documents
+│   └── PLAN_FEATURE_X.md
+├── 02_SESSIONS/                  # Interaction logs
+│   └── 2026-01-18_sync.md
+├── 03_ASSETS/                    # Reference materials
+│   └── api_documentation.md
+└── 05_ARCHIVE/                   # Deprecated content
+```
+
+**Key Characteristics:**
+- **Context containers** - Domains hold documentation and reference materials
+- **Agent-loaded** - Domains are accessed via Domain Agents, not auto-activated
+- **Siloed environments** - Each domain is isolated to prevent context pollution
+- **INDEX.md as Source of Truth** - Contains domain overview, current state, and key facts
+
+### Domain-Agent Relationship
+
+Domains are accessed through Domain Agents:
+
+1. User loads agent: `/load-project-alpha-agent`
+2. Agent has domain binding: specifies which domain to load
+3. Context loading: Agent loads domain's INDEX.md and relevant files
+4. Work execution: Agent operates with domain context
+
+**See:** [DOMAINS_LOGIC.md](DOMAINS_LOGIC.md) for complete domain configuration rules
+**See:** [AGENTS_LOGIC.md](AGENTS_LOGIC.md) for agent-domain binding
 
 ---
 
@@ -353,7 +373,7 @@ USE WHEN:
 
 **Purpose:** Control system behavior deterministically (context loading, security validation, notifications)
 
-### PAL v1 Hooks (3 Essential)
+### PAL Hooks (3 Essential)
 
 | Hook             | Trigger Point          | Purpose                                                     | Implementation     |
 | ---------------- | ---------------------- | ----------------------------------------------------------- | ------------------ |
@@ -384,7 +404,7 @@ PAL is designed for user customization and extension:
 | **Custom Agents** | Extended domain work requiring specialized persona                                                                                              | Use agent creation commands/patterns | Agents inherit Base context + domain skill, loaded via `/load-[agent]`                |
 | **Toolbox**       | Need CLI utilities, external integrations, workflow automation                                                                                  | Add to `.claude/tools/` directory    | **See:** [TOOLBOX.md](TOOLBOX.md) for configuration                                   |
 
-### Current Toolbox (PAL v1)
+### Current Toolbox
 
 - Notifications (Stop hook)
 - Security Validation (PreToolUse hook)
@@ -393,8 +413,8 @@ PAL is designed for user customization and extension:
 
 ---
 
-**Document Version:** 1.0.0
-**Last Updated:** 2026-01-14
-**Related Files:** ORCHESTRATION.md, WORKFLOWS.md, MEMORY_LOGIC.md, TOOLBOX.md, GUARDRAILS.md
+**Document Version:** 1.1.0
+**Last Updated:** 2026-01-18
+**Related Files:** ORCHESTRATION.md, WORKFLOWS.md, MEMORY_LOGIC.md, TOOLBOX.md, AGENTS_LOGIC.md, SKILL_LOGIC.md, DOMAINS_LOGIC.md, GUARDRAILS.md
 
 ---

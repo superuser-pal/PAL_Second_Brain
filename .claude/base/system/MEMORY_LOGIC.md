@@ -1,64 +1,152 @@
 ---
-title: PAL Memory & Context System
-version: 1.0.0
+title: PAL Memory System
+version: 1.1.0
 layer: SYSTEM
-purpose: Context tracking, history management, and hook system
-last_updated: 2026-01-13
+purpose: Configuration system for context management, hook system, and session lifecycle
+last_updated: 2026-01-18
 ---
 
-# PAL Memory & Context System
+# PAL Memory System
 
-**Version:** 1.0.0
-**Purpose:** How PAL manages context, tracks history, and uses hooks for system lifecycle control
-**Layer:** SYSTEM
+**The configuration system for PAL context management, hooks, and session lifecycle.**
 
 ---
 
-## Section 1: Context Management (PAL v1)
+## THIS IS THE AUTHORITATIVE SOURCE
 
-### Philosophy: Context Over Memory
+This document defines the **required structure** for context management and hooks in the PAL framework.
 
-**PAL v1 focuses on CONTEXT, not MEMORY:**
+**ALL hook implementations MUST follow this structure.**
 
-| Aspect          | Memory (PAI approach)                                   | Context (PAL approach)                   |
-| --------------- | ------------------------------------------------------- | ---------------------------------------- |
-| **Storage**     | Automated logging to TRACE.jsonl files                  | User-maintained Base configuration files |
-| **Learning**    | System extracts patterns automatically                  | User updates files based on experience   |
-| **Complexity**  | Three-tier architecture (CAPTURE/SYNTHESIS/APPLICATION) | Single-tier Base configuration           |
-| **Maintenance** | System manages memory lifecycle                         | User manages configuration updates       |
-| **Goal**        | System learns from interactions                         | User provides persistent context         |
+If a hook does not follow this structure, it will not execute correctly within the PAL system.
 
-### Context Sources in PAL v1
+---
 
-PAL maintains context through four mechanisms:
+## What Is Context Management?
 
-#### 1. Base Configuration Files
+**Context** = User-maintained configuration files that provide persistent, version-controlled information to PAL.
 
-**Location:** `.claude/base/` | **Loaded by:** SessionStart hook | **Persistence:** User-maintained, version controlled
+**Location:** `.claude/base/` (Base configuration files)
 
-**Structure:** USER (9 files: identity, preferences, tools) + SYSTEM (5 files: operational logic) + SECURITY (2 files: guardrails)
+**Purpose:** Provide consistent, explicit context every session without automated memory systems.
 
-**Benefits:** Always available, version controlled via Git, explicit user control, easily maintainable
+**Key Characteristics:**
 
-## Section 2: Hook System
+- **User-maintained** - Users update files based on experience
+- **Version controlled** - Tracked via Git for history and rollback
+- **Explicit** - No hidden learning or automated extraction
+- **Persistent** - Available every session via SessionStart hook
+- **Three-layer structure** - USER, SYSTEM, SECURITY
+
+---
+
+## Naming Conventions (MANDATORY)
+
+**Hook and context file naming follows PAL's standard conventions.**
+
+| Category | Convention | Example | Purpose |
+| :------- | :--------- | :------ | :------ |
+| **Hooks directory** | `hooks/` | `.claude/tools/hooks/` | Hook implementations location. |
+| **Hook files** | `lower-kebab-case.ts` | `session-start.ts` | TypeScript hook implementations. |
+| **Base directories** | `lower-case` | `user/`, `system/`, `security/` | Layer organization. |
+| **Base files** | `UPPER_SNAKE_CASE.md` | `ABOUTME.md` | Configuration files. |
+| **Settings files** | `lower-kebab-case.json` | `settings.json` | Configuration. |
+
+**Convention Rules:**
+
+- **Hooks:** Use `lower-kebab-case` with `.ts` extension (matches Claude Code conventions)
+- **Base files:** Use `UPPER_SNAKE_CASE` with `.md` extension
+- **Settings:** Use `lower-kebab-case` with `.json` extension
+
+---
+
+## Directory Structure
+
+Context and hooks live in specific locations:
+
+```
+.claude/
+├── base/                           # Base configuration files
+│   ├── user/                       # USER layer (8 files)
+│   │   ├── ABOUTME.md
+│   │   ├── DIRECTIVES.md
+│   │   ├── TECHSTACK.md
+│   │   ├── TERMINOLOGY.md
+│   │   ├── DIGITALASSETS.md
+│   │   ├── CONTACTS.md
+│   │   ├── RESUME.md
+│   │   └── ART.md
+│   ├── system/                     # SYSTEM layer (8 files)
+│   │   ├── ARCHITECTURE.md
+│   │   ├── ORCHESTRATION.md
+│   │   ├── WORKFLOWS.md
+│   │   ├── MEMORY_LOGIC.md
+│   │   ├── TOOLBOX.md
+│   │   ├── AGENTS_LOGIC.md
+│   │   ├── SKILL_LOGIC.md
+│   │   └── DOMAINS_LOGIC.md
+│   └── security/                   # SECURITY layer (2 files)
+│       ├── GUARDRAILS.md
+│       └── REPOS_RULES.md
+├── tools/
+│   └── hooks/                      # Hook implementations
+│       ├── session-start.ts
+│       ├── pre-tool-use.ts
+│       └── stop.ts
+└── settings.json                   # Hook configuration
+```
+
+**Three-Layer Base Structure:**
+
+| Layer | Files | Purpose |
+| :---- | :---- | :------ |
+| **USER** | 8 files | Identity, preferences, personal context |
+| **SYSTEM** | 8 files | System logic and operations |
+| **SECURITY** | 2 files | Safety validation and policies |
+
+---
+
+## Hook System
 
 ### What Are Hooks?
 
-**Hooks** = TypeScript code that executes at specific system lifecycle points
+**Hooks** = TypeScript code that executes at specific system lifecycle points.
 
-**Purpose:** Provide deterministic control over system behavior
+**Location:** `.claude/tools/hooks/` directory
 
-**Location:** `.claude/tools/hooks/`
+**Purpose:** Control system behavior deterministically (context loading, security validation, notifications).
 
-**Language:** TypeScript (compiled to JavaScript)
+### Three Essential Hooks
 
-**Execution:** Automatic at designated trigger points
+| Hook | Trigger | Purpose | File |
+| :--- | :------ | :------ | :--- |
+| **SessionStart** | Session initialization | Load Base context (USER + SYSTEM + SECURITY) | `session-start.ts` |
+| **PreToolUse** | Before tool execution | Validate operation against GUARDRAILS.md | `pre-tool-use.ts` |
+| **Stop** | Session end | Send notifications, save transcript, cleanup | `stop.ts` |
 
-### PAL Hooks (3 Essential)
+### Hook Execution Flow
 
-PAL v1 includes 3 hooks:
+```
+Session Start
+    ↓
+SessionStart hook loads Base (USER + SYSTEM + SECURITY files)
+    ↓
+PAL Master initialized with full context
+    ↓
+During Execution:
+    - Before tool use → PreToolUse hook validates against GUARDRAILS.md
+    - Decision: Block (catastrophic) / Warn (risky) / Allow (safe)
+    ↓
+Session End
+    ↓
+Stop hook executes: notifications, save transcript, log summary
+```
 
-#### 1. SessionStart Hook
+---
+
+## Hook Specifications
+
+### 1. SessionStart Hook
 
 **File:** `.claude/tools/hooks/session-start.ts`
 
@@ -66,235 +154,179 @@ PAL v1 includes 3 hooks:
 
 **Purpose:** Load Base configuration context
 
-**What It Does:** Reads all Base files (USER + SYSTEM + SECURITY) → Loads into PAL Master's context → Session ready with full context
-
-**Implementation:** Loads all three directories automatically, provides loaded files to PAL Master context
-
-**Benefits:** Consistent context every session, automatic Base updates, no manual file specification
+**Actions:**
+- Read all Base files (USER + SYSTEM + SECURITY)
+- Load into PAL Master's context
+- Session ready with full context
 
 **User Action:** None (automatic)
 
-#### 2. PreToolUse Hook
+### 2. PreToolUse Hook
 
 **File:** `.claude/tools/hooks/pre-tool-use.ts`
 
-**Trigger:** Before PAL Master executes any tool (file write, command execution, API call, etc.)
+**Trigger:** Before PAL Master executes any tool
 
 **Purpose:** Validate operation against security rules
 
-**What It Does:** Intercepts tool execution → Reads GUARDRAILS.md and REPOS_RULES.md → Validates operation (security rules, sensitive data, risk level) → Decision: ALLOW (safe) / WARN (risky, user approval) / BLOCK (abort)
+**Actions:**
+- Intercept tool execution
+- Read GUARDRAILS.md and REPOS_RULES.md
+- Validate operation (security rules, sensitive data, risk level)
+- Decision: ALLOW / WARN / BLOCK
 
-**Validation Checks:** Catastrophic operations, credentials, PII, custom guardrail violations
-
-**Benefits:** Automatic security enforcement, catches mistakes proactively, consistent validation, user-configurable rules
+**Validation Checks:**
+- Catastrophic operations (destructive commands)
+- Credentials (API keys, passwords)
+- PII (personal information)
+- Custom guardrail violations
 
 **User Action:** None (automatic), except approving warnings
 
-**See:** [Security Validation Pattern](../../docs/patterns/Integrity/security-validation-pattern.md)
+**See:** [GUARDRAILS.md](../security/GUARDRAILS.md)
 
-#### 3. Stop Hook
+### 3. Stop Hook
 
 **File:** `.claude/tools/hooks/stop.ts`
 
 **Trigger:** When user types `/stop` command or closes session
 
-**Purpose:** Send notifications, save session data, clean up
+**Purpose:** Send notifications, save session data, cleanup
 
-**What It Does:** Session ends → Execute configured actions: notifications (desktop/email/Slack), save transcript, log summary, cleanup temp files
-
-**Configuration:** Set in `.claude/settings.json` with notification channels and action preferences
-
-**Benefits:** Never lose work (transcripts saved), completion notifications, clean shutdown, user-configurable
+**Actions:**
+- Execute configured notifications (desktop/email/Slack)
+- Save transcript
+- Log session summary
+- Cleanup temp files
 
 **User Action:** Configure in settings.json (optional)
 
-### Hook System Benefits
+---
 
-**Deterministic:** Predictable execution points, consistent behavior, reliable operations across sessions
+## Hook Configuration
 
-**User Control:** TypeScript code (not prompts), modifiable for custom behavior, version controlled with Base
+### Settings Structure
 
-**Extensible:** Custom hooks in future versions, grows with user needs, third-party support (PAL v2+)
+**Location:** `.claude/settings.json`
 
-**Transparent:** Visible/readable code, no hidden behavior, full user understanding
+**Purpose:** Configure hook behavior.
+
+```json
+{
+  "hooks": {
+    "sessionStart": {
+      "enabled": true,
+      "loadBase": true
+    },
+    "preToolUse": {
+      "enabled": true,
+      "blockCredentials": true,
+      "warnPII": true
+    },
+    "stop": {
+      "enabled": true,
+      "notifications": {
+        "desktop": true,
+        "email": false,
+        "slack": false
+      },
+      "actions": ["save-transcript", "log-session-summary"]
+    }
+  }
+}
+```
 
 ---
 
-## Section 3: Context Best Practices
+## Context Best Practices
 
 ### For Users
 
-#### 1. Keep Base Configuration Current
-
-Update as preferences evolve, remove outdated entries, review monthly for accuracy
-
-#### 2. Use Git for Base Configuration
-
-Track changes (`git add .claude/Base/`), enable rollback, audit history with descriptive commits
-
-#### 3. Separate General vs Project-Specific Context
-
-**General** (ABOUTME, RESUME, DIRECTIVES): Reusable across projects
-**Project-specific** (TERMINOLOGY, TECHSTACK): Reset per project
-Use symlinks to share general files across projects
-
-#### 4. Document Learnings Immediately
-
-Capture insights while fresh, add to TERMINOLOGY.md immediately, brief notes better than forgetting
-
-#### 5. Be Explicit in Base Files
-
-Replace vague statements ("clean code", "professional tone") with specific guidelines ("functions < 20 lines, TypeScript strict mode", "conversational yet authoritative, active voice")
+| Practice | Description |
+| :------- | :---------- |
+| **Keep Base current** | Update as preferences evolve, remove outdated entries, review monthly |
+| **Use Git** | Track changes (`git add .claude/base/`), enable rollback, audit history |
+| **Separate contexts** | General (ABOUTME, RESUME): reusable; Project-specific (TERMINOLOGY, TECHSTACK): reset per project |
+| **Document immediately** | Capture insights while fresh, add to TERMINOLOGY.md immediately |
+| **Be explicit** | Replace vague statements with specific guidelines |
 
 ### For PAL Master
 
-#### 1. Load Base Context Every Session
-
-SessionStart hook handles automatically, verify successful load at session start
-
-#### 2. Reference Base Context Frequently
-
-Check DIRECTIVES.md (communication), TECHSTACK.md (technical choices), TERMINOLOGY.md (vocabulary), GUARDRAILS.md (risky operations)
-
-#### 3. Suggest Base Updates When Appropriate
-
-When user expresses new preference, offer to update relevant Base file to persist for future sessions
-
-#### 4. Explain Context-Based Decisions
-
-When Base context influences decisions, explain the reasoning to help users understand, catch outdated config, and learn system behavior
+| Practice | Description |
+| :------- | :---------- |
+| **Load Base every session** | SessionStart hook handles automatically |
+| **Reference Base frequently** | Check DIRECTIVES, TECHSTACK, TERMINOLOGY, GUARDRAILS |
+| **Suggest updates** | When user expresses new preference, offer to update Base |
+| **Explain decisions** | When Base context influences decisions, explain reasoning |
 
 ---
 
-## Section 4: Troubleshooting Context Issues
+## Troubleshooting
 
-| Issue                          | Symptoms                                             | Causes                                                                  | Solutions                                                                                                                                                                       |
-| ------------------------------ | ---------------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **AI Behavior Misalignment**   | PAL Master choices don't match preferences           | Outdated Base config, hook load failure, ambiguous directives           | Verify Base loaded (`/context`), update outdated files, make directives explicit, check conflicts, restart session                                                              |
-| **SessionStart Hook Failure**  | PAL Master lacks Base context                        | Hook file missing, wrong Base location, execution error                 | Verify `.claude/tools/hooks/session-start.ts` exists, check Base directory structure (USER/9, SYSTEM/5, SECURITY/2), review error messages, manually reference Base as fallback |
-| **Security Validation Issues** | PreToolUse blocks legitimate ops OR allows risky ops | GUARDRAILS.md rules too strict/loose, validation logic needs adjustment | Review/update GUARDRAILS.md rules, test specific operations, add exceptions for edge cases, adjust hook logic carefully                                                         |
-| **TERMINOLOGY.md Ignored**     | PAL Master doesn't use project vocabulary            | File not loaded, terms not explicit, conflicting standard vocab         | Verify load via `/context`, make terms explicit with "ALWAYS/NEVER" rules, emphasize in conversation, clarify conflicting terms                                                 |
-
----
-
-## Conclusion
-
-PAL's memory and context system provides **persistent, user-controlled context** through:
-
-1. **Four Context Sources**
-
-   - Base Configuration Files (persistent user context)
-   - Session Transcripts (current conversation)
-   - Git History (change tracking)
-   - User-Maintained TERMINOLOGY.md (project learnings)
-
-2. **Three Essential Hooks**
-
-   - SessionStart (load Base context)
-   - PreToolUse (security validation)
-   - Stop (notifications and cleanup)
-
-3. **User-Driven Learning Loop**
-
-   - Users capture learnings manually
-   - Base files updated based on experience
-   - No automated memory system in v1
-
-4. **Future Enhancement Path**
-   - Three-tier memory system (PAL v2+)
-   - Automated learning extraction (PAL v2+)
-   - Historical context archive (PAL v2+)
-
-**For Users:**
-
-- Maintain Base configuration files
-- Update TERMINOLOGY.md with learnings
-- Use Git to track configuration evolution
-- Review and refine context regularly
-
-**For PAL Master:**
-
-- Load Base context every session (SessionStart hook)
-- Reference Base context when making decisions
-- Validate operations with PreToolUse hook
-- Suggest Base updates when appropriate
+| Issue | Symptoms | Solutions |
+| :---- | :------- | :-------- |
+| **Behavior misalignment** | PAL Master choices don't match preferences | Verify Base loaded (`/context`), update outdated files, make directives explicit |
+| **SessionStart failure** | PAL Master lacks Base context | Verify hook file exists, check Base directory structure, review error messages |
+| **Security issues** | PreToolUse blocks legitimate ops OR allows risky ops | Review GUARDRAILS.md rules, add exceptions for edge cases |
+| **TERMINOLOGY ignored** | PAL Master doesn't use project vocabulary | Verify load via `/context`, make terms explicit with ALWAYS/NEVER rules |
 
 ---
 
-**Document Version:** 1.0.0
-**Last Updated:** 2026-01-14
-**Related Files:** ARCHITECTURE.md, ORCHESTRATION.md, WORKFLOWS.md, TOOLBOX.md, GUARDRAILS.md
+## Complete Checklist
+
+Before context management is complete:
+
+### Directory Structure
+
+- [ ] `.claude/base/` exists with three subdirectories
+- [ ] `user/` contains 8 files (ABOUTME, DIRECTIVES, TECHSTACK, TERMINOLOGY, DIGITALASSETS, CONTACTS, RESUME, ART)
+- [ ] `system/` contains 8 files (ARCHITECTURE, ORCHESTRATION, WORKFLOWS, MEMORY_LOGIC, TOOLBOX, AGENTS_LOGIC, SKILL_LOGIC, DOMAINS_LOGIC)
+- [ ] `security/` contains 2 files (GUARDRAILS, REPOS_RULES)
+
+### Hooks
+
+- [ ] `.claude/tools/hooks/` directory exists
+- [ ] `session-start.ts` exists and loads Base files
+- [ ] `pre-tool-use.ts` exists and validates against GUARDRAILS.md
+- [ ] `stop.ts` exists and handles notifications/cleanup
+
+### Configuration
+
+- [ ] `.claude/settings.json` exists
+- [ ] Hook configuration specifies enabled/disabled state
+- [ ] Notification preferences configured (if using Stop hook)
+
+### Naming
+
+- [ ] Hook files use `lower-kebab-case.ts`
+- [ ] Base files use `UPPER_SNAKE_CASE.md`
+- [ ] Settings files use `lower-kebab-case.json`
 
 ---
 
-## Migration & Integration
+## Summary
 
-> **AI INSTRUCTIONS**: When this file is placed in a new project, follow these integration steps.
+| Component | Purpose | Location |
+| :-------- | :------ | :------- |
+| **Base configuration** | User-maintained persistent context | `.claude/base/` |
+| **USER layer** | Identity, preferences (8 files) | `.claude/base/user/` |
+| **SYSTEM layer** | System logic (8 files) | `.claude/base/system/` |
+| **SECURITY layer** | Safety policies (2 files) | `.claude/base/security/` |
+| **SessionStart hook** | Load Base context | `.claude/tools/hooks/session-start.ts` |
+| **PreToolUse hook** | Security validation | `.claude/tools/hooks/pre-tool-use.ts` |
+| **Stop hook** | Notifications and cleanup | `.claude/tools/hooks/stop.ts` |
 
-### Layer Classification
+This system ensures:
 
-- **Layer**: SYSTEM
-- **Priority**: 14 (after WORKFLOWS - context and hooks)
-- **Dependencies**: ARCHITECTURE.md (hook system defined in architecture)
+1. Context is user-maintained and version controlled
+2. Hooks provide deterministic lifecycle automation
+3. Security validation occurs before tool execution
+4. **All naming follows PAL's standard conventions**
 
-### Target Location
+---
 
-```
-[PROJECT_ROOT]/PAL_Base/System/MEMORY_LOGIC.md
-```
+**Document Version:** 1.1.0
+**Last Updated:** 2026-01-18
+**Related Files:** ARCHITECTURE.md, ORCHESTRATION.md, WORKFLOWS.md, TOOLBOX.md, AGENTS_LOGIC.md, SKILL_LOGIC.md, DOMAINS_LOGIC.md, GUARDRAILS.md
 
-### Integration Steps
-
-1. **Verify Directory Structure**
-
-   ```bash
-   mkdir -p PAL_Base/System
-   ```
-
-2. **Place File**
-
-   - Copy this file to `PAL_Base/System/MEMORY_LOGIC.md`
-   - Preserve UPPERCASE filename
-
-3. **Register in SessionStart Hook**
-
-   ```typescript
-   // In .claude/hooks/session-start.ts
-   const systemFiles = [
-     "PAL_Base/System/ARCHITECTURE.md", // Priority: 11
-     "PAL_Base/System/ORCHESTRATION.md", // Priority: 12
-     "PAL_Base/System/WORKFLOWS.md", // Priority: 13
-     "PAL_Base/System/MEMORY_LOGIC.md", // Priority: 14
-     "PAL_Base/System/TOOLBOX.md", // Priority: 15
-   ];
-   ```
-
-4. **Validate Integration**
-   - Start new Claude Code session
-   - Verify SessionStart hook loads context
-   - Test that context persists through session
-
-### How This File Is Used
-
-| System Component       | Usage                                                      |
-| ---------------------- | ---------------------------------------------------------- |
-| **Hook System**        | Defines 3 essential hooks (SessionStart, PreToolUse, Stop) |
-| **Context Management** | Explains 4 context sources                                 |
-| **PAL Master**         | References for context loading and refresh                 |
-| **User Learning**      | Explains user-driven context maintenance                   |
-
-### Customization Required
-
-This file is **reference documentation** - typically NOT customized:
-
-- [ ] **Review** - Understand 4 context sources
-- [ ] **Validate** - Ensure hook implementations match specifications
-- [ ] **Optional** - Add notes about custom context handling
-
-### First-Use Checklist
-
-- [ ] File placed in `PAL_Base/System/`
-- [ ] SessionStart hook loads file at priority 14
-- [ ] 3-hook system understood
-- [ ] Context sources identified
-- [ ] Hooks implemented correctly
+---

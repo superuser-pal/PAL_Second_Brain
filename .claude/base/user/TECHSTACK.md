@@ -116,31 +116,16 @@ Your technology stack preferences. Your AI uses this to make consistent technolo
 
 ### Terminal
 
-**Preference:** `[Kitty/iTerm2/Terminal.app/etc.]`
+**Preference:** `[iTerm2]`
 
 ### Browser
 
-**Preference:** `[Browser Name]`
+**Preference:** `[Chrome]`
 
 ```bash
 # Open URL command
 open -a "[Browser]" "http://localhost:5200"
 ```
-
----
-
-## File Naming Conventions
-
-**Dates in filenames:**
-
-- Format: `YYYY-MM-DD`
-- Example: `2025-11-01_filename.md`
-
-**File naming:**
-
-- Style: `kebab-case`
-- Be specific and descriptive
-
 ---
 
 ## Git Practices

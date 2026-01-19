@@ -1,16 +1,21 @@
 ---
 title: PAL Orchestration System
-version: 1.0.0
+version: 1.1.0
 layer: SYSTEM
 purpose: PAL Master rules, task delegation, and routing logic
-last_updated: 2026-01-13
+last_updated: 2026-01-18
 ---
 
 # PAL Orchestration System
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 **Purpose:** How PAL's PAL Master classifies intent, routes to capabilities, and orchestrates execution
 **Layer:** SYSTEM
+
+**Authoritative Sources:**
+- Agents: [AGENTS_LOGIC.md](AGENTS_LOGIC.md)
+- Skills: [SKILL_LOGIC.md](SKILL_LOGIC.md)
+- Domains: [DOMAINS_LOGIC.md](DOMAINS_LOGIC.md)
 
 ---
 
@@ -57,11 +62,9 @@ PAL Master handles five primary responsibilities:
 
 **Routing Options:** Skill Activation (domain match) → Agent Loading (extended session) → Workflow Execution → Tool Selection → Direct Response
 
-**See:** [Skill Routing Pattern](../../docs/patterns/Routing/skill-routing-pattern.md)
-
 #### 3. Context Assembly
 
-**Purpose:** Gather relevant context from Base files, patterns, and system documentation.
+**Purpose:** Gather relevant context from Base files and system documentation.
 
 **Context Sources:** Base Configuration (USER 10 files + SYSTEM 5 files + SECURITY 2 files) loaded at SessionStart, plus on-demand loading (skills, agents, workflows)
 
@@ -89,25 +92,27 @@ PAL Master handles five primary responsibilities:
 - **During:** Monitor progress, detect errors, apply error recovery patterns
 - **After:** Report results, note deviations, suggest follow-ups, log if configured
 
-**See:** [Error Recovery Pattern](../../docs/patterns/Integrity/error-recovery-pattern.md)
-
 #### 6. Asset Creation Assistance
 
 **Purpose:** Guide users in creating PAL capabilities (skills, agents, domains, workflows, tool integrations)
 
 **Asset Types & When to Use:**
 
-| Asset Type           | Use When                                            | Creation Method     | Storage Location                        |
-| -------------------- | --------------------------------------------------- | ------------------- | --------------------------------------- |
-| **Custom Skill**     | New domain capability needed, recurring use         | CreateSkill skill   | `.claude/skills/[SkillName]/`           |
-| **Domain Agent**     | Extended specialized sessions, deep domain work     | Agents skill        | `.claude/agents/[AgentName]/`           |
-| **External Domain**  | Access external knowledge base (company docs, APIs) | DomainManager skill | `.claude/domains/[DomainName]/`         |
-| **Custom Workflow**  | Multi-step process automation within existing skill | Direct creation     | `.claude/skills/[SkillName]/workflows/` |
-| **Tool Integration** | External API/CLI utilities needed                   | Direct creation     | `.claude/tools/`                        |
+| Asset Type           | Use When                                            | Storage Location                        | Authoritative Doc |
+| -------------------- | --------------------------------------------------- | --------------------------------------- | ----------------- |
+| **Custom Skill**     | New domain capability needed, recurring use         | `.claude/skills/[skill-name]/`          | [SKILL_LOGIC.md](SKILL_LOGIC.md) |
+| **Domain Agent**     | Extended specialized sessions, deep domain work     | `.claude/agents/[agent-name].md`        | [AGENTS_LOGIC.md](AGENTS_LOGIC.md) |
+| **Domain Workspace** | Project-specific context, plans, sessions           | `domains/[domain-name]/`                | [DOMAINS_LOGIC.md](DOMAINS_LOGIC.md) |
+| **Custom Workflow**  | Multi-step process automation within existing skill | `.claude/skills/[skill-name]/workflows/`| [SKILL_LOGIC.md](SKILL_LOGIC.md) |
+| **Tool Integration** | External API/CLI utilities needed                   | `.claude/skills/[skill-name]/tools/`    | [SKILL_LOGIC.md](SKILL_LOGIC.md) |
 
-**Asset Creation Best Practices:** Check for existing capabilities, follow PAL conventions, include activation clauses, add security validation, document thoroughly, test before complex use, version control separately
+**Key Structure Rules:**
 
-**See:** CreateSkill, Agents, DomainManager skills for detailed guidance
+- **Agents:** Single `.md` files only (no directories in agents folder)
+- **Skills:** Directory with `SKILL.md`, flat structure (max 2 levels)
+- **Domains:** Standard folder structure (INDEX.md and CONNECTIONS.yaml at root, 01_PLANS, 02_SESSIONS, 03_ASSETS, 05_ARCHIVE)
+
+**Asset Creation Best Practices:** Check for existing capabilities, follow PAL naming conventions (lower-kebab-case for directories, lower_snake_case for files), reference authoritative logic docs, test before complex use
 
 ---
 
@@ -149,22 +154,47 @@ User: "I want to create an architecture diagram for my system"
 
 **Purpose:** Activate domain-specific skills based on intent matching.
 
+**Authoritative Source:** [SKILL_LOGIC.md](SKILL_LOGIC.md)
+
 #### Skill Activation Flow
 
-User intent → PAL Master reads all SKILL.md USE WHEN clauses → Conceptual matching scores each skill → Threshold decision: High confidence (activate), Medium (suggest + confirm), Low (clarify) → Skill context loaded → Workflows available → Execution
+User intent → PAL Master reads all SKILL.md `USE WHEN` clauses → Conceptual matching scores each skill → Threshold decision: High confidence (activate), Medium (suggest + confirm), Low (clarify) → Skill context loaded → Workflows available → Execution
 
-#### Example: Blogging Skill Activation
+#### Skill YAML Structure
 
-```markdown
-# Blogging Skill - SKILL.md
+Skills use a single-line description with embedded `USE WHEN` trigger:
 
-USE WHEN:
-
-- User wants to write, edit, or publish blog content
-- User needs blog post structure or templates
-- User asks about blogging best practices
-- User wants to manage blog drafts or published posts
+```yaml
+---
+name: blogging
+description: Complete blog workflow. USE WHEN user mentions doing anything with their blog, website, site, including things like update, proofread, write, edit, publish, preview, blog posts, articles, headers, or website pages.
+---
 ```
+
+**Key Rules:**
+- `name` uses **lower-kebab-case** (matches directory)
+- `USE WHEN` keyword is **MANDATORY** (Claude Code parses this)
+- Max 1024 characters (Anthropic hard limit)
+
+#### Skill Directory Structure
+
+```
+.claude/skills/blogging/
+├── SKILL.md              # Main skill file (always uppercase)
+├── prosody_guide.md      # Context file (lower_snake_case)
+├── workflows/            # Workflow files
+│   ├── create_post.md
+│   └── edit_post.md
+└── tools/                # CLI tools (always present)
+    └── publish.ts
+```
+
+**Key Structure Rules:**
+- Flat hierarchy (max 2 levels deep)
+- Context files in skill root (NO `context/` subdirectory)
+- `tools/` directory always present (even if empty)
+
+**See:** [SKILL_LOGIC.md](SKILL_LOGIC.md) for complete structure and canonicalization checklist
 
 **Activation Scenarios:**
 
@@ -179,11 +209,11 @@ USE WHEN:
 
 **Resolution:** PAL Master identifies all matches → Analyzes primary intent → Routes to primary skill → Makes secondary skills available for context
 
-**See:** [Skill Routing Pattern](../../docs/patterns/Routing/skill-routing-pattern.md)
-
 ### Agent Loading
 
 **Purpose:** Load specialized domain agents for extended sessions.
+
+**Authoritative Source:** [AGENTS_LOGIC.md](AGENTS_LOGIC.md)
 
 #### When to Use Agents vs Skills
 
@@ -191,56 +221,89 @@ USE WHEN:
 | -------------- | ---------------------------- | ---------------------------------------------- |
 | **Duration**   | One-off task                 | Extended session (multiple tasks)              |
 | **Invocation** | Automatic (intent-based)     | Manual (user command: `/load-[agent]`)         |
-| **Context**    | PAL Master + skill           | Dedicated agent + skill pre-loaded             |
+| **Context**    | PAL Master + skill           | Four layers (USER + SYSTEM + SECURITY + DOMAIN)|
 | **Focus**      | General orchestration        | Domain-specific specialization                 |
 | **Example**    | "Create a blog post about X" | "/load-blog-agent" then work on multiple posts |
 
-#### Available Agent Commands (PAL v1)
+#### Agent Invocation
 
 ```bash
-# Blogging domain
-/load-blog-agent
-# Activates: Blog Agent with Blogging skill pre-loaded
-# Use for: Multiple blog posts, content series, blog management
+# Pattern: /load-[agent-name]
+/load-blog-agent     # Load blog content agent
+/load-art-agent      # Load visual content agent
+/load-security-agent # Load security audit agent
 
-# Creative generation domain
-/load-art-agent
-# Activates: Art Agent with Art skill pre-loaded
-# Use for: Diagram series, visual content creation, design work
-
-# Security auditing domain
-/load-security-agent
-# Activates: Security Agent with Security skill pre-loaded
-# Use for: Security audits, vulnerability assessment, code review
-
-# Meta-prompting domain
-/load-prompting-agent
-# Activates: Prompting Agent with Prompting skill pre-loaded
-# Use for: Prompt engineering, template creation, meta-prompt work
+# Dismissal (from within any agent)
+*dismiss             # Returns to PAL Master
 ```
 
 #### Agent Loading Flow
 
-User command (`/load-[agent]`) → PAL Master recognizes → Agent initialization (Load Base + Pre-load skill + Load workflows + Apply domain context) → Agent ready with skill pre-loaded
+```
+User command (`/load-[agent]`)
+    ↓
+PAL Master recognizes command
+    ↓
+Agent file loaded from `.claude/agents/[agent-name].md`
+    ↓
+5-Step Activation Protocol:
+  1. Load Persona (agent file)
+  2. Load Context (4 layers with [AUTO]/[REF])
+  3. Extract User Name (from ABOUTME.md)
+  4. Display Greeting (with menu)
+  5. Wait for Input
+    ↓
+Agent ready with domain context
+```
 
-#### Domain Agent Characteristics
+#### Four-Layer Context System
 
-**ARE:** Specialized single-domain focus, pre-loaded skill/workflows, inherit Base context, optimized for extended work
+Domain agents load context from **four layers** (not three):
 
-**ARE NOT:** Separate AI models, different personalities (unless configured), isolated from Base, mandatory
+| Layer | Purpose | Loading Mode | Source |
+| :---- | :------ | :----------- | :----- |
+| **USER** | Identity, preferences | `[REF]` most, `[AUTO]` ABOUTME | `.claude/base/user/` |
+| **SYSTEM** | Architecture, workflows | `[REF]` as needed | `.claude/base/system/` |
+| **SECURITY** | Guardrails, policies | `[REF]` for validation | `.claude/base/security/` |
+| **DOMAIN** | Domain-specific context | `[AUTO]` INDEX.md | `domains/[domain-name]/` |
 
-**Agent Context Inheritance:** Agents support selective context loading for performance.
+#### Domain Binding
 
-**Loading Modes:**
+Each domain agent **must** specify a domain in its YAML frontmatter:
 
-- **Full (default):** Inherits all PAL Master context (USER + SYSTEM + SECURITY)
-- **Selective:** Load only specified files (configured in AGENT.md)
+```yaml
+---
+name: blog-agent
+description: Domain agent for blog content creation
+version: 1.0.0
+domain: blog-content  # Required - binds agent to domain
+---
+```
 
-**Benefits:** Reduced tokens, faster initialization, focused responses, tailored context
+**Domain Binding Process:**
 
-**When to Use:** Full (general/multi-domain agents), Selective (specialized/performance-critical agents)
+1. Agent specifies `domain: [domain-name]` in frontmatter
+2. System locates `domains/[domain-name]/INDEX.md`
+3. INDEX.md serves as the **source of truth** for domain files
+4. Agent maps domain files to `[AUTO]` or `[REF]`
 
-**See:** [Agent Routing Pattern](../../docs/patterns/Routing/agent-routing-pattern.md) for detailed documentation
+#### Agent Structure
+
+**Single-file agents only** (no directories in agents folder):
+
+```
+.claude/agents/
+├── pal-master.md      # Orchestration agent (no domain)
+├── blog-agent.md      # Domain agent
+├── art-agent.md       # Domain agent
+└── security-agent.md  # Domain agent
+```
+
+**Related files live in their respective locations:**
+- Workflows → `.claude/skills/[SkillName]/workflows/`
+- Domain context → `domains/[domain-name]/`
+
+**See:** [AGENTS_LOGIC.md](AGENTS_LOGIC.md) for complete template and checklist
 
 ### Workflow Execution
 
@@ -286,23 +349,44 @@ Workflow execution:
 
 ## Section 3: Context Assembly
 
+// MENTION HERE THAT IT CAN BE CONFIGURED FROM THE AGENT FILE. MEANING THAT THE USER CAN SELECT WHICH CONTEXT IS AUTO-LOADED AND WHICH IS ONLY USED FOR REFERENCE
+
 ### Base Configuration Loading
 
 **SessionStart Hook** loads Base configuration at session initialization.
 
-#### What Gets Loaded
+#### Three-Layer Base Context (PAL Master)
 
-SessionStart hook loads: USER (10 files: identity, preferences, tools, network) + SYSTEM (5 files: principles, routing, workflows, hooks, tools) + SECURITY (2 files: rules, policies) → PAL Master initialized
+| Layer | Files | Purpose |
+| :---- | :---- | :------ |
+| **USER** | ABOUTME, DIRECTIVES, TECHSTACK, TERMINOLOGY, DIGITALASSETS, CONTACTS, RESUME, ART | Identity, preferences, personal context |
+| **SYSTEM** | ARCHITECTURE, ORCHESTRATION, WORKFLOWS, MEMORY_LOGIC, TOOLBOX, AGENTS_LOGIC, SKILL_LOGIC, DOMAINS_LOGIC | System logic and operations |
+| **SECURITY** | GUARDRAILS, REPOS_RULES | Safety validation and policies |
+
+#### Four-Layer Context (Domain Agents)
+
+Domain agents add a **fourth layer**:
+
+| Layer | Source | Loading |
+| :---- | :----- | :------ |
+| **USER** | `.claude/base/user/` | `[REF]` most files |
+| **SYSTEM** | `.claude/base/system/` | `[REF]` as needed |
+| **SECURITY** | `.claude/base/security/` | `[REF]` for validation |
+| **DOMAIN** | `domains/[domain-name]/` | `[AUTO]` INDEX.md, `[REF]` others |
+
+**Domain Context Source of Truth:** `domains/[domain-name]/INDEX.md`
+
+**See:** [AGENTS_LOGIC.md](AGENTS_LOGIC.md) for four-layer context configuration
 
 #### How Context is Used
 
-**USER:** Personalizes responses (ABOUTME), guides tone (DIRECTIVES), informs recommendations (DIGITALASSETS, CONTACTS), influences tech choices (TECHSTACK), ensures vocabulary (TERMINOLOGY), guides setup (ONBOARDING), contextualizes discussions (RESUME), guides visuals (ART)
+**USER:** Personalizes responses (ABOUTME), guides tone (DIRECTIVES), informs recommendations (DIGITALASSETS, CONTACTS), influences tech choices (TECHSTACK), ensures vocabulary (TERMINOLOGY), contextualizes discussions (RESUME), guides visuals (ART)
 
-**SYSTEM:** Explains philosophy (ARCHITECTURE), defines routing (ORCHESTRATION), documents workflows (WORKFLOWS), explains hooks (MEMORY_LOGIC), lists tools (TOOLBOX)
+**SYSTEM:** Explains philosophy (ARCHITECTURE), defines routing (ORCHESTRATION), documents workflows (WORKFLOWS), explains hooks (MEMORY_LOGIC), lists tools (TOOLBOX), defines agent structure (AGENTS_LOGIC), defines skill structure (SKILL_LOGIC), defines domain structure (DOMAINS_LOGIC)
 
 **SECURITY:** Enforces validation (GUARDRAILS), governs data handling (REPOS_RULES)
 
-**Pattern References:** PAL Master references patterns from `docs/patterns/` when users ask system questions, provides explanations with links for detailed reading
+**DOMAIN (agents only):** Provides project-specific context (INDEX.md), active plans (01_PLANS), session history (02_SESSIONS), reference materials (03_ASSETS)
 
 ---
 
@@ -400,112 +484,48 @@ SessionStart hook loads: USER (10 files: identity, preferences, tools, network) 
 
 PAL's orchestration system provides **intelligent routing** through:
 
-1. **PAL Master** - Primary orchestration agent with 5 core responsibilities
-2. **Intent-Based Routing** - Conceptual matching, not keywords
-3. **Skill Activation** - Domain capabilities activated by USE WHEN matching
-4. **Agent Loading** - Specialized agents for extended domain sessions
-5. **Context Assembly** - Base configuration + patterns + skills
-6. **Plan Presentation** - User approval for complex operations
-7. **Execution Oversight** - Monitoring, error handling, result reporting
+1. **PAL Master** - Primary orchestration agent with 6 core responsibilities
+2. **Intent-Based Routing** - Conceptual matching via `USE WHEN` clauses
+3. **Skill Activation** - Domain capabilities with flat directory structure
+4. **Agent Loading** - Specialized agents with four-layer context and domain binding
+5. **Domain Workspaces** - Project-specific context with INDEX.md as source of truth
+6. **Context Assembly** - Three layers (PAL Master) or four layers (domain agents)
+7. **Plan Presentation** - User approval for complex operations
+8. **Execution Oversight** - Monitoring, error handling, result reporting
 
 **For Users:**
 
 - Start with PAL Master (loaded at session start)
-- Load domain agents for extended sessions
+- Load domain agents for extended sessions (`/load-[agent]`)
+- Dismiss agents to return to PAL Master (`*dismiss`)
 - Review plans for complex operations
 - Request context readout with `/context`
 
 **For PAL Master:**
 
 - Classify intent accurately
-- Route to best capability
-- Assemble relevant context
+- Route to best capability (skill or agent)
+- Assemble relevant context (three or four layers)
 - Present plans when beneficial
 - Monitor execution and handle errors
 
-**Next Steps:**
+**Authoritative Logic Files:**
 
-- Read [WORKFLOWS.md](WORKFLOWS.md) for workflow definitions and composition
-- Read [MEMORY_LOGIC.md](MEMORY_LOGIC.md) for context tracking and hooks
-- Read [TOOLBOX.md](TOOLBOX.md) for available tools and integrations
-- Read [Pattern Library](../../docs/patterns/) for routing, execution, and integrity patterns
+- [AGENTS_LOGIC.md](AGENTS_LOGIC.md) - Agent structure, four-layer context, domain binding
+- [SKILL_LOGIC.md](SKILL_LOGIC.md) - Skill structure, USE WHEN triggers, flat hierarchy
+- [DOMAINS_LOGIC.md](DOMAINS_LOGIC.md) - Domain structure, INDEX.md, folder conventions
+
+**Related Files:**
+
+- [WORKFLOWS.md](WORKFLOWS.md) - Workflow definitions and composition
+- [MEMORY_LOGIC.md](MEMORY_LOGIC.md) - Context tracking and hooks
+- [TOOLBOX.md](TOOLBOX.md) - Available tools and integrations
+- [ARCHITECTURE.md](ARCHITECTURE.md) - System philosophy and principles
 
 ---
 
-**Document Version:** 1.0.0
-**Last Updated:** 2026-01-14
-**Related Files:** ARCHITECTURE.md, WORKFLOWS.md, MEMORY_LOGIC.md, TOOLBOX.md
+**Document Version:** 1.1.0
+**Last Updated:** 2026-01-18
+**Related Files:** ARCHITECTURE.md, WORKFLOWS.md, MEMORY_LOGIC.md, TOOLBOX.md, AGENTS_LOGIC.md, SKILL_LOGIC.md, DOMAINS_LOGIC.md
 
 ---
-
-## Migration & Integration
-
-> **AI INSTRUCTIONS**: When this file is placed in a new project, follow these integration steps.
-
-### Layer Classification
-
-- **Layer**: SYSTEM
-- **Priority**: 12 (after ARCHITECTURE - routing logic)
-- **Dependencies**: ARCHITECTURE.md (builds on architectural principles)
-
-### Target Location
-
-```
-[PROJECT_ROOT]/PAL_Base/System/ORCHESTRATION.md
-```
-
-### Integration Steps
-
-1. **Verify Directory Structure**
-
-   ```bash
-   mkdir -p PAL_Base/System
-   ```
-
-2. **Place File**
-
-   - Copy this file to `PAL_Base/System/ORCHESTRATION.md`
-   - Preserve UPPERCASE filename
-
-3. **Register in SessionStart Hook**
-
-   ```typescript
-   // In .claude/hooks/session-start.ts
-   const systemFiles = [
-     "PAL_Base/System/ARCHITECTURE.md", // Priority: 11
-     "PAL_Base/System/ORCHESTRATION.md", // Priority: 12
-     "PAL_Base/System/WORKFLOWS.md", // Priority: 13
-     "PAL_Base/System/MEMORY_LOGIC.md", // Priority: 14
-     "PAL_Base/System/TOOLBOX.md", // Priority: 15
-   ];
-   ```
-
-4. **Validate Integration**
-   - Start new Claude Code session
-   - Request a complex task
-   - Verify PAL follows orchestration logic (intent → routing → execution)
-
-### How This File Is Used
-
-| System Component          | Usage                                           |
-| ------------------------- | ----------------------------------------------- |
-| **PAL Master**            | Core operating logic for routing and delegation |
-| **Intent Classification** | Determines how to handle user requests          |
-| **Skill Activation**      | References USE WHEN matching logic              |
-| **Plan Presentation**     | Determines when to show plans                   |
-
-### Customization Required
-
-This file is **reference documentation** - typically NOT customized:
-
-- [ ] **Review** - Understand PAL Master's 5 responsibilities
-- [ ] **Validate** - Ensure routing logic matches your skills
-- [ ] **Optional** - Add notes about custom routing rules
-
-### First-Use Checklist
-
-- [ ] File placed in `PAL_Base/System/`
-- [ ] SessionStart hook loads file at priority 12
-- [ ] PAL Master responsibilities understood
-- [ ] Routing logic aligns with your installed skills
-- [ ] PAL routes requests correctly

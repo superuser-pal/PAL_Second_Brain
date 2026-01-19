@@ -10,7 +10,7 @@ Your canonical definitions and system logic. Your AI uses this to understand you
 
 ---
 
-## PAL Terminology
+## PAL Framework Terminology
 
 ### Base
 
@@ -68,81 +68,5 @@ Layered information architecture - load only what's needed, when it's needed:
 ### Event Automation
 
 Using hooks to automate system behavior without manual intervention. SessionStart loads context, PreToolUse validates security, Stop logs activity.
-
----
-
-## Custom Definitions
-
-Add your own terms, acronyms, or concepts that need consistent definition:
-
-### [Term]
-
-**Definition:** `[Your definition]`
-
-**Context:** `[When/how this term is used]`
-
-### [Acronym]
-
-**Full Name:** `[Expansion]`
-
-**Meaning:** `[What it means in your context]`
-
----
-
-## Recurring Reminders
-
-### Active
-
-Date-based reminders your AI checks at session start:
-
-#### YYYY-MM-DD - [Reminder Title]
-
-**Context:** `[Describe the reminder context]`
-
-**Next:** `[Next action needed]`
-
-### Completed
-
-Move finished reminders here with resolution:
-
-#### [Completed YYYY-MM-DD] [Title]
-
-**Resolution:** `[What was done]`
-
----
-
-## Project Dependencies
-
-### Current Blockers
-
-| Project   | Blocked By           | Status   | Notes     |
-| --------- | -------------------- | -------- | --------- |
-| [Project] | [What's blocking it] | [Status] | [Details] |
-
-### Waiting On
-
-| Item   | Waiting For | Since      | Follow-up Date |
-| ------ | ----------- | ---------- | -------------- |
-| [Item] | [Who/what]  | YYYY-MM-DD | YYYY-MM-DD     |
-
----
-
-## Operating Rules
-
-### Date Awareness
-
-**Current Date:** Your AI knows today's date and can check if reminders are due.
-
-### Permission to Fail
-
-Your AI has explicit permission to say "I don't know" when information isn't available. Honesty over fabrication.
-
-### Core Principles
-
-Add your key operating principles:
-
-- `[Principle 1]`
-- `[Principle 2]`
-- `[Principle 3]`
 
 ---

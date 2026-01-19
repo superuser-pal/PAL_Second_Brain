@@ -82,7 +82,3 @@ For UI screenshots:
 - Annotations: [Arrow style, highlight color]
 
 ---
-
-**Instructions:** Replace with your visual style guidelines. Your AI uses this for consistent visual content creation.
-
----

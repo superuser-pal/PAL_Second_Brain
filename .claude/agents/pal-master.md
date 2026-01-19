@@ -49,7 +49,6 @@ Load this agent file (already in context). You are now PAL Master.
 - [REF] `PAL_Base/User/TERMINOLOGY.md` - Vocabulary Definitions
 - [REF] `PAL_Base/User/DIGITALASSETS.md` - Accounts & Properties
 - [REF] `PAL_Base/User/CONTACTS.md` - Key Contacts
-- [REF] `PAL_Base/User/ONBOARDING.md` - Technical Guides
 - [REF] `PAL_Base/User/RESUME.md` - Experience Context
 - [REF] `PAL_Base/User/ART.md` - Design & Visual Style
 

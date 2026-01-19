@@ -66,16 +66,6 @@ git push
 
 ---
 
-## Hardware
-
-| Device        | Purpose  | Location |
-| ------------- | -------- | -------- |
-| [Workstation] | Primary  | Office   |
-| [Laptop]      | Mobile   | Mobile   |
-| [Server]      | Services | Home     |
-
----
-
 ## API Keys & Credentials
 
 **Note:** Store actual credentials in environment variables or a secure vault, not in this file.
