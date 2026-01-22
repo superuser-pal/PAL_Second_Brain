@@ -1,57 +1,37 @@
 # Art Skill Aesthetic
 
-**Excalidraw Hand-Drawn** - Tech-forward dark-mode aesthetic for professional visual content.
+**Clean Line Art with Spot Color** - A friendly, approachable, and tech-forward aesthetic for professional visual content and infographics.
 
 ---
 
 ## Core Style
 
-**Visual Language:** Clean Excalidraw-style diagrams and illustrations
-- Hand-drawn feel with slightly imperfect lines
-- Organic, approachable, but professional
-- Dark mode backgrounds with bright accent colors
-- Whiteboard/sketch aesthetic
+**Visual Language:** Clean, medium-weight line art with a "Spot Color" focus.
+
+- **Hand-drawn feel:** Smooth, consistent lines with slightly rounded terminals.
+- **Minimalist:** High use of negative space (white) to reduce cognitive load.
+- **Hero-Centric:** Use of brand purple is reserved strictly for the primary actions and focus points.
+- **Stipple Shading:** Depth is created through fine dots (stippling) rather than gradients.
 
 **Influences:**
-- Excalidraw diagrams
-- Technical whiteboard sketches
-- Modern dark-mode UI design
-- Architectural hand-drawings
+
+- Modern technical illustrations
+- Minimalist vector art
+- Classic comic-book stippling
+- Friendly, approachable SaaS branding
 
 ---
 
-## Color Palette
+## Color System
 
-### Primary Colors
-
-| Color | Hex | RGB | Usage |
-|-------|-----|-----|-------|
-| **Background** | `#0a0a0f` | 10, 10, 15 | Primary dark background |
-| **PAI Blue** | `#4a90d9` | 74, 144, 217 | Key elements, primary accents, main structures |
-| **Electric Cyan** | `#22d3ee` | 34, 211, 238 | Flows, connections, secondary paths |
-| **Accent Purple** | `#8b5cf6` | 139, 92, 246 | Highlights, insights, callouts (10-15% usage) |
-
-### Text Colors
-
-| Color | Hex | RGB | Usage |
-|-------|-----|-----|-------|
-| **Text White** | `#e5e7eb` | 229, 231, 235 | Primary text, labels |
-| **Text Muted** | `#9ca3af` | 156, 163, 175 | Secondary text, annotations |
-
-### Surface Colors
-
-| Color | Hex | RGB | Usage |
-|-------|-----|-----|-------|
-| **Surface** | `#1a1a2e` | 26, 26, 46 | Cards, panels, elevated surfaces |
-| **Line Work** | `#94a3b8` | 148, 163, 184 | Hand-drawn borders, sketch lines |
-
-### Semantic Colors
-
-| Color | Hex | Usage |
-|-------|-----|-------|
-| **Success** | `#22c55e` | Positive states, completion |
-| **Warning** | `#f59e0b` | Caution, attention needed |
-| **Error** | `#ef4444` | Errors, critical issues |
+| Role                 | Hex       | Functional Usage                                                                 |
+| :------------------- | :-------- | :------------------------------------------------------------------------------- |
+| **Canvas**           | `#FFFFFF` | The primary workspace background; provides maximum contrast.                     |
+| **Primary Accent**   | `#7450db` | High-priority focal points: mascot body, main buttons, and key callouts.         |
+| **Secondary Accent** | `#AF9BFF` | Low-priority accents: supportive flows, connection lines, and mascot highlights. |
+| **Primary Text**     | `#1A1A1A` | All readable content, including titles, labels, and paragraph text.              |
+| **Structural Fill**  | `#F3F4F6` | Depth elements: cards, panel backgrounds, or subtle environmental fills.         |
+| **Definition Line**  | `#000000` | The "skeleton": used for all borders, outlines, and hand-drawn stroke work.      |
 
 ---
 
@@ -59,97 +39,77 @@
 
 ### Ratios
 
-- **Background**: 40-50% of image (dark backdrop)
-- **Line Work**: 30-40% (hand-drawn elements in slate/white)
-- **PAI Blue**: 15-20% (key components, primary accents)
-- **Electric Cyan**: 5-10% (flows, connections)
-- **Accent Purple**: 5-10% (highlights, callouts)
+- **Canvas (White)**: 60-70% (Maintains a clean, airy feel)
+- **Definition Line (Black)**: 20-25% (Framework and character outlines)
+- **Primary Accent (Purple)**: 5-10% (The "Spot Color" rule—used for the hero element)
+- **Secondary Accent (Lavender)**: 2-5% (Subtle highlights or secondary paths)
 
 ### Rules
 
-1. **Dark dominates** - Background and line work make up majority
-2. **Blue for structure** - Main components, boxes, important elements
-3. **Cyan for flow** - Arrows, connections, data movement
-4. **Purple sparingly** - Only for insights, callouts, emphasis
-5. **White text always** - Never use dark text on dark background
+1. **White is the default** - Never use dark backgrounds for primary content.
+2. **The "Spot Color" Focus** - Only the mascot and primary CTA buttons should be `#7450db`.
+3. **Monochrome Environment** - Human characters, furniture, and tools must remain strictly Black & White.
+4. **No Gradients** - Use solid fills or stippled textures for shading.
+5. **High Contrast Text** - Always use `#1A1A1A` for readability; never use purple for long-form text.
 
 ---
 
 ## Typography
 
-### Tier 1: Headers (Valkyrie-style)
-- Elegant serif with wedge-shaped serifs
-- High stroke contrast
-- Use for: Titles, section headers
-- Color: White `#e5e7eb`
+### Tier 1: Headers
 
-### Tier 2: Labels (Concourse-style)
-- Geometric sans-serif
-- Clean, technical, precise
-- Use for: Box labels, node names, technical identifiers
-- Color: White `#e5e7eb`
+- **Style:** Geometric Sans-Serif (e.g., Montserrat or Inter)
+- **Weight:** Bold or Extra Bold
+- **Color:** Primary Text `#1A1A1A`
 
-### Tier 3: Insights (Advocate-style)
-- Condensed italic sans-serif
-- Editorial, attention-grabbing
-- Use for: Callouts, annotations, key insights
-- Color: PAI Blue `#4a90d9` or Electric Cyan `#22d3ee`
+### Tier 2: Labels & UI
+
+- **Style:** Clean, technical Sans-Serif
+- **Weight:** Regular to Medium
+- **Color:** Primary Text `#1A1A1A`
+
+### Tier 3: Annotations
+
+- **Style:** Slightly condensed or italic Sans-Serif
+- **Usage:** Callouts, side-notes, or mascot "speech"
+- **Color:** Definition Line `#000000` or Primary Accent `#7450db` (for emphasis)
 
 ---
 
-## Excalidraw Characteristics
+## Illustration Characteristics
 
 ### Line Quality
-- **Slightly wobbly** - Not perfectly straight
-- **Variable weight** - Thicker for emphasis, thinner for details
-- **Organic joints** - Imperfect connections between shapes
-- **Sketch quality** - Like someone drew it quickly but skillfully
 
-### Shapes
-- **Rounded corners** - Soft, not sharp
-- **Imperfect rectangles** - Slightly uneven sides
-- **Hand-drawn circles** - Not perfect ovals
-- **Organic arrows** - Curved, not ruler-straight
+- **Consistent Weight** - Medium thickness across the entire piece.
+- **Smooth Terminals** - Ends of lines should be slightly rounded, not sharp or jagged.
+- **Closed Shapes** - Lines should connect cleanly to allow for solid color fills.
 
-### Overall Feel
-- Would you believe someone drew this on a whiteboard?
-- Professional but approachable
-- Technical but not cold
-- Modern dark-mode aesthetic
+### Shading & Depth
 
----
+- **Stippling** - Use fine black or purple dots to indicate shadow on the underside of objects.
+- **Flat Fills** - No 3D bevels or drop shadows. Depth is achieved through line work and stipple density.
 
-## Emotional Registers
+### Character Design
 
-Use these to guide the tone of illustrations:
-
-| Register | When to Use | Visual Treatment |
-|----------|-------------|------------------|
-| **Technical** | Architecture, systems, processes | Clean lines, structured layout |
-| **Discovery** | Breakthroughs, new ideas | Light, open composition |
-| **Warning** | Security, risks, caution | More contrast, warning colors |
-| **Progress** | Before/after, improvements | Flow from left to right |
-| **Complexity** | Many components, systems | Organized chaos, clear hierarchy |
-| **Simplicity** | Single concepts, focus | Minimal elements, breathing space |
+- **The Mascot (PromptPal)** - Purple-toned robot with a rounded square head, a single antenna with a bulb, large white circular eyes with black dot pupils, and a thick curved black line smile; limbs and body are cylindrical and segmented.
+- **Humanity** - Clean-lined vector figures with uniform black outlines and flat greyscale fills, featuring dot eyes, expressive eyebrows for clear emotion, solid-silhouette hair, and professional-casual attire like collared shirts, glasses, or hoodies.4
 
 ---
 
 ## Validation Checklist
 
-Before accepting any generated image:
-
 ### Must Have
-- [ ] Dark background (`#0a0a0f` or similar)
-- [ ] Hand-drawn Excalidraw aesthetic
-- [ ] PAI Blue (`#4a90d9`) for key elements
-- [ ] White text (`#e5e7eb`) for labels
-- [ ] Professional quality
-- [ ] Readable at intended size
+
+- [ ] Stark white background (`#FFFFFF`)
+- [ ] Clean, solid black outlines (`#000000`)
+- [ ] Vibrant Purple (`#7450db`) used ONLY for the mascot/primary action
+- [ ] Dark, high-contrast text (`#1A1A1A`)
+- [ ] Stippled shading for depth
 
 ### Must NOT Have
-- [ ] Light/white backgrounds
-- [ ] Perfect vector shapes
-- [ ] Generic AI illustration style
-- [ ] Neon or garish colors
-- [ ] Gradients or shadows (keep flat)
-- [ ] Too many colors competing
+
+- [ ] Dark or colored backgrounds
+- [ ] Perfect, cold geometric shapes (keep the slight hand-drawn warmth)
+- [ ] Purple used on human characters or environmental objects
+- [ ] Gradients, glows, or drop shadows
+- [ ] Thin, sketchy, or "hairy" lines

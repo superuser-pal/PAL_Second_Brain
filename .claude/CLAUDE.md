@@ -12,7 +12,7 @@ description: PAL Framework entry point. Loads core directives and delegates to p
 **Architecture Highlights:**
 
 - **Three-layer structure**: USER → SYSTEM → SECURITY
-- **14 core principles** guiding design decisions
+- **10 core principles** guiding design decisions
 - **Modular composition** through skills, workflows, agents and prompt templates (patterns)
 
 For full architecture details, see: `PAL_Base/System/ARCHITECTURE.md`

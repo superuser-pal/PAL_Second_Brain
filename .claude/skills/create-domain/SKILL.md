@@ -15,26 +15,26 @@ MANDATORY domain creation framework for ALL domain creation requests.
 
 **Domain naming follows PAL's standard file naming conventions.**
 
-| Category             | Convention            | Example                  | Purpose                                      |
-| :------------------- | :-------------------- | :----------------------- | :------------------------------------------- |
-| **Domain directory** | `lower-kebab-case`    | `project-alpha/`         | Standard IDE navigation.                     |
-| **INDEX.md**         | `UPPER_SNAKE_CASE.md` | `INDEX.md`               | Source of Truth file (at domain root).       |
-| **CONNECTIONS.yaml** | `UPPER_SNAKE_CASE`    | `CONNECTIONS.yaml`       | External sources configuration.              |
-| **Core folders**     | `NN_UPPER_CASE`       | `01_PLANS/`              | Numbered prefixes for sorting + visibility.  |
-| **Plan files**       | `UPPER_SNAKE_CASE.md` | `PLAN_FEATURE_X.md`      | Active plan files in 01_PLANS/.              |
-| **Session logs**     | `YYYY-MM-DD_title.md` | `2026-01-15_sync.md`     | Chronological session logs.                  |
-| **Asset files**      | `lower_snake_case.md` | `api_documentation.md`   | Reference materials and assets.              |
+| Category             | Convention            | Example                | Purpose                                     |
+| :------------------- | :-------------------- | :--------------------- | :------------------------------------------ |
+| **Domain directory** | `lower-kebab-case`    | `project-alpha/`       | Standard IDE navigation.                    |
+| **INDEX.md**         | `UPPER_SNAKE_CASE.md` | `INDEX.md`             | Source of Truth file (at domain root).      |
+| **CONNECTIONS.yaml** | `UPPER_SNAKE_CASE`    | `CONNECTIONS.yaml`     | External sources configuration.             |
+| **Core folders**     | `NN_UPPER_CASE`       | `01_PLANS/`            | Numbered prefixes for sorting + visibility. |
+| **Plan files**       | `UPPER_SNAKE_CASE.md` | `PLAN_FEATURE_X.md`    | Active plan files in 01_PLANS/.             |
+| **Session logs**     | `YYYY-MM-DD_title.md` | `2026-01-15_sync.md`   | Chronological session logs.                 |
+| **Asset files**      | `lower_snake_case.md` | `api_documentation.md` | Reference materials and assets.             |
 
 ---
 
 ## Workflow Routing
 
-| Workflow             | Trigger                                | File                              |
-| :------------------- | :------------------------------------- | :-------------------------------- |
-| **create_domain**    | "create domain", "new domain"          | `workflows/create_domain.md`      |
-| **validate_domain**  | "validate domain", "check domain"      | `workflows/validate_domain.md`    |
-| **map_domain**       | "map domain", "sync domain", "housekeeping", "update index" | `workflows/map_domain.md` |
-| **archive_domain**   | "archive domain", "deprecate domain"   | `workflows/archive_domain.md`     |
+| Workflow            | Trigger                                                     | File                           |
+| :------------------ | :---------------------------------------------------------- | :----------------------------- |
+| **create_domain**   | "create domain", "new domain"                               | `workflows/create_domain.md`   |
+| **validate_domain** | "validate domain", "check domain"                           | `workflows/validate_domain.md` |
+| **map_domain**      | "map domain", "sync domain", "housekeeping", "update index" | `workflows/map_domain.md`      |
+| **archive_domain**  | "archive domain", "deprecate domain"                        | `workflows/archive_domain.md`  |
 
 ## Examples
 
@@ -81,7 +81,7 @@ domains/domain-name/              # lower-kebab-case directory
 ├── 01_PLANS/                     # Active plan files
 ├── 02_SESSIONS/                  # Chronological interaction logs
 ├── 03_ASSETS/                    # Reference materials
-└── 05_ARCHIVE/                   # Deprecated content
+└── 04_ARCHIVE/                   # Deprecated content
 ```
 
 **Nesting Limit:** Do not exceed three vertical levels below the domain root.

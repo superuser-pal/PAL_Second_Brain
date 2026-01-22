@@ -20,9 +20,9 @@ Ask the user:
 
 Convert user input to `lower-kebab-case`:
 
-| User Input | Converted Name |
-|------------|----------------|
-| "Project Alpha" | `project-alpha` |
+| User Input        | Converted Name    |
+| ----------------- | ----------------- |
+| "Project Alpha"   | `project-alpha`   |
 | "My Blog Project" | `my-blog-project` |
 | "API_Integration" | `api-integration` |
 
@@ -65,9 +65,9 @@ owner: [Owner if provided]
 
 ## Active Work
 
-| Plan | Status | Last Updated |
-|------|--------|--------------|
-| _No active plans yet_ | - | - |
+| Plan                  | Status | Last Updated |
+| --------------------- | ------ | ------------ |
+| _No active plans yet_ | -      | -            |
 
 ## Quick Links
 
@@ -111,26 +111,30 @@ ls -la domains/[domain-name]/
 ```
 
 Expected output:
+
 - `INDEX.md`
 - `CONNECTIONS.yaml`
 - `01_PLANS/`
 - `02_SESSIONS/`
 - `03_ASSETS/`
-- `05_ARCHIVE/`
+- `04_ARCHIVE/`
 
 ## Step 8: Final Checklist
 
 ### Structure
+
 - [ ] Domain directory uses lower-kebab-case
 - [ ] INDEX.md exists at domain root
 - [ ] CONNECTIONS.yaml exists at domain root
 - [ ] All four core folders exist (01_PLANS, 02_SESSIONS, 03_ASSETS, 05_ARCHIVE)
 
 ### INDEX.md
+
 - [ ] Contains proper YAML frontmatter (name, description, status, created, updated)
 - [ ] Contains template sections (Current State, Key Facts, Active Work, Quick Links)
 
 ### Naming
+
 - [ ] Core folders use NN_UPPER_CASE format (01_PLANS, not plans)
 
 ## Done
@@ -138,6 +142,7 @@ Expected output:
 Domain created following canonical structure. Ready for use with Domain Agents.
 
 **Next Steps:**
+
 1. Configure a Domain Agent to access this domain (see AGENTS_LOGIC.md)
 2. Add plans to 01_PLANS/ as needed
 3. Log sessions in 02_SESSIONS/

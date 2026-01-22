@@ -10,19 +10,21 @@ Header images and editorial illustrations that visually represent content concep
 
 **Use for:** Blog headers, article illustrations, concept visualizations, editorial art.
 
+**Full aesthetic documentation:** `$PAL_DIR/skills/Art/Aesthetic.md`
+
 ---
 
 ## Visual Aesthetic
 
-**Style:** Excalidraw hand-drawn sketch - professional, conceptual, dark-mode.
+**Style:** PromptPal Clean Line-Art - professional, friendly, and minimalist.
 
 ### Core Rules
 
-1. **Excalidraw technique** - Hand-drawn gestural quality, not clean vectors
-2. **Dark background #0a0a0f** - Consistent with overall aesthetic
-3. **Conceptual subjects** - Draw what the content is ABOUT
-4. **Strategic color** - PAI Blue for key elements, Cyan for secondary
-5. **Minimalist composition** - Few elements, each intentional
+1. **Clean Line-Art technique** - Smooth, medium-weight black lines with rounded terminals.
+2. **White background #FFFFFF** - The "Canvas" provides maximum clarity and brand consistency.
+3. **Conceptual subjects** - Use metaphorical imagery to represent the core concept.
+4. **Spot Color strategy** - Use PAL Purple #7450db ONLY for the focal point/hero element.
+5. **Minimalist composition** - Heavy use of negative space; every line must be intentional.
 
 ---
 
@@ -31,6 +33,7 @@ Header images and editorial illustrations that visually represent content concep
 ### Step 1: Understand the Content
 
 **Before doing anything:**
+
 1. Read the full content (blog post, essay, article)
 2. Identify the core concept or argument
 3. Extract key metaphors, imagery, or concrete elements
@@ -70,39 +73,36 @@ Header images and editorial illustrations that visually represent content concep
 ### Prompt Template
 
 ```
-Hand-drawn Excalidraw-style editorial illustration on dark background.
+Clean line-art editorial illustration on a stark white background.
 
-BACKGROUND: Pure dark #0a0a0f - clean, no texture.
+BACKGROUND: Pure white #FFFFFF - clean, no texture, no grid lines.
 
-SUBJECT: [WHAT TO DRAW - the core visual concept]
+SUBJECT: [WHAT TO DRAW - the core visual metaphor]
 
-STYLE - EXCALIDRAW HAND-DRAWN:
-- Gestural, slightly imperfect lines
-- Variable line weight
-- Hand-drawn quality (NOT clean vectors)
-- Organic, approachable feel
-- Sketch-like but professional
+STYLE - PROMPTPAL LINE-ART:
+- Smooth, consistent medium-weight black lines
+- Slightly rounded terminals/corners
+- Professional vector-like quality (NOT sketchy or hairy)
+- Minimalist and approachable
 
 COMPOSITION:
-- Subjects FILL THE FRAME (not small with empty space)
-- Minimalist - few elements, each intentional
-- Clean, uncluttered
-- Professional editorial quality
+- Subjects LARGE and centered (not lost in white space)
+- Uncluttered with high use of negative space
+- One clear focal point for the spot color
 
 COLOR:
-- Dark background #0a0a0f (MANDATORY)
-- White #e5e7eb for line work and structure
-- PAI Blue #4a90d9 for key elements (15-20%)
-- Cyan #22d3ee for secondary accents (5-10%)
-- Accent Purple #8b5cf6 sparingly for highlights
+- Canvas: White #FFFFFF (MANDATORY)
+- Outlines: Black #000000 for all structure
+- Spot Color: PAL Purple #7450db for the main subject/hero element (15-20%)
+- Secondary: Soft Lavender #AF9BFF for subtle details or connectors (5%)
+- Environment: Humans and tools remain strictly black & white
 
 EMOTIONAL REGISTER: [TECHNICAL/DISCOVERY/WARNING/PROGRESS/etc.]
 
 CRITICAL:
-- NO light backgrounds
-- Subjects must be LARGE and fill the frame
-- Hand-drawn Excalidraw aesthetic
-- Professional quality suitable for publication
+- NO dark backgrounds
+- NO gradients or shadows; use stippling (dots) for depth
+- Subjects must be the primary focus of the white frame
 ```
 
 ---
@@ -110,7 +110,7 @@ CRITICAL:
 ### Step 4: Execute Generation
 
 ```bash
-bun run $PAI_DIR/skills/Art/Tools/Generate.ts \
+bun run $PAL_DIR/.claude/skills/art/Tools/Generate.ts \
   --model nano-banana-pro \
   --prompt "[YOUR PROMPT]" \
   --size 2K \
@@ -121,7 +121,7 @@ bun run $PAI_DIR/skills/Art/Tools/Generate.ts \
 **For blog headers that need thumbnails:**
 
 ```bash
-bun run $PAI_DIR/skills/Art/Tools/Generate.ts \
+bun run $PAL_DIR/.claude/skills/art/Tools/Generate.ts \
   --model nano-banana-pro \
   --prompt "[YOUR PROMPT]" \
   --size 2K \
@@ -131,6 +131,7 @@ bun run $PAI_DIR/skills/Art/Tools/Generate.ts \
 ```
 
 This creates BOTH:
+
 - `header.png` - With transparent background (for inline display)
 - `header-thumb.png` - With solid background (for social previews)
 
@@ -139,39 +140,41 @@ This creates BOTH:
 ### Step 5: Validation
 
 ### Must Have
-- [ ] Dark background #0a0a0f
-- [ ] Hand-drawn Excalidraw aesthetic
-- [ ] Subject matches content concept
-- [ ] Subjects LARGE and fill the frame
-- [ ] Professional editorial quality
-- [ ] Strategic color usage
+
+- [ ] Stark white background #FFFFFF
+- [ ] Smooth, solid black outlines #000000
+- [ ] PAL Purple #7450db used as the primary spot color focal point
+- [ ] Subject fills the frame effectively
+- [ ] Stipple shading for depth (no gradients)
+- [ ] Professional, clean editorial quality
 
 ### Must NOT Have
-- [ ] Light/white backgrounds
-- [ ] Perfect clean vectors
-- [ ] Generic AI illustration style
-- [ ] Too small subjects with lots of empty space
-- [ ] Busy, cluttered composition
-- [ ] Cartoony or clip-art style
+
+- [ ] Dark or colored backgrounds
+- [ ] Sketchy, wobbly, or "hairy" lines
+- [ ] Purple used on background elements or secondary characters
+- [ ] Generic 3D AI style
+- [ ] Busy, cluttered compositions
+- [ ] Shadows or glows
 
 ### If Validation Fails
 
-| Problem | Fix |
-|---------|-----|
-| Subjects too small | Add "LARGE SUBJECTS that FILL THE FRAME" |
-| Light background | Emphasize "dark background #0a0a0f" |
-| Too perfect | Add "hand-drawn Excalidraw style, slightly imperfect" |
-| Doesn't match content | Re-read content, identify better visual metaphor |
+| Problem               | Fix                                                   |
+| --------------------- | ----------------------------------------------------- |
+| Subjects too small    | Add "LARGE SUBJECTS that FILL THE FRAME"              |
+| Light background      | Emphasize "dark background #0a0a0f"                   |
+| Too perfect           | Add "hand-drawn Excalidraw style, slightly imperfect" |
+| Doesn't match content | Re-read content, identify better visual metaphor      |
 
 ---
 
 ## Aspect Ratio Guide
 
-| Use Case | Aspect Ratio | Notes |
-|----------|--------------|-------|
-| Blog header (square) | 1:1 | Default for most posts |
-| Wide banner | 16:9 | For wide layouts |
-| Social preview | 1:1 or 16:9 | Platform dependent |
+| Use Case             | Aspect Ratio | Notes                  |
+| -------------------- | ------------ | ---------------------- |
+| Blog header (square) | 1:1          | Default for most posts |
+| Wide banner          | 16:9         | For wide layouts       |
+| Social preview       | 1:1 or 16:9  | Platform dependent     |
 
 ---
 
