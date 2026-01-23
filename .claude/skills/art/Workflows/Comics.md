@@ -16,6 +16,8 @@ Editorial comics use sequential panels to explain concepts, tell stories, or ill
 - Multi-step processes shown visually
 - Scenario storytelling
 
+**Full aesthetic documentation:** `$PAL_DIR/skills/Art/Aesthetic.md`
+
 ---
 
 ## Visual Aesthetic

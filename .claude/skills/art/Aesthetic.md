@@ -91,8 +91,8 @@
 
 ### Character Design
 
-- **The Mascot (PromptPal)** - Purple-toned robot with a rounded square head, a single antenna with a bulb, large white circular eyes with black dot pupils, and a thick curved black line smile; limbs and body are cylindrical and segmented.
-- **Humanity** - Clean-lined vector figures with uniform black outlines and flat greyscale fills, featuring dot eyes, expressive eyebrows for clear emotion, solid-silhouette hair, and professional-casual attire like collared shirts, glasses, or hoodies.4
+- **The Mascot (PromptPal)** - Purple-toned robot with a single "squircle" (rounded square) body-head unit and no separate torso; features a centered bulb-tipped antenna, oversized white circular eyes with black dot pupils, and a versatile thick black line mouth; limbs are matching purple, segmented accordion-style tubes with four-fingered hands.
+- **Humanity** - Clean-lined vector figures with uniform black outlines and flat greyscale fills, featuring dot eyes, expressive eyebrows for clear emotion, solid-silhouette hair, and professional-casual attire like collared shirts, glasses, or hoodies.
 
 ---
 

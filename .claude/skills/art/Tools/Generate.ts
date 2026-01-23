@@ -25,12 +25,12 @@ const execAsync = promisify(exec);
 // ============================================================================
 
 async function loadEnv(): Promise<void> {
-  // Load from canonical location: $PAI_DIR/.env (single source of truth)
+  // Load from canonical location: $PAL_DIR/.env (single source of truth)
   // Falls back to legacy locations for backwards compatibility
   // Use local .claude directory (4 levels up: Tools -> Art -> skills -> .claude)
-  const paiDir = process.env.PAI_DIR || join(dirname(dirname(dirname(dirname(import.meta.dir)))), '..');
+  const palDir = process.env.PAL_DIR || join(dirname(dirname(dirname(dirname(import.meta.dir)))), '..');
   const envPaths = [
-    resolve(paiDir, '.env'),
+    resolve(palDir, '.env'),
     resolve(process.env.HOME!, '.claude/.env'), // Legacy location
   ];
 
@@ -126,9 +126,9 @@ function handleError(error: unknown): never {
 // Help
 // ============================================================================
 
-// PAI directory for documentation paths
+// PAL directory for documentation paths
 // Use local .claude directory (4 levels up: Tools -> Art -> skills -> .claude)
-const PAI_DIR = process.env.PAI_DIR || join(dirname(dirname(dirname(dirname(import.meta.dir)))), '..');
+const PAL_DIR = process.env.PAL_DIR || join(dirname(dirname(dirname(dirname(import.meta.dir)))), '..');
 
 function showHelp(): void {
   console.log(`
@@ -187,8 +187,8 @@ ENVIRONMENT VARIABLES:
   REMOVEBG_API_KEY     Required for --remove-bg
 
 MORE INFO:
-  Documentation: \${PAI_DIR}/skills/Art/README.md
-  Source: \${PAI_DIR}/skills/Art/Tools/Generate.ts
+  Documentation: \${PAL_DIR}/skills/Art/README.md
+  Source: \${PAL_DIR}/skills/Art/Tools/Generate.ts
 `);
   process.exit(0);
 }
