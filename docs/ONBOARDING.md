@@ -65,7 +65,6 @@ echo $ANTHROPIC_API_KEY                  # Use variable
 
 **bun** - Modern, fast JavaScript runtime and package manager (recommended for PAL)
 **npm** - Traditional Node.js package manager (widely used, slower)
-
 **Common bun commands:**
 
 ```bash
