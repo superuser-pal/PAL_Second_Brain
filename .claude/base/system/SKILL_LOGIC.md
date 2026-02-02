@@ -373,7 +373,7 @@ Every CLI tool must:
  * tool_name.ts - Brief description
  *
  * Usage:
- *   bun ${PAI_DIR}/skills/skill-name/tools/tool_name.ts <command> [options]
+ *   bun ${PAL_DIR}/.claude/skills/skill-name/tools/tool_name.ts <command> [options]
  *
  * Commands:
  *   start     Start the thing

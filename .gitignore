@@ -91,3 +91,7 @@ credentials/
 # Documentation work-in-progress
 docs/other-agents/
 docs/other-skills/
+
+# Personal guides (not tracked)
+PERSONAL_*.md
+.obsidian
