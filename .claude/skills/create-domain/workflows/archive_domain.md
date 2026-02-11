@@ -18,11 +18,11 @@ ls domains/
 
 ## Step 3: Determine Archive Scope
 
-| Scope | User Says | Action |
-|-------|-----------|--------|
-| **Single File** | "archive this plan", "archive the old feature" | Move one file to 05_ARCHIVE/ |
-| **Multiple Files** | "archive all completed plans" | Move multiple files to 05_ARCHIVE/ |
-| **Entire Domain** | "archive this domain", "deprecate domain" | Mark domain as archived |
+| Scope              | User Says                                         | Action                             |
+| ------------------ | ------------------------------------------------- | ---------------------------------- |
+| **Single File**    | "archive this project", "archive the old feature" | Move one file to 05_ARCHIVE/       |
+| **Multiple Files** | "archive all completed projects"                  | Move multiple files to 05_ARCHIVE/ |
+| **Entire Domain**  | "archive this domain", "deprecate domain"         | Mark domain as archived            |
 
 ---
 
@@ -30,16 +30,30 @@ ls domains/
 
 ### Step A1: Identify File to Archive
 
-Ask user which file, or list candidates:
+Ask user which file, or list candidates from the most common archive sources:
 
-**Plans ready to archive:**
+**Projects ready to archive:**
+
 ```bash
-ls domains/[domain-name]/01_PLANS/
+ls domains/[domain-name]/01_PROJECTS/
 ```
 
 **Old sessions (older than 90 days):**
+
 ```bash
 ls domains/[domain-name]/02_SESSIONS/
+```
+
+**Completed outputs:**
+
+```bash
+ls domains/[domain-name]/04_OUTPUTS/
+```
+
+**Outdated context:**
+
+```bash
+ls domains/[domain-name]/00_CONTEXT/
 ```
 
 ### Step A2: Add Deprecation Header
@@ -49,8 +63,12 @@ Before moving, prepend deprecation metadata to the file:
 ```markdown
 ---
 deprecated: [YYYY-MM-DD]
-reason: [Feature completed | Superseded by PLAN_NEW.md | No longer relevant | Cancelled]
-original_location: [01_PLANS/ | 02_SESSIONS/ | 03_ASSETS/]
+reason:
+  [
+    Project completed | Superseded by PROJECT_NEW.md | No longer relevant | Cancelled,
+  ]
+original_location:
+  [00_CONTEXT/ | 01_PROJECTS/ | 02_SESSIONS/ | 03_ASSETS/ | 04_OUTPUTS/]
 ---
 
 [Original file content below]
@@ -64,9 +82,10 @@ mv domains/[domain-name]/[original-folder]/[file.md] domains/[domain-name]/05_AR
 
 ### Step A4: Update INDEX.md
 
-If archiving a plan:
+If archiving a project:
+
 1. Remove from Active Work table
-2. Optionally note in Current State that plan was archived
+2. Optionally note in Current State that project was archived
 
 ---
 
@@ -75,9 +94,11 @@ If archiving a plan:
 ### Step B1: Identify Files to Archive
 
 List candidates based on criteria:
-- Completed plans (status: completed)
+
+- Completed projects (status: completed)
 - Old sessions (date older than threshold)
 - Superseded assets
+- Delivered outputs no longer actively referenced
 
 ### Step B2: Confirm Selection
 
@@ -86,6 +107,7 @@ Present list to user for approval before archiving.
 ### Step B3: Archive Each File
 
 For each file:
+
 1. Add deprecation header
 2. Move to 05_ARCHIVE/
 3. Update INDEX.md as needed
@@ -103,6 +125,7 @@ Report how many files were archived and from which folders.
 **Warning:** This marks the entire domain as archived. All work is considered complete or abandoned.
 
 Confirm with user:
+
 - Reason for archiving
 - Whether to keep in `domains/` or move elsewhere
 
@@ -114,10 +137,10 @@ Update `domains/[domain-name]/INDEX.md`:
 ---
 name: [domain-name]
 description: [description]
-status: archived           # Changed from active
+status: archived # Changed from active
 created: [original date]
 updated: [today]
-archived: [YYYY-MM-DD]     # Add this field
+archived: [YYYY-MM-DD] # Add this field
 archive_reason: [User's reason]
 owner: [owner]
 ---
@@ -139,7 +162,8 @@ Add archive notice to Current State section:
 
 ### Step C4: Optional - Move Active Content
 
-If any plans were in progress:
+If any projects were in progress:
+
 1. Offer to move to a different domain
 2. Or mark them as cancelled in 05_ARCHIVE/
 
@@ -166,7 +190,7 @@ Always use this header when archiving:
 ```markdown
 ---
 deprecated: YYYY-MM-DD
-reason: [One of: Feature completed | Superseded by [NEW_FILE] | No longer relevant | Cancelled | Project archived]
+reason: [One of: Project completed | Superseded by [NEW_FILE] | No longer relevant | Cancelled | Domain archived]
 original_location: [Original folder path]
 ---
 ```

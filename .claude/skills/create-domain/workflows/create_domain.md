@@ -29,9 +29,11 @@ Convert user input to `lower-kebab-case`:
 ## Step 4: Create Directory Structure
 
 ```bash
-mkdir -p domains/[domain-name]/01_PLANS
+mkdir -p domains/[domain-name]/00_CONTEXT
+mkdir -p domains/[domain-name]/01_PROJECTS
 mkdir -p domains/[domain-name]/02_SESSIONS
 mkdir -p domains/[domain-name]/03_ASSETS
+mkdir -p domains/[domain-name]/04_OUTPUTS
 mkdir -p domains/[domain-name]/05_ARCHIVE
 ```
 
@@ -65,15 +67,18 @@ owner: [Owner if provided]
 
 ## Active Work
 
-| Plan                  | Status | Last Updated |
-| --------------------- | ------ | ------------ |
-| _No active plans yet_ | -      | -            |
+| Project                  | Status | Last Updated |
+| ------------------------ | ------ | ------------ |
+| _No active projects yet_ | -      | -            |
 
 ## Quick Links
 
-- [Plans](01_PLANS/)
+- [Context](00_CONTEXT/)
+- [Projects](01_PROJECTS/)
 - [Sessions](02_SESSIONS/)
 - [Assets](03_ASSETS/)
+- [Outputs](04_OUTPUTS/)
+- [Archive](05_ARCHIVE/)
 ```
 
 ## Step 6: Create CONNECTIONS.yaml
@@ -114,10 +119,12 @@ Expected output:
 
 - `INDEX.md`
 - `CONNECTIONS.yaml`
-- `01_PLANS/`
+- `00_CONTEXT/`
+- `01_PROJECTS/`
 - `02_SESSIONS/`
 - `03_ASSETS/`
-- `04_ARCHIVE/`
+- `04_OUTPUTS/`
+- `05_ARCHIVE/`
 
 ## Step 8: Final Checklist
 
@@ -126,16 +133,18 @@ Expected output:
 - [ ] Domain directory uses lower-kebab-case
 - [ ] INDEX.md exists at domain root
 - [ ] CONNECTIONS.yaml exists at domain root
-- [ ] All four core folders exist (01_PLANS, 02_SESSIONS, 03_ASSETS, 05_ARCHIVE)
+- [ ] All six core folders exist (00_CONTEXT, 01_PROJECTS, 02_SESSIONS, 03_ASSETS, 04_OUTPUTS, 05_ARCHIVE)
 
 ### INDEX.md
 
 - [ ] Contains proper YAML frontmatter (name, description, status, created, updated)
 - [ ] Contains template sections (Current State, Key Facts, Active Work, Quick Links)
+- [ ] Active Work table references Projects (not Plans)
+- [ ] Quick Links reference all six folders
 
 ### Naming
 
-- [ ] Core folders use NN_UPPER_CASE format (01_PLANS, not plans)
+- [ ] Core folders use NN_UPPER_CASE format (01_PROJECTS, not projects)
 
 ## Done
 
@@ -143,7 +152,8 @@ Domain created following canonical structure. Ready for use with Domain Agents.
 
 **Next Steps:**
 
-1. Configure a Domain Agent to access this domain (see AGENTS_LOGIC.md)
-2. Add plans to 01_PLANS/ as needed
-3. Log sessions in 02_SESSIONS/
-4. Store reference materials in 03_ASSETS/
+1. Configure a Domain Agent to access this domain (see `AGENTS_LOGIC.md`)
+2. Add context and reference docs to `00_CONTEXT/`
+3. Add project files to `01_PROJECTS/` as needed
+4. Log sessions in `02_SESSIONS/`
+5. Store reference materials in `03_ASSETS/`

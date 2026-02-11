@@ -15,15 +15,17 @@ MANDATORY domain creation framework for ALL domain creation requests.
 
 **Domain naming follows PAL's standard file naming conventions.**
 
-| Category             | Convention            | Example                | Purpose                                     |
-| :------------------- | :-------------------- | :--------------------- | :------------------------------------------ |
-| **Domain directory** | `lower-kebab-case`    | `project-alpha/`       | Standard IDE navigation.                    |
-| **INDEX.md**         | `UPPER_SNAKE_CASE.md` | `INDEX.md`             | Source of Truth file (at domain root).      |
-| **CONNECTIONS.yaml** | `UPPER_SNAKE_CASE`    | `CONNECTIONS.yaml`     | External sources configuration.             |
-| **Core folders**     | `NN_UPPER_CASE`       | `01_PLANS/`            | Numbered prefixes for sorting + visibility. |
-| **Plan files**       | `UPPER_SNAKE_CASE.md` | `PLAN_FEATURE_X.md`    | Active plan files in 01_PLANS/.             |
-| **Session logs**     | `YYYY-MM-DD_title.md` | `2026-01-15_sync.md`   | Chronological session logs.                 |
-| **Asset files**      | `lower_snake_case.md` | `api_documentation.md` | Reference materials and assets.             |
+| Category             | Convention            | Example                  | Purpose                                     |
+| :------------------- | :-------------------- | :----------------------- | :------------------------------------------ |
+| **Domain directory** | `lower-kebab-case`    | `project-alpha/`         | Standard IDE navigation.                    |
+| **INDEX.md**         | `UPPER_SNAKE_CASE.md` | `INDEX.md`               | Source of Truth file (at domain root).      |
+| **CONNECTIONS.yaml** | `UPPER_SNAKE_CASE`    | `CONNECTIONS.yaml`       | External sources configuration.             |
+| **Core folders**     | `NN_UPPER_CASE`       | `01_PROJECTS/`           | Numbered prefixes for sorting + visibility. |
+| **Context files**    | `lower_snake_case.md` | `background_info.md`     | Reference docs in 00_CONTEXT/.              |
+| **Project files**    | `UPPER_SNAKE_CASE.md` | `PROJECT_FEATURE_X.md`   | Active project files in 01_PROJECTS/.       |
+| **Session logs**     | `YYYY-MM-DD_title.md` | `2026-01-15_sync.md`     | Chronological session logs.                 |
+| **Asset files**      | `lower_snake_case.md` | `api_documentation.md`   | Reference materials and assets.             |
+| **Output files**     | Flexible              | Any naming               | Generated deliverables in 04_OUTPUTS/.      |
 
 ---
 
@@ -44,7 +46,7 @@ MANDATORY domain creation framework for ALL domain creation requests.
 User: "Create a domain for my blog project"
 -> Invokes create_domain workflow
 -> Reads DOMAINS_LOGIC.md for structure requirements
--> Creates domains/blog-project/ with all required folders
+-> Creates domains/blog-project/ with all 6 core folders
 -> Generates INDEX.md with YAML frontmatter and template
 -> Creates empty CONNECTIONS.yaml with schema comments
 ```
@@ -54,16 +56,16 @@ User: "Create a domain for my blog project"
 ```
 User: "Map my project-alpha domain"
 -> Invokes map_domain workflow
--> Scans 01_PLANS/, 02_SESSIONS/, 03_ASSETS/
+-> Scans all 6 core folders
 -> Detects naming violations, auto-fixes with confirmation
--> Refreshes INDEX.md Active Work table
+-> Refreshes INDEX.md Active Work table from 01_PROJECTS/
 -> Reports summary of changes
 ```
 
 **Example 3: Archive old content**
 
 ```
-User: "Archive the old feature plan in my project domain"
+User: "Archive the old feature project in my domain"
 -> Invokes archive_domain workflow
 -> Moves file to 05_ARCHIVE/ with deprecation header
 -> Updates INDEX.md to remove from Active Work
@@ -78,10 +80,14 @@ Every domain follows this structure:
 domains/domain-name/              # lower-kebab-case directory
 ├── INDEX.md                      # Source of Truth (at domain root)
 ├── CONNECTIONS.yaml              # External sources (at domain root)
-├── 01_PLANS/                     # Active plan files
+├── 00_CONTEXT/                   # Domain-specific context and reference docs
+├── 01_PROJECTS/                  # Active project files
 ├── 02_SESSIONS/                  # Chronological interaction logs
 ├── 03_ASSETS/                    # Reference materials
-└── 04_ARCHIVE/                   # Deprecated content
+├── 04_OUTPUTS/                   # Generated deliverables
+└── 05_ARCHIVE/                   # Deprecated content
 ```
 
 **Nesting Limit:** Do not exceed three vertical levels below the domain root.
+
+**Note:** Domains are prerequisites for agent creation. Every domain agent must bind to an existing domain. See `AGENTS_LOGIC.md` for agent-domain binding rules.

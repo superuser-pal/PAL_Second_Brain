@@ -1,16 +1,14 @@
 ---
 title: PAL Architecture System
-version: 1.1.0
+version: 1.2.0
 layer: SYSTEM
 purpose: Founding principles, philosophy, and master system map
-last_updated: 2026-01-18
+last_updated: 2026-02-07
 ---
-
-// ADD TO THIS FILE THE AGENTS LOGIC FOR WORKING WIHT PAL 
 
 # PAL Architecture System
 
-**Version:** 1.1.0
+**Version:** 1.2.0
 **Purpose:** PAL's architectural foundation - the "Constitution" defining WHY the system works this way
 **Layer:** SYSTEM
 
@@ -146,7 +144,7 @@ PAL organizes context and operations into 3 layers:
 
 | Layer        | Purpose                                         | Files   | Key Files                                                                                              | Characteristics                                                                                                                                  | Access Pattern                                                                                  |
 | ------------ | ----------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
-| **USER**     | Personal context, preferences, domain knowledge | 8 files | ABOUTME, DIRECTIVES, DIGITALASSETS, CONTACTS, TECHSTACK, TERMINOLOGY, RESUME, ART                      | • Uppercase filenames<br>• User-editable, frequently updated<br>• YAML frontmatter<br>• Persistent context to PAL Master                         | SessionStart hook loads all → PAL Master has full context → Skills/agents inherit               |
+| **USER**     | Personal context, preferences, domain knowledge | 4 files | ABOUTME, DIRECTIVES, TERMINOLOGY, CONTACTS                      | • Uppercase filenames<br>• User-editable, frequently updated<br>• YAML frontmatter<br>• Persistent context to PAL Master                         | SessionStart hook loads all → PAL Master has full context → Skills/agents inherit               |
 | **SYSTEM**   | Operational logic, orchestration, workflows     | 8 files | ARCHITECTURE, ORCHESTRATION, WORKFLOWS, MEMORY_LOGIC, TOOLBOX, AGENTS_LOGIC, SKILL_LOGIC, DOMAINS_LOGIC | • Uppercase filenames<br>• User-readable, infrequently modified<br>• YAML frontmatter<br>• Documents HOW system operates                         | PAL Master references for logic → Pattern Library provides education → Users read to understand |
 | **SECURITY** | Permissive security with catastrophic blocking  | 2 files | GUARDRAILS, REPOS_RULES                                                                                | • Uppercase filenames<br>• User-configurable, rarely modified<br>• Enforced via PreToolUse hook<br>• Blocks catastrophic, allows controlled risk | PreToolUse hook reads files → Validates against rules → Block/warn/allow decision               |
 
@@ -160,8 +158,7 @@ PAL organizes context and operations into 3 layers:
 ┌─────────────────────────────────────────────────────────────────────┐
 │                         USER LAYER                                   │
 │                                                                       │
-│  ABOUTME • DIRECTIVES • DIGITALASSETS • CONTACTS • TECHSTACK         │
-│  TERMINOLOGY • RESUME • ART                                           │
+│  ABOUTME • DIRECTIVES • TERMINOLOGY • CONTACTS                        │
 │                                                                       │
 │  [User's persistent context - loaded at session start]               │
 └─────────────────────────────────────────────────────────────────────┘
@@ -332,14 +329,18 @@ Each domain follows this structure:
 
 ```
 domains/project-alpha/            # lower-kebab-case directory
-├── INDEX.md                      # Source of Truth (domain overview)
-├── CONNECTIONS.yaml              # External sources configuration
-├── 01_PLANS/                     # Active planning documents
-│   └── PLAN_FEATURE_X.md
-├── 02_SESSIONS/                  # Interaction logs
+├── INDEX.md                      # Source of Truth (at domain root)
+├── CONNECTIONS.yaml              # External sources (at domain root)
+├── 00_CONTEXT/                   # Domain-specific context and reference docs
+│   └── background_info.md
+├── 01_PROJECTS/                  # Active project files
+│   └── PROJECT_FEATURE_X.md
+├── 02_SESSIONS/                  # Chronological interaction logs
 │   └── 2026-01-18_sync.md
-├── 03_ASSETS/                    # Reference materials
+├── 03_ASSETS/                    # Reference materials and resources
 │   └── api_documentation.md
+├── 04_OUTPUTS/                   # Generated deliverables
+│   └── quarterly_report.pdf
 └── 05_ARCHIVE/                   # Deprecated content
 ```
 
@@ -348,18 +349,19 @@ domains/project-alpha/            # lower-kebab-case directory
 - **Agent-loaded** - Domains are accessed via Domain Agents, not auto-activated
 - **Siloed environments** - Each domain is isolated to prevent context pollution
 - **INDEX.md as Source of Truth** - Contains domain overview, current state, and key facts
+- **Mandatory for agents** - Every domain agent must bind to an existing domain
 
 ### Domain-Agent Relationship
 
-Domains are accessed through Domain Agents:
+Domains are accessed through Domain Agents using the **two-group context model**:
 
 1. User loads agent: `/load-project-alpha-agent`
-2. Agent has domain binding: specifies which domain to load
-3. Context loading: Agent loads domain's INDEX.md and relevant files
-4. Work execution: Agent operates with domain context
+2. Agent has domain binding: specifies which domain to load via `domain:` field
+3. Context loading: Agent loads **Base Context** (3 fixed REFs: ABOUTME, DIRECTIVES, GUARDRAILS) + **Domain Context** (INDEX.md as AUTO, folders as REF)
+4. Work execution: Agent operates with domain context via 6-step activation protocol
 
 **See:** [DOMAINS_LOGIC.md](DOMAINS_LOGIC.md) for complete domain configuration rules
-**See:** [AGENTS_LOGIC.md](AGENTS_LOGIC.md) for agent-domain binding
+**See:** [AGENTS_LOGIC.md](AGENTS_LOGIC.md) for two-group context model and 8-section agent structure
 
 ---
 
@@ -413,8 +415,8 @@ PAL is designed for user customization and extension:
 
 ---
 
-**Document Version:** 1.1.0
-**Last Updated:** 2026-01-18
+**Document Version:** 1.2.0
+**Last Updated:** 2026-02-07
 **Related Files:** ORCHESTRATION.md, WORKFLOWS.md, MEMORY_LOGIC.md, TOOLBOX.md, AGENTS_LOGIC.md, SKILL_LOGIC.md, DOMAINS_LOGIC.md, GUARDRAILS.md
 
 ---

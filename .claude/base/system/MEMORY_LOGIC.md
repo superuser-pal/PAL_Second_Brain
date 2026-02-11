@@ -67,15 +67,11 @@ Context and hooks live in specific locations:
 ```
 .claude/
 ├── base/                           # Base configuration files
-│   ├── user/                       # USER layer (8 files)
+│   ├── user/                       # USER layer (4 files)
 │   │   ├── ABOUTME.md
 │   │   ├── DIRECTIVES.md
-│   │   ├── TECHSTACK.md
 │   │   ├── TERMINOLOGY.md
-│   │   ├── DIGITALASSETS.md
-│   │   ├── CONTACTS.md
-│   │   ├── RESUME.md
-│   │   └── ART.md
+│   │   └── CONTACTS.md
 │   ├── system/                     # SYSTEM layer (8 files)
 │   │   ├── ARCHITECTURE.md
 │   │   ├── ORCHESTRATION.md
@@ -100,7 +96,7 @@ Context and hooks live in specific locations:
 
 | Layer | Files | Purpose |
 | :---- | :---- | :------ |
-| **USER** | 8 files | Identity, preferences, personal context |
+| **USER** | 4 files | Identity, preferences, personal context |
 | **SYSTEM** | 8 files | System logic and operations |
 | **SECURITY** | 2 files | Safety validation and policies |
 
@@ -255,7 +251,7 @@ Stop hook executes: notifications, save transcript, log summary
 | Practice | Description |
 | :------- | :---------- |
 | **Load Base every session** | SessionStart hook handles automatically |
-| **Reference Base frequently** | Check DIRECTIVES, TECHSTACK, TERMINOLOGY, GUARDRAILS |
+| **Reference Base frequently** | Check DIRECTIVES, TERMINOLOGY, GUARDRAILS |
 | **Suggest updates** | When user expresses new preference, offer to update Base |
 | **Explain decisions** | When Base context influences decisions, explain reasoning |
 
@@ -279,7 +275,7 @@ Before context management is complete:
 ### Directory Structure
 
 - [ ] `.claude/base/` exists with three subdirectories
-- [ ] `user/` contains 8 files (ABOUTME, DIRECTIVES, TECHSTACK, TERMINOLOGY, DIGITALASSETS, CONTACTS, RESUME, ART)
+- [ ] `user/` contains 4 files (ABOUTME, DIRECTIVES, TERMINOLOGY, CONTACTS)
 - [ ] `system/` contains 8 files (ARCHITECTURE, ORCHESTRATION, WORKFLOWS, MEMORY_LOGIC, TOOLBOX, AGENTS_LOGIC, SKILL_LOGIC, DOMAINS_LOGIC)
 - [ ] `security/` contains 2 files (GUARDRAILS, REPOS_RULES)
 

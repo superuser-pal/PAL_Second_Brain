@@ -1,14 +1,14 @@
 ---
 title: PAL Orchestration System
-version: 1.1.0
+version: 1.2.0
 layer: SYSTEM
 purpose: PAL Master rules, task delegation, and routing logic
-last_updated: 2026-01-18
+last_updated: 2026-02-07
 ---
 
 # PAL Orchestration System
 
-**Version:** 1.1.0
+**Version:** 1.2.0
 **Purpose:** How PAL's PAL Master classifies intent, routes to capabilities, and orchestrates execution
 **Layer:** SYSTEM
 
@@ -108,9 +108,9 @@ PAL Master handles five primary responsibilities:
 
 **Key Structure Rules:**
 
-- **Agents:** Single `.md` files only (no directories in agents folder)
+- **Agents:** Single `.md` files only (no directories in agents folder), 8-section structure
 - **Skills:** Directory with `SKILL.md`, flat structure (max 2 levels)
-- **Domains:** Standard folder structure (INDEX.md and CONNECTIONS.yaml at root, 01_PLANS, 02_SESSIONS, 03_ASSETS, 05_ARCHIVE)
+- **Domains:** Standard folder structure (INDEX.md and CONNECTIONS.yaml at root, 00_CONTEXT, 01_PROJECTS, 02_SESSIONS, 03_ASSETS, 04_OUTPUTS, 05_ARCHIVE)
 
 **Asset Creation Best Practices:** Check for existing capabilities, follow PAL naming conventions (lower-kebab-case for directories, lower_snake_case for files), reference authoritative logic docs, test before complex use
 
@@ -221,7 +221,7 @@ description: Complete blog workflow. USE WHEN user mentions doing anything with 
 | -------------- | ---------------------------- | ---------------------------------------------- |
 | **Duration**   | One-off task                 | Extended session (multiple tasks)              |
 | **Invocation** | Automatic (intent-based)     | Manual (user command: `/load-[agent]`)         |
-| **Context**    | PAL Master + skill           | Four layers (USER + SYSTEM + SECURITY + DOMAIN)|
+| **Context**    | PAL Master + skill           | Two groups (Base + Domain)                     |
 | **Focus**      | General orchestration        | Domain-specific specialization                 |
 | **Example**    | "Create a blog post about X" | "/load-blog-agent" then work on multiple posts |
 
@@ -246,26 +246,37 @@ PAL Master recognizes command
     ↓
 Agent file loaded from `.claude/agents/[agent-name].md`
     ↓
-5-Step Activation Protocol:
-  1. Load Persona (agent file)
-  2. Load Context (4 layers with [AUTO]/[REF])
-  3. Extract User Name (from ABOUTME.md)
-  4. Display Greeting (with menu)
-  5. Wait for Input
+6-Step Activation Protocol:
+  1. Load Persona (agent file already in context)
+  2. Load Base Context (index 3 fixed REF files: ABOUTME, DIRECTIVES, GUARDRAILS)
+  3. Load Domain Context (execute AUTO files: INDEX.md, index REF files from domain)
+  4. Extract User Name (from ABOUTME.md)
+  5. Display Greeting (state role, show Command Menu)
+  6. Wait for Input (STOP and wait, do not auto-execute)
     ↓
 Agent ready with domain context
 ```
 
-#### Four-Layer Context System
+#### Two-Group Context Model
 
-Domain agents load context from **four layers** (not three):
+Domain agents load context from **two groups** (Base + Domain):
 
-| Layer | Purpose | Loading Mode | Source |
-| :---- | :------ | :----------- | :----- |
-| **USER** | Identity, preferences | `[REF]` most, `[AUTO]` ABOUTME | `.claude/base/user/` |
-| **SYSTEM** | Architecture, workflows | `[REF]` as needed | `.claude/base/system/` |
-| **SECURITY** | Guardrails, policies | `[REF]` for validation | `.claude/base/security/` |
-| **DOMAIN** | Domain-specific context | `[AUTO]` INDEX.md | `domains/[domain-name]/` |
+**Base Context (Fixed):** Three files, always `[REF]`:
+- [REF] `PAL_Base/User/ABOUTME.md` — Core Identity & Background
+- [REF] `PAL_Base/User/DIRECTIVES.md` — Critical System Rules
+- [REF] `PAL_Base/Security/GUARDRAILS.md` — Safety Validation
+
+**Domain Context (Configurable):** Mapped from the domain's `INDEX.md`:
+
+| Folder | Purpose | Loading Mode |
+| :---- | :------ | :----------- |
+| **INDEX.md** | Source of Truth | `[AUTO]` (always) |
+| **00_CONTEXT/** | Domain background and reference docs | `[REF]` |
+| **01_PROJECTS/** | Active project files | `[REF]` |
+| **02_SESSIONS/** | Interaction logs | `[REF]` |
+| **03_ASSETS/** | Reference materials | `[REF]` |
+| **04_OUTPUTS/** | Generated deliverables | `[REF]` |
+| **05_ARCHIVE/** | Deprecated content | `[REF]` |
 
 #### Domain Binding
 
@@ -349,7 +360,7 @@ Workflow execution:
 
 ## Section 3: Context Assembly
 
-// MENTION HERE THAT IT CAN BE CONFIGURED FROM THE AGENT FILE. MEANING THAT THE USER CAN SELECT WHICH CONTEXT IS AUTO-LOADED AND WHICH IS ONLY USED FOR REFERENCE
+**Context Configuration:** Domain agents configure which files are `[AUTO]` (loaded immediately) vs `[REF]` (loaded on demand) in their agent file. Base Context uses fixed REFs, while Domain Context is configurable per agent.
 
 ### Base Configuration Loading
 
@@ -359,34 +370,47 @@ Workflow execution:
 
 | Layer | Files | Purpose |
 | :---- | :---- | :------ |
-| **USER** | ABOUTME, DIRECTIVES, TECHSTACK, TERMINOLOGY, DIGITALASSETS, CONTACTS, RESUME, ART | Identity, preferences, personal context |
+| **USER** | ABOUTME, DIRECTIVES, TERMINOLOGY, CONTACTS | Identity, preferences, personal context |
 | **SYSTEM** | ARCHITECTURE, ORCHESTRATION, WORKFLOWS, MEMORY_LOGIC, TOOLBOX, AGENTS_LOGIC, SKILL_LOGIC, DOMAINS_LOGIC | System logic and operations |
 | **SECURITY** | GUARDRAILS, REPOS_RULES | Safety validation and policies |
 
-#### Four-Layer Context (Domain Agents)
+#### Two-Group Context (Domain Agents)
 
-Domain agents add a **fourth layer**:
+Domain agents use a **two-group context model** (Base + Domain):
 
-| Layer | Source | Loading |
+**Base Context (Fixed):**
+
+| File | Purpose | Loading |
 | :---- | :----- | :------ |
-| **USER** | `.claude/base/user/` | `[REF]` most files |
-| **SYSTEM** | `.claude/base/system/` | `[REF]` as needed |
-| **SECURITY** | `.claude/base/security/` | `[REF]` for validation |
-| **DOMAIN** | `domains/[domain-name]/` | `[AUTO]` INDEX.md, `[REF]` others |
+| `ABOUTME.md` | Core Identity & Background | `[REF]` |
+| `DIRECTIVES.md` | Critical System Rules | `[REF]` |
+| `GUARDRAILS.md` | Safety Validation | `[REF]` |
+
+**Domain Context (Configurable):**
+
+| Component | Source | Loading |
+| :---- | :----- | :------ |
+| **INDEX.md** | `domains/[domain-name]/INDEX.md` | `[AUTO]` (always) |
+| **00_CONTEXT/** | Domain background and reference docs | `[REF]` |
+| **01_PROJECTS/** | Active project files | `[REF]` |
+| **02_SESSIONS/** | Interaction logs | `[REF]` |
+| **03_ASSETS/** | Reference materials | `[REF]` |
+| **04_OUTPUTS/** | Generated deliverables | `[REF]` |
+| **05_ARCHIVE/** | Deprecated content | `[REF]` |
 
 **Domain Context Source of Truth:** `domains/[domain-name]/INDEX.md`
 
-**See:** [AGENTS_LOGIC.md](AGENTS_LOGIC.md) for four-layer context configuration
+**See:** [AGENTS_LOGIC.md](AGENTS_LOGIC.md) for two-group context configuration and 8-section agent structure
 
 #### How Context is Used
 
-**USER:** Personalizes responses (ABOUTME), guides tone (DIRECTIVES), informs recommendations (DIGITALASSETS, CONTACTS), influences tech choices (TECHSTACK), ensures vocabulary (TERMINOLOGY), contextualizes discussions (RESUME), guides visuals (ART)
+**USER:** Personalizes responses (ABOUTME), guides tone (DIRECTIVES), informs recommendations (CONTACTS), ensures vocabulary (TERMINOLOGY)
 
 **SYSTEM:** Explains philosophy (ARCHITECTURE), defines routing (ORCHESTRATION), documents workflows (WORKFLOWS), explains hooks (MEMORY_LOGIC), lists tools (TOOLBOX), defines agent structure (AGENTS_LOGIC), defines skill structure (SKILL_LOGIC), defines domain structure (DOMAINS_LOGIC)
 
 **SECURITY:** Enforces validation (GUARDRAILS), governs data handling (REPOS_RULES)
 
-**DOMAIN (agents only):** Provides project-specific context (INDEX.md), active plans (01_PLANS), session history (02_SESSIONS), reference materials (03_ASSETS)
+**DOMAIN (agents only):** Provides project-specific context (INDEX.md), domain background (00_CONTEXT), active projects (01_PROJECTS), session history (02_SESSIONS), reference materials (03_ASSETS), generated deliverables (04_OUTPUTS)
 
 ---
 
@@ -468,7 +492,7 @@ Domain agents add a **fourth layer**:
 2. **Use Agent Loading for Extended Sessions:** One-off → PAL Master, Multiple related → Domain agent
 3. **Request Context When Needed:** `/context` shows loaded configuration
 4. **Trust Plan-First for Complex Tasks:** Plans catch issues before execution
-5. **Update Base Files Regularly:** Keep DIRECTIVES, TECHSTACK, TERMINOLOGY current
+5. **Update Base Files Regularly:** Keep DIRECTIVES, TERMINOLOGY current
 
 ### For PAL Master
 
@@ -487,9 +511,9 @@ PAL's orchestration system provides **intelligent routing** through:
 1. **PAL Master** - Primary orchestration agent with 6 core responsibilities
 2. **Intent-Based Routing** - Conceptual matching via `USE WHEN` clauses
 3. **Skill Activation** - Domain capabilities with flat directory structure
-4. **Agent Loading** - Specialized agents with four-layer context and domain binding
+4. **Agent Loading** - Specialized agents with two-group context (Base + Domain) and mandatory domain binding
 5. **Domain Workspaces** - Project-specific context with INDEX.md as source of truth
-6. **Context Assembly** - Three layers (PAL Master) or four layers (domain agents)
+6. **Context Assembly** - Three layers (PAL Master) or two groups (domain agents)
 7. **Plan Presentation** - User approval for complex operations
 8. **Execution Oversight** - Monitoring, error handling, result reporting
 
@@ -505,15 +529,15 @@ PAL's orchestration system provides **intelligent routing** through:
 
 - Classify intent accurately
 - Route to best capability (skill or agent)
-- Assemble relevant context (three or four layers)
+- Assemble relevant context (three layers or two groups)
 - Present plans when beneficial
 - Monitor execution and handle errors
 
 **Authoritative Logic Files:**
 
-- [AGENTS_LOGIC.md](AGENTS_LOGIC.md) - Agent structure, four-layer context, domain binding
+- [AGENTS_LOGIC.md](AGENTS_LOGIC.md) - Agent structure, two-group context, mandatory domain binding, 8-section structure
 - [SKILL_LOGIC.md](SKILL_LOGIC.md) - Skill structure, USE WHEN triggers, flat hierarchy
-- [DOMAINS_LOGIC.md](DOMAINS_LOGIC.md) - Domain structure, INDEX.md, folder conventions
+- [DOMAINS_LOGIC.md](DOMAINS_LOGIC.md) - Domain structure, INDEX.md, six-folder conventions
 
 **Related Files:**
 
@@ -524,8 +548,8 @@ PAL's orchestration system provides **intelligent routing** through:
 
 ---
 
-**Document Version:** 1.1.0
-**Last Updated:** 2026-01-18
+**Document Version:** 1.2.0
+**Last Updated:** 2026-02-07
 **Related Files:** ARCHITECTURE.md, WORKFLOWS.md, MEMORY_LOGIC.md, TOOLBOX.md, AGENTS_LOGIC.md, SKILL_LOGIC.md, DOMAINS_LOGIC.md
 
 ---

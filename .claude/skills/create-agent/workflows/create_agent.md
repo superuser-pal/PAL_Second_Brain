@@ -1,6 +1,6 @@
 # create_agent Workflow
 
-Create a new domain agent following the canonical structure with proper naming and four-layer context configuration.
+Create a new domain agent following the 8-section structure with proper naming, two-group context (Base + Domain), inline capabilities, and routing table registration.
 
 ## Step 1: Read the Authoritative Sources
 
@@ -16,7 +16,7 @@ Ask the user:
 
 1. **Purpose:** What is this agent's primary role/function?
 2. **Domain:** What domain should this agent be bound to?
-3. **Capabilities:** What skills, workflows, or prompts should it have access to?
+3. **Capabilities:** What skills, workflows, or prompts should it own?
 4. **Persona:** Any specific communication style or identity?
 
 ## Step 3: Determine Naming
@@ -38,8 +38,8 @@ Ask the user:
 
 **Wrong naming (NEVER use):**
 
-- `BlogAgent.md`, `BLOG_AGENT.md` -> Use `blog-agent.md`
-- Directories in agents folder -> Single files only
+- `BlogAgent.md`, `BLOG_AGENT.md` → Use `blog-agent.md`
+- Directories in agents folder → Single files only
 
 ## Step 4: Check Domain Existence
 
@@ -77,7 +77,7 @@ Note the domain's:
 
 ## Step 6: Create Agent File
 
-Create the agent file in `.claude/agents/`:
+Create the agent file in `.claude/agents/` using `agent_template.md` as the base.
 
 ```bash
 touch .claude/agents/[agent-name].md
@@ -85,7 +85,7 @@ touch .claude/agents/[agent-name].md
 
 ## Step 7: Configure YAML Frontmatter
 
-Fill in the YAML frontmatter:
+Fill in the YAML frontmatter with exactly 4 fields:
 
 ```yaml
 ---
@@ -93,124 +93,126 @@ name: agent-name
 description: Brief description of what this agent does
 version: 1.0.0
 domain: domain-name
-skills:
-  - skill-name-1
-  - skill-name-2
-workflows:
-  - skill-name/workflow_name
-prompts:
-  - prompt-name
 ---
 ```
 
 **Required Fields:**
 
-- `name` - lower-kebab-case (matches file name without .md)
-- `description` - Clear, concise purpose
-- `version` - Start with `1.0.0`
-- `domain` - Must match existing domain in `domains/`
+- `name` — lower-kebab-case (matches file name without .md)
+- `description` — Clear, concise purpose
+- `version` — Start with `1.0.0`
+- `domain` — Must match existing domain in `domains/`
 
-**Optional Fields:**
+**No other YAML fields.** Capabilities are declared inline in Section 5.
 
-- `skills` - List skills for full access
-- `workflows` - List specific workflows (format: `skill-name/workflow_name`)
-- `prompts` - List prompt templates
+## Step 8: Configure Two-Group Context
 
-## Step 8: Configure Four-Layer Context
+Set up the context configuration in the Activation Protocol section (Section 2):
 
-Set up the context configuration in the Activation Protocol section:
-
-**USER Layer:**
+**Base Context (fixed — same for every agent):**
 
 ```markdown
-- [REF] `.claude/base/user/ABOUTME.md` - Core Identity & Background
-- [REF] `.claude/base/user/DIRECTIVES.md` - Critical System Rules
-- [REF] `.claude/base/user/TECHSTACK.md` - Technology Preferences
-- [REF] `.claude/base/user/TERMINOLOGY.md` - Vocabulary Definitions
+- [REF] `PAL_Base/User/ABOUTME.md` — Core Identity & Background
+- [REF] `PAL_Base/User/DIRECTIVES.md` — Critical System Rules
+- [REF] `PAL_Base/Security/GUARDRAILS.md` — Safety Validation
 ```
 
-**SYSTEM Layer:**
+**Domain Context (configurable — mapped from INDEX.md):**
 
 ```markdown
-- [REF] `.claude/base/system/ORCHESTRATION.md` - Routing & Responsibilities
-- [REF] `.claude/base/system/WORKFLOWS.md` - Execution Patterns
-- [REF] `.claude/base/system/AGENTS_LOGIC.md` - Agent Configuration
-```
-
-**SECURITY Layer:**
-
-```markdown
-- [REF] `.claude/base/security/GUARDRAILS.md` - Safety Validation
-- [REF] `.claude/base/security/REPOS_RULES.md` - Code Policy
-```
-
-**DOMAIN Layer:**
-
-Map files from the domain's INDEX.md:
-
-```markdown
-- [AUTO] `domains/[domain-name]/INDEX.md` - Domain Source of Truth
-- [REF] `domains/[domain-name]/01_PLANS/` - Active plans
-- [REF] `domains/[domain-name]/02_SESSIONS/` - Session logs
-- [REF] `domains/[domain-name]/03_ASSETS/` - Reference materials
+- [AUTO] `domains/[domain-name]/INDEX.md` — Domain Source of Truth
+- [REF] `domains/[domain-name]/00_CONTEXT/` — Domain-specific context and reference docs
+- [REF] `domains/[domain-name]/01_PROJECTS/` — Active project files
+- [REF] `domains/[domain-name]/02_SESSIONS/` — Session logs
+- [REF] `domains/[domain-name]/03_ASSETS/` — Reference materials and resources
+- [REF] `domains/[domain-name]/04_OUTPUTS/` — Generated deliverables
+- [REF] `domains/[domain-name]/05_ARCHIVE/` — Completed or deprecated items
+- [REF] `domains/[domain-name]/CONNECTIONS.yaml` — Domain connections and integrations
 ```
 
 **Loading Mode Guidelines:**
 
-- Use `[AUTO]` sparingly - only for INDEX.md and critical files
-- Use `[REF]` for most files - load on demand
+- Use `[AUTO]` sparingly — only for INDEX.md and critical files
+- Use `[REF]` for most files — load on demand
 - Domain INDEX.md is ALWAYS `[AUTO]`
 
-## Step 9: Configure Persona
+## Step 9: Configure Section 1 — Identity & Persona
 
-Fill in the Persona section:
+Fill in:
 
 - **Role:** Primary function of this agent
-- **Identity:** Detailed description
-- **Communication Style:** 4 bullet points
-- **Core Principles:** 4 guiding principles
+- **Voice:** 4 bullet points (first-person always, plus 3 domain-specific style points)
+- **Core Principles:** 4 guiding principles (Zero Trust Context, 2 domain-specific, Security first)
 
-## Step 10: Configure Menu
+## Step 10: Configure Section 3 — Command Menu
 
-Customize the menu for this agent's domain:
+Set up the standard command table:
 
-| # | Command | Description |
-| --- | ------- | ----------- |
-| 1 | `*menu` | Redisplay this menu |
-| 2 | `*[domain-command]` | [Domain-specific action] |
-| 3 | `*[domain-command]` | [Domain-specific action] |
-| 4 | `*context` | Show loaded context and session state |
-| 5 | `*help` | Agent help and documentation |
-| 6 | `*dismiss` | Dismiss this agent |
+| # | Command | Description | Action |
+| --- | ------- | ----------- | ------ |
+| 1 | `*menu` | Redisplay this menu | Print this table |
+| 2 | `*skills` | List my skills | Display Section 5 → Skills |
+| 3 | `*workflows` | List my workflows | Display Section 5 → Workflows |
+| 4 | `*context` | Show loaded context and session state | Show loaded files by layer, active skill (Sec 6) |
+| 5 | `*help` | Agent help and documentation | Show responsibilities summary |
+| 6 | `*dismiss` | Dismiss this agent | Confirm with user, end session, return to PAL Master |
 
-## Step 11: Configure Core Responsibilities
+## Step 11: Configure Section 4 — How I Work
 
-Define 3-5 core responsibilities specific to this agent's domain:
+Fill in 3–4 domain-specific routing examples:
 
-1. **[Primary Responsibility]** - Main function
-2. **[Secondary Responsibility]** - Supporting function
-3. **[Tertiary Responsibility]** - Additional capability
+- "[Example request 1]" → `[skill-name]` skill ([why it matches])
+- "[Example request 2]" → `[workflow-name]` workflow ([why it matches])
+- "[Example request 3]" → Respond directly (domain context sufficient)
+- "[Unrelated request]" → Out of scope, suggest returning to PAL Master
 
-## Step 12: Customize Greeting Template
+## Step 12: Configure Section 5 — My Capabilities
 
-Update the greeting to reflect:
+Declare all skills, workflows, and prompts this agent owns **inline**:
 
-- Agent's name and role
-- Domain-specific context it has access to
-- Key capabilities (3 bullet points)
+```yaml
+### Skills
+- name: [skill-name]
+  location: .claude/skills/[skill-name]/SKILL.md
+  use_when: "[Natural language trigger]"
 
-## Step 13: Set Operational Rules
+### Workflows
+- name: [workflow-name]
+  source: [skill-name]/[workflow_name]
+  location: .claude/skills/[skill-name]/workflows/[workflow_name].md
+  use_when: "[Natural language trigger]"
 
-Include standard rules plus domain-specific rules:
+### Prompts
+- name: [prompt-name]
+  location: .claude/prompts/[prompt-name].md
+  use_when: "[Natural language trigger]"
+```
 
-1. First-Person Voice
-2. Runtime Loading
-3. Menu Display
-4. Stay in Character
-5. Security First
-6. [Domain-specific rule]
+**Include capability rules at the end of Section 5:**
 
-## Step 14: Update Document Metadata
+- If a capability is not listed above, I do not have it.
+- Do not infer, hallucinate, or borrow capabilities from other agents.
+- If a request requires capabilities outside my scope, suggest returning to PAL Master via `*dismiss`.
+
+**Verify all declared capabilities exist:**
+
+```bash
+# Check each skill exists
+ls .claude/skills/[skill-name]/SKILL.md
+
+# Check each workflow exists
+ls .claude/skills/[skill-name]/workflows/[workflow_name].md
+```
+
+## Step 13: Configure Remaining Sections
+
+**Section 6 — Session State Model:** Use standard template (tracks user name, loaded files, active skill/workflow, execution history).
+
+**Section 7 — Error Handling & Recovery:** Use standard template (6 error categories, 6-step recovery protocol).
+
+**Section 8 — Operational Rules:** Include standard 10 rules, customize if domain requires additional constraints.
+
+## Step 14: Set Document Metadata
 
 At the bottom of the agent file:
 
@@ -218,13 +220,30 @@ At the bottom of the agent file:
 ---
 
 **Document Version:** 1.0.0
-**Last Updated:** YYYY-MM-DD
-**Related Files:** domains/[domain-name]/INDEX.md, [other relevant files]
+**Last Updated:** [YYYY-MM-DD]
+**Related Files:** PAL_Base/System/ORCHESTRATION.md, PAL_Base/System/ROUTING_TABLE.md, domains/[domain-name]/INDEX.md
 
 ---
 ```
 
-## Step 15: Final Checklist
+## Step 15: Register in Routing Table
+
+Add the new agent to `PAL_Base/System/ROUTING_TABLE.md`:
+
+```yaml
+- name: [agent-name]
+  domain: [domain-name]
+  location: .claude/agents/[agent-name].md
+  routes_to: "[comma-separated keywords describing what this agent handles]"
+```
+
+**Verify the entry was added:**
+
+```bash
+grep "[agent-name]" PAL_Base/System/ROUTING_TABLE.md
+```
+
+## Step 16: Final Checklist
 
 ### Structure
 
@@ -235,56 +254,66 @@ At the bottom of the agent file:
 
 ### YAML Frontmatter
 
-- [ ] `name` field present (lower-kebab-case)
+- [ ] `name` field present (lower-kebab-case, matches filename)
 - [ ] `description` field present
 - [ ] `version` field present (semantic versioning)
-- [ ] `domain` field present (valid domain name)
-- [ ] `skills` field lists valid skills (if defined)
-- [ ] `workflows` field uses correct format `skill-name/workflow_name` (if defined)
-- [ ] `prompts` field lists valid prompts (if defined)
+- [ ] `domain` field present (valid, existing domain name)
+- [ ] No extra fields (capabilities are declared inline in Section 5)
 
-### Template Sections
+### 8-Section Structure
 
-- [ ] Activation Protocol with 5 steps
-- [ ] Context Configuration with all 4 layers
-- [ ] Persona section (Role, Identity, Communication Style, Core Principles)
-- [ ] Menu section with command table
-- [ ] Menu Handlers section with processing rules
-- [ ] Core Responsibilities section with numbered items
-- [ ] Operational Rules section with numbered rules
-- [ ] Greeting Template with menu display
+- [ ] Section 1: Identity & Persona (role, voice, principles)
+- [ ] Section 2: Activation Protocol (6 steps)
+- [ ] Section 3: Command Menu (unified table with actions)
+- [ ] Section 4: How I Work (classify → route → execute pipeline)
+- [ ] Section 5: My Capabilities (inline skills, workflows, prompts with use_when)
+- [ ] Section 6: Session State Model (tracked data, reset rules)
+- [ ] Section 7: Error Handling & Recovery (categories, protocol)
+- [ ] Section 8: Operational Rules (numbered constraints)
 
-### Four-Layer Context Configuration
+### Context Configuration
 
-- [ ] USER layer files identified with [AUTO]/[REF]
-- [ ] SYSTEM layer files identified with [AUTO]/[REF]
-- [ ] SECURITY layer files identified with [AUTO]/[REF]
-- [ ] DOMAIN layer files mapped from INDEX.md
-- [ ] Domain INDEX.md marked as [AUTO]
-- [ ] Minimum files marked [AUTO] (only essentials)
+- [ ] Base Context: 3 fixed REFs (ABOUTME, DIRECTIVES, GUARDRAILS)
+- [ ] Domain Context: INDEX.md as [AUTO], other files as [REF]
+- [ ] Zero Trust applied — minimal [AUTO] usage
 
 ### Domain Binding
 
 - [ ] `domain` field matches valid domain in `domains/`
 - [ ] Domain INDEX.md exists at `domains/[domain-name]/INDEX.md`
-- [ ] Domain files mapped to [AUTO]/[REF] based on relevance
+- [ ] Domain files mapped to [AUTO]/[REF] in Activation Protocol
 
-### Capability Binding (if defined)
+### Capability Declaration
 
+- [ ] Section 5 lists all skills with name, location, use_when
+- [ ] Section 5 lists all workflows with name, source, location, use_when
+- [ ] Section 5 lists prompts if any
 - [ ] All listed skills exist in `.claude/skills/`
-- [ ] All listed workflows exist in their respective skills
-- [ ] All listed prompts exist in `.claude/prompts/` or skill locations
+- [ ] All listed workflows exist in their respective skill directories
+- [ ] Capability rules present (no inference, no borrowing, out-of-scope → *dismiss)
 - [ ] Capabilities align with agent's domain and responsibilities
+
+### Routing Table
+
+- [ ] Agent entry added to `PAL_Base/System/ROUTING_TABLE.md`
+- [ ] Entry includes: name, domain, location, routes_to
 
 ### Operational Validation
 
 - [ ] First-person voice enforced in rules
-- [ ] `*dismiss` command documented
-- [ ] Security validation referenced
+- [ ] `*dismiss` command included in menu
+- [ ] Security validation referenced (GUARDRAILS.md)
 - [ ] Stay-in-character rule included
+- [ ] Out-of-scope handling defined (redirect to PAL Master)
+
+## Step 17: Suggest Index Regeneration
+
+Inform the user:
+
+> "Agent created successfully. Run `map-domain` to regenerate `SYSTEM_INDEX.md` so the system-wide capability view stays current."
 
 ## Done
 
-Agent created following canonical structure with proper naming, four-layer context, and domain binding.
+Agent created following the 8-section structure with inline capabilities, two-group context (Base + Domain), and routing table registration.
 
 **Invocation:** `/load-[agent-name]`
