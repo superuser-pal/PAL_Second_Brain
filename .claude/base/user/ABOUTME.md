@@ -20,11 +20,11 @@ Personal background and philosophy for your AI assistant to understand who you a
 
 ### Who I Am
 
-I am Rodrigo Cano Teran, a 34-year-old Mexican Product Manager currently living in Brussels. I lead the development of EV-related features for the Toyota app while simultaneously building and maintaining the PAL Framework, an open-source agentic logic project.
+I am [Your Name], a [age]-year-old [nationality/background] [profession/role] currently living in [location]. I [brief description of what you do professionally or personally].
 
 ### What I'm Known For
 
-I am known for my expertise in Product Management, specifically within the customer journey, user research, and automotive tech space. In the developer community, I am recognized for the PAL Framework and my work on agentic logic.
+I am known for [your areas of expertise or recognition]. In [relevant community/industry], I am recognized for [specific contributions or work].
 
 ---
 
@@ -32,19 +32,19 @@ I am known for my expertise in Product Management, specifically within the custo
 
 ### Philosophy
 
-I believe in enjoying new experiences alongside the people I love. Innovation is not a straight line; it requires constant testing, trial, and error. I prioritize quality over quantity in every aspect of my life and work.
+I believe in [your core philosophy or worldview]. [Additional beliefs about how you approach life/work].
 
 ### Values
 
 What I value most:
 
-- **Integrity:** Being honest and transparent in all dealings.
-- **Curiosity:** Maintaining a hunger for learning and understanding how things work.
-- **Innovation:** Pushing boundaries through iterative development and experimentation.
+- **[Value 1]:** [Description of what this means to you]
+- **[Value 2]:** [Description of what this means to you]
+- **[Value 3]:** [Description of what this means to you]
 
 ### Mission
 
-I am working toward financial freedom and time sovereignty—having the resources and the schedule to spend my time exactly how I choose.
+I am working toward [your long-term goal or mission statement].
 
 ---
 
@@ -52,13 +52,13 @@ I am working toward financial freedom and time sovereignty—having the resource
 
 ### What I'm Working On
 
-- **Toyota EV Features:** Leading product development for electric vehicle integration in the mobile app.
-- **PAL Framework:** Scaling and refining my open-source agentic logic project on GitHub.
-- **LaraLou:** Supporting the growth and strategy of my girlfriend Lara's Substack.
+- **[Project/Role 1]:** [Brief description]
+- **[Project/Role 2]:** [Brief description]
+- **[Project/Role 3]:** [Brief description]
 
 ### What I'm Learning
 
-I am currently focused on increasing my technical literacy. After a career spent in product management and user research, I am doing a deep dive into code and development to bridge the gap between product vision and execution.
+I am currently focused on [areas of learning or skill development].
 
 ---
 
@@ -66,15 +66,15 @@ I am currently focused on increasing my technical literacy. After a career spent
 
 ### Life Situation
 
-Based in Brussels, Belgium. I live with my partner, Lara. My daily routine involves balancing my 9-to-5 corporate role at Toyota with my passion for open-source development and unwinding with video games.
+Based in [City, Country]. [Brief description of living situation, daily routine, or lifestyle relevant to how you work].
 
 ### Communication Style
 
-Direct and fact-based. I prefer information delivered without "yapping" or unnecessary fluff. I want the facts and the logic, not praise or affirmations about whether an idea is "good" or not.
+[Describe your preferred communication style - e.g., Direct and fact-based, collaborative and exploratory, detailed and thorough]. I prefer information delivered [how you like to receive information].
 
 ### Pet Peeves
 
-I cringe at over-specialized jargon and "corporate-speak." I dislike it when simple concepts are made unnecessarily complex, or when writing feels flowery and "cringy."
+I [describe what frustrates you in communication or work, e.g., dislike unnecessary jargon, prefer concise explanations over lengthy ones].
 
 ---
 
@@ -82,11 +82,11 @@ I cringe at over-specialized jargon and "corporate-speak." I dislike it when sim
 
 ### Short-term
 
-By the end of 2026, success means established additional income streams that exist independently of my primary 9-to-5 salary.
+By [timeframe], success means [specific measurable goals].
 
 ### Long-term
 
-Achieving complete financial independence and the freedom to dedicate my full attention to personal projects and family.
+[Your long-term vision for success].
 
 ---
 
@@ -94,8 +94,8 @@ Achieving complete financial independence and the freedom to dedicate my full at
 
 When writing on my behalf or representing my views:
 
-- **Tone:** Direct, professional, and grounded.
-- **Stance:** Pragmatic and technical. Focus on simplicity and clarity.
-- **Avoid:** Over-explaining, using "buzzwords," or giving the AI "praise" or feedback loops. Avoid flowery language and empty adjectives.
+- **Tone:** [e.g., Direct, professional, casual, warm]
+- **Stance:** [e.g., Pragmatic, optimistic, analytical]
+- **Avoid:** [e.g., Buzzwords, excessive praise, overly formal language]
 
 ---

@@ -14,7 +14,7 @@ last_updated: 2026-01-18
 
 ## THIS IS THE AUTHORITATIVE SOURCE
 
-This document defines the **required structure** for context management and hooks in the PAL framework.
+This document defines the **required structure** for context management and hooks in the PAL second brain.
 
 **ALL hook implementations MUST follow this structure.**
 

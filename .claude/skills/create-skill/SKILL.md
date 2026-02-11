@@ -12,7 +12,7 @@ If this directory exists, load and apply any PREFERENCES.md, configurations, or 
 
 # create-skill
 
-MANDATORY skill creation framework for ALL skill creation requests.
+MANDATORY skill creation system for ALL skill creation requests.
 
 ## Authoritative Source
 

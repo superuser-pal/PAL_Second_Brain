@@ -1,8 +1,8 @@
-# PAL Framework
+# PAL Second Brain
 
-> **Pattern-based AI Lifecycle** - A modular system that empowers professionals to architect AI systems through organized context engineering, reusable modular blocks, and guided documentation.
+> **Patterned Agentic Logic** - A modular system that empowers professionals to architect AI systems through organized context engineering, reusable modular blocks, and guided documentation.
 
-[![Version](https://img.shields.io/badge/version-0.1.0--alpha-blue.svg)](https://github.com/superuser-pal/PAL_Framework)
+[![Version](https://img.shields.io/badge/version-0.1.0--alpha-blue.svg)](https://github.com/superuser-pal/PAL_Second_Brain)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Bun](https://img.shields.io/badge/runtime-bun-orange.svg)](https://bun.sh)
 
@@ -10,7 +10,7 @@
 
 ## What is PAL?
 
-PAL (Patterned Agentic Logic) is a framework for Claude Code that provides:
+PAL (Patterned Agentic Logic) is a second brain for Claude Code that provides:
 
 - **Three-layer architecture** - USER (identity) → SYSTEM (logic) → SECURITY (guardrails)
 - **Modular skill system** - Reusable capabilities with workflows and tools
@@ -32,8 +32,8 @@ PAL transforms Claude Code from a general assistant into a personalized, context
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/superuser-pal/PAL_Framework.git
-   cd PAL_Framework
+   git clone https://github.com/superuser-pal/PAL_Second_Brain.git
+   cd PAL_Second_Brain
    ```
 
 2. **Run the installer:**
@@ -165,7 +165,7 @@ bun run .claude/tools/pal-install.ts --help
 ## Project Structure
 
 ```
-pal-framework/
+pal-second-brain/
 ├── .claude/
 │   ├── CLAUDE.md              # Master configuration
 │   ├── settings.json          # Hooks and permissions

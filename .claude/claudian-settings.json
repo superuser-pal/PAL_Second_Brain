@@ -45,7 +45,7 @@
   "mediaFolder": "",
   "environmentVariables": "CLAUDE_PROJECT_DIR=/Users/rodrigocanoteran/projects/pal-framework\nPROJECT_NAME=pal-framework",
   "envSnippets": [],
-  "systemPrompt": "You are a helpful AI assistant working under the pillars and guidelines of PAL (Patterned Agentic Logic) framework.",
+  "systemPrompt": "You are a helpful AI assistant working under the pillars and guidelines of PAL (Patterned Agentic Logic) second brain.",
   "allowedExportPaths": [
     "~/Desktop",
     "~/Downloads"

@@ -14,8 +14,8 @@ Centralized registry of your digital assets for instant recognition and manageme
 
 | Site             | URL                 | Local Path           | GitHub Repo      | Stack       | Deployment |
 | ---------------- | ------------------- | -------------------- | ---------------- | ----------- | ---------- |
-| **Main Site**    | example.com         | `~/Projects/Website` | username/Website | [Framework] | CF Worker  |
-| **Project Site** | project.example.com | `~/Projects/Project` | username/Project | [Framework] | CF Worker  |
+| **Main Site**    | example.com         | `~/Projects/Website` | username/website | [Framework] | [Platform] |
+| **Project Site** | project.example.com | `~/Projects/Project` | username/project | [Framework] | [Platform] |
 
 ### Routing Rules
 
@@ -35,7 +35,7 @@ bun run deploy
 git push
 ```
 
-**Important:** Use `bun run deploy` - the package.json script handles deployment correctly.
+**Important:** Customize deployment commands based on your tech stack.
 
 ---
 
@@ -54,15 +54,7 @@ git push
 
 | Domain      | Registrar   | Expiration | DNS Provider |
 | ----------- | ----------- | ---------- | ------------ |
-| example.com | [Registrar] | YYYY-MM-DD | Cloudflare   |
-
----
-
-## Smart Home (Optional)
-
-| System     | Purpose        | Documentation               |
-| ---------- | -------------- | --------------------------- |
-| Homebridge | HomeKit bridge | See HomeBridgeManagement.md |
+| example.com | [Registrar] | YYYY-MM-DD | [Provider]   |
 
 ---
 

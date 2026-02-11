@@ -14,7 +14,7 @@ last_updated: 2026-02-07
 
 ## THIS IS THE AUTHORITATIVE SOURCE
 
-This document defines the **required structure** for every domain in the PAL framework.
+This document defines the **required structure** for every domain in the PAL second brain.
 
 **ALL domain creation MUST follow this structure.**
 

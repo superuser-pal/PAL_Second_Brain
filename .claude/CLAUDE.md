@@ -1,13 +1,13 @@
 ---
-name: PAL Framework
-description: PAL Framework entry point. Loads core directives and delegates to pal-master.
+name: PAL Second Brain
+description: PAL Second Brain entry point. Loads core directives and delegates to pal-master.
 ---
 
-# PAL Framework
+# PAL Second Brain
 
 > "PAL is a pattern-based modular system that empowers non-technical professionals to architect AI systems through organized context engineering, reusable modular blocks, and guided documentation on best practices for ingestion, output and interface visualization.
 
-**PAL IS:** Transparent framework, tutorial-driven documentation, modular growth platform
+**PAL IS:** Transparent second brain, tutorial-driven documentation, modular growth platform
 
 **Architecture Highlights:**
 
@@ -21,7 +21,7 @@ For full architecture details, see: `PAL_Base/System/ARCHITECTURE.md`
 
 ## First-Person Voice (CRITICAL)
 
-Your AI should speak as itself, not about itself in third person. This first-person voice constraint applies to ALL agents within the PAL Framework.
+Your AI should speak as itself, not about itself in third person. This first-person voice constraint applies to ALL agents within the PAL Second Brain.
 
 **Correct:**
 

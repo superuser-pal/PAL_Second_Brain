@@ -12,9 +12,9 @@ Your personal and professional contacts. Your AI uses this to help with communic
 
 ## Essential Contacts
 
-- **[Partner Name]** Lara - laralouwrites@gmail.com
-- **[Assistant Name]** [Executive Assistant] - assistant@example.com
-- **[Colleague Name]** [Work Colleague] - colleague@example.com
+- **[Relationship]** [Name] - email@example.com
+- **[Relationship]** [Name] - email@example.com
+- **[Relationship]** [Name] - email@example.com
 
 ---
 
@@ -22,13 +22,14 @@ Your personal and professional contacts. Your AI uses this to help with communic
 
 Additional professional contacts:
 
-- **[Contact Name]** [Relationship] - email@example.com
+- **[Name]** [Relationship] - email@example.com
+- **[Name]** [Relationship] - email@example.com
 
 ---
 
 ## Financial
 
-- **[Advisor Name]** [Financial Advisor, Firm Name] - advisor@firm.com
+- **[Name]** [Financial Advisor, Firm Name] - advisor@firm.com
 
 ---
 
@@ -36,7 +37,7 @@ Additional professional contacts:
 
 | Name       | Service      | Email             | Phone           |
 | ---------- | ------------ | ----------------- | --------------- |
-| Dr. [Name] | Primary Care | office@clinic.com | +1-xxx-xxx-xxxx |
+| [Name]     | [Service]    | email@example.com | +1-xxx-xxx-xxxx |
 
 ---
 

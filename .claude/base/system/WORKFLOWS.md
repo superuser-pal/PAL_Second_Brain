@@ -14,7 +14,7 @@ last_updated: 2026-01-18
 
 ## THIS IS THE AUTHORITATIVE SOURCE
 
-This document defines the **required structure** for workflows in the PAL framework.
+This document defines the **required structure** for workflows in the PAL second brain.
 
 **ALL workflow creation MUST follow this structure.**
 

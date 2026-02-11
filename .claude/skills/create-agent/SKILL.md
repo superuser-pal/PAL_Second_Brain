@@ -5,7 +5,7 @@ description: Create and validate domain agents. USE WHEN create agent, new agent
 
 # create-agent
 
-MANDATORY agent creation framework for ALL domain agent creation requests.
+MANDATORY agent creation system for ALL domain agent creation requests.
 
 ## Authoritative Sources
 

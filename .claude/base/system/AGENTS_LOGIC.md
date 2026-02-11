@@ -14,7 +14,7 @@ last_updated: 2026-02-07
 
 ## THIS IS THE AUTHORITATIVE SOURCE
 
-All agents in the PAL Framework **MUST** follow the structure and conventions defined in this document. When creating or modifying agents, reference this file for:
+All agents in the PAL Second Brain **MUST** follow the structure and conventions defined in this document. When creating or modifying agents, reference this file for:
 
 - Required file structure and naming
 - Template sections and 8-section structure

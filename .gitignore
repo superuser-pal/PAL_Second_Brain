@@ -78,6 +78,9 @@ credentials/
 .claude/skills/CORE/MEMORY/security/
 .claude/skills/CORE/MEMORY/History/
 .claude/skills/CORE/MEMORY/Work/
+.claude/tools/
+
+docs/
 
 # PAI Active Configuration
 .claude/config/active-domain.json

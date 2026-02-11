@@ -4,7 +4,7 @@ description: Reference implementation demonstrating PAL domain structure and con
 status: active
 created: 2026-02-11
 updated: 2026-02-11
-owner: PAL Framework
+owner: PAL Second Brain
 ---
 
 # Example Domain

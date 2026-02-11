@@ -5,7 +5,7 @@ description: Create and validate PAL domains (project workspaces). USE WHEN crea
 
 # create-domain
 
-MANDATORY domain creation framework for ALL domain creation requests.
+MANDATORY domain creation system for ALL domain creation requests.
 
 ## Authoritative Source
 
