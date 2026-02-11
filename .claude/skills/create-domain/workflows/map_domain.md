@@ -23,6 +23,33 @@ ls domains/[domain-name]/04_OUTPUTS/
 ls domains/[domain-name]/05_ARCHIVE/
 ```
 
+## Step 2.5: Check README Files
+
+Verify README.md exists in each core folder:
+
+```bash
+ls domains/[domain-name]/00_CONTEXT/README.md
+ls domains/[domain-name]/01_PROJECTS/README.md
+ls domains/[domain-name]/02_SESSIONS/README.md
+ls domains/[domain-name]/03_ASSETS/README.md
+ls domains/[domain-name]/04_OUTPUTS/README.md
+ls domains/[domain-name]/05_ARCHIVE/README.md
+```
+
+**If any README is missing:**
+
+1. Report which folders are missing README files
+2. Offer to create them from templates:
+   ```bash
+   cp .claude/skills/create-domain/templates/README.00_CONTEXT.template.md domains/[domain-name]/00_CONTEXT/README.md
+   cp .claude/skills/create-domain/templates/README.01_PROJECTS.template.md domains/[domain-name]/01_PROJECTS/README.md
+   cp .claude/skills/create-domain/templates/README.02_SESSIONS.template.md domains/[domain-name]/02_SESSIONS/README.md
+   cp .claude/skills/create-domain/templates/README.03_ASSETS.template.md domains/[domain-name]/03_ASSETS/README.md
+   cp .claude/skills/create-domain/templates/README.04_OUTPUTS.template.md domains/[domain-name]/04_OUTPUTS/README.md
+   cp .claude/skills/create-domain/templates/README.05_ARCHIVE.template.md domains/[domain-name]/05_ARCHIVE/README.md
+   ```
+3. Continue with workflow after user confirms
+
 ## Step 3: Check Naming Conventions
 
 For each file found, check against expected format:
@@ -210,6 +237,14 @@ Output summary of changes:
 - 03_ASSETS/: [X] files
 - 04_OUTPUTS/: [X] files
 - 05_ARCHIVE/: [X] files
+
+### README Files
+- 00_CONTEXT/README.md: [FOUND | CREATED | MISSING]
+- 01_PROJECTS/README.md: [FOUND | CREATED | MISSING]
+- 02_SESSIONS/README.md: [FOUND | CREATED | MISSING]
+- 03_ASSETS/README.md: [FOUND | CREATED | MISSING]
+- 04_OUTPUTS/README.md: [FOUND | CREATED | MISSING]
+- 05_ARCHIVE/README.md: [FOUND | CREATED | MISSING]
 
 ### Naming Fixes Applied
 - [old_name] → [new_name]

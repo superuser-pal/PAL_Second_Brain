@@ -16,12 +16,12 @@ MANDATORY agent creation framework for ALL domain agent creation requests.
 
 ## Naming Conventions (MANDATORY)
 
-| Category             | Convention         | Example                | Purpose                               |
-| :------------------- | :----------------- | :--------------------- | :------------------------------------ |
-| **Agent file**       | `lower-kebab-case` | `blog-agent.md`        | Agent definition in `.claude/agents/` |
-| **YAML name**        | `lower-kebab-case` | `name: blog-agent`     | Matches file name                     |
-| **Domain field**     | `lower-kebab-case` | `domain: blog-content` | Matches domain directory              |
-| **Routing entry**    | `lower-kebab-case` | `name: blog-agent`     | Entry in `ROUTING_TABLE.md`           |
+| Category          | Convention         | Example                | Purpose                               |
+| :---------------- | :----------------- | :--------------------- | :------------------------------------ |
+| **Agent file**    | `lower-kebab-case` | `blog-agent.md`        | Agent definition in `.claude/agents/` |
+| **YAML name**     | `lower-kebab-case` | `name: blog-agent`     | Matches file name                     |
+| **Domain field**  | `lower-kebab-case` | `domain: blog-content` | Matches domain directory              |
+| **Routing entry** | `lower-kebab-case` | `name: blog-agent`     | Entry in `ROUTING_TABLE.md`           |
 
 **Key Rules:**
 
@@ -48,6 +48,7 @@ Before creating any agent file, verify:
 | :----------------- | :------------------------------ | :---------------------------- |
 | **create_agent**   | "create agent", "new agent"     | `workflows/create_agent.md`   |
 | **validate_agent** | "validate agent", "check agent" | `workflows/validate_agent.md` |
+| **adapt_agent**    | "adapt agent", "fix agent"      | `workflows/adapt_agent.md`    |
 
 ---
 
@@ -111,6 +112,19 @@ User: "Create a project-alpha agent"
    Would you like me to create it first?"
 3. If user confirms: invoke create-domain skill
 4. Once domain exists with INDEX.md: proceed with agent creation (Example 1)
+```
+
+**Example 4: Adapt a non-standard agent**
+
+```
+User: "Adapt this custom agent to the PAL template"
+1. Read existing agent file
+2. Identify non-standard sections or complex logic
+3. Create domains/[domain]/00_CONTEXT/[agent]_logic.md
+4. Move custom logic to the new context file
+5. Re-author the agent file using agent_template.md
+6. Reference the logic file in Activation Protocol (Section 2)
+7. Run validate-agent to confirm compliance
 ```
 
 ---

@@ -121,14 +121,25 @@ Set up the context configuration in the Activation Protocol section (Section 2):
 
 ```markdown
 - [AUTO] `domains/[domain-name]/INDEX.md` — Domain Source of Truth
-- [REF] `domains/[domain-name]/00_CONTEXT/` — Domain-specific context and reference docs
-- [REF] `domains/[domain-name]/01_PROJECTS/` — Active project files
-- [REF] `domains/[domain-name]/02_SESSIONS/` — Session logs
-- [REF] `domains/[domain-name]/03_ASSETS/` — Reference materials and resources
-- [REF] `domains/[domain-name]/04_OUTPUTS/` — Generated deliverables
-- [REF] `domains/[domain-name]/05_ARCHIVE/` — Completed or deprecated items
+- [REF] `domains/[domain-name]/00_CONTEXT/` — Background knowledge and domain-specific context documents
+- [REF] `domains/[domain-name]/01_PROJECTS/` — Active project files tracked in INDEX.md Active Work table
+- [REF] `domains/[domain-name]/02_SESSIONS/` — Session logs capturing discussions, changes, and decisions
+- [REF] `domains/[domain-name]/03_ASSETS/` — External reference materials (docs, data, PDFs, images)
+- [REF] `domains/[domain-name]/04_OUTPUTS/` — Agent-generated deliverables and content
+- [REF] `domains/[domain-name]/05_ARCHIVE/` — Deprecated content excluded from active context
 - [REF] `domains/[domain-name]/CONNECTIONS.yaml` — Domain connections and integrations
 ```
+
+**Folder Purpose Reference:**
+
+| Folder | Purpose |
+|--------|---------|
+| `00_CONTEXT/` | Background knowledge the agent loads for domain understanding |
+| `01_PROJECTS/` | Active project files with status tracked in INDEX.md |
+| `02_SESSIONS/` | Memory system for session discussions and decisions |
+| `03_ASSETS/` | External reference materials (docs, data, media) |
+| `04_OUTPUTS/` | Agent-generated deliverables |
+| `05_ARCHIVE/` | Deprecated content excluded from context |
 
 **Loading Mode Guidelines:**
 
@@ -154,8 +165,9 @@ Set up the standard command table:
 | 2 | `*skills` | List my skills | Display Section 5 → Skills |
 | 3 | `*workflows` | List my workflows | Display Section 5 → Workflows |
 | 4 | `*context` | Show loaded context and session state | Show loaded files by layer, active skill (Sec 6) |
-| 5 | `*help` | Agent help and documentation | Show responsibilities summary |
-| 6 | `*dismiss` | Dismiss this agent | Confirm with user, end session, return to PAL Master |
+| 5 | `*save-session` | Save current session to log | Create session log in 02_SESSIONS/ (see Rule 11) |
+| 6 | `*help` | Agent help and documentation | Show responsibilities summary |
+| 7 | `*dismiss` | Dismiss this agent | Auto-save session log, confirm, return to PAL Master |
 
 ## Step 11: Configure Section 4 — How I Work
 
@@ -210,7 +222,11 @@ ls .claude/skills/[skill-name]/workflows/[workflow_name].md
 
 **Section 7 — Error Handling & Recovery:** Use standard template (6 error categories, 6-step recovery protocol).
 
-**Section 8 — Operational Rules:** Include standard 10 rules, customize if domain requires additional constraints.
+**Section 8 — Operational Rules:** Include standard 11 rules, customize if domain requires additional constraints.
+
+- **Rule 11 (Session Logging)** is mandatory — ensures all sessions are logged to `02_SESSIONS/`
+- Auto-logs on `*dismiss`, manual save via `*save-session`
+- Logs include: summary, decisions, changes made, commands executed, action items
 
 ## Step 14: Set Document Metadata
 
@@ -301,7 +317,9 @@ grep "[agent-name]" PAL_Base/System/ROUTING_TABLE.md
 ### Operational Validation
 
 - [ ] First-person voice enforced in rules
-- [ ] `*dismiss` command included in menu
+- [ ] `*dismiss` command included in menu (with auto-save session)
+- [ ] `*save-session` command included in menu
+- [ ] Session logging protocol (Rule 11) present
 - [ ] Security validation referenced (GUARDRAILS.md)
 - [ ] Stay-in-character rule included
 - [ ] Out-of-scope handling defined (redirect to PAL Master)

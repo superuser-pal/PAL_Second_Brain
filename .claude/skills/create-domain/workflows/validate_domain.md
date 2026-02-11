@@ -27,14 +27,21 @@ Verify these components exist:
 | `INDEX.md` | Yes | At domain root |
 | `CONNECTIONS.yaml` | Yes | At domain root |
 | `00_CONTEXT/` | Yes | Directory exists |
+| `00_CONTEXT/README.md` | Yes | README in folder |
 | `01_PROJECTS/` | Yes | Directory exists |
+| `01_PROJECTS/README.md` | Yes | README in folder |
 | `02_SESSIONS/` | Yes | Directory exists |
+| `02_SESSIONS/README.md` | Yes | README in folder |
 | `03_ASSETS/` | Yes | Directory exists |
+| `03_ASSETS/README.md` | Yes | README in folder |
 | `04_OUTPUTS/` | Yes | Directory exists |
+| `04_OUTPUTS/README.md` | Yes | README in folder |
 | `05_ARCHIVE/` | Yes | Directory exists |
+| `05_ARCHIVE/README.md` | Yes | README in folder |
 
 ```bash
 ls -la domains/[domain-name]/
+ls domains/[domain-name]/*/README.md
 ```
 
 ## Step 4: Validate INDEX.md
@@ -119,6 +126,14 @@ Output validation results:
 - [ ] 04_OUTPUTS/ exists
 - [ ] 05_ARCHIVE/ exists
 
+### README Files Check
+- [ ] 00_CONTEXT/README.md exists
+- [ ] 01_PROJECTS/README.md exists
+- [ ] 02_SESSIONS/README.md exists
+- [ ] 03_ASSETS/README.md exists
+- [ ] 04_OUTPUTS/README.md exists
+- [ ] 05_ARCHIVE/README.md exists
+
 ### INDEX.md Check
 - [ ] Valid YAML frontmatter
 - [ ] Required fields present (name, description, status, created, updated)
@@ -157,9 +172,10 @@ If issues found, offer to fix:
 1. **Missing folders:** Create them
 2. **Missing INDEX.md:** Generate from template
 3. **Missing CONNECTIONS.yaml:** Generate empty template
-4. **Naming issues:** Suggest renames (user must approve)
-5. **Missing sections in INDEX.md:** Add template sections
-6. **Old references (plans instead of projects):** Update INDEX.md tables and links
+4. **Missing README files:** Create from templates in `.claude/skills/create-domain/templates/`
+5. **Naming issues:** Suggest renames (user must approve)
+6. **Missing sections in INDEX.md:** Add template sections
+7. **Old references (plans instead of projects):** Update INDEX.md tables and links
 
 ## Done
 

@@ -94,9 +94,9 @@ Greet user by name, state your role in one sentence, then display the **Command 
 | 2   | `*skills`    | List my skills                        | Display Section 5 → Skills                                     |
 | 3   | `*workflows` | List my workflows                     | Display Section 5 → Workflows                                  |
 | 4   | `*agents`    | Show available domain agents          | Load `ROUTING_TABLE.md` → display all agents                   |
-| 5   | `*context`   | Show loaded context and session state | Show loaded files by layer, active skill, and session state     |
-| 6   | `*help`      | PAL system help and documentation     | Show responsibilities summary and reference `ORCHESTRATION.md`  |
-| 7   | `*dismiss`   | Dismiss PAL Master agent              | End PAL Master session, confirm with user before closing        |
+| 5   | `*context`   | Show loaded context and session state | Show loaded files by layer, active skill, and session state    |
+| 6   | `*help`      | PAL system help and documentation     | Show responsibilities summary and reference `ORCHESTRATION.md` |
+| 7   | `*dismiss`   | Dismiss PAL Master agent              | End PAL Master session, confirm with user before closing       |
 
 **What changed:** `*skills` and `*workflows` no longer load an external file — they read from Section 5 (already in context). Only `*agents` loads an external file (`ROUTING_TABLE.md`), which is ~20 lines.
 
@@ -207,6 +207,11 @@ When delegating to a skill or agent:
   source: create-agent/validate_agent
   location: .claude/skills/create-agent/workflows/validate_agent.md
   use_when: "User says 'validate agent' or 'check agent'"
+
+- name: adapt-agent
+  source: create-agent/adapt_agent
+  location: .claude/skills/create-agent/workflows/adapt_agent.md
+  use_when: "User says 'adapt agent' or 'fix agent template'"
 
 - name: create-domain
   source: create-domain/create_domain

@@ -37,7 +37,22 @@ mkdir -p domains/[domain-name]/04_OUTPUTS
 mkdir -p domains/[domain-name]/05_ARCHIVE
 ```
 
-## Step 5: Create INDEX.md
+## Step 5: Create README.md Files
+
+Create README.md in each core folder from templates:
+
+```bash
+cp .claude/skills/create-domain/templates/README.00_CONTEXT.template.md domains/[domain-name]/00_CONTEXT/README.md
+cp .claude/skills/create-domain/templates/README.01_PROJECTS.template.md domains/[domain-name]/01_PROJECTS/README.md
+cp .claude/skills/create-domain/templates/README.02_SESSIONS.template.md domains/[domain-name]/02_SESSIONS/README.md
+cp .claude/skills/create-domain/templates/README.03_ASSETS.template.md domains/[domain-name]/03_ASSETS/README.md
+cp .claude/skills/create-domain/templates/README.04_OUTPUTS.template.md domains/[domain-name]/04_OUTPUTS/README.md
+cp .claude/skills/create-domain/templates/README.05_ARCHIVE.template.md domains/[domain-name]/05_ARCHIVE/README.md
+```
+
+Each README documents the folder's purpose, naming conventions, and usage guidelines.
+
+## Step 6: Create INDEX.md
 
 Create `domains/[domain-name]/INDEX.md` with this template:
 
@@ -81,7 +96,7 @@ owner: [Owner if provided]
 - [Archive](05_ARCHIVE/)
 ```
 
-## Step 6: Create CONNECTIONS.yaml
+## Step 7: Create CONNECTIONS.yaml
 
 Create `domains/[domain-name]/CONNECTIONS.yaml` with schema template:
 
@@ -107,26 +122,27 @@ data_sources: []
   #   notes: Access notes
 ```
 
-## Step 7: Verify Structure
+## Step 8: Verify Structure
 
 Run verification:
 
 ```bash
 ls -la domains/[domain-name]/
+ls domains/[domain-name]/*/README.md
 ```
 
 Expected output:
 
 - `INDEX.md`
 - `CONNECTIONS.yaml`
-- `00_CONTEXT/`
-- `01_PROJECTS/`
-- `02_SESSIONS/`
-- `03_ASSETS/`
-- `04_OUTPUTS/`
-- `05_ARCHIVE/`
+- `00_CONTEXT/` (with README.md)
+- `01_PROJECTS/` (with README.md)
+- `02_SESSIONS/` (with README.md)
+- `03_ASSETS/` (with README.md)
+- `04_OUTPUTS/` (with README.md)
+- `05_ARCHIVE/` (with README.md)
 
-## Step 8: Final Checklist
+## Step 9: Final Checklist
 
 ### Structure
 
@@ -145,6 +161,15 @@ Expected output:
 ### Naming
 
 - [ ] Core folders use NN_UPPER_CASE format (01_PROJECTS, not projects)
+
+### README Files
+
+- [ ] 00_CONTEXT/README.md exists
+- [ ] 01_PROJECTS/README.md exists
+- [ ] 02_SESSIONS/README.md exists
+- [ ] 03_ASSETS/README.md exists
+- [ ] 04_OUTPUTS/README.md exists
+- [ ] 05_ARCHIVE/README.md exists
 
 ## Done
 

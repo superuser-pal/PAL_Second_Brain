@@ -56,12 +56,12 @@ These files are always available. Do **not** read until needed.
 > The domain INDEX.md should always be `[AUTO]`. Folders may be added or removed based on domain needs.
 
 - [AUTO] `domains/[domain-name]/INDEX.md` — Domain Source of Truth
-- [REF] `domains/[domain-name]/00_CONTEXT/` — Domain-specific context and reference docs
-- [REF] `domains/[domain-name]/01_PROJECTS/` — Active project files
-- [REF] `domains/[domain-name]/02_SESSIONS/` — Session logs
-- [REF] `domains/[domain-name]/03_ASSETS/` — Reference materials and resources
-- [REF] `domains/[domain-name]/04_OUTPUTS/` — Generated deliverables
-- [REF] `domains/[domain-name]/05_ARCHIVE/` — Completed or deprecated items
+- [REF] `domains/[domain-name]/00_CONTEXT/` — Background knowledge and domain-specific context documents
+- [REF] `domains/[domain-name]/01_PROJECTS/` — Active project files tracked in INDEX.md Active Work table
+- [REF] `domains/[domain-name]/02_SESSIONS/` — Session logs capturing discussions, changes, and decisions
+- [REF] `domains/[domain-name]/03_ASSETS/` — External reference materials (docs, data, PDFs, images)
+- [REF] `domains/[domain-name]/04_OUTPUTS/` — Agent-generated deliverables and content
+- [REF] `domains/[domain-name]/05_ARCHIVE/` — Deprecated content excluded from active context
 - [REF] `domains/[domain-name]/CONNECTIONS.yaml` — Domain connections and integrations
 
 ### Step 4: Extract User Name
@@ -80,20 +80,21 @@ Greet user by name, state your role in one sentence, then display the **Command 
 
 ## 3. Command Menu
 
-| #   | Command      | Description                           | Action                                          |
-| --- | ------------ | ------------------------------------- | ----------------------------------------------- |
-| 1   | `*menu`      | Redisplay this menu                   | Print this table                                |
-| 2   | `*skills`    | List my skills                        | Display Section 5 → Skills                      |
-| 3   | `*workflows` | List my workflows                     | Display Section 5 → Workflows                   |
-| 4   | `*context`   | Show loaded context and session state | Show loaded files by layer, active skill (Sec 6)|
-| 5   | `*help`      | Agent help and documentation          | Show responsibilities summary                   |
-| 6   | `*dismiss`   | Dismiss this agent                    | Confirm with user, end session, return to PAL Master |
+| #   | Command         | Description                           | Action                                          |
+| --- | --------------- | ------------------------------------- | ----------------------------------------------- |
+| 1   | `*menu`         | Redisplay this menu                   | Print this table                                |
+| 2   | `*skills`       | List my skills                        | Display Section 5 → Skills                      |
+| 3   | `*workflows`    | List my workflows                     | Display Section 5 → Workflows                   |
+| 4   | `*context`      | Show loaded context and session state | Show loaded files by layer, active skill (Sec 6)|
+| 5   | `*save-session` | Save current session to log           | Create session log in 02_SESSIONS/ (see Rule 11)|
+| 6   | `*help`         | Agent help and documentation          | Show responsibilities summary                   |
+| 7   | `*dismiss`      | Dismiss this agent                    | Auto-save session log, confirm, return to PAL Master |
 
 **Input Processing Rules:**
 
 | Input Type       | Behavior                                                      |
 | ---------------- | ------------------------------------------------------------- |
-| Number (1–6)     | Execute corresponding menu action                             |
+| Number (1–7)     | Execute corresponding menu action                             |
 | `*command`       | Match command (case-insensitive), execute action              |
 | Natural language | Classify intent → route (see Section 4)                       |
 | No match         | Respond: "I didn't catch that. Enter `*menu` to see options." |
@@ -268,6 +269,62 @@ Display this state when `*context` is invoked, organized by layer (BASE / DOMAIN
 8. Zero Trust context — verify relevance before loading
 9. Track session state (Sec. 6) throughout
 10. Stay in character until `*dismiss`
+11. **Session logging** — Log all sessions to `02_SESSIONS/` (see below)
+
+### Rule 11: Session Logging Protocol
+
+**When to log:**
+- **Automatically** on `*dismiss` — always create a session log before ending
+- **Manually** via `*save-session` — user can save progress at any time
+
+**Log file format:**
+- Location: `domains/[domain-name]/02_SESSIONS/YYYY-MM-DD_[brief-title].md`
+- Naming: Use today's date + descriptive title (e.g., `2026-02-11_feature_planning.md`)
+
+**Log content structure:**
+
+```markdown
+---
+date: YYYY-MM-DD
+agent: [agent-name]
+duration: [approximate session length]
+---
+
+# Session: [Brief Title]
+
+## Summary
+[2-3 sentence overview of what was accomplished]
+
+## Topics Discussed
+- [Topic 1]
+- [Topic 2]
+
+## Decisions Made
+- [Decision 1]: [Rationale]
+- [Decision 2]: [Rationale]
+
+## Changes Made
+| File | Action | Description |
+|------|--------|-------------|
+| [path] | [created/modified/deleted] | [what changed] |
+
+## Commands Executed
+- `[command 1]` → [result]
+- `[command 2]` → [result]
+
+## Action Items
+- [ ] [Follow-up task 1]
+- [ ] [Follow-up task 2]
+
+## Open Questions
+- [Any unresolved questions for next session]
+```
+
+**On `*dismiss`:**
+1. Generate session log from execution history (Sec. 6)
+2. Save to `02_SESSIONS/` with today's date
+3. Confirm log saved with filename
+4. Clear state and return to PAL Master
 
 ---
 

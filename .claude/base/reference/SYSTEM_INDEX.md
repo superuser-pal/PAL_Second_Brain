@@ -15,51 +15,51 @@ status: GENERATED — Do not edit manually. Run `map-domain` to regenerate.
 
 ## Agents
 
-| Agent | Domain | Location |
-|-------|--------|----------|
-| pal-master | none | .claude/agents/pal-master.md |
-| blog-agent | blog-content | .claude/agents/blog-agent.md |
-| finance-agent | finance | .claude/agents/finance-agent.md |
-| devops-agent | devops | .claude/agents/devops-agent.md |
+| Agent         | Domain       | Location                        |
+| ------------- | ------------ | ------------------------------- |
+| pal-master    | none         | .claude/agents/pal-master.md    |
+| blog-agent    | blog-content | .claude/agents/blog-agent.md    |
+| finance-agent | finance      | .claude/agents/finance-agent.md |
+| devops-agent  | devops       | .claude/agents/devops-agent.md  |
 
 ## All Skills
 
-| Skill | Agent | Location | Use When |
-|-------|-------|----------|----------|
-| create-agent | pal-master | .claude/skills/create-agent/SKILL.md | User wants to create, validate, or check a domain agent |
-| create-domain | pal-master | .claude/skills/create-domain/SKILL.md | User wants to create, validate, map, or archive a domain workspace |
-| patterns-document | pal-master | .claude/skills/patterns-document/SKILL.md | User wants to reverse-engineer a framework into reusable documentation |
-| blogging | blog-agent | .claude/skills/blogging/SKILL.md | User wants to write, edit, or manage blog posts |
-| seo-optimizer | blog-agent | .claude/skills/seo-optimizer/SKILL.md | User wants to optimize content for search engines |
-| budget-tracker | finance-agent | .claude/skills/budget-tracker/SKILL.md | User wants to track expenses, income, or budget categories |
-| financial-reporting | finance-agent | .claude/skills/financial-reporting/SKILL.md | User wants to generate financial reports or summaries |
-| deploy | devops-agent | .claude/skills/deploy/SKILL.md | User wants to deploy to staging or production |
+| Skill               | Agent         | Location                                    | Use When                                                               |
+| ------------------- | ------------- | ------------------------------------------- | ---------------------------------------------------------------------- |
+| create-agent        | pal-master    | .claude/skills/create-agent/SKILL.md        | User wants to create, validate, or check a domain agent                |
+| create-domain       | pal-master    | .claude/skills/create-domain/SKILL.md       | User wants to create, validate, map, or archive a domain workspace     |
+| patterns-document   | pal-master    | .claude/skills/patterns-document/SKILL.md   | User wants to reverse-engineer a framework into reusable documentation |
+| blogging            | blog-agent    | .claude/skills/blogging/SKILL.md            | User wants to write, edit, or manage blog posts                        |
+| seo-optimizer       | blog-agent    | .claude/skills/seo-optimizer/SKILL.md       | User wants to optimize content for search engines                      |
+| budget-tracker      | finance-agent | .claude/skills/budget-tracker/SKILL.md      | User wants to track expenses, income, or budget categories             |
+| financial-reporting | finance-agent | .claude/skills/financial-reporting/SKILL.md | User wants to generate financial reports or summaries                  |
+| deploy              | devops-agent  | .claude/skills/deploy/SKILL.md              | User wants to deploy to staging or production                          |
 
 ## All Workflows
 
-| Workflow | Agent | Source | Location |
-|----------|-------|--------|----------|
-| create-agent | pal-master | create-agent/create_agent | .claude/skills/create-agent/workflows/create_agent.md |
-| validate-agent | pal-master | create-agent/validate_agent | .claude/skills/create-agent/workflows/validate_agent.md |
-| create-domain | pal-master | create-domain/create_domain | .claude/skills/create-domain/workflows/create_domain.md |
-| validate-domain | pal-master | create-domain/validate_domain | .claude/skills/create-domain/workflows/validate_domain.md |
-| map-domain | pal-master | create-domain/map_domain | .claude/skills/create-domain/workflows/map_domain.md |
-| archive-domain | pal-master | create-domain/archive_domain | .claude/skills/create-domain/workflows/archive_domain.md |
-| create-post | blog-agent | blogging/create_post | .claude/skills/blogging/workflows/create_post.md |
-| edit-post | blog-agent | blogging/edit_post | .claude/skills/blogging/workflows/edit_post.md |
-| optimize-seo | blog-agent | seo-optimizer/optimize_seo | .claude/skills/seo-optimizer/workflows/optimize_seo.md |
-| monthly-report | finance-agent | financial-reporting/monthly_report | .claude/skills/financial-reporting/workflows/monthly_report.md |
-| log-expense | finance-agent | budget-tracker/log_expense | .claude/skills/budget-tracker/workflows/log_expense.md |
-| deploy-staging | devops-agent | deploy/deploy_staging | .claude/skills/deploy/workflows/deploy_staging.md |
-| deploy-production | devops-agent | deploy/deploy_production | .claude/skills/deploy/workflows/deploy_production.md |
+| Workflow          | Agent         | Source                             | Location                                                       |
+| ----------------- | ------------- | ---------------------------------- | -------------------------------------------------------------- |
+| create-agent      | pal-master    | create-agent/create_agent          | .claude/skills/create-agent/workflows/create_agent.md          |
+| validate-agent    | pal-master    | create-agent/validate_agent        | .claude/skills/create-agent/workflows/validate_agent.md        |
+| create-domain     | pal-master    | create-domain/create_domain        | .claude/skills/create-domain/workflows/create_domain.md        |
+| validate-domain   | pal-master    | create-domain/validate_domain      | .claude/skills/create-domain/workflows/validate_domain.md      |
+| map-domain        | pal-master    | create-domain/map_domain           | .claude/skills/create-domain/workflows/map_domain.md           |
+| archive-domain    | pal-master    | create-domain/archive_domain       | .claude/skills/create-domain/workflows/archive_domain.md       |
+| create-post       | blog-agent    | blogging/create_post               | .claude/skills/blogging/workflows/create_post.md               |
+| edit-post         | blog-agent    | blogging/edit_post                 | .claude/skills/blogging/workflows/edit_post.md                 |
+| optimize-seo      | blog-agent    | seo-optimizer/optimize_seo         | .claude/skills/seo-optimizer/workflows/optimize_seo.md         |
+| monthly-report    | finance-agent | financial-reporting/monthly_report | .claude/skills/financial-reporting/workflows/monthly_report.md |
+| log-expense       | finance-agent | budget-tracker/log_expense         | .claude/skills/budget-tracker/workflows/log_expense.md         |
+| deploy-staging    | devops-agent  | deploy/deploy_staging              | .claude/skills/deploy/workflows/deploy_staging.md              |
+| deploy-production | devops-agent  | deploy/deploy_production           | .claude/skills/deploy/workflows/deploy_production.md           |
 
 ## All Prompts
 
-| Prompt | Agent | Location | Use When |
-|--------|-------|----------|----------|
-| blog-post-outline | blog-agent | .claude/prompts/blog-post-outline.md | User needs a structured outline before writing a post |
-| technical-writing-tone | blog-agent | .claude/prompts/technical-writing-tone.md | User wants to write in a technical/educational tone |
-| executive-summary | finance-agent | .claude/prompts/executive-summary.md | User wants a concise executive summary format for reports |
+| Prompt                 | Agent         | Location                                  | Use When                                                  |
+| ---------------------- | ------------- | ----------------------------------------- | --------------------------------------------------------- |
+| blog-post-outline      | blog-agent    | .claude/prompts/blog-post-outline.md      | User needs a structured outline before writing a post     |
+| technical-writing-tone | blog-agent    | .claude/prompts/technical-writing-tone.md | User wants to write in a technical/educational tone       |
+| executive-summary      | finance-agent | .claude/prompts/executive-summary.md      | User wants a concise executive summary format for reports |
 
 ---
 

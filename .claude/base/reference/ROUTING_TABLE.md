@@ -24,6 +24,11 @@ last_updated: 2026-02-07
   location: .claude/agents/finance-agent.md
   routes_to: "budgets, expenses, income tracking, financial reports"
 
+- name: security-agent
+  domain: security-audits
+  location: .claude/agents/security-agent.md
+  routes_to: "security, audit, vulnerability, penetration test"
+
 - name: devops-agent
   domain: devops
   location: .claude/agents/devops-agent.md
