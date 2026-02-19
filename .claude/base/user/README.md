@@ -204,20 +204,22 @@ This layer contains **sensitive personal information**:
 ### Ask PAL About Your Context
 
 ```
+
 "What do you know about me?"
 → References ABOUTME.md
 
-"What are my system directives?"
-→ References DIRECTIVES.md
+"What package manager should I use?"
+→ References TECHSTACK.md
 
 "Deploy my main site"
-→ References DIGITALASSETS.md
+→ References DIGITALASSETS.md + TECHSTACK.md
 
 "Who's my financial advisor?"
 → References CONTACTS.md
 
-"What's the terminology for X?"
-→ References TERMINOLOGY.md
+"Write a speaker bio for me"
+→ References RESUME.md + ABOUTME.md
+
 ```
 
 ---
