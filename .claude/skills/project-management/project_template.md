@@ -9,7 +9,7 @@ This template defines the structure for all project files created by the `create
 name: PROJECT_NAME                    # UPPER_SNAKE_CASE (matches filename)
 status: planning                      # planning | in-progress | review | completed
 priority: medium                      # low | medium | high
-domain: domain-name                   # lower-kebab-case domain name
+domain: DomainName                    # PascalCase domain name
 created: YYYY-MM-DD                   # Creation date
 last_modified: YYYY-MM-DD             # Last modification date
 due_date: null                        # Optional: YYYY-MM-DD

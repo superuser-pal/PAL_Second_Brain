@@ -10,6 +10,7 @@ status: unprocessed
 domain: null
 project: null
 category: notes
+subsection: null
 created: 2026-02-11
 last_modified: 2026-02-11
 source_type: manual
@@ -24,7 +25,7 @@ tags: []
 | Field | Type | Description | Example |
 |-------|------|-------------|---------|
 | `status` | enum | Processing status | `ready` |
-| `domain` | string\|null | Target domain name | `project-alpha` |
+| `domain` | string\|null | Target domain name | `ProjectAlpha` |
 | `category` | enum | Note category | `research` |
 | `created` | date | Creation date | `2026-02-11` |
 | `last_modified` | date | Last modification | `2026-02-11` |
@@ -40,6 +41,20 @@ tags: []
 
 ## Category Values
 
+### LifeOS Categories (auto-route to LifeOS domain)
+
+| Category | Use For | LifeOS Location |
+|----------|---------|-----------------|
+| `beliefs.md` | Core beliefs, values, worldview | 00_CONTEXT/ |
+| `frames.md` | Mental perspectives, lenses | 00_CONTEXT/ |
+| `learned.md` | Lessons, insights, realizations | 00_CONTEXT/ |
+| `mission.md` | Purpose, life direction | 00_CONTEXT/ |
+| `models.md` | Decision frameworks | 00_CONTEXT/ |
+| `goals.md` | Objectives, aspirations | 01_PROJECTS/ |
+| `projects.md` | Active initiatives | 01_PROJECTS/ |
+
+### General Categories
+
 | Category | Use For |
 |----------|---------|
 | `research` | Research notes, findings, analysis |
@@ -48,29 +63,84 @@ tags: []
 | `reference` | Reference materials, documentation |
 | `notes` | General notes (default) |
 
+### Category Routing Logic
+
+- **LifeOS categories** (ending in `.md`): Content is appended to the target file in LifeOS domain, original note moved to `03_ASSETS/`
+- **General categories**: Note file is moved to `domains/[domain]/03_ASSETS/`
+
 ## Optional Fields
 
 | Field | Type | Description |
 |-------|------|-------------|
 | `project` | string\|null | Linked PROJECT_*.md file |
+| `subsection` | string\|null | Target subsection for smart insertion |
 | `source_type` | enum | How note was created |
 | `source_file` | string\|null | Original filename |
 | `source_url` | string\|null | Source URL |
 | `tags` | array | Categorization tags |
+
+## URL Capture Fields
+
+**Used when `source_type` is `url-article` or `url-tool`:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `url_domain` | string | Source domain (e.g., "example.com") |
+| `url_author` | string\|null | Author if detected |
+| `url_published` | date\|null | Publication date if detected |
+| `url_read_time` | string\|null | Estimated read time (e.g., "5 minutes") |
+| `content_type` | enum | article\|tool\|video\|reference\|research |
+| `relevance` | enum | high\|medium\|low |
+
+**Tool-specific fields (when `content_type: tool`):**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `pricing` | enum | free\|freemium\|paid\|enterprise |
+| `eval_status` | enum | to-evaluate\|evaluated\|in-use\|passed |
+
+### URL Capture Example
+
+```yaml
+---
+status: "ready"
+domain: null
+project: null
+category: "reference"
+subsection: null
+created: "2026-02-16"
+last_modified: "2026-02-16"
+source_type: "url-tool"
+source_file: null
+source_url: "https://github.com/example/tool"
+tags: ["url-capture", "tool", "automation"]
+url_domain: "github.com"
+url_author: null
+url_published: null
+url_read_time: null
+content_type: "tool"
+relevance: "high"
+pricing: "free"
+eval_status: "to-evaluate"
+---
+```
 
 ## Source Type Values
 
 | Type | Description |
 |------|-------------|
 | `manual` | Created manually |
+| `braindump` | Captured via braindump workflow |
 | `pdf` | Ingested from PDF |
 | `docx` | Ingested from Word document |
 | `txt` | Ingested from text file |
 | `web` | Captured from web |
+| `url-article` | URL capture - article/blog/content |
+| `url-tool` | URL capture - tool/software/utility |
 
 ## Domain Field Rules
 
-- Must be `lower-kebab-case`
+- Must be `PascalCase`
 - Must match existing domain in `domains/`
 - Set to `null` for domain-agnostic notes
 - Validated during `distribute_notes` workflow
@@ -81,6 +151,23 @@ tags: []
 - Format: `PROJECT_NAME.md` (include extension)
 - Set to `null` if not project-specific
 - When set, `distribute_notes` adds reference link to project
+
+## Subsection Field Rules
+
+- Used for smart insertion into LifeOS files
+- Set by braindump workflow based on content analysis
+- When set, distribute_notes inserts content under the `## [subsection]` heading
+- If null or heading not found, content appends at end of file
+
+| Category | Valid Subsections |
+|----------|-------------------|
+| beliefs.md | Worldview, Values, Convictions |
+| mission.md | Purpose, Vision, Direction |
+| frames.md | Mental Lenses, Perspectives |
+| models.md | Decision Frameworks, Heuristics |
+| learned.md | Insights, Realizations, Lessons |
+| goals.md | Short-term, Medium-term, Long-term |
+| projects.md | Active, Planned, On Hold |
 
 ## Tags Field Rules
 

@@ -328,7 +328,7 @@ description: Complete blog workflow. USE WHEN user mentions doing anything with 
 Each domain follows this structure:
 
 ```
-domains/project-alpha/            # lower-kebab-case directory
+domains/ProjectAlpha/             # PascalCase directory
 ├── INDEX.md                      # Source of Truth (at domain root)
 ├── CONNECTIONS.yaml              # External sources (at domain root)
 ├── 00_CONTEXT/                   # Domain-specific context and reference docs
@@ -355,7 +355,7 @@ domains/project-alpha/            # lower-kebab-case directory
 
 Domains are accessed through Domain Agents using the **two-group context model**:
 
-1. User loads agent: `/load-project-alpha-agent`
+1. User loads agent: `/load-ProjectAlpha-agent`
 2. Agent has domain binding: specifies which domain to load via `domain:` field
 3. Context loading: Agent loads **Base Context** (3 fixed REFs: ABOUTME, DIRECTIVES, GUARDRAILS) + **Domain Context** (INDEX.md as AUTO, folders as REF)
 4. Work execution: Agent operates with domain context via 6-step activation protocol

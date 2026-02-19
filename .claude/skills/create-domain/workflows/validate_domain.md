@@ -40,8 +40,8 @@ Verify these components exist:
 | `05_ARCHIVE/README.md` | Yes | README in folder |
 
 ```bash
-ls -la domains/[domain-name]/
-ls domains/[domain-name]/*/README.md
+ls -la domains/[DomainName]/
+ls domains/[DomainName]/*/README.md
 ```
 
 ## Step 4: Validate INDEX.md
@@ -52,7 +52,7 @@ Required fields:
 
 | Field | Required | Format |
 |-------|----------|--------|
-| `name` | Yes | lower-kebab-case |
+| `name` | Yes | PascalCase |
 | `description` | Yes | String |
 | `status` | Yes | active \| paused \| completed \| archived |
 | `created` | Yes | YYYY-MM-DD |
@@ -81,7 +81,7 @@ Check schema compliance:
 
 | Folder | Expected Format | Valid Examples |
 |--------|-----------------|----------------|
-| Domain directory | lower-kebab-case | `project-alpha`, `my-blog` |
+| Domain directory | PascalCase | `ProjectAlpha`, `MyBlog` |
 | Core folders | NN_UPPER_CASE | `00_CONTEXT`, `01_PROJECTS`, `02_SESSIONS` |
 
 ### File Names
@@ -101,12 +101,12 @@ Maximum depth: 3 levels below domain root.
 
 **Allowed:**
 ```
-domains/project-alpha/03_ASSETS/diagrams/architecture.png  # 3 levels - OK
+domains/ProjectAlpha/03_ASSETS/diagrams/architecture.png  # 3 levels - OK
 ```
 
 **Not Allowed:**
 ```
-domains/project-alpha/03_ASSETS/diagrams/v1/draft/file.png  # 5 levels - TOO DEEP
+domains/ProjectAlpha/03_ASSETS/diagrams/v1/draft/file.png  # 5 levels - TOO DEEP
 ```
 
 ## Step 8: Generate Report
@@ -146,7 +146,7 @@ Output validation results:
 - [ ] Required sections present (apis, documentation, data_sources)
 
 ### Naming Conventions
-- [ ] Domain directory: lower-kebab-case
+- [ ] Domain directory: PascalCase
 - [ ] Core folders: NN_UPPER_CASE
 - [ ] Context files: lower_snake_case.md format
 - [ ] Project files: PROJECT_XXX.md format

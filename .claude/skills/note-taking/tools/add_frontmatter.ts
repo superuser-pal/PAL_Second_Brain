@@ -69,7 +69,7 @@ USAGE:
 
 OPTIONS:
   --file, -f <path>       Target markdown file (required)
-  --domain, -d <name>     Domain name (lower-kebab-case)
+  --domain, -d <name>     Domain name (PascalCase)
   --project, -p <name>    Project file name (PROJECT_*.md)
   --category, -c <cat>    Category: research | meeting | idea | reference | notes
   --status, -s <status>   Status: unprocessed | ready | processed | archived

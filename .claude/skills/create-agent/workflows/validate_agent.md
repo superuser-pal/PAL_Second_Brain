@@ -45,7 +45,7 @@ Check for required fields:
 - [ ] `name` field present (lower-kebab-case)
 - [ ] `description` field present
 - [ ] `version` field present (semantic versioning: X.Y.Z)
-- [ ] `domain` field present (lower-kebab-case)
+- [ ] `domain` field present (PascalCase)
 
 Check optional fields format (if present):
 
@@ -63,16 +63,16 @@ Check optional fields format (if present):
 ### 5.1 Domain Exists
 
 ```bash
-ls domains/[domain-name]/INDEX.md
+ls domains/[DomainName]/INDEX.md
 ```
 
-- [ ] Domain directory exists at `domains/[domain-name]/`
+- [ ] Domain directory exists at `domains/[DomainName]/`
 - [ ] INDEX.md exists at domain root
 
 **If domain doesn't exist:**
 
 ```
-ISSUE: Domain '[domain-name]' not found
+ISSUE: Domain '[DomainName]' not found
 FIX: Either create the domain using create-domain skill, or update the agent's domain field to an existing domain
 ```
 
@@ -115,7 +115,7 @@ Check that the Activation Protocol section includes all four layers:
 ### 6.4 DOMAIN Layer
 
 - [ ] Section exists under "DOMAIN Layer"
-- [ ] References files from `domains/[domain-name]/`
+- [ ] References files from `domains/[DomainName]/`
 - [ ] INDEX.md marked as [AUTO]
 - [ ] Other files marked appropriately
 
@@ -184,7 +184,7 @@ Check for essential rules:
 ## Agent Validation Report: [agent-name]
 
 **File:** `.claude/agents/[agent-name].md`
-**Domain:** [domain-name]
+**Domain:** [DomainName]
 **Status:** [VALID | ISSUES FOUND]
 
 ### Summary
@@ -264,7 +264,7 @@ From AGENTS_LOGIC.md:
 ### Domain Binding
 
 - [ ] `domain` field matches valid domain in `domains/`
-- [ ] Domain INDEX.md exists at `domains/[domain-name]/INDEX.md`
+- [ ] Domain INDEX.md exists at `domains/[DomainName]/INDEX.md`
 - [ ] Domain files mapped to [AUTO]/[REF] based on relevance
 
 ### Capability Binding (if defined)

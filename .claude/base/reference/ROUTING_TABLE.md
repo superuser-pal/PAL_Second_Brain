@@ -14,23 +14,23 @@ last_updated: 2026-02-07
   location: .claude/agents/pal-master.md
   routes_to: "system operations, orchestration, domain/agent creation, pattern documentation"
 
-- name: blog-agent
-  domain: blog-content
-  location: .claude/agents/blog-agent.md
-  routes_to: "blog posts, content creation, editing, SEO optimization"
+- name: pal-builder
+  domain: pal-builder
+  location: .claude/agents/pal-builder.md
+  routes_to: "PAL system building, specification-driven development, feature implementation"
 
-- name: finance-agent
-  domain: finance
-  location: .claude/agents/finance-agent.md
-  routes_to: "budgets, expenses, income tracking, financial reports"
+- name: life-coach
+  domain: life-os
+  location: .claude/agents/life-coach.md
+  routes_to: "personal life management, mission, beliefs, goals, projects, mental models, lessons"
 
-- name: security-agent
-  domain: security-audits
-  location: .claude/agents/security-agent.md
-  routes_to: "security, audit, vulnerability, penetration test"
+- name: studio-agent
+  domain: studio
+  location: .claude/agents/studio-agent.md
+  routes_to: "video production, presentations, Scaledraw files, production media"
 
-- name: devops-agent
-  domain: devops
-  location: .claude/agents/devops-agent.md
-  routes_to: "deployments, staging, production, CI/CD, infrastructure"
+- name: substack-manager
+  domain: laralou
+  location: .claude/agents/substack-manager.md
+  routes_to: "Substack content, newsletter management, growth strategy"
 ```

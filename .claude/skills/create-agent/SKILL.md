@@ -20,7 +20,7 @@ MANDATORY agent creation system for ALL domain agent creation requests.
 | :---------------- | :----------------- | :--------------------- | :------------------------------------ |
 | **Agent file**    | `lower-kebab-case` | `blog-agent.md`        | Agent definition in `.claude/agents/` |
 | **YAML name**     | `lower-kebab-case` | `name: blog-agent`     | Matches file name                     |
-| **Domain field**  | `lower-kebab-case` | `domain: blog-content` | Matches domain directory              |
+| **Domain field**  | `PascalCase`       | `domain: BlogContent`  | Matches domain directory              |
 | **Routing entry** | `lower-kebab-case` | `name: blog-agent`     | Entry in `ROUTING_TABLE.md`           |
 
 **Key Rules:**
@@ -36,7 +36,7 @@ MANDATORY agent creation system for ALL domain agent creation requests.
 
 Before creating any agent file, verify:
 
-1. **Domain exists** — Check that `domains/[domain-name]/INDEX.md` exists
+1. **Domain exists** — Check that `domains/[DomainName]/INDEX.md` exists
 2. **If domain missing** — STOP. Ask user to create the domain first (or invoke `create-domain` skill). Do NOT create an agent without a valid domain.
 3. **No duplicate** — Check `.claude/agents/` for an existing agent with the same name
 
@@ -84,7 +84,7 @@ User: "Validate the security-agent"
    → Has exactly 4 fields: name, description, version, domain
    → No skills/workflows/prompts in YAML
 3. Validate domain binding:
-   → Domain exists at domains/[domain-name]/
+   → Domain exists at domains/[DomainName]/
    → INDEX.md present in domain directory
 4. Validate 8-section structure:
    → Identity & Persona, Activation Protocol, Command Menu,
@@ -106,9 +106,9 @@ User: "Validate the security-agent"
 **Example 3: Create agent for non-existent domain**
 
 ```
-User: "Create a project-alpha agent"
-1. Check domains/project-alpha/ → NOT FOUND
-2. STOP — inform user: "The domain 'project-alpha' doesn't exist yet.
+User: "Create a ProjectAlpha agent"
+1. Check domains/ProjectAlpha/ → NOT FOUND
+2. STOP — inform user: "The domain 'ProjectAlpha' doesn't exist yet.
    Would you like me to create it first?"
 3. If user confirms: invoke create-domain skill
 4. Once domain exists with INDEX.md: proceed with agent creation (Example 1)
@@ -138,7 +138,7 @@ User: "Adapt this custom agent to the PAL template"
 - `name` — lower-kebab-case, matches filename
 - `description` — Brief purpose
 - `version` — Semantic version
-- `domain` — Must match an existing domain in `domains/`
+- `domain` — PascalCase, must match an existing domain in `domains/`
 
 **No other YAML fields.** Capabilities are declared inline in Section 5.
 
@@ -161,7 +161,7 @@ User: "Adapt this custom agent to the PAL template"
 **Base Domain Structure:**
 
 ```
-domains/[domain-name]/
+domains/[DomainName]/
 ├── 00_CONTEXT/
 ├── 01_PROJECTS/
 ├── 02_SESSIONS/

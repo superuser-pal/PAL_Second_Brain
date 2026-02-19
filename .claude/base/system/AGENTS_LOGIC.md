@@ -89,7 +89,7 @@ All agents in the PAL Second Brain **MUST** follow the structure and conventions
 | :--------------------- | :-------------------- | :--------------------- | :----------------------- |
 | **Agent file**         | `lower-kebab-case.md` | `blog-agent.md`        | Agent definition file    |
 | **YAML name**          | `lower-kebab-case`    | `name: blog-agent`     | Matches file name        |
-| **Domain field**       | `lower-kebab-case`    | `domain: blog-content` | Matches domain directory |
+| **Domain field**       | `PascalCase`          | `domain: BlogContent`  | Matches domain directory |
 | **Invocation command** | `/load-[agent-name]`  | `/load-blog-agent`     | Load and activate agent  |
 | **Dismiss command**    | `*dismiss`            | `*dismiss`             | End agent session        |
 
@@ -128,7 +128,7 @@ Agents reference files from their respective locations — no duplication:
 | :----------------- | :-------------------------------------- | :--------------------------------------------------- |
 | **Workflows**      | `.claude/skills/[SkillName]/workflows/` | `.claude/skills/Blogging/workflows/create-post.md`   |
 | **Templates**      | `.claude/skills/[SkillName]/templates/` | `.claude/skills/Blogging/templates/post-template.md` |
-| **Domain Context** | `domains/[domain-name]/`                | `domains/blog-content/INDEX.md`                      |
+| **Domain Context** | `domains/[DomainName]/`                 | `domains/BlogContent/INDEX.md`                       |
 | **Base Files**     | `.claude/base/`                         | `.claude/base/user/ABOUTME.md`                       |
 | **Routing Table**  | `.claude/base/reference/`               | `.claude/base/reference/ROUTING_TABLE.md`            |
 
@@ -187,7 +187,7 @@ Mapped from the domain's `INDEX.md`. Each agent author decides what is `[AUTO]` 
 **Base domain structure:**
 
 ```
-domains/[domain-name]/
+domains/[DomainName]/
 ├── 00_CONTEXT/        # Domain-specific context and reference docs
 ├── 01_PROJECTS/       # Active project files
 ├── 02_SESSIONS/       # Session logs
@@ -218,16 +218,16 @@ This is the standard structure. Agent authors may add or remove folders based on
 - [REF] `PAL_Base/User/DIRECTIVES.md`
 - [REF] `PAL_Base/Security/GUARDRAILS.md`
 
-**Domain Context (blog-content):**
+**Domain Context (BlogContent):**
 
-- [AUTO] `domains/blog-content/INDEX.md` — Domain source of truth
-- [REF] `domains/blog-content/00_CONTEXT/` — Domain reference docs
-- [REF] `domains/blog-content/01_PROJECTS/` — Active projects
-- [REF] `domains/blog-content/02_SESSIONS/` — Session logs
-- [REF] `domains/blog-content/03_ASSETS/` — Reference materials
-- [REF] `domains/blog-content/04_OUTPUTS/` — Generated deliverables
-- [REF] `domains/blog-content/05_ARCHIVE/` — Archived items
-- [REF] `domains/blog-content/CONNECTIONS.yaml` — Integrations
+- [AUTO] `domains/BlogContent/INDEX.md` — Domain source of truth
+- [REF] `domains/BlogContent/00_CONTEXT/` — Domain reference docs
+- [REF] `domains/BlogContent/01_PROJECTS/` — Active projects
+- [REF] `domains/BlogContent/02_SESSIONS/` — Session logs
+- [REF] `domains/BlogContent/03_ASSETS/` — Reference materials
+- [REF] `domains/BlogContent/04_OUTPUTS/` — Generated deliverables
+- [REF] `domains/BlogContent/05_ARCHIVE/` — Archived items
+- [REF] `domains/BlogContent/CONNECTIONS.yaml` — Integrations
 ```
 
 ---

@@ -46,9 +46,9 @@ If a domain does not follow this structure, it will not load correctly when acce
 
 | Category             | Convention            | Example                | Purpose                                          |
 | :------------------- | :-------------------- | :--------------------- | :----------------------------------------------- |
-| **Domain directory** | `lower-kebab-case`    | `project-alpha/`       | Standard IDE navigation.                         |
-| **INDEX.md**         | `UPPER_SNAKE_CASE.md` | `INDEX.md`             | Source of Truth file (at domain root).           |
-| **CONNECTIONS.yaml** | `UPPER_SNAKE_CASE`    | `CONNECTIONS.yaml`     | External sources configuration (at domain root). |
+| **Domain directory** | `PascalCase`          | `ProjectAlpha/`        | Standard IDE navigation.                         |
+| **INDEX.md**         | `UPPERCASE.md`        | `INDEX.md`             | Source of Truth file (at domain root).           |
+| **CONNECTIONS.yaml** | `UPPERCASE.yaml`      | `CONNECTIONS.yaml`     | External sources configuration (at domain root). |
 | **Core folders**     | `NN_UPPER_CASE`       | `01_PROJECTS/`         | Numbered prefixes for sorting + visibility.      |
 | **Context files**    | `lower_snake_case.md` | `background_info.md`   | Reference docs in 00_CONTEXT/.                   |
 | **Project files**    | `UPPER_SNAKE_CASE.md` | `PROJECT_FEATURE_X.md` | Active project files in 01_PROJECTS/.            |
@@ -58,7 +58,7 @@ If a domain does not follow this structure, it will not load correctly when acce
 
 **Convention Rules:**
 
-- **Domain directories:** Use `lower-kebab-case` for standard IDE navigation
+- **Domain directories:** Use `PascalCase` for standard IDE navigation
 - **INDEX.md and CONNECTIONS.yaml:** Always at domain root (not in a subdirectory)
 - **Core folders:** Numbered prefix (00*, 01*, etc.) + UPPER_CASE for visibility and sorting
 - **Context files:** Use `lower_snake_case` for reference docs and domain background
@@ -75,7 +75,7 @@ If a domain does not follow this structure, it will not load correctly when acce
 Every domain follows this structure:
 
 ```
-domains/domain-name/              # lower-kebab-case directory name
+domains/DomainName/               # PascalCase directory name
 ├── INDEX.md                      # Source of Truth (at domain root)
 ├── CONNECTIONS.yaml              # External sources (at domain root)
 ├── 00_CONTEXT/                   # Domain-specific context and reference docs
@@ -122,7 +122,7 @@ The INDEX.md file at the domain root serves as the **Source of Truth** for the d
 
 ```markdown
 ---
-name: domain-name
+name: DomainName
 description: Brief description of what this domain covers.
 status: active | paused | completed | archived
 created: YYYY-MM-DD
@@ -165,7 +165,7 @@ owner: [Owner name or team]
 
 | Field         | Required | Description                                         |
 | ------------- | -------- | --------------------------------------------------- |
-| `name`        | Yes      | Domain name in lower-kebab-case                     |
+| `name`        | Yes      | Domain name in PascalCase                           |
 | `description` | Yes      | Brief description of domain scope                   |
 | `status`      | Yes      | Current status: active, paused, completed, archived |
 | `created`     | Yes      | Creation date in YYYY-MM-DD format                  |
@@ -238,7 +238,7 @@ data_sources:
 
 Domains are accessed through **Domain Agents**. The workflow:
 
-1. **User loads agent:** User invokes a Domain Agent (e.g., `/load-project-alpha-agent`)
+1. **User loads agent:** User invokes a Domain Agent (e.g., `/load-ProjectAlpha-agent`)
 2. **Agent has domain binding:** The agent's YAML frontmatter specifies which domain it binds to via the `domain:` field
 3. **Context loading:** Agent loads Base Context (3 fixed REFs: ABOUTME, DIRECTIVES, GUARDRAILS) plus Domain Context (INDEX.md as AUTO, domain folders as REF)
 4. **Work execution:** Agent operates with domain context, reading from assets and updating projects/sessions
@@ -252,7 +252,7 @@ In the agent's YAML frontmatter, domain binding is specified:
 name: project-alpha-agent
 description: Domain agent for Project Alpha
 version: 1.0.0
-domain: project-alpha
+domain: ProjectAlpha
 ---
 ```
 
@@ -410,7 +410,7 @@ Before a domain is complete:
 
 ### Structure
 
-- [ ] Domain directory uses lower-kebab-case
+- [ ] Domain directory uses PascalCase
 - [ ] INDEX.md exists at domain root
 - [ ] CONNECTIONS.yaml exists at domain root (can be empty if no external sources)
 - [ ] All six core folders exist (00_CONTEXT, 01_PROJECTS, 02_SESSIONS, 03_ASSETS, 04_OUTPUTS, 05_ARCHIVE)
@@ -444,7 +444,7 @@ Before a domain is complete:
 
 | Component            | Purpose                      | Location / Naming                         |
 | :------------------- | :--------------------------- | :---------------------------------------- |
-| **Domain directory** | Contains all domain files    | lower-kebab-case (e.g., `project-alpha/`) |
+| **Domain directory** | Contains all domain files    | PascalCase (e.g., `ProjectAlpha/`)        |
 | **INDEX.md**         | Source of Truth              | Domain root                               |
 | **CONNECTIONS.yaml** | External sources config      | Domain root                               |
 | **00_CONTEXT/**      | Domain context and reference | lower_snake_case.md files                 |

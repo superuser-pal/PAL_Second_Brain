@@ -17,9 +17,9 @@ MANDATORY domain creation system for ALL domain creation requests.
 
 | Category             | Convention            | Example                  | Purpose                                     |
 | :------------------- | :-------------------- | :----------------------- | :------------------------------------------ |
-| **Domain directory** | `lower-kebab-case`    | `project-alpha/`         | Standard IDE navigation.                    |
-| **INDEX.md**         | `UPPER_SNAKE_CASE.md` | `INDEX.md`               | Source of Truth file (at domain root).      |
-| **CONNECTIONS.yaml** | `UPPER_SNAKE_CASE`    | `CONNECTIONS.yaml`       | External sources configuration.             |
+| **Domain directory** | `PascalCase`          | `ProjectAlpha/`          | Standard IDE navigation.                    |
+| **INDEX.md**         | `UPPERCASE.md`        | `INDEX.md`               | Source of Truth file (at domain root).      |
+| **CONNECTIONS.yaml** | `UPPERCASE.yaml`      | `CONNECTIONS.yaml`       | External sources configuration.             |
 | **Core folders**     | `NN_UPPER_CASE`       | `01_PROJECTS/`           | Numbered prefixes for sorting + visibility. |
 | **Context files**    | `lower_snake_case.md` | `background_info.md`     | Reference docs in 00_CONTEXT/.              |
 | **Project files**    | `UPPER_SNAKE_CASE.md` | `PROJECT_FEATURE_X.md`   | Active project files in 01_PROJECTS/.       |
@@ -46,7 +46,7 @@ MANDATORY domain creation system for ALL domain creation requests.
 User: "Create a domain for my blog project"
 -> Invokes create_domain workflow
 -> Reads DOMAINS_LOGIC.md for structure requirements
--> Creates domains/blog-project/ with all 6 core folders
+-> Creates domains/BlogProject/ with all 6 core folders
 -> Generates INDEX.md with YAML frontmatter and template
 -> Creates empty CONNECTIONS.yaml with schema comments
 ```
@@ -54,7 +54,7 @@ User: "Create a domain for my blog project"
 **Example 2: Sync domain after adding files**
 
 ```
-User: "Map my project-alpha domain"
+User: "Map my ProjectAlpha domain"
 -> Invokes map_domain workflow
 -> Scans all 6 core folders
 -> Detects naming violations, auto-fixes with confirmation
@@ -77,7 +77,7 @@ User: "Archive the old feature project in my domain"
 Every domain follows this structure:
 
 ```
-domains/domain-name/              # lower-kebab-case directory
+domains/DomainName/               # PascalCase directory
 ├── INDEX.md                      # Source of Truth (at domain root)
 ├── CONNECTIONS.yaml              # External sources (at domain root)
 ├── 00_CONTEXT/                   # Domain-specific context and reference docs

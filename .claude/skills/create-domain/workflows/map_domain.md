@@ -15,12 +15,12 @@ ls domains/
 Scan all six content folders for files:
 
 ```bash
-ls domains/[domain-name]/00_CONTEXT/
-ls domains/[domain-name]/01_PROJECTS/
-ls domains/[domain-name]/02_SESSIONS/
-ls domains/[domain-name]/03_ASSETS/
-ls domains/[domain-name]/04_OUTPUTS/
-ls domains/[domain-name]/05_ARCHIVE/
+ls domains/[DomainName]/00_CONTEXT/
+ls domains/[DomainName]/01_PROJECTS/
+ls domains/[DomainName]/02_SESSIONS/
+ls domains/[DomainName]/03_ASSETS/
+ls domains/[DomainName]/04_OUTPUTS/
+ls domains/[DomainName]/05_ARCHIVE/
 ```
 
 ## Step 2.5: Check README Files
@@ -28,12 +28,12 @@ ls domains/[domain-name]/05_ARCHIVE/
 Verify README.md exists in each core folder:
 
 ```bash
-ls domains/[domain-name]/00_CONTEXT/README.md
-ls domains/[domain-name]/01_PROJECTS/README.md
-ls domains/[domain-name]/02_SESSIONS/README.md
-ls domains/[domain-name]/03_ASSETS/README.md
-ls domains/[domain-name]/04_OUTPUTS/README.md
-ls domains/[domain-name]/05_ARCHIVE/README.md
+ls domains/[DomainName]/00_CONTEXT/README.md
+ls domains/[DomainName]/01_PROJECTS/README.md
+ls domains/[DomainName]/02_SESSIONS/README.md
+ls domains/[DomainName]/03_ASSETS/README.md
+ls domains/[DomainName]/04_OUTPUTS/README.md
+ls domains/[DomainName]/05_ARCHIVE/README.md
 ```
 
 **If any README is missing:**
@@ -41,12 +41,12 @@ ls domains/[domain-name]/05_ARCHIVE/README.md
 1. Report which folders are missing README files
 2. Offer to create them from templates:
    ```bash
-   cp .claude/skills/create-domain/templates/README.00_CONTEXT.template.md domains/[domain-name]/00_CONTEXT/README.md
-   cp .claude/skills/create-domain/templates/README.01_PROJECTS.template.md domains/[domain-name]/01_PROJECTS/README.md
-   cp .claude/skills/create-domain/templates/README.02_SESSIONS.template.md domains/[domain-name]/02_SESSIONS/README.md
-   cp .claude/skills/create-domain/templates/README.03_ASSETS.template.md domains/[domain-name]/03_ASSETS/README.md
-   cp .claude/skills/create-domain/templates/README.04_OUTPUTS.template.md domains/[domain-name]/04_OUTPUTS/README.md
-   cp .claude/skills/create-domain/templates/README.05_ARCHIVE.template.md domains/[domain-name]/05_ARCHIVE/README.md
+   cp .claude/skills/create-domain/templates/README.00_CONTEXT.template.md domains/[DomainName]/00_CONTEXT/README.md
+   cp .claude/skills/create-domain/templates/README.01_PROJECTS.template.md domains/[DomainName]/01_PROJECTS/README.md
+   cp .claude/skills/create-domain/templates/README.02_SESSIONS.template.md domains/[DomainName]/02_SESSIONS/README.md
+   cp .claude/skills/create-domain/templates/README.03_ASSETS.template.md domains/[DomainName]/03_ASSETS/README.md
+   cp .claude/skills/create-domain/templates/README.04_OUTPUTS.template.md domains/[DomainName]/04_OUTPUTS/README.md
+   cp .claude/skills/create-domain/templates/README.05_ARCHIVE.template.md domains/[DomainName]/05_ARCHIVE/README.md
    ```
 3. Continue with workflow after user confirms
 
@@ -141,7 +141,7 @@ Check that the domain's agent is properly registered in `PAL_Base/System/ROUTING
 
 ```bash
 # Find which agent binds to this domain
-grep -l "domain: [domain-name]" .claude/agents/*.md
+grep -l "domain: [DomainName]" .claude/agents/*.md
 ```
 
 ### 6b. Verify Routing Entry
@@ -228,7 +228,7 @@ Write the generated index to `PAL_Base/System/SYSTEM_INDEX.md`, overwriting any 
 Output summary of changes:
 
 ```markdown
-## Domain Map Complete: [domain-name]
+## Domain Map Complete: [DomainName]
 
 ### Files Scanned
 - 00_CONTEXT/: [X] files

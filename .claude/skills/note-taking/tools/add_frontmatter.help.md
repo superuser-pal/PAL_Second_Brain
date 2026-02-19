@@ -13,7 +13,7 @@ bun .claude/skills/note-taking/tools/add_frontmatter.ts [options]
 | Option | Short | Description | Required |
 |--------|-------|-------------|----------|
 | `--file` | `-f` | Target markdown file | Yes |
-| `--domain` | `-d` | Domain name (lower-kebab-case) | No |
+| `--domain` | `-d` | Domain name (PascalCase) | No |
 | `--project` | `-p` | Project file (PROJECT_*.md) | No |
 | `--category` | `-c` | Note category | No |
 | `--status` | `-s` | Processing status | No |
@@ -52,7 +52,7 @@ bun .claude/skills/note-taking/tools/add_frontmatter.ts [options]
 **Add basic frontmatter:**
 ```bash
 bun add_frontmatter.ts --file inbox/notes/my_note.md \
-  --domain project-alpha \
+  --domain ProjectAlpha \
   --status ready
 ```
 
@@ -66,7 +66,7 @@ bun add_frontmatter.ts --file note.md \
 **Add with full metadata:**
 ```bash
 bun add_frontmatter.ts --file note.md \
-  --domain blog-content \
+  --domain BlogContent \
   --project PROJECT_LAUNCH.md \
   --category research \
   --status ready \
@@ -99,7 +99,7 @@ On success, prints:
 ```
 Frontmatter added: inbox/notes/my_note.md
   status: ready
-  domain: project-alpha
+  domain: ProjectAlpha
   project: (none)
   category: notes
 ```

@@ -45,7 +45,7 @@ Generic code, public docs, open-source libraries, design patterns. Safe for publ
 Project architecture, custom workflows, technical stack choices. Private repos: allow as-is. Public repos: review for sensitivity.
 
 **Level 3: Personal Context (ORANGE)**
-Communication preferences (DIRECTIVES.md). Private repos: allow. Public repos: must sanitize.
+Communication preferences (DIRECTIVES.md), technical preferences (TECHSTACK.md), work history (RESUME.md). Private repos: allow. Public repos: must sanitize.
 
 **Level 4: Identifiable Personal Data (RED)**
 Email addresses, phone numbers, physical addresses, SSN, API keys, credentials. Private repos: designated files only. Public repos: MUST be removed.
@@ -57,7 +57,7 @@ Email addresses, phone numbers, physical addresses, SSN, API keys, credentials. 
 ### What's Allowed in Private Repositories
 
 **Base Configuration Files - ALLOWED without sanitization:**
-All files in `.claude/Base/User/` (ABOUTME.md, DIRECTIVES.md, CONTACTS.md, etc.) can contain personal context since private repos are not publicly accessible.
+All files in `.claude/Base/User/` (ABOUTME.md, DIRECTIVES.md, CONTACTS.md, RESUME.md, etc.) can contain personal context since private repos are not publicly accessible.
 
 **Credentials Storage - NEVER allowed:**
 No hardcoded API keys, passwords, database credentials, private keys, JWT tokens, or OAuth secrets. Use environment variables in `.env` file (add to .gitignore).
@@ -245,6 +245,7 @@ Easier process - no sanitization concerns. Change visibility to private in GitHu
 
     "allowed_personal_files": [
       ".claude/Base/User/CONTACTS.md",
+      ".claude/Base/User/RESUME.md",
       ".claude/Base/User/ABOUTME.md"
     ]
   }

@@ -116,7 +116,7 @@ Email addresses, phone numbers, SSN, credit cards, physical addresses, passport/
 
 ### When PII is Acceptable (No Warning)
 
-1. **CONTACTS.md** file
+1. **CONTACTS.md** and **RESUME.md** files
 2. Documentation with clearly fake examples (example.com, 555 numbers)
 3. Editorial content about public figures
 
@@ -128,6 +128,7 @@ pii_detection:
   mode: warn # warn | block | allow
   exceptions:
     - .claude/Base/User/CONTACTS.md
+    - .claude/Base/User/RESUME.md
 ```
 
 ---
@@ -282,6 +283,7 @@ pii:
   action: WARN
   exceptions:
     - .claude/Base/User/CONTACTS.md
+    - .claude/Base/User/RESUME.md
 
 destructive_operations:
   enabled: true

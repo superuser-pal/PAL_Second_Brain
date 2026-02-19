@@ -27,7 +27,7 @@ Ask the user:
 | :-------- | :----- | :------ |
 | Agent file | `lower-kebab-case.md` | `blog-agent.md` |
 | YAML name | `lower-kebab-case` | `name: blog-agent` |
-| Domain field | `lower-kebab-case` | `domain: blog-content` |
+| Domain field | `PascalCase` | `domain: BlogContent` |
 | Invocation | `/load-[agent-name]` | `/load-blog-agent` |
 
 **Naming Rules:**
@@ -46,12 +46,12 @@ Ask the user:
 **Check if the domain exists:**
 
 ```bash
-ls domains/[domain-name]/INDEX.md
+ls domains/[DomainName]/INDEX.md
 ```
 
 **If domain does NOT exist:**
 
-1. Inform user: "The domain '[domain-name]' doesn't exist yet."
+1. Inform user: "The domain '[DomainName]' doesn't exist yet."
 2. Invoke the `create-domain` skill to create the domain first
 3. Wait for domain creation to complete
 4. Continue with agent creation
@@ -65,7 +65,7 @@ ls domains/[domain-name]/INDEX.md
 Read the domain's INDEX.md to understand available context:
 
 ```bash
-cat domains/[domain-name]/INDEX.md
+cat domains/[DomainName]/INDEX.md
 ```
 
 Note the domain's:
@@ -101,7 +101,7 @@ domain: domain-name
 - `name` — lower-kebab-case (matches file name without .md)
 - `description` — Clear, concise purpose
 - `version` — Start with `1.0.0`
-- `domain` — Must match existing domain in `domains/`
+- `domain` — PascalCase, must match existing domain in `domains/`
 
 **No other YAML fields.** Capabilities are declared inline in Section 5.
 
@@ -120,14 +120,14 @@ Set up the context configuration in the Activation Protocol section (Section 2):
 **Domain Context (configurable — mapped from INDEX.md):**
 
 ```markdown
-- [AUTO] `domains/[domain-name]/INDEX.md` — Domain Source of Truth
-- [REF] `domains/[domain-name]/00_CONTEXT/` — Background knowledge and domain-specific context documents
-- [REF] `domains/[domain-name]/01_PROJECTS/` — Active project files tracked in INDEX.md Active Work table
-- [REF] `domains/[domain-name]/02_SESSIONS/` — Session logs capturing discussions, changes, and decisions
-- [REF] `domains/[domain-name]/03_ASSETS/` — External reference materials (docs, data, PDFs, images)
-- [REF] `domains/[domain-name]/04_OUTPUTS/` — Agent-generated deliverables and content
-- [REF] `domains/[domain-name]/05_ARCHIVE/` — Deprecated content excluded from active context
-- [REF] `domains/[domain-name]/CONNECTIONS.yaml` — Domain connections and integrations
+- [AUTO] `domains/[DomainName]/INDEX.md` — Domain Source of Truth
+- [REF] `domains/[DomainName]/00_CONTEXT/` — Background knowledge and domain-specific context documents
+- [REF] `domains/[DomainName]/01_PROJECTS/` — Active project files tracked in INDEX.md Active Work table
+- [REF] `domains/[DomainName]/02_SESSIONS/` — Session logs capturing discussions, changes, and decisions
+- [REF] `domains/[DomainName]/03_ASSETS/` — External reference materials (docs, data, PDFs, images)
+- [REF] `domains/[DomainName]/04_OUTPUTS/` — Agent-generated deliverables and content
+- [REF] `domains/[DomainName]/05_ARCHIVE/` — Deprecated content excluded from active context
+- [REF] `domains/[DomainName]/CONNECTIONS.yaml` — Domain connections and integrations
 ```
 
 **Folder Purpose Reference:**
@@ -237,7 +237,7 @@ At the bottom of the agent file:
 
 **Document Version:** 1.0.0
 **Last Updated:** [YYYY-MM-DD]
-**Related Files:** PAL_Base/System/ORCHESTRATION.md, PAL_Base/System/ROUTING_TABLE.md, domains/[domain-name]/INDEX.md
+**Related Files:** PAL_Base/System/ORCHESTRATION.md, PAL_Base/System/ROUTING_TABLE.md, domains/[DomainName]/INDEX.md
 
 ---
 ```
@@ -248,7 +248,7 @@ Add the new agent to `PAL_Base/System/ROUTING_TABLE.md`:
 
 ```yaml
 - name: [agent-name]
-  domain: [domain-name]
+  domain: [DomainName]
   location: .claude/agents/[agent-name].md
   routes_to: "[comma-separated keywords describing what this agent handles]"
 ```
@@ -296,7 +296,7 @@ grep "[agent-name]" PAL_Base/System/ROUTING_TABLE.md
 ### Domain Binding
 
 - [ ] `domain` field matches valid domain in `domains/`
-- [ ] Domain INDEX.md exists at `domains/[domain-name]/INDEX.md`
+- [ ] Domain INDEX.md exists at `domains/[DomainName]/INDEX.md`
 - [ ] Domain files mapped to [AUTO]/[REF] in Activation Protocol
 
 ### Capability Declaration

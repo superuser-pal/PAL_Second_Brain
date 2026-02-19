@@ -39,8 +39,24 @@ For each note without frontmatter, prompt user for:
    - Accept `null` if not project-specific
 
 3. **Category:** What type of note is this?
-   - Options: `research`, `meeting`, `idea`, `reference`, `notes`
-   - Default: `notes`
+
+   **LifeOS Categories** (auto-sets domain to LifeOS):
+   - `beliefs.md` - Core beliefs and values
+   - `frames.md` - Mental perspectives and lenses
+   - `learned.md` - Lessons and insights
+   - `mission.md` - Purpose and direction
+   - `models.md` - Decision frameworks
+   - `goals.md` - Objectives and aspirations
+   - `projects.md` - Active initiatives
+
+   **General Categories:**
+   - `research` - Research notes, findings, analysis
+   - `meeting` - Meeting notes, action items
+   - `idea` - Ideas, brainstorming, concepts
+   - `reference` - Reference materials, documentation
+   - `notes` - General notes (default)
+
+   **Note:** If user selects a LifeOS category (ending in `.md`), automatically set `domain: LifeOS`
 
 4. **Tags:** Any tags for categorization? (optional)
    - Comma-separated list
@@ -88,8 +104,8 @@ Present results in this format:
 ### Notes Processed
 | Note | Domain | Project | Category |
 |------|--------|---------|----------|
-| note_name.md | project-alpha | PROJECT_FEATURE_X.md | research |
-| another_note.md | blog-content | null | idea |
+| note_name.md | ProjectAlpha | PROJECT_FEATURE_X.md | research |
+| another_note.md | BlogContent | null | idea |
 
 ### Notes Skipped (already have frontmatter)
 - existing_note.md

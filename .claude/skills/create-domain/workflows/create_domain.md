@@ -12,29 +12,29 @@ Read the domain system documentation: `DOMAINS_LOGIC.md`
 
 Ask the user:
 
-1. What is the domain name? (will be converted to lower-kebab-case)
+1. What is the domain name? (will be converted to PascalCase)
 2. Brief description of the domain's purpose
 3. Who owns this domain? (optional)
 
 ## Step 3: Validate Domain Name
 
-Convert user input to `lower-kebab-case`:
+Convert user input to `PascalCase`:
 
 | User Input        | Converted Name    |
 | ----------------- | ----------------- |
-| "Project Alpha"   | `project-alpha`   |
-| "My Blog Project" | `my-blog-project` |
-| "API_Integration" | `api-integration` |
+| "Project Alpha"   | `ProjectAlpha`    |
+| "My Blog Project" | `MyBlogProject`   |
+| "API_Integration" | `ApiIntegration`  |
 
 ## Step 4: Create Directory Structure
 
 ```bash
-mkdir -p domains/[domain-name]/00_CONTEXT
-mkdir -p domains/[domain-name]/01_PROJECTS
-mkdir -p domains/[domain-name]/02_SESSIONS
-mkdir -p domains/[domain-name]/03_ASSETS
-mkdir -p domains/[domain-name]/04_OUTPUTS
-mkdir -p domains/[domain-name]/05_ARCHIVE
+mkdir -p domains/[DomainName]/00_CONTEXT
+mkdir -p domains/[DomainName]/01_PROJECTS
+mkdir -p domains/[DomainName]/02_SESSIONS
+mkdir -p domains/[DomainName]/03_ASSETS
+mkdir -p domains/[DomainName]/04_OUTPUTS
+mkdir -p domains/[DomainName]/05_ARCHIVE
 ```
 
 ## Step 5: Create README.md Files
@@ -42,23 +42,23 @@ mkdir -p domains/[domain-name]/05_ARCHIVE
 Create README.md in each core folder from templates:
 
 ```bash
-cp .claude/skills/create-domain/templates/README.00_CONTEXT.template.md domains/[domain-name]/00_CONTEXT/README.md
-cp .claude/skills/create-domain/templates/README.01_PROJECTS.template.md domains/[domain-name]/01_PROJECTS/README.md
-cp .claude/skills/create-domain/templates/README.02_SESSIONS.template.md domains/[domain-name]/02_SESSIONS/README.md
-cp .claude/skills/create-domain/templates/README.03_ASSETS.template.md domains/[domain-name]/03_ASSETS/README.md
-cp .claude/skills/create-domain/templates/README.04_OUTPUTS.template.md domains/[domain-name]/04_OUTPUTS/README.md
-cp .claude/skills/create-domain/templates/README.05_ARCHIVE.template.md domains/[domain-name]/05_ARCHIVE/README.md
+cp .claude/skills/create-domain/templates/README.00_CONTEXT.template.md domains/[DomainName]/00_CONTEXT/README.md
+cp .claude/skills/create-domain/templates/README.01_PROJECTS.template.md domains/[DomainName]/01_PROJECTS/README.md
+cp .claude/skills/create-domain/templates/README.02_SESSIONS.template.md domains/[DomainName]/02_SESSIONS/README.md
+cp .claude/skills/create-domain/templates/README.03_ASSETS.template.md domains/[DomainName]/03_ASSETS/README.md
+cp .claude/skills/create-domain/templates/README.04_OUTPUTS.template.md domains/[DomainName]/04_OUTPUTS/README.md
+cp .claude/skills/create-domain/templates/README.05_ARCHIVE.template.md domains/[DomainName]/05_ARCHIVE/README.md
 ```
 
 Each README documents the folder's purpose, naming conventions, and usage guidelines.
 
 ## Step 6: Create INDEX.md
 
-Create `domains/[domain-name]/INDEX.md` with this template:
+Create `domains/[DomainName]/INDEX.md` with this template:
 
 ```markdown
 ---
-name: [domain-name]
+name: [DomainName]
 description: [User's description]
 status: active
 created: [YYYY-MM-DD]
@@ -98,7 +98,7 @@ owner: [Owner if provided]
 
 ## Step 7: Create CONNECTIONS.yaml
 
-Create `domains/[domain-name]/CONNECTIONS.yaml` with schema template:
+Create `domains/[DomainName]/CONNECTIONS.yaml` with schema template:
 
 ```yaml
 # External APIs this domain interacts with
@@ -127,8 +127,8 @@ data_sources: []
 Run verification:
 
 ```bash
-ls -la domains/[domain-name]/
-ls domains/[domain-name]/*/README.md
+ls -la domains/[DomainName]/
+ls domains/[DomainName]/*/README.md
 ```
 
 Expected output:
@@ -146,7 +146,7 @@ Expected output:
 
 ### Structure
 
-- [ ] Domain directory uses lower-kebab-case
+- [ ] Domain directory uses PascalCase
 - [ ] INDEX.md exists at domain root
 - [ ] CONNECTIONS.yaml exists at domain root
 - [ ] All six core folders exist (00_CONTEXT, 01_PROJECTS, 02_SESSIONS, 03_ASSETS, 04_OUTPUTS, 05_ARCHIVE)
