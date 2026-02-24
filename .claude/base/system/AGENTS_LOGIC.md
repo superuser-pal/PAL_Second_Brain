@@ -49,7 +49,7 @@ All agents in the PAL Second Brain **MUST** follow the structure and conventions
 | :------------- | :------------------------ | :------------------------ | :-------------------------------- |
 | **Purpose**    | Orchestration and routing | Extended domain sessions  | Domain-specific capabilities      |
 | **Duration**   | Always active             | Loaded for session        | Activated per task                |
-| **Invocation** | Default at session start  | `/load-[agent]` command   | Automatic (intent-based)          |
+| **Invocation** | Default at session start  | `/[agent]` command   | Automatic (intent-based)          |
 | **Context**    | Base + System config      | Base + Domain             | Skill-specific only               |
 | **Persona**    | Generalist orchestrator   | Domain specialist         | None (capability only)            |
 | **State**      | Session-wide              | Until dismissed           | Stateless                         |
@@ -90,7 +90,7 @@ All agents in the PAL Second Brain **MUST** follow the structure and conventions
 | **Agent file**         | `lower-kebab-case.md` | `blog-agent.md`        | Agent definition file    |
 | **YAML name**          | `lower-kebab-case`    | `name: blog-agent`     | Matches file name        |
 | **Domain field**       | `PascalCase`          | `domain: BlogContent`  | Matches domain directory |
-| **Invocation command** | `/load-[agent-name]`  | `/load-blog-agent`     | Load and activate agent  |
+| **Invocation command** | `/[agent-name]`  | `/blog-agent`     | Load and activate agent  |
 | **Dismiss command**    | `*dismiss`            | `*dismiss`             | End agent session        |
 
 ### Convention Rules
@@ -101,7 +101,7 @@ All agents in the PAL Second Brain **MUST** follow the structure and conventions
    - Workflows → `.claude/skills/[SkillName]/workflows/`
    - Templates → `.claude/skills/[SkillName]/templates/`
    - Domain context → `domains/[domain-name]/`
-4. **Invocation command** follows pattern: `/load-[agent-name]`
+4. **Invocation command** follows pattern: `/[agent-name]`
 5. **Dismiss command** is always `*dismiss`
 
 ---
@@ -289,7 +289,7 @@ PAL Master uses `ROUTING_TABLE.md` for the `*agents` command — a lightweight f
 
 ### 1. Loading
 
-**Invocation:** `/load-[agent-name]`
+**Invocation:** `/[agent-name]`
 
 **What Happens:**
 
@@ -360,7 +360,7 @@ PAL Master uses `ROUTING_TABLE.md` for the `*agents` command — a lightweight f
 - Bound to specific domain via `domain` field (mandatory)
 - Domain INDEX.md as source of truth
 - Capabilities declared inline (Section 5)
-- Loaded on demand via `/load-[agent]`
+- Loaded on demand via `/[agent]`
 - Redirects out-of-scope requests to PAL Master
 
 ### Comparison Table

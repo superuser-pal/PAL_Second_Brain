@@ -1,7 +1,7 @@
 ---
 name: pal-master
 description: PAL Master Orchestrator - Primary orchestration agent for intent classification, routing, and execution oversight
-version: 1.0.0
+version: 0.1.0
 ---
 
 # PAL Master Agent

@@ -16,72 +16,47 @@ last_updated: 2026-02-07
 
 ## PAL's Core Statement
 
-> "PAL is a pattern-based modular system that empowers non-technical professionals to architect AI systems through organized context engineering, educational documentation, and simple modular configuration."
+> "PAL Second Brain is a pattern-based system that gives non-technical professionals the base and blocks to build AI automations and workflows through organized context engineering and modular design."
 
 ---
 
-## Section 1: PAL's 10 Core Principles
+## Section 1: PAL's 8 Core Principles
 
-PAL's architecture is built on 10 foundational principles:
+PAL's second brain architecture is built on 8 foundational principles:
 
 ### Core Pillars
 
-#### 1. Technical-Literate First
-
-**Principle:** Empower users through education, not abstraction.
-
-**What This Means:**
-
-- Users learn HOW the system operates, not just what it does
-- Documentation explains patterns, workflows, and routing logic
-- Complexity is revealed progressively, not hidden
-- Editing logic files transforms users into system architects
-
-#### 2. Context > Prompts
+#### 1. Context > Prompts
 
 **Principle:** Context engineering beats prompt engineering.
 
 **What This Means:**
 
-- Base configuration files provide persistent context for the system behaviour
+- Base configuration files provide a persistent context for the system behaviour
 - Organizing context in an editable and navigable way provides more control over system responses
 - Skills and agents inherit context from specific knowledge domains
-- Only necessary context is loaded to prevent system overload.
 
-#### 3. Plan-First Execution
+#### 2. Plan-First Execution
 
-**Principle:** Recommended workflow for transparency (NOT enforced).
+**Principle:** Recommended workflow for transparency in the session.
 
 **What This Means:**
 
 - Users are encouraged to approach every operation in "Plan Mode" first.
 - The system provides all key details to build and understand the plan.
 - Users verify context, task comprehension, and intended output before execution
-- Planning yields better results through transparency and mutual agreement
 
-#### 4. Pattern-Based System
+#### 3. Pattern-Based System
 
 **Principle:** Low-floor, high-ceiling design through composable patterns.
 
 **What This Means:**
 
 - Patterns are repetitive, modular structures that define how the system operates
-- They dictate best practices for the ingestion, management and execution of operations
-- Pattern Library documents system building blocks for users to understand and adopt
+- They dictate best practices for the ingestion, management, and execution of operations
 - Simple, recognizable patterns combine and stack to create complex workflows
 
-#### 5. Code Before Prompts
-
-**Principle:** Executable code creates deterministic behavior.
-
-**What This Means:**
-
-- Users should transform repetitive system actions into code to ensure 100% predictability
-- Executing code via Bun or NPM eliminates model hallucinations during complex tasks
-- Deterministic logic is preferred over prompts for critical system integrity and security
-- Prompts handle creative variability while code manages the underlying system plumbing
-
-#### 6. Domain-Driven Documentation
+#### 4. Domain-Driven Documentation
 
 **Principle:** Structure context around specific domains to prevent context pollution and ensure precision.
 
@@ -90,51 +65,46 @@ PAL's architecture is built on 10 foundational principles:
 - All related information is documented within specific domain folders
 - Every domain acts as a siloed environment containing its own index, templates, documentation, and plans
 - Keeping data organized within domains ensures information is structured, easy to access, and highly relevant
-- Agents and workflows are explicitly instructed to interact with these domain structures to maintain system reliability
 
-#### 7. Self Update System
+#### 5. Self Update System
 
-**Principle:** System can evolve and improve itself.
+**Principle:** The system can evolve and improve itself.
 
 **What This Means:**
 
 - Updates are modular and self-contained to specific areas of the system
-- Skills can be added or modified without system rebuild
+- Skills can be added or modified without a system rebuild
 - Pattern Library expands with new operation templates
-- Users maintain system evolution through file updates paired with AI assistance
 
-#### 8. Pattern Library Management
-
-**Principle:** System operations documented as educational patterns.
-
-**What This Means:**
-
-- Pattern Library in `docs/patterns/` explains HOW system works
-- Patterns organized into groups depending on the type of block (hooks, skills, workflows, tools, etc.)
-- Users read patterns to understand, PAL Master references patterns
-- Patterns reflect best practices for efficient operations and optimize token usage and cost
-
-#### 9. PAL Master with Specialized Sub-Agents
+#### 6. PAL Master with Specialized Sub-Agents
 
 **Principle:** Primary orchestrator with domain-specific agents for focused work.
 
 **What This Means:**
 
 - **PAL Master** = Primary agent, handles routing and orchestration
-- **Domain Agents** = Specialized agents loaded via `/load-[agent]` commands
+- **Domain Agents** = Specialized agents loaded via `/[agent]` commands
 - Domain agents inherit Base context + domain skills + workflows
-- Users load agent configurations to ensure the right context is being loaded
 
-#### 10. Permission to Fail
+#### 7. Inbox-First Capture
 
-**Principle:** Graceful degradation and error transparency.
+**Principle:** The Inbox is the primary friction-free entry point for all raw data.
 
 **What This Means:**
 
-- System errors are visible and explained, not hidden
-- Workflows can fail at steps without system crash
-- Error Recovery Pattern documents graceful degradation
-- Users learn from failures through transparent error reporting
+- Notes, whiteboards, resources, and tasks are initially funneled into a single central location
+- Rapid capture is prioritized over immediate organization to maintain creative flow
+- Items are periodically distributed from the Inbox to their specific Domains to inherit relevant context
+
+#### 8. Spec-Driven Development
+
+**Principle:** System evolution is governed by persistent, accessible requirements.
+
+**What This Means:**
+
+- Requirements and logic for the Second Brain are always available for reference
+- It is highly recommended that new features or processes follow a formal specification process to be added to the system.
+- Self-referencing requirements ensure a structured order for all future changes and decisions.
 
 ---
 
@@ -198,7 +168,7 @@ PAL organizes context and operations into 3 layers:
     │Blogging │           │Blog Agent   │         │Sequential│
     │Art      │           │Art Agent    │         │Condition.│
     │Security │           │Security Ag. │         │Nested    │
-    │Prompting│           │(via /load-*)│         │          │
+    │Prompting│           │(via /*)│         │          │
     └─────────┘           └─────────────┘         └──────────┘
           ↓                       ↓                       ↓
     ┌────────────────────────────────────────────────────────┐
@@ -226,7 +196,7 @@ Intent Classification
 ┌────────────────────────────────────────────────┐
 │ Routing Decision:                               │
 │ • Skill match? → Activate skill                 │
-│ • Agent requested? (/load-*) → Load agent      │
+│ • Agent requested? (/*) → Load agent      │
 │ • Otherwise → Direct workflow/tool execution   │
 └────────────────────────────────────────────────┘
     ↓
@@ -355,7 +325,7 @@ domains/ProjectAlpha/             # PascalCase directory
 
 Domains are accessed through Domain Agents using the **two-group context model**:
 
-1. User loads agent: `/load-ProjectAlpha-agent`
+1. User loads agent: `/ProjectAlpha-agent`
 2. Agent has domain binding: specifies which domain to load via `domain:` field
 3. Context loading: Agent loads **Base Context** (3 fixed REFs: ABOUTME, DIRECTIVES, GUARDRAILS) + **Domain Context** (INDEX.md as AUTO, folders as REF)
 4. Work execution: Agent operates with domain context via 6-step activation protocol
@@ -402,8 +372,8 @@ PAL is designed for user customization and extension:
 | Extension Type    | When to Extend                                                                                                                                  | How to Extend                        | Key Details                                                                           |
 | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------- |
 | **Skills**        | Domain-specific work requires specialized knowledge, workflows, vocabulary                                                                      | Use skill creation commands/patterns | Each skill includes SKILL.md definition, workflows/, optional templates/ and tools/   |
-| **Base Files**    | USER Layer: When preferences/context changes<br>SYSTEM Layer: When changing fundamental behavior (rare)<br>SECURITY Layer: When policies evolve | Direct file editing in PAL_Base/     | **Best Practice:** Maintain in version control, review changes in session transcripts |
-| **Custom Agents** | Extended domain work requiring specialized persona                                                                                              | Use agent creation commands/patterns | Agents inherit Base context + domain skill, loaded via `/load-[agent]`                |
+| **Base Files**    | USER Layer: When preferences/context changes<br>SYSTEM Layer: When changing fundamental behavior (rare)<br>SECURITY Layer: When policies evolve | Direct file editing in `.claude/base/`     | **Best Practice:** Maintain in version control, review changes in session transcripts |
+| **Custom Agents** | Extended domain work requiring specialized persona                                                                                              | Use agent creation commands/patterns | Agents inherit Base context + domain skill, loaded via `/[agent]`                |
 | **Toolbox**       | Need CLI utilities, external integrations, workflow automation                                                                                  | Add to `.claude/tools/` directory    | **See:** [TOOLBOX.md](TOOLBOX.md) for configuration                                   |
 
 ### Current Toolbox

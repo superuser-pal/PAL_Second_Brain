@@ -17,18 +17,16 @@ PAL (Patterned Agentic Logic) is an AI-powered second brain that helps you:
 
 **Instead of starting every conversation from scratch, PAL remembers your identity, preferences, and current work.**
 
-### The 10 Core Principles
+### The 8 Core Principles
 
-1. **Technical-Literate First** — Learn how it works, not just what it does
-2. **Context > Prompts** — Organized context beats clever prompts
-3. **Plan-First Execution** — Review plans before execution
-4. **Pattern-Based System** — Composable, reusable patterns
-5. **Code Before Prompts** — Deterministic code for critical operations
-6. **Domain-Driven Documentation** — Siloed project workspaces
-7. **Self Update System** — Modular evolution without rebuilds
-<mark style="background:#fff88f">8. **Pattern Library Management** — Educational documentation</mark>
-<mark style="background:#fff88f">9. **PAL Master with Sub-Agents** — Orchestrator + specialists</mark>
-<mark style="background:#fff88f">10. **Permission to Fail** — Transparent error handling</mark>
+1. **Context > Prompts** — Organized context beats clever prompts
+2. **Plan-First Execution** — Review plans before execution
+3. **Pattern-Based System** — Composable, reusable patterns
+4. **Domain-Driven Documentation** — Siloed project workspaces
+5. **Self Update System** — Modular evolution without rebuilds
+6. **PAL Master with Sub-Agents** — Primary orchestrator with domain specialists
+7. **Inbox-First Capture** — Friction-free entry point for all raw data
+8. **Spec-Driven Development** — System evolution governed by persistent requirements
 
 ### What You'll Learn
 
@@ -178,7 +176,7 @@ pal-personal/
 
    ```
    *skills     # See available skills (8 total)
-   *agents     # See domain agents (5 total)
+   *agents     # See domain agents (3 total)
    *context    # See what's loaded in context
    *menu       # Show all available commands
    ```
@@ -190,7 +188,7 @@ pal-personal/
 | `*menu` | Display available commands |
 | `*skills` | List all 8 skills |
 | `*workflows` | List available workflows |
-| `*agents` | Show 5 domain agents |
+| `*agents` | Show 3 domain agents |
 | `*context` | Display loaded context files |
 | `*help` | Show help documentation |
 | `*dismiss` | Exit current agent (return to PAL Master) |
@@ -228,7 +226,7 @@ For focused work in a specific area, load a specialized agent:
 /pal-builder       # System development
 /life-coach        # Personal life management
 
-*dismiss                # Return to PAL Master
+*dismiss           # Return to PAL Master
 ```
 
 ---
@@ -260,7 +258,20 @@ PAL organizes everything into three layers:
 **Domains** — Project workspaces (like folders for projects)
 - Siloed environments with standard structure
 - Each has INDEX.md as source of truth
-- Examples: PALBuilder, LifeOS, Studio, LaraLou
+- Examples: PALBuilder, LifeOS
+
+### The Knowledge Pipeline
+
+PAL uses a centralized intake system for all information:
+
+```
+Inbox (capture) → Skills (process) → Domains (contextualize)
+```
+
+1. **Capture** — Notes, tasks, resources flow into the Inbox
+2. **Process** — Skills like note-taking analyze and organize content
+3. **Distribute** — Processed content moves to appropriate Domains
+4. **Contextualize** — Information enriches the persistent context for AI interactions
 
 ### Hooks
 
@@ -377,9 +388,9 @@ echo 'export ANTHROPIC_API_KEY="your-key"' >> ~/.zshrc
 
 See [Docs/FEATURES.md](Docs/FEATURES.md) for:
 - All 8 skills with workflow details
-- All 5 agents with capabilities
+- All 3 agents with capabilities
 - All 3 hooks with behavior
-- All 4 domains with structure
+- Domain structure and examples
 
 ### Configure Your Setup
 
@@ -412,6 +423,6 @@ PAL will set up the standard structure:
 ---
 
 **Document Version:** 0.1.0-alpha
-**Last Updated:** 2026-02-16
+**Last Updated:** 2026-02-23
 
 **Next:** [Docs/FEATURES.md](Docs/FEATURES.md) — Complete feature catalog

@@ -220,18 +220,18 @@ description: Complete blog workflow. USE WHEN user mentions doing anything with 
 | Aspect         | Skill Activation             | Agent Loading                                  |
 | -------------- | ---------------------------- | ---------------------------------------------- |
 | **Duration**   | One-off task                 | Extended session (multiple tasks)              |
-| **Invocation** | Automatic (intent-based)     | Manual (user command: `/load-[agent]`)         |
+| **Invocation** | Automatic (intent-based)     | Manual (user command: `/[agent]`)         |
 | **Context**    | PAL Master + skill           | Two groups (Base + Domain)                     |
 | **Focus**      | General orchestration        | Domain-specific specialization                 |
-| **Example**    | "Create a blog post about X" | "/load-blog-agent" then work on multiple posts |
+| **Example**    | "Create a blog post about X" | "/blog-agent" then work on multiple posts |
 
 #### Agent Invocation
 
 ```bash
-# Pattern: /load-[agent-name]
-/load-blog-agent     # Load blog content agent
-/load-art-agent      # Load visual content agent
-/load-security-agent # Load security audit agent
+# Pattern: /[agent-name]
+/blog-agent     # Load blog content agent
+/art-agent      # Load visual content agent
+/security-agent # Load security audit agent
 
 # Dismissal (from within any agent)
 *dismiss             # Returns to PAL Master
@@ -240,7 +240,7 @@ description: Complete blog workflow. USE WHEN user mentions doing anything with 
 #### Agent Loading Flow
 
 ```
-User command (`/load-[agent]`)
+User command (`/[agent]`)
     ↓
 PAL Master recognizes command
     ↓
@@ -520,7 +520,7 @@ PAL's orchestration system provides **intelligent routing** through:
 **For Users:**
 
 - Start with PAL Master (loaded at session start)
-- Load domain agents for extended sessions (`/load-[agent]`)
+- Load domain agents for extended sessions (`/[agent]`)
 - Dismiss agents to return to PAL Master (`*dismiss`)
 - Review plans for complex operations
 - Request context readout with `/context`

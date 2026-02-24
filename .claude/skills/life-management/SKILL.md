@@ -62,5 +62,5 @@ All timestamps in life-management use ISO 8601 format:
 Skill activates automatically when user mentions life context management. For extended sessions, load the domain agent:
 
 ```
-/load-life-coach
+/life-coach
 ```

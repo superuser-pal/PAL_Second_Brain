@@ -1,7 +1,7 @@
 ---
 name: pal-builder
 description: PAL System Architect for second brain development through specification-driven design
-version: 1.0.0
+version: 0.1.0
 domain: PALBuilder
 ---
 

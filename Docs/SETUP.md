@@ -74,7 +74,7 @@ claude
 
 # Once in Claude Code, try these commands:
 # *skills    - Should list 8 skills
-# *agents    - Should list 5 agents
+# *agents    - Should list 3 agents
 # *context   - Should show loaded context
 ```
 
@@ -182,7 +182,7 @@ claude
 
 # Test commands:
 *skills     # Lists 8 skills
-*agents     # Lists 5 agents
+*agents     # Lists 3 agents
 *context    # Shows loaded context files
 ```
 
@@ -197,9 +197,9 @@ claude
 
 ```bash
 # Verify key directories exist
-ls -la .claude/skills/        # Should show 8+ skill directories
-ls -la .claude/agents/        # Should show 5 agent files
-ls -la Domains/               # Should show 4 domain directories
+ls -la .claude/skills/        # Should show 8 skill directories
+ls -la .claude/agents/        # Should show 3 agent files
+ls -la Domains/               # Should show domain directories
 ```
 
 ---
@@ -284,4 +284,4 @@ claude
 ---
 
 **Document Version:** 0.1.0-alpha
-**Last Updated:** 2026-02-16
+**Last Updated:** 2026-02-23

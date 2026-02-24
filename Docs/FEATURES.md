@@ -328,7 +328,7 @@ Hooks are TypeScript code that executes at specific system lifecycle points. The
 
 **Domain:** PALBuilder
 
-**Load Command:** `/load-pal-builder`
+**Load Command:** `/pal-builder`
 
 **Skills:** system-build, create-skill, create-agent, create-domain
 
@@ -354,7 +354,7 @@ Hooks are TypeScript code that executes at specific system lifecycle points. The
 
 **Domain:** LifeOS
 
-**Load Command:** `/load-life-coach`
+**Load Command:** `/life-coach`
 
 **Skills:** life-management
 
@@ -447,10 +447,10 @@ Skills activate via **intent matching**, not keywords. PAL Master reads your req
 ### Agent Loading
 
 ```bash
-/load-pal-builder       # Load PAL Builder
-/load-life-coach        # Load Life Coach
-/load-studio-agent      # Load Studio Agent
-/load-substack-manager  # Load Substack Manager
+/pal-builder       # Load PAL Builder
+/life-coach        # Load Life Coach
+/studio-agent      # Load Studio Agent
+/substack-manager  # Load Substack Manager
 *dismiss                # Return to PAL Master
 ```
 

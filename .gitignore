@@ -95,3 +95,5 @@ docs/other-skills/
 # Personal guides (not tracked)
 PERSONAL_*.md
 .obsidian
+INDEX.md
+CONTEXT_TAGS.yaml 

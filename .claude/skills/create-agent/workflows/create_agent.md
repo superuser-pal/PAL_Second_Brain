@@ -28,7 +28,7 @@ Ask the user:
 | Agent file | `lower-kebab-case.md` | `blog-agent.md` |
 | YAML name | `lower-kebab-case` | `name: blog-agent` |
 | Domain field | `PascalCase` | `domain: BlogContent` |
-| Invocation | `/load-[agent-name]` | `/load-blog-agent` |
+| Invocation | `/[agent-name]` | `/blog-agent` |
 
 **Naming Rules:**
 
@@ -334,4 +334,4 @@ Inform the user:
 
 Agent created following the 8-section structure with inline capabilities, two-group context (Base + Domain), and routing table registration.
 
-**Invocation:** `/load-[agent-name]`
+**Invocation:** `/[agent-name]`

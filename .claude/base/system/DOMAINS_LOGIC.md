@@ -238,7 +238,7 @@ data_sources:
 
 Domains are accessed through **Domain Agents**. The workflow:
 
-1. **User loads agent:** User invokes a Domain Agent (e.g., `/load-ProjectAlpha-agent`)
+1. **User loads agent:** User invokes a Domain Agent (e.g., `/ProjectAlpha-agent`)
 2. **Agent has domain binding:** The agent's YAML frontmatter specifies which domain it binds to via the `domain:` field
 3. **Context loading:** Agent loads Base Context (3 fixed REFs: ABOUTME, DIRECTIVES, GUARDRAILS) plus Domain Context (INDEX.md as AUTO, domain folders as REF)
 4. **Work execution:** Agent operates with domain context, reading from assets and updating projects/sessions

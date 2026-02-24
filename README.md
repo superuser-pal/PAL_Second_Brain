@@ -1,6 +1,6 @@
 # PAL Second Brain
 
-> A pattern-based modular system created for non-technical and AI curious people to build AI systems through organized context engineering, structured navigation, and simple modular configuration.
+> A pattern-based modular system that gives non-technical professionals the base and blocks to build AI automations and workflows through organized context engineering and modular design.
 
 [![Version](https://img.shields.io/badge/version-0.1.0--alpha-blue.svg)](CHANGELOG.md)
 [![Claude Code](https://img.shields.io/badge/powered%20by-Claude%20Code-orange.svg)]()
@@ -9,19 +9,28 @@
 
 ## What is PAL Second Brain?
 
-PAL Second Brain (Patterned Agentic Logic) is an AI-powered system that helps you organize your thoughts, manage projects, and interact with AI through structured context. Instead of starting every conversation from scratch, the PAL Domain Agent Logic loads the configured context, skills, and workflows to Cluade Code. 
+PAL Second Brain (Patterned Agentic Logic) solves three fundamental problems in AI interaction: **context loss**, **knowledge fragmentation**, and **configuration complexity**.
 
-The System Logic of PAL is organized to give the user an easy understanding of its structure, how it can be changed, and, most importantly, how it can be scaled. I want users to thrive in understanding the basic concepts of Agentic Frameworks, with the knowledge needed to truly own the next AI workflow.
+Instead of starting every conversation from scratch—re-explaining who you are, what you're working on, and how you want responses—PAL maintains your persistent context, organized knowledge, and reusable workflows.
 
-I created the system backed by the Agentic Frameworks used today to build software using AI. Highly complex workflows are reduced to their minimal expression for clear understanding of those who are just approaching the "hello world" moment. 
+### Dual-Interface Architecture
 
-All this is possible with the technology, teachings, and ways from Antropic Colossus, Claude Code. Adoption of Claude would not be possible without the clear direction, research, and papers under your sponsorship. Thank you. 
+PAL uses a **dual-interface architecture** that combines the best of both worlds:
 
-## Why Obsidian?
+- **[Obsidian](https://obsidian.md)** — Human-friendly reading, note-taking, and navigation
+- **Claude Code** — AI-powered execution, automation, and context engineering
 
-**PAL is designed to be used with [Obsidian](https://obsidian.md)** for the best reading and navigation experience, while providing Claude Code as the AI engine behind it.
+This pairing makes AI context engineering accessible to non-technical professionals who find developer IDEs intimidating, while providing the full power of programmatic AI workflows.
 
- Any other IDE, such as Cursor, Anti-Gravity, or Visual Studio, will also work.
+### Centralized Second Brain
+
+At its core, PAL functions as a **knowledge management hub** where all information flows through a unified pipeline:
+
+```
+Inbox (capture) → Skills (process) → Domains (contextualize)
+```
+
+Every captured idea, note, or resource becomes part of the persistent context available to AI interactions.
 
 ---
 
@@ -47,7 +56,7 @@ See [Docs/SETUP.md](Docs/SETUP.md) for detailed installation instructions.
 
 ## Features at a Glance
 
-Caution: This is an Alpha release....
+> Note: This is an Alpha release.
 
 PAL v0.1 includes **8 skills** with **40 workflows**:
 
@@ -88,18 +97,16 @@ See [Docs/FEATURES.md](Docs/FEATURES.md) for the complete feature catalog.
 └─────────────────────────────────────────────────────────┘
 ```
 
-### 10 Core Principles
+### 8 Core Principles
 
-1. **Technical-Literate First** — Learn how it works, not just what it does
-2. **Context > Prompts** — Organized context beats clever prompts
-3. **Plan-First Execution** — Review plans before execution
-4. **Pattern-Based System** — Composable, reusable patterns for scalability
-5. **Use of Code Conciussly** — Deterministic code for critical operations only
-6. **Domain-Driven Documentation** — Siloed project workspaces
-7. **Self Update System** — Modular evolution without rebuilds
-8. <mark style="background:#fff88f">Pattern Library Management — Educational documentation</mark>
-9. <mark style="background:#fff88f">PAL Master with Sub-Agents — Orchestrator + specialists</mark>
-10. <mark style="background:#fff88f">Permission to Fail — Transparent error handling</mark>
+1. **Context > Prompts** — Organized context beats clever prompts
+2. **Plan-First Execution** — Review plans before execution
+3. **Pattern-Based System** — Composable, reusable patterns for scalability
+4. **Domain-Driven Documentation** — Siloed project workspaces
+5. **Self Update System** — Modular evolution without rebuilds
+6. **PAL Master with Sub-Agents** — Primary orchestrator with domain specialists
+7. **Inbox-First Capture** — Friction-free entry point for all raw data
+8. **Spec-Driven Development** — System evolution governed by persistent requirements
 
 ---
 
@@ -119,11 +126,11 @@ PAL uses three hooks to manage session lifecycle and security:
 
 Load specialized agents for focused work in specific domains:
 
-| Agent           | Role                     | Domain      | Load Command   |
-| --------------- | ------------------------ | ----------- | -------------- |
-| **PAL Master**  | Primary orchestrator     | System-wide | (default)      |
-| **PAL Builder** | System architect         | PALBuilder  | `/pal-builder` |
-| **Life Coach**  | Personal life management | LifeOS      | `/life-coach`  |
+| Agent | Role | Domain | Load Command |
+|-------|------|--------|--------------|
+| **PAL Master** | Primary orchestrator | System-wide | (default) |
+| **PAL Builder** | System architect | PALBuilder | `/pal-builder` |
+| **Life Coach** | Personal life management | LifeOS | `/life-coach` |
 
 
 ---
@@ -147,31 +154,4 @@ MIT License - See [LICENSE](LICENSE) for details.
 ---
 
 **Version:** 0.1.0-alpha
-**Last Updated:** 2026-02-16
-
-## To Add
-
-Operation flows
-How context is Managed? 
-We go from Agent - Domain - Goal - Action 
-
-Two layers 
-Configuration (.claude)
-Action (Inbox, Ports, Domains)
-
-Scaling the system
-Use PAL Builder
-Spec-inspired development
-
-What are patterns? 
-A modular based approach 
-
-
-
-### Three-Layer Architecture
-
-| Layer        | Purpose           | What It Contains                        |
-| ------------ | ----------------- | --------------------------------------- |
-| **USER**     | Your identity     | Preferences, contacts, personal context |
-| **SYSTEM**   | How PAL works     | Workflows, routing logic, orchestration |
-| **SECURITY** | What PAL won't do | Safety rules, data policies             |
+**Last Updated:** 2026-02-23

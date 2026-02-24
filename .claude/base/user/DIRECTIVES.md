@@ -90,7 +90,7 @@ Defines how PAL operates and behaves at system level. For personal communication
 ### Skill Routing Behavior
 
 **When skill activation is needed:**
-`[Choose: Automatic (PAL decides and activates) / Notify first (tell me before activating) / Manual only (I'll use /load-[agent])]`
+`[Choose: Automatic (PAL decides and activates) / Notify first (tell me before activating) / Manual only (I'll use /[agent])]`
 
 **When skill is activated:**
 
