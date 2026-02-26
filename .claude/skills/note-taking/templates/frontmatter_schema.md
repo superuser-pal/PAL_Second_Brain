@@ -10,6 +10,7 @@ status: unprocessed
 domain: null
 project: null
 category: notes
+type: note
 subsection: null
 created: 2026-02-11
 last_modified: 2026-02-11
@@ -27,6 +28,7 @@ tags: []
 | `status` | enum | Processing status | `ready` |
 | `domain` | string\|null | Target domain name | `ProjectAlpha` |
 | `category` | enum | Note category | `research` |
+| `type` | enum | Entity type | `concept` |
 | `created` | date | Creation date | `2026-02-11` |
 | `last_modified` | date | Last modification | `2026-02-11` |
 
@@ -35,9 +37,24 @@ tags: []
 | Status | Meaning | Location |
 |--------|---------|----------|
 | `unprocessed` | Needs domain/project assignment | inbox/notes/ |
+| `draft` | Partial processing (no agent context) | inbox/notes/ |
 | `ready` | Ready for distribution | inbox/notes/ |
 | `processed` | Distributed to domain | domains/*/03_ASSETS/ |
 | `archived` | Moved to archive | domains/*/05_ARCHIVE/ |
+
+## Entity Type Values
+
+| Type | Purpose | Template Sections |
+|------|---------|-------------------|
+| `concept` | Knowledge artifact | Definition, Context, Key Points, Examples |
+| `decision` | Recorded choice | Context, Options, Decision, Rationale, Consequences |
+| `reference` | External resource | Source, Summary, Key Quotes, Relevance |
+| `meeting` | Interaction record | Meeting Info, Discussion, Decisions, Action Items |
+| `braindump` | Stream of thought | Raw Thoughts, Analysis, Themes |
+| `idea` | Early-stage concept | Core Idea, Inspiration, Potential, Questions |
+| `note` | Generic note (default) | Title, Content, Tags |
+
+**See:** `templates/entity_types.md` for full template structures
 
 ## Category Values
 
@@ -143,7 +160,31 @@ eval_status: "to-evaluate"
 - Must be `PascalCase`
 - Must match existing domain in `domains/`
 - Set to `null` for domain-agnostic notes
+- Set to `_unassigned` for notes processed in blind mode (no agent)
 - Validated during `distribute_notes` workflow
+
+### Valid Domains
+
+| Domain | Folder Name | Purpose |
+|--------|-------------|---------|
+| LifeOS | `LifeOS` | Personal life context (beliefs, goals, projects) |
+| PALBuilder | `PALBuilder` | PAL system development, specs, architecture |
+| Studio | `Studio` | Video production, presentations, visual content |
+| PALOpenSource | `PALOpenSource` | Release management, public distribution |
+| PALProduct | `PALProduct` | Product strategy, roadmap, user research |
+| LaraLou | `LaraLou (Blog)` | Substack content, newsletter, growth |
+
+### Domain Detection
+
+The `braindump` workflow auto-detects domains using pattern matching:
+
+1. Patterns defined in `templates/domain_patterns.md`
+2. Confidence scoring: Primary (40%) + Secondary (25% x2) = max 90%
+3. Threshold: >= 60% triggers suggestion
+
+**When multiple domains match (>= 70% each):** User chooses primary destination.
+
+**See:** `templates/domain_patterns.md` for full pattern definitions
 
 ## Project Field Rules
 
@@ -174,3 +215,40 @@ eval_status: "to-evaluate"
 - Array of strings
 - Use lowercase, hyphenated tags
 - Example: `["api", "backend", "authentication"]`
+
+---
+
+## Observation Syntax
+
+Notes can contain structured observations using this syntax:
+
+```markdown
+- [category] content #tag1 #tag2
+```
+
+**Valid Categories:** fact, idea, decision, technique, requirement, question, insight, problem, solution, action
+
+**See:** `templates/observation_categories.md` for full documentation
+
+---
+
+## Relation Syntax
+
+Notes can link to other notes using Obsidian wikilinks:
+
+```markdown
+## Relations
+
+- supports [[Target Note]]
+- contradicts [[Another Note]]
+- evolved_from [[Original Idea]]
+```
+
+**Valid Relation Types:** part_of, supports, contradicts, evolved_from, informs, blocks, inspired_by, relates_to, originated_with, follows
+
+**Rules:**
+- Max 5 relations per note
+- Forward references allowed (links to notes that don't exist yet)
+- Uses Obsidian wikilink syntax for graph view compatibility
+
+**See:** `templates/relation_types.md` for full documentation

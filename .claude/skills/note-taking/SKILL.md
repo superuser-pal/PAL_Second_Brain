@@ -1,11 +1,20 @@
 ---
 name: note-taking
-description: Manage notes from inbox to domains. USE WHEN process notes OR organize notes OR add frontmatter OR distribute notes OR ingest PDF OR ingest document OR convert document OR inbox notes OR note management OR scan inbox OR move notes to domain OR braindump OR brain dump OR capture thoughts OR dump thoughts OR url dump OR save link OR bookmark url OR capture url OR save for later.
+description: Manage notes with semantic structure and knowledge graph. USE WHEN process notes OR organize notes OR add frontmatter OR distribute notes OR ingest PDF OR ingest document OR convert document OR inbox notes OR note management OR scan inbox OR move notes to domain OR braindump OR brain dump OR capture thoughts OR dump thoughts OR url dump OR save link OR bookmark url OR capture url OR save for later OR categorize observations OR add relations OR link notes OR knowledge graph.
 ---
 
 # note-taking
 
-Unified note management skill for processing, organizing, and distributing notes across PAL domains.
+Unified note management skill with semantic structure (observation categories, entity types, relation types) that transforms flat notes into a connected knowledge graph inside Obsidian.
+
+## Semantic Features
+
+- **Observation Categories** (10 types): fact, idea, decision, technique, requirement, question, insight, problem, solution, action
+- **Entity Types** (6 types): concept, decision, reference, meeting, braindump, idea
+- **Relation Types** (10 types): part_of, supports, contradicts, evolved_from, informs, blocks, inspired_by, relates_to, originated_with, follows
+- **Dedup Check**: Detects similar notes before creating duplicates
+- **Action Extraction**: Automatically creates tasks from `[action]` observations
+- **Multi-Theme Splitting**: Braindumps with distinct themes can split into separate notes
 
 ## Workflow Routing
 
@@ -25,11 +34,16 @@ User: "braindump"
 -> Invokes braindump workflow
 -> Collects stream-of-consciousness input
 -> Analyzes for themes, insights, action items
--> Detects LifeOS category patterns (beliefs, goals, etc.)
--> If pattern detected: confirms with user -> status: ready
--> If no pattern: asks user to select category
+-> Domain Detection (Step 4a):
+   - Scores content against all domains (PALBuilder, LifeOS, Studio, etc.)
+   - Uses patterns from templates/domain_patterns.md
+   - Confidence threshold: >= 60% triggers suggestion
+-> If LifeOS detected: also runs category detection (beliefs, goals, etc.)
+-> If non-LifeOS domain: sets domain, category = notes
+-> If multiple domains match (>= 70%): asks user to choose
+-> If no match: presents domain selection menu
 -> Saves to inbox/notes/braindump_YYYY-MM-DD_HHMM.md
--> Next: distribute_notes to append to LifeOS files
+-> Next: distribute_notes to route to correct domain
 ```
 
 **Example 2: Process raw notes in inbox**
@@ -86,3 +100,7 @@ User: "save this link: https://example.com/article"
 
 **Full Documentation:**
 - Frontmatter Schema: `templates/frontmatter_schema.md`
+- Domain Patterns: `templates/domain_patterns.md`
+- Observation Categories: `templates/observation_categories.md`
+- Entity Types: `templates/entity_types.md`
+- Relation Types: `templates/relation_types.md`

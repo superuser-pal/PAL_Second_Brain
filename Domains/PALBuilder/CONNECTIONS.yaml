@@ -1,0 +1,26 @@
+# External APIs
+apis: []
+
+# Documentation sources
+documentation:
+  - name: Claude Code Documentation
+    url: https://docs.anthropic.com/claude-code
+    notes: Official Claude Code SDK documentation
+
+# Data sources
+data_sources: []
+
+# Internal references
+internal_references:
+  - name: system-build skill
+    location: .claude/skills/system-build/SKILL.md
+    notes: Primary specification toolkit for PAL development
+  - name: create-skill skill
+    location: .claude/skills/create-skill/SKILL.md
+    notes: For creating new PAL skills
+  - name: create-agent skill
+    location: .claude/skills/create-agent/SKILL.md
+    notes: For creating new PAL agents
+  - name: create-domain skill
+    location: .claude/skills/create-domain/SKILL.md
+    notes: For creating new PAL domains

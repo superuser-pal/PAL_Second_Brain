@@ -1,0 +1,16 @@
+# Life OS Domain Connections
+# External sources and integrations for the life-os domain
+# Currently empty - add connections as needed
+
+connections: []
+
+# Example connection format:
+# connections:
+#   - name: "Notion Life Dashboard"
+#     type: api
+#     url: "https://api.notion.com/v1/..."
+#     purpose: "Sync goals and projects"
+#   - name: "Journal App Export"
+#     type: file
+#     path: "/path/to/exports"
+#     purpose: "Import journal entries for extraction"

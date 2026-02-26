@@ -15,7 +15,9 @@ For each file:
 2. Parse frontmatter to extract: `status`, `domain`, `project`, `category`
 3. Filter based on status:
    - `status: ready` → Add to distribution queue
+   - `status: draft` → Skip (processed without agent, needs reprocessing with agent)
    - `status: unprocessed` → Skip (needs processing first)
+   - `domain: _unassigned` → Skip (needs domain assignment via agent)
    - No frontmatter → Skip (run process_inbox first)
 
 ## Step 2b: Detect LifeOS Categories
@@ -135,6 +137,97 @@ After moving, update the note's frontmatter:
 5. **Update note frontmatter:**
    - Set `status: processed`
    - Update `last_modified` to today's date
+
+## Step 6c: Validate Relations
+
+For each note being distributed, check its `## Relations` section:
+
+### Process
+
+1. Parse relations from the note (format: `- relation_type [[Target Note]]`)
+2. For each relation target, check if it exists in the destination domain:
+   ```bash
+   find "domains/[domain]" -name "*.md" | xargs grep -l "# [Target Note Title]"
+   ```
+
+### Validation Outcomes
+
+| Target Status | Action |
+|---------------|--------|
+| **Target exists** | Relation is valid, no action needed |
+| **Target missing** | Warn but allow (forward reference) |
+
+### Warning Format
+
+```
+⚠️ Relation target not found:
+
+Note: [current_note.md]
+Relation: supports [[Nonexistent Note]]
+Domain: [domain]
+
+This is a forward reference - it will resolve when the target note is created.
+Obsidian will display this as an unresolved link.
+
+Continue distribution? (Y/n)
+```
+
+**Note:** Missing relation targets do NOT block distribution. They are expected for forward references and will resolve when target notes are created.
+
+## Step 6d: Action Extraction to PROJECT Files
+
+**Condition:** Only runs when note has a `project:` field AND agent context is loaded.
+
+Extract `[action]` observations from the note and create tasks in the PROJECT file.
+
+### Process
+
+1. **Scan note for action observations:**
+   - Look for lines matching `- [action] content #tags`
+   - Extract the content portion
+
+2. **Locate PROJECT file:**
+   - Path: `domains/[domain]/01_PROJECTS/[project]`
+   - Verify file exists
+
+3. **Add tasks to PROJECT file:**
+   - Find or create `## Tasks` section
+   - Add each action as a task with backlink:
+     ```markdown
+     ## Tasks
+
+     - [ ] [action content] (from: [[Source Note]])
+     ```
+
+### Task Format
+
+```markdown
+- [ ] Review the API documentation (from: [[braindump_2026-02-25_1430]])
+```
+
+**Elements:**
+- `- [ ]` - Unchecked task checkbox
+- `[action content]` - Original action text (without `[action]` prefix and tags)
+- `(from: [[Source Note]])` - Backlink to source note using wikilink syntax
+
+### Example
+
+**Source note observation:**
+```markdown
+- [action] Review the API documentation #api #tasks
+```
+
+**Added to PROJECT file:**
+```markdown
+- [ ] Review the API documentation (from: [[meeting_notes_api_review]])
+```
+
+### No Agent Handling
+
+If no agent is loaded (note has `project:` but processing in blind mode):
+- Skip action extraction
+- Actions remain in note's `## Observations` section
+- Will be extracted on second pass with agent
 
 ## Step 7: Update Project Reference
 
