@@ -259,6 +259,51 @@ User: "[Different request pattern]"
 
 ---
 
+## Frontmatter-First Query Convention (MANDATORY)
+
+**When a skill or workflow queries across multiple files, it MUST use frontmatter extraction — never read full file contents for listing or filtering operations.**
+
+### Rules
+
+1. **Use grep on YAML frontmatter fields only** — extract the specific properties needed (status, domain, priority, tags, etc.)
+2. **Never read full file contents** for listing, filtering, or counting operations
+3. **Present query results as markdown tables** — structured output for readability
+4. **Document frontmatter dependencies** — every skill that queries data must list which frontmatter fields it reads in its SKILL.md
+
+### Why This Matters
+
+As vaults grow, reading full files for queries becomes prohibitively expensive in tokens and time. A vault with 200 notes at ~500 tokens each = 100k tokens for a full scan. Frontmatter extraction reads ~20 tokens per file = 4k tokens for the same query. This is a 25x efficiency gain.
+
+### Examples
+
+**CORRECT — Frontmatter extraction:**
+```bash
+# Get all active projects with their task counts
+grep -l "status: active" Domains/*/01_PROJECTS/PROJECT_*.md | \
+  while read f; do grep -m5 "^status:\|^priority:\|^task_open:\|^domain:" "$f"; done
+```
+
+**WRONG — Full file reads:**
+```bash
+# Don't do this — reads entire file contents into context
+cat Domains/*/01_PROJECTS/PROJECT_*.md
+```
+
+### Skill Documentation Requirement
+
+Skills that query data should include a section like:
+
+```markdown
+## Frontmatter Dependencies
+| Field | Source Files | Used For |
+| :--- | :--- | :--- |
+| `status` | PROJECT_*.md | Filtering active projects |
+| `task_open` | PROJECT_*.md | Sorting by workload |
+| `domain` | *.md | Grouping by domain |
+```
+
+---
+
 ## Intent Matching, Not String Matching
 
 We use **intent matching**, not exact phrase matching.

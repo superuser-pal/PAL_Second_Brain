@@ -70,14 +70,14 @@ All agents in the PAL Second Brain **MUST** follow the structure and conventions
 ### Rules
 
 1. The `domain` field in YAML frontmatter is **required** — agent creation cannot proceed without it.
-2. The specified domain must **already exist** at `domains/[domain-name]/` with a valid `INDEX.md`.
+2. The specified domain must **already exist** at `Domains/[DomainName]/` with a valid `INDEX.md`.
 3. If the domain does not exist, **stop and ask the user** to create it first (or invoke the `create-domain` skill) before continuing agent creation.
 4. Do NOT create an agent file until the domain is confirmed to exist.
 
 ### Domain Binding Process
 
 1. Agent specifies `domain: [domain-name]` in YAML frontmatter
-2. System verifies `domains/[domain-name]/INDEX.md` exists
+2. System verifies `Domains/[DomainName]/INDEX.md` exists
 3. INDEX.md serves as the **source of truth** for domain files
 4. Agent author maps files from INDEX.md to `[AUTO]` or `[REF]`
 
@@ -100,7 +100,7 @@ All agents in the PAL Second Brain **MUST** follow the structure and conventions
 3. **Related files** live in their respective locations:
    - Workflows → `.claude/skills/[SkillName]/workflows/`
    - Templates → `.claude/skills/[SkillName]/templates/`
-   - Domain context → `domains/[domain-name]/`
+   - Domain context → `Domains/[DomainName]/`
 4. **Invocation command** follows pattern: `/[agent-name]`
 5. **Dismiss command** is always `*dismiss`
 
@@ -128,9 +128,9 @@ Agents reference files from their respective locations — no duplication:
 | :----------------- | :-------------------------------------- | :--------------------------------------------------- |
 | **Workflows**      | `.claude/skills/[SkillName]/workflows/` | `.claude/skills/Blogging/workflows/create-post.md`   |
 | **Templates**      | `.claude/skills/[SkillName]/templates/` | `.claude/skills/Blogging/templates/post-template.md` |
-| **Domain Context** | `domains/[DomainName]/`                 | `domains/BlogContent/INDEX.md`                       |
-| **Base Files**     | `.claude/base/`                         | `.claude/base/user/ABOUTME.md`                       |
-| **Routing Table**  | `.claude/base/reference/`               | `.claude/base/reference/ROUTING_TABLE.md`            |
+| **Domain Context** | `Domains/[DomainName]/`                 | `Domains/BlogContent/INDEX.md`                       |
+| **Base Files**     | `.claude/core/`                         | `.claude/core/user/ABOUTME.md`                       |
+| **Routing Table**  | `.claude/core/reference/`               | `.claude/core/reference/ROUTING_TABLE.md`            |
 
 ---
 
@@ -176,9 +176,9 @@ Domain agents load context from two groups. This replaces the previous four-laye
 
 Three files, always `[REF]`. These are the same for every domain agent:
 
-- [REF] `PAL_Base/User/ABOUTME.md` — Core Identity & Background
-- [REF] `PAL_Base/User/DIRECTIVES.md` — Critical System Rules
-- [REF] `PAL_Base/Security/GUARDRAILS.md` — Safety Validation
+- [REF] `.claude/core/user/ABOUTME.md` — Core Identity & Background
+- [REF] `.claude/core/user/DIRECTIVES.md` — Critical System Rules
+- [REF] `.claude/core/security/GUARDRAILS.md` — Safety Validation
 
 ### Domain Context (Configurable)
 
@@ -187,12 +187,12 @@ Mapped from the domain's `INDEX.md`. Each agent author decides what is `[AUTO]` 
 **Base domain structure:**
 
 ```
-domains/[DomainName]/
+Domains/[DomainName]/
 ├── 00_CONTEXT/        # Domain-specific context and reference docs
 ├── 01_PROJECTS/       # Active project files
 ├── 02_SESSIONS/       # Session logs
-├── 03_ASSETS/         # Reference materials and resources
-├── 04_OUTPUTS/        # Generated deliverables
+├── 03_PAGES/         # Pages and reference materials
+├── 04_WORKSPACE/        # Agent workspace and staging area
 ├── 05_ARCHIVE/        # Completed or deprecated items
 ├── CONNECTIONS.yaml   # Domain connections and integrations
 └── INDEX.md           # Domain source of truth (always AUTO)
@@ -214,27 +214,27 @@ This is the standard structure. Agent authors may add or remove folders based on
 ```markdown
 **Base Context:**
 
-- [REF] `PAL_Base/User/ABOUTME.md`
-- [REF] `PAL_Base/User/DIRECTIVES.md`
-- [REF] `PAL_Base/Security/GUARDRAILS.md`
+- [REF] `.claude/core/user/ABOUTME.md`
+- [REF] `.claude/core/user/DIRECTIVES.md`
+- [REF] `.claude/core/security/GUARDRAILS.md`
 
 **Domain Context (BlogContent):**
 
-- [AUTO] `domains/BlogContent/INDEX.md` — Domain source of truth
-- [REF] `domains/BlogContent/00_CONTEXT/` — Domain reference docs
-- [REF] `domains/BlogContent/01_PROJECTS/` — Active projects
-- [REF] `domains/BlogContent/02_SESSIONS/` — Session logs
-- [REF] `domains/BlogContent/03_ASSETS/` — Reference materials
-- [REF] `domains/BlogContent/04_OUTPUTS/` — Generated deliverables
-- [REF] `domains/BlogContent/05_ARCHIVE/` — Archived items
-- [REF] `domains/BlogContent/CONNECTIONS.yaml` — Integrations
+- [AUTO] `Domains/BlogContent/INDEX.md` — Domain source of truth
+- [REF] `Domains/BlogContent/00_CONTEXT/` — Domain reference docs
+- [REF] `Domains/BlogContent/01_PROJECTS/` — Active projects
+- [REF] `Domains/BlogContent/02_SESSIONS/` — Session logs
+- [REF] `Domains/BlogContent/03_PAGES/` — Reference materials
+- [REF] `Domains/BlogContent/04_WORKSPACE/` — Agent workspace and staging area
+- [REF] `Domains/BlogContent/05_ARCHIVE/` — Archived items
+- [REF] `Domains/BlogContent/CONNECTIONS.yaml` — Integrations
 ```
 
 ---
 
 ## Inline Capability Model
 
-Agent capabilities are declared **inline in the agent file** (Section 5: My Capabilities). A comprehensive read-only index is available in `.claude/base/reference/SYSTEM_INDEX.md`.
+Agent capabilities are declared **inline in the agent file** (Section 5: My Capabilities). A comprehensive read-only index is available in `.claude/core/reference/SYSTEM_INDEX.md`.
 
 ### How It Works
 
@@ -281,7 +281,7 @@ PAL Master uses `ROUTING_TABLE.md` for the `*agents` command — a lightweight f
 
 ### System Index (Reference Only)
 
-`SYSTEM_INDEX.md` is a generated read-only file that provides a system-wide view of all capabilities across all agents. It is located in `.claude/base/reference/SYSTEM_INDEX.md` and is never loaded at runtime. It is regenerated by the `map-domain` workflow.
+`SYSTEM_INDEX.md` is a generated read-only file that provides a system-wide view of all capabilities across all agents. It is located in `.claude/core/reference/SYSTEM_INDEX.md` and is never loaded at runtime. It is regenerated by the `map-domain` workflow.
 
 ---
 
@@ -400,8 +400,8 @@ Before an agent is complete, verify the following:
 
 ### Domain Binding
 
-- [ ] `domain` field matches an existing directory in `domains/`
-- [ ] `domains/[domain-name]/INDEX.md` exists
+- [ ] `domain` field matches an existing directory in `Domains/`
+- [ ] `Domains/[DomainName]/INDEX.md` exists
 - [ ] Domain files mapped to [AUTO]/[REF] in Activation Protocol
 - [ ] Domain INDEX.md marked as [AUTO]
 - [ ] Minimum files marked [AUTO] (only essentials)

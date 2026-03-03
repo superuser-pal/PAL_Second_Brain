@@ -54,7 +54,7 @@ If a domain does not follow this structure, it will not load correctly when acce
 | **Project files**    | `UPPER_SNAKE_CASE.md` | `PROJECT_FEATURE_X.md` | Active project files in 01_PROJECTS/.            |
 | **Session logs**     | `YYYY-MM-DD_title.md` | `2026-01-15_sync.md`   | Chronological session logs.                      |
 | **Asset files**      | `lower_snake_case.md` | `api_documentation.md` | Reference materials and assets.                  |
-| **Output files**     | Flexible              | Any naming             | Generated deliverables in 04_OUTPUTS/.           |
+| **Output files**     | Flexible              | Any naming             | Agent workspace and staging area in 04_WORKSPACE/.           |
 
 **Convention Rules:**
 
@@ -87,11 +87,11 @@ domains/DomainName/               # PascalCase directory name
 ├── 02_SESSIONS/                  # Chronological interaction logs
 │   ├── 2026-01-15_kickoff.md    # Session log with date prefix
 │   └── 2026-01-18_review.md    # Another session log
-├── 03_ASSETS/                    # Raw documentation and reference materials
+├── 03_PAGES/                    # Raw documentation and reference materials
 │   ├── api_documentation.md     # Reference material
 │   ├── architecture_diagram.png # Visual assets
 │   └── requirements.md         # Project requirements
-├── 04_OUTPUTS/                   # Generated deliverables
+├── 04_WORKSPACE/                   # Agent workspace and staging area
 │   └── quarterly_report.pdf     # Output files (flexible naming)
 └── 05_ARCHIVE/                   # Deprecated content (Deprecation Pattern)
     └── PROJECT_OLD_FEATURE.md   # Archived project
@@ -106,8 +106,8 @@ domains/DomainName/               # PascalCase directory name
 | **00_CONTEXT/**      | Domain-specific context and reference docs   | Background info, rules, constraints   |
 | **01_PROJECTS/**     | Active project documents                     | PROJECT_XXX.md files for ongoing work |
 | **02_SESSIONS/**     | Interaction logs and decisions               | Date-prefixed session summaries       |
-| **03_ASSETS/**       | Reference materials                          | Documentation, data, diagrams         |
-| **04_OUTPUTS/**      | Generated deliverables                       | Reports, exports, generated files     |
+| **03_PAGES/**       | Reference materials                          | Documentation, data, diagrams         |
+| **04_WORKSPACE/**      | Agent workspace and staging area                       | Reports, exports, generated files     |
 | **05_ARCHIVE/**      | Deprecated content                           | Archived projects and old logs        |
 
 **Nesting Limit:** Do not exceed three vertical levels below the domain root. Flatten deeper structures using semantic naming.
@@ -156,8 +156,8 @@ owner: [Owner name or team]
 - [Context](00_CONTEXT/)
 - [Projects](01_PROJECTS/)
 - [Sessions](02_SESSIONS/)
-- [Assets](03_ASSETS/)
-- [Outputs](04_OUTPUTS/)
+- [Assets](03_PAGES/)
+- [Outputs](04_WORKSPACE/)
 - [Archive](05_ARCHIVE/)
 ```
 
@@ -370,7 +370,7 @@ type: sync | review | planning | decision
 
 ---
 
-## Outputs (04_OUTPUTS/)
+## Outputs (04_WORKSPACE/)
 
 Output files are generated deliverables produced from domain work.
 
@@ -396,7 +396,7 @@ When projects become stale, sessions are no longer relevant, or outputs are supe
 deprecated: YYYY-MM-DD
 reason: Project completed | Superseded by PROJECT_NEW.md | No longer relevant | Cancelled
 original_location:
-  [00_CONTEXT/ | 01_PROJECTS/ | 02_SESSIONS/ | 03_ASSETS/ | 04_OUTPUTS/]
+  [00_CONTEXT/ | 01_PROJECTS/ | 02_SESSIONS/ | 03_PAGES/ | 04_WORKSPACE/]
 ---
 
 [Original content below]
@@ -413,7 +413,7 @@ Before a domain is complete:
 - [ ] Domain directory uses PascalCase
 - [ ] INDEX.md exists at domain root
 - [ ] CONNECTIONS.yaml exists at domain root (can be empty if no external sources)
-- [ ] All six core folders exist (00_CONTEXT, 01_PROJECTS, 02_SESSIONS, 03_ASSETS, 04_OUTPUTS, 05_ARCHIVE)
+- [ ] All six core folders exist (00_CONTEXT, 01_PROJECTS, 02_SESSIONS, 03_PAGES, 04_WORKSPACE, 05_ARCHIVE)
 - [ ] No nesting beyond three levels
 
 ### INDEX.md
@@ -450,8 +450,8 @@ Before a domain is complete:
 | **00_CONTEXT/**      | Domain context and reference | lower_snake_case.md files                 |
 | **01_PROJECTS/**     | Active project documents     | PROJECT_XXX.md files                      |
 | **02_SESSIONS/**     | Interaction logs             | YYYY-MM-DD_title.md files                 |
-| **03_ASSETS/**       | Reference materials          | lower_snake_case files                    |
-| **04_OUTPUTS/**      | Generated deliverables       | Flexible naming                           |
+| **03_PAGES/**       | Reference materials          | lower_snake_case files                    |
+| **04_WORKSPACE/**      | Agent workspace and staging area       | Flexible naming                           |
 | **05_ARCHIVE/**      | Deprecated content           | Preserved original filenames              |
 
 This system ensures:

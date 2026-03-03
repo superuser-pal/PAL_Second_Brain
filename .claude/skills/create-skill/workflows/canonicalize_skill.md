@@ -164,6 +164,7 @@ workflows:
 ---
 name: skill-name
 description: What the skill does. USE WHEN user mentions X OR user wants to Y. Additional capabilities.
+user-invocable: false
 ---
 ```
 

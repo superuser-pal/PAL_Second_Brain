@@ -336,7 +336,7 @@ Configure allowed paths for Bun utilities:
       "enabled": true,
       "scriptsPath": "scripts/",
       "allowedPaths": [
-        ".claude/base/",
+        ".claude/core/",
         "blog/",
         "docs/",
         "scripts/",

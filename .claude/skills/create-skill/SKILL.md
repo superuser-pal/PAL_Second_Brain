@@ -1,6 +1,7 @@
 ---
 name: create-skill
 description: Create and validate skills. USE WHEN create skill, new skill, skill structure, canonicalize. SkillSearch('create-skill') for docs.
+user-invocable: false
 ---
 
 ## Customization

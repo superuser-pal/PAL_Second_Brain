@@ -1,6 +1,7 @@
 ---
 name: note-taking
 description: Manage notes with semantic structure and knowledge graph. USE WHEN process notes OR organize notes OR add frontmatter OR distribute notes OR ingest PDF OR ingest document OR convert document OR inbox notes OR note management OR scan inbox OR move notes to domain OR braindump OR brain dump OR capture thoughts OR dump thoughts OR url dump OR save link OR bookmark url OR capture url OR save for later OR categorize observations OR add relations OR link notes OR knowledge graph.
+user-invocable: false
 ---
 
 # note-taking

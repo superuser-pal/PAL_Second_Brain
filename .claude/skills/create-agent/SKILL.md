@@ -1,6 +1,7 @@
 ---
 name: create-agent
 description: Create and validate domain agents. USE WHEN create agent, new agent, agent structure, validate agent, check agent, domain agent. AgentSearch('create-agent') for docs.
+user-invocable: false
 ---
 
 # create-agent

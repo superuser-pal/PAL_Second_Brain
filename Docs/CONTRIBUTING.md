@@ -6,6 +6,7 @@
 This document provides guidelines for contributing to the project.
 
 ## How to Contribute
+
 ### Reporting Issues
 
 If you find a bug or have a suggestion:
@@ -40,6 +41,7 @@ I welcome ideas for new features:
 #### Making Changes
 
 **Skills:** New skills should follow PAL structure:
+
 ```
 .claude/skills/skill-name/
 ├── SKILL.md           # Main skill file (uppercase)
@@ -50,11 +52,13 @@ I welcome ideas for new features:
 ```
 
 **Agents:** Single `.md` files in `.claude/agents/`:
+
 - Use 8-section structure
 - Include YAML frontmatter with name, description, version, domain
 - Bind to existing domain
 
 **Domains:** Standard 6-folder structure in `Domains/`:
+
 ```
 Domains/DomainName/
 ├── INDEX.md
@@ -62,8 +66,8 @@ Domains/DomainName/
 ├── 00_CONTEXT/
 ├── 01_PROJECTS/
 ├── 02_SESSIONS/
-├── 03_ASSETS/
-├── 04_OUTPUTS/
+├── 03_PAGES/
+├── 04_WORKSPACE/
 └── 05_ARCHIVE/
 ```
 

@@ -1,6 +1,7 @@
 ---
 name: system-cleaner
 description: PAL system housekeeping audits. USE WHEN audit system, check references, validate naming, find orphans, health report, system health, clean system. AgentSearch('system-cleaner') for docs.
+user-invocable: false
 ---
 
 # system-cleaner

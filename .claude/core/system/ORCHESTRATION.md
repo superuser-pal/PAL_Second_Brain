@@ -110,7 +110,7 @@ PAL Master handles five primary responsibilities:
 
 - **Agents:** Single `.md` files only (no directories in agents folder), 8-section structure
 - **Skills:** Directory with `SKILL.md`, flat structure (max 2 levels)
-- **Domains:** Standard folder structure (INDEX.md and CONNECTIONS.yaml at root, 00_CONTEXT, 01_PROJECTS, 02_SESSIONS, 03_ASSETS, 04_OUTPUTS, 05_ARCHIVE)
+- **Domains:** Standard folder structure (INDEX.md and CONNECTIONS.yaml at root, 00_CONTEXT, 01_PROJECTS, 02_SESSIONS, 03_PAGES, 04_WORKSPACE, 05_ARCHIVE)
 
 **Asset Creation Best Practices:** Check for existing capabilities, follow PAL naming conventions (lower-kebab-case for directories, lower_snake_case for files), reference authoritative logic docs, test before complex use
 
@@ -262,9 +262,9 @@ Agent ready with domain context
 Domain agents load context from **two groups** (Base + Domain):
 
 **Base Context (Fixed):** Three files, always `[REF]`:
-- [REF] `PAL_Base/User/ABOUTME.md` — Core Identity & Background
-- [REF] `PAL_Base/User/DIRECTIVES.md` — Critical System Rules
-- [REF] `PAL_Base/Security/GUARDRAILS.md` — Safety Validation
+- [REF] `.claude/core/user/ABOUTME.md` — Core Identity & Background
+- [REF] `.claude/core/user/DIRECTIVES.md` — Critical System Rules
+- [REF] `.claude/core/security/GUARDRAILS.md` — Safety Validation
 
 **Domain Context (Configurable):** Mapped from the domain's `INDEX.md`:
 
@@ -274,8 +274,8 @@ Domain agents load context from **two groups** (Base + Domain):
 | **00_CONTEXT/** | Domain background and reference docs | `[REF]` |
 | **01_PROJECTS/** | Active project files | `[REF]` |
 | **02_SESSIONS/** | Interaction logs | `[REF]` |
-| **03_ASSETS/** | Reference materials | `[REF]` |
-| **04_OUTPUTS/** | Generated deliverables | `[REF]` |
+| **03_PAGES/** | Reference materials | `[REF]` |
+| **04_WORKSPACE/** | Agent workspace and staging area | `[REF]` |
 | **05_ARCHIVE/** | Deprecated content | `[REF]` |
 
 #### Domain Binding
@@ -394,8 +394,8 @@ Domain agents use a **two-group context model** (Base + Domain):
 | **00_CONTEXT/** | Domain background and reference docs | `[REF]` |
 | **01_PROJECTS/** | Active project files | `[REF]` |
 | **02_SESSIONS/** | Interaction logs | `[REF]` |
-| **03_ASSETS/** | Reference materials | `[REF]` |
-| **04_OUTPUTS/** | Generated deliverables | `[REF]` |
+| **03_PAGES/** | Reference materials | `[REF]` |
+| **04_WORKSPACE/** | Agent workspace and staging area | `[REF]` |
 | **05_ARCHIVE/** | Deprecated content | `[REF]` |
 
 **Domain Context Source of Truth:** `domains/[domain-name]/INDEX.md`
@@ -410,7 +410,7 @@ Domain agents use a **two-group context model** (Base + Domain):
 
 **SECURITY:** Enforces validation (GUARDRAILS), governs data handling (REPOS_RULES)
 
-**DOMAIN (agents only):** Provides project-specific context (INDEX.md), domain background (00_CONTEXT), active projects (01_PROJECTS), session history (02_SESSIONS), reference materials (03_ASSETS), generated deliverables (04_OUTPUTS)
+**DOMAIN (agents only):** Provides project-specific context (INDEX.md), domain background (00_CONTEXT), active projects (01_PROJECTS), session history (02_SESSIONS), reference materials (03_PAGES), generated deliverables (04_WORKSPACE)
 
 ---
 

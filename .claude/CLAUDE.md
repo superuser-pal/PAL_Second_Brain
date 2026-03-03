@@ -95,7 +95,7 @@ Strict naming allows the AI to distinguish between system logic, active work, an
 
 | Category             | Convention            | Example              | Purpose                            |
 | :------------------- | :-------------------- | :------------------- | :--------------------------------- |
-| **System Protocols** | `UPPER_SNAKE_CASE.md` | `DIRECTIVES.md`      | Core rules in `.claude/base/`.     |
+| **System Protocols** | `UPPER_SNAKE_CASE.md` | `DIRECTIVES.md`      | Core rules in `.claude/core/`.     |
 | **Folders**          | `lower-kebab-case`    | `project-alpha/`     | Standard IDE navigation.           |
 | **Logs & Sessions**  | `YYYY-MM-DD_title.md` | `2026-01-15_Sync.md` | Chronological sorting and recency. |
 | **Active Work**      | `lower_snake_case.md` | `research_notes.md`  | Standard domain-level files.       |

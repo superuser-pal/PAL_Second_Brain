@@ -5,40 +5,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [0.1.0-alpha] - 2026-02-16
+## [0.1.0-beta] - 2026-02-16
 
 ### Added
 
 #### Skills (8 total, 40 workflows)
 
 **System Building:**
+
 - **create-agent** (3 workflows) — Create, validate, and adapt domain agents
 - **create-domain** (4 workflows) — Create, validate, map, and archive project workspaces
 - **create-skill** (4 workflows) — Create, validate, update, and canonicalize PAL skills
 
 **Knowledge Management:**
+
 - **life-management** (3 workflows) — Update, extract, and export personal life context (mission, beliefs, goals, lessons)
 - **note-taking** (5 workflows) — Braindump, process inbox, distribute notes, ingest longform, URL dump
 - **project-management** (5 workflows) — Create projects, pull tasks, update plans, dashboard, archive
 
 **Development:**
+
 - **system-build** (11 workflows) — Specification-driven development: specify, plan, tasks, implement, checklist, clarify, analyze, constitution, document, document_skill, tasks_to_issues
 - **system-cleaner** (5 workflows) — System auditing: audit_references, audit_domains, audit_naming, audit_orphans, health_report
 
-#### Agents (5 total)
+#### Agents (3 total)
 
 - **PAL Master** — Primary orchestration agent for intent classification, routing, and execution oversight
 - **PAL Builder** — System architect for PAL development (domain: PALBuilder)
 - **Life Coach** — Personal life management agent (domain: LifeOS)
-- **Studio Agent** — Video and presentation production (domain: Studio)
-- **Substack Manager** — Growth specialist for Substack (domain: LaraLou)
 
-#### Domains (4 total)
+#### Domains (2 total)
 
 - **PALBuilder** — PAL system development workspace
 - **LifeOS** — Personal life management (mission, beliefs, goals, projects, mental models, lessons)
-- **Studio** — Video production and Scaledraw presentations
-- **LaraLou** — Substack content and growth management
 
 #### Hooks (3 total)
 
@@ -49,9 +48,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Architecture
 
 - **Three-layer structure** — USER (identity) → SYSTEM (operations) → SECURITY (guardrails)
-- **10 core principles** — Technical-literate first, context over prompts, plan-first execution, and more
+- **8 core principles** — Context over prompts, token & cost efficiency, domain-driven documentation, and more
 - **Zero Trust context loading** — Only necessary context loaded to prevent token waste
-- **Domain-driven documentation** — Siloed project workspaces with standard 6-folder structure
+- **Domain-driven documentation** — Siloed project workspaces with standard folder structure
 
 ### Documentation
 
@@ -63,10 +62,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Notes
 
-This is an **alpha release**. APIs, file structures, and conventions may change in future versions.
+This is an **Beta release**. APIs, file structures, and conventions may change in future versions.
 
 **Known Limitations:**
-- Only tested with macOS 
+
+- Only tested with macOS
 - Session logs are not being registered correctly
 - Bun as a sole dependency (runtime toolkit)
 
@@ -75,7 +75,8 @@ This is an **alpha release**. APIs, file structures, and conventions may change 
 ## Future Releases
 
 Planned for future versions:
+
 - Stable improvements over core journeys
 - Enhanced hook capabilities
 - Cross-domain workflow coordination
-- + AI models support
+- Additional AI models support

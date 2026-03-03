@@ -21,7 +21,8 @@ status: GENERATED — Do not edit manually. Run `map-domain` to regenerate.
 | pal-builder      | pal-builder | .claude/agents/pal-builder.md      |
 | life-coach       | life-os     | .claude/agents/life-coach.md       |
 | studio-agent     | studio      | .claude/agents/studio-agent.md     |
-| substack-manager | laralou     | .claude/agents/substack-manager.md |
+| substack-manager    | laralou        | .claude/agents/substack-manager.md    |
+| pal-release-manager | pal-opensource | .claude/agents/pal-release-manager.md |
 
 ## All Skills
 
@@ -37,7 +38,8 @@ status: GENERATED — Do not edit manually. Run `map-domain` to regenerate.
 | prompting          | pal-builder  | .claude/skills/prompting/SKILL.md          | meta-prompting, template generation, prompt optimization, programmatic prompt composition                    |
 | life-management    | life-coach   | .claude/skills/life-management/SKILL.md    | User wants to update life context, extract notes, or generate reports                                        |
 | first-principles   | life-coach   | .claude/skills/first-principles/SKILL.md   | User wants to deconstruct problems into fundamental truths or challenge assumptions                          |
-| art                | studio-agent | .claude/skills/art/SKILL.md                | user wants to create comics, technical diagrams, or essays                                                   |
+| art                | studio-agent         | .claude/skills/art/SKILL.md                | user wants to create comics, technical diagrams, or essays                                                   |
+| release-management | pal-release-manager  | .claude/skills/release-management/SKILL.md | prepare release, sync changes, update changelog, create version, validate release, diff repos               |
 
 ## All Workflows
 
@@ -62,11 +64,17 @@ status: GENERATED — Do not edit manually. Run `map-domain` to regenerate.
 | Deconstruct       | life-coach   | first-principles/Deconstruct         | .claude/skills/first-principles/workflows/Deconstruct.md         |
 | TechnicalDiagrams | studio-agent | art/TechnicalDiagrams                | .claude/skills/art/workflows/TechnicalDiagrams.md                |
 | Comics            | studio-agent | art/Comics                           | .claude/skills/art/workflows/Comics.md                           |
-| Essay             | studio-agent | art/Essay                            | .claude/skills/art/workflows/Essay.md                            |
+| Essay             | studio-agent        | art/Essay                                    | .claude/skills/art/workflows/Essay.md                                    |
+| prepare_release   | pal-release-manager | release-management/prepare_release           | .claude/skills/release-management/workflows/prepare_release.md           |
+| validate_release  | pal-release-manager | release-management/validate_release          | .claude/skills/release-management/workflows/validate_release.md          |
+| sync_from_private | pal-release-manager | release-management/sync_from_private         | .claude/skills/release-management/workflows/sync_from_private.md         |
+| sync_to_public    | pal-release-manager | release-management/sync_to_public            | .claude/skills/release-management/workflows/sync_to_public.md            |
+| diff_repos        | pal-release-manager | release-management/diff_repos                | .claude/skills/release-management/workflows/diff_repos.md                |
+| create_version    | pal-release-manager | release-management/create_version            | .claude/skills/release-management/workflows/create_version.md            |
 
 ---
 
 **Generated:** 2026-02-15T19:21:00Z
 **Generator:** Manual Sync (Antigravity Assistant)
-**Agent files scanned:** 5
-**Total capabilities:** 5 agents · 11 skills · 20 workflows
+**Agent files scanned:** 6
+**Total capabilities:** 6 agents · 12 skills · 26 workflows

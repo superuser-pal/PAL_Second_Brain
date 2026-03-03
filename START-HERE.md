@@ -1,226 +1,166 @@
-# PAL Second Brain - Onboarding Guide
+# PAL Second Brain — Start Here
 
-> Everything you need to get started with PAL Second brain
+> By the end of this guide, you'll have a working second brain — an AI that can organize your notes, remember your projects, and pick up exactly where you left off.
 
-**Version:** 0.1.0-alpha
-**Last Updated:** 2026-02-16
+**Version:** 0.1.0-beta
+**Last Updated:** 2026-03-02
 
 ---
 
-## PAL Introduction
+## What You'll Accomplish
 
-PAL (Patterned Agentic Logic) is an AI-powered second brain that helps you:
+By following this guide, you will:
 
-- **Organize your thoughts** — Capture ideas, process notes, track projects
-- **Manage your projects** — Structured domains with tasks and session logs
-- **Merge them with AI** — Through a structured context that remembers who you are
+1. **Set up Obsidian** as your knowledge navigation layer
+2. **Run your first PAL session** with Claude Code
+3. **Understand the core concepts** — skills, agents, domains, hooks
+4. **Customize PAL** with your identity and preferences
+5. **Know where to go next** for deeper learning
 
-**Instead of starting every conversation from scratch, PAL remembers your identity, preferences, and current work.**
-
-### The 8 Core Principles
-
-1. **Context > Prompts** — Organized context beats clever prompts
-2. **Plan-First Execution** — Review plans before execution
-3. **Pattern-Based System** — Composable, reusable patterns
-4. **Domain-Driven Documentation** — Siloed project workspaces
-5. **Self Update System** — Modular evolution without rebuilds
-6. **PAL Master with Sub-Agents** — Primary orchestrator with domain specialists
-7. **Inbox-First Capture** — Friction-free entry point for all raw data
-8. **Spec-Driven Development** — System evolution governed by persistent requirements
-
-### What You'll Learn
-
-- How to set up Obsidian for the best experience
-- How to run your first PAL session
-- Core concepts: skills, agents, domains, hooks included in the Alpha version
-- Technical foundations for working with PAL
+**Time to complete:** ~30 minutes for basic setup, ~1 hour to explore everything.
 
 ---
 
 ## Prerequisites
 
-Before you begin, ensure you have:
+| Requirement       | Purpose                                     | Install                                    |
+| ----------------- | ------------------------------------------- | ------------------------------------------ |
+| **macOS/Windows** | PAL's primary tested platform               | —                                          |
+| **Git**           | Version control                             | —                                          |
+| **Bun**           | Package manager and runtime                 | [bun.sh](https://bun.sh)                   |
+| **Claude Code**   | AI interaction layer                        | `npm install -g @anthropic-ai/claude-code` |
+| **Obsidian**      | Reading and navigation (highly recommended) | [obsidian.md](https://obsidian.md)         |
 
-| Requirement     | Purpose                                     |
-| --------------- | ------------------------------------------- |
-| **macOS**       | PAL's primary tested platform               |
-| **Git**         | Version control                             |
-| **Bun**         | Package manager and runtime                 |
-| **Claude Code** | AI interaction layer                        |
-| **Obsidian**    | Reading and navigation (highly recommended) |
-
-See [Docs/SETUP.md](Docs/SETUP.md) for installation instructions.
+> **Claude Code requires an Anthropic subscription** — this is the AI engine that powers PAL. See [claude.com/pricing](https://claude.com/pricing) for plans. Most users find the Pro plan ($20/mo) sufficient for daily use.
 
 ---
 
-## Part 1: Setting Up Obsidian (Recommended)
+## Part 1: Setting Up Obsidian
 
 ### Why Obsidian?
 
-PAL is designed as a "second brain" — Obsidian provides the best reading experience:
+PAL is a second brain — Obsidian is the best way to read and navigate it:
 
-- **Beautiful rendering** — Markdown files display with proper formatting, links, and diagrams
+- **Beautiful rendering** — Markdown displays with proper formatting, links, and diagrams
 - **Graph view** — Visualize connections between domains, skills, and projects
 - **Quick navigation** — Jump to any file instantly with Cmd+O
-- **Better than any IDE** — Obsidian is built for knowledge management, not code editing
+- **Built for knowledge** — Obsidian is a knowledge management tool, not a code editor
 
-**PAL + Obsidian = Your AI-powered second brain with a easy to read interface and amazing plug-ins**
+**PAL + Obsidian = Your AI-powered second brain with a human-friendly interface.**
 
-### Installing Obsidian
+### Setup Steps
 
-1. Go to [obsidian.md](https://obsidian.md)
-2. Download for macOS
-3. Install the application
-4. Open Obsidian
-
-### Opening PAL as a Vault
-
-1. In Obsidian, click **Open folder as vault**
-2. Navigate to your `pal-personal` directory
-3. Click **Open**
+1. Download and install from [obsidian.md](https://obsidian.md)
+2. Open Obsidian → Click **Open folder as vault**
+3. Navigate to your `pal-personal` directory → Click **Open**
 4. When prompted, click **Trust author and enable plugins**
 
-Your PAL files are now accessible in Obsidian's file browser on the left.
+Your entire PAL system is now browsable in the left sidebar.
 
-### Install Claudian
+### Install Claudian (Optional)
 
-[Claudian](https://github.com/YishenTu/claudian) is an Obsidian plugin that embeds Claude Code as an AI collaborator in your vault.
+[Claudian](https://github.com/YishenTu/claudian) embeds Claude Code directly inside Obsidian:
 
-1. Download `main.js`, `manifest.json`, and `styles.css` from the [latest release](https://github.com/YishenTu/claudian/releases/latest).
-2. Create a folder called `claudian` in your vault's plugins folder:
-   ```text
-   /path/to/vault/.obsidian/plugins/claudian/
-   ```
-3. Copy the downloaded files into the `claudian` folder.
-4. Enable the plugin in Obsidian:
-   **Settings** → **Community plugins** → Enable **Claudian**.
+1. Download `main.js`, `manifest.json`, and `styles.css` from the [latest release](https://github.com/YishenTu/claudian/releases/latest)
+2. Create `.obsidian/plugins/claudian/` in your vault
+3. Copy the downloaded files into that folder
+4. Enable in **Settings → Community plugins → Claudian**
 
-### Recommended Settings
+### Recommended Obsidian Settings
 
-Open Settings (Cmd+,) and configure these options:
+Open **Settings** (Cmd+,):
 
 **Files & Links:**
-| Setting | Value |
-|---------|-------|
-| Detect all file extensions | ON |
-| Default location for new notes | `inbox/notes/` |
-| Use [[Wikilinks]] | ON |
+
+| Setting                        | Value          |
+| ------------------------------ | -------------- |
+| Detect all file extensions     | ON             |
+| Default location for new notes | `Inbox/Notes/` |
+| Use \[\[Wikilinks\]\]          | ON             |
 
 **Editor:**
-| Setting | Value |
-|---------|-------|
-| Show line numbers | ON |
-| Fold heading | ON |
-| Default editing mode | Source mode (for editing) |
+
+| Setting              | Value       |
+| -------------------- | ----------- |
+| Show line numbers    | ON          |
+| Fold heading         | ON          |
+| Default editing mode | Source mode |
 
 ### Essential Plugins
 
-Install these community plugins for the best experience:
+Install from **Settings → Community plugins → Browse**:
 
-1. Go to **Settings → Community plugins**
-2. Click **Browse**
-3. Search and install each plugin:
+| Plugin         | Purpose                                                |
+| -------------- | ------------------------------------------------------ |
+| **Tasks**      | Track tasks across your vault with rendered checkboxes |
+| **Dataview**   | Query your domains and projects like a database        |
+| **Calendar**   | Navigate session logs by date                          |
+| **Excalidraw** | Create and edit visual diagrams                        |
 
-| Plugin | Purpose | Why You Need It |
-|--------|---------|-----------------|
-| **Tasks** | Task tracking | Renders checkboxes, filters tasks across files |
-| **Dataview** | Dynamic queries | Query your domains and projects |
-| **Calendar** | Date navigation | Navigate session logs by date |
-| **Excalidraw** | Visual diagrams | Create and edit .excalidraw files |
+### Navigation Tips
 
-
-**Tips for Navigation:**
-
-- **Star important files** — Click the star icon to add INDEX.md files to your favorites
-- **Use graph view** — Cmd+G shows how your domains connect
-- **Pin tabs** — Right-click a tab to pin files you reference often
+- **Cmd+O** — Quick open any file by name
+- **Cmd+G** — Graph view showing how your domains connect
+- **Star files** — Click the star icon to bookmark INDEX.md files
+- **Pin tabs** — Right-click a tab to keep reference files visible
 - **Split panes** — Drag tabs to view multiple files side by side
-
-### Folder Structure View
-
-In the file browser, you'll see:
-
-```
-pal-personal/
-├── .claude/           # PAL system files
-│   ├── agents/        # Domain agents
-│   ├── skills/        # All skills
-│   └── base/          # System logic
-├── Domains/           # Your project workspaces
-│   ├── PALBuilder/
-│   └── LifeOS/
-├── Inbox/             # Work station for Notes and Tasks
-├── Docs/              # Documentation
-└── README.md          # Start here
-```
 
 ---
 
-## Part 2: Getting Started with Claude Code
+## Part 2: Your First PAL Session
 
-### Your First Session
+### Step 1: Launch
 
-1. **Open Terminal** in your PAL directory:
-   ```bash
-   cd ~/path/to/pal-personal
-   ```
+```bash
+cd ~/path/to/pal-second-brain
+claude
+```
 
-2. **Start Claude Code:**
-   ```bash
-   claude
-   ```
+//NEED TO ADD THE SET UP COMMAND
 
-3. **PAL Master greets you automatically** — The SessionStart hook loads your context
+*PAL greets you by name. Your identity, preferences, and project context load automatically in the background.*
 
-4. **Try these commands:**
+### Step 2: Explore
 
-   ```
-   *skills     # See available skills (8 total)
-   *agents     # See domain agents (3 total)
-   *context    # See what's loaded in context
-   *menu       # Show all available commands
-   ```
+Try these commands to see what's available:
 
-### Essential Commands
+| Command      | What It Does                               |
+| ------------ | ------------------------------------------ |
+| `*menu`      | Display all available commands             |
+| `*skills`    | List all 8 skills                          |
+| `*workflows` | List available workflows                   |
+| `*agents`    | Show domain agents                         |
+| `*context`   | Display what's currently loaded in context |
+| `*help`      | Show help documentation                    |
 
-| Command | What It Does |
-|---------|--------------|
-| `*menu` | Display available commands |
-| `*skills` | List all 8 skills |
-| `*workflows` | List available workflows |
-| `*agents` | Show 3 domain agents |
-| `*context` | Display loaded context files |
-| `*help` | Show help documentation |
-| `*dismiss` | Exit current agent (return to PAL Master) |
+### Step 3: Create Domains
 
-### Your First Workflow
+[PLACEHOLDER]
 
-**Example 1: Capture a thought with braindump**
+### Step 4: Try a Braindump within your Inbox/Notes
 
-Simply say:
+Say something like:
+
 > "Braindump: I've been thinking about reorganizing my project structure. Maybe I should create separate domains for each client. Also, I need to follow up with the design team about the new mockups."
 
 PAL will:
+
 1. Capture your raw thoughts
 2. Analyze themes and energy
 3. Extract questions, decisions, and action items
 4. Suggest relevant categories
 
-**Example 2: Create a new project**
+### Step 5: Create a Project
 
 Say:
+
 > "Create a project for the website redesign"
 
-PAL will ask for:
-- Domain selection
-- Project name
-- Objective
-- Initial tasks
-- Priority
+PAL will ask for domain selection, project name, objective, initial tasks, and priority — then create the full folder structure, INDEX.md, and project file in one step.
 
-### Loading Domain Agents
+### Step 6: Load a Specialized Agent
 
-For focused work in a specific area, load a specialized agent:
+For focused work in a specific area:
 
 ```
 /pal-builder       # System development
@@ -229,186 +169,92 @@ For focused work in a specific area, load a specialized agent:
 *dismiss           # Return to PAL Master
 ```
 
+Each agent loads its own domain context and provides a specialized command menu.
+
 ---
 
 ## Part 3: Core Concepts
 
-### Three-Layer Architecture and nested within .claude
+### Three-Layer Architecture
 
-PAL organizes everything into three layers:
+Everything in PAL is organized into three layers inside `.claude/`:
 
-| Layer | Purpose | Contents |
-|-------|---------|----------|
-| **USER** | Your identity | ABOUTME.md, DIRECTIVES.md, CONTACTS.md |
-| **SYSTEM** | How PAL works | Skills, agents, workflows, orchestration |
-| **SECURITY** | What PAL won't do | GUARDRAILS.md, REPOS_RULES.md |
+| Layer        | Purpose                       | Key Files                                |
+| ------------ | ----------------------------- | ---------------------------------------- |
+| **USER**     | Your identity and preferences | ABOUTME.md, DIRECTIVES.md, CONTACTS.md   |
+| **SYSTEM**   | How PAL processes requests    | Skills, agents, workflows, orchestration |
+| **SECURITY** | What PAL will never do        | GUARDRAILS.md, REPOS_RULES.md            |
 
-### Skills vs Agents vs Domains
+### Skills, Agents, and Domains
+
+These are the three building blocks of PAL:
 
 **Skills** — Reusable capabilities (like tools in a toolbox)
-- Activate automatically based on your request
-- Examples: note-taking, project-management, system-build
-- 8 skills with 40 workflows total
 
-**Agents** — Specialized personas (like expert assistants)
-- Load explicitly with `/[agent-name]`
-- Have deep knowledge of their domain
-- Examples: PAL Builder, Life Coach
+- Activate automatically based on your request's intent
+- Each skill contains workflows — step-by-step processes
+- Example: The `note-taking` skill has workflows for braindump, inbox processing, and distribution
+
+**Agents** — Specialized AI personas (like expert assistants)
+
+- Load explicitly with `/agent-name`
+- Have deep context about their specific domain
+- Example: `/pal-builder` knows everything about PAL's architecture
 
 **Domains** — Project workspaces (like folders for projects)
-- Siloed environments with standard structure
-- Each has INDEX.md as source of truth
-- Examples: PALBuilder, LifeOS
+
+- Siloed environments — one project's context doesn't bleed into another
+- Each has an INDEX.md as source of truth
+- Standard 6-folder structure: CONTEXT, PROJECTS, SESSIONS, PAGES, WORKSPACE, ARCHIVE
 
 ### The Knowledge Pipeline
 
-PAL uses a centralized intake system for all information:
+All information flows through a unified pipeline:
 
 ```
 Inbox (capture) → Skills (process) → Domains (contextualize)
 ```
 
-1. **Capture** — Notes, tasks, resources flow into the Inbox
-2. **Process** — Skills like note-taking analyze and organize content
-3. **Distribute** — Processed content moves to appropriate Domains
-4. **Contextualize** — Information enriches the persistent context for AI interactions
+1. **Capture** — Drop notes, tasks, and resources into the Inbox
+2. **Process** — Skills add structure (frontmatter, categories)
+3. **Distribute** — Processed content moves to the right Domain
+4. **Contextualize** — Information enriches persistent context for future sessions
+
+You never need to decide _where_ something goes when you capture it. Capture first, organize later.
 
 ### Hooks
 
-Hooks are automatic actions that run at specific moments:
+Hooks are automated actions — they run without you doing anything:
 
-| Hook             | When It Runs         | What It Does                          |
-| ---------------- | -------------------- | ------------------------------------- |
-| **SessionStart** | Session begins       | Loads your context (USER + SECURITY)  |
-| **PreToolUse**   | Before any tool runs | Validates against GUARDRAILS.md       |
-| **Stop**         | Session ends         | Saves transcript, sends notifications |
+| Hook             | When                 | What                                                    |
+| ---------------- | -------------------- | ------------------------------------------------------- |
+| **SessionStart** | Session begins       | Loads your identity, preferences, and security rules    |
+| **PreToolUse**   | Before any tool runs | Validates against guardrails — blocks, warns, or allows |
+| **Stop**         | Session ends         | Saves transcript, sends notifications, logs summary     |
 
 ### Context Loading
 
-**Zero Trust Approach** — PAL only loads what's necessary:
+PAL loads only what's needed, when it's needed — nothing extra:
 
-1. **Session start** → Hooks load base context
-2. **Your request** → PAL Master routes to relevant skill/agent
-3. **Task execution** → Loads specific workflows as needed
-4. **Completion** → Returns relevant results
+1. Session starts → Hooks load base context (USER + SECURITY)
+2. You make a request → PAL Master routes to the relevant skill or agent
+3. Task executes → Specific workflows load on demand
+4. Done → Results returned, nothing extra consumed
 
-**Check what's loaded:**
-```
-*context    # Shows all loaded files
-```
-
-### Workflows
-
-Workflows are multi-step processes within skills:
-
-- **Sequential** — Steps run in order
-- **Conditional** — Branches based on conditions
-- **Nested** — Workflows call other workflows
-
-**See available workflows:**
-```
-*workflows    # Lists all available workflows
-```
+Check what's loaded anytime with `*context`.
 
 ---
 
-## Part 4: Technical Foundations
+## Part 4: Make PAL Yours
 
-### What is a File System?
+This is where PAL stops being a template and becomes *your* second brain. These four files load at the start of every session — the more accurately they reflect you, the better PAL performs.
 
-Your computer organizes information into **files** (individual documents) and **folders** (containers).
-
-**Paths** describe where files live:
-- Absolute: `/Users/yourname/pal-personal/` (full address)
-- Relative: `./Domains/` (relative to current location)
-- Home shortcut: `~/pal-personal/` (~ means home directory)
-
-### What is a Terminal?
-
-The **terminal** (command line) is a text interface for your computer:
-
-```bash
-ls              # List files in current directory
-cd folder/      # Change directory
-pwd             # Show current directory path
-```
-
-### Git Basics
-
-**Git** tracks changes to your files over time:
-
-- **Commit** — A saved snapshot of changes
-- **Branch** — A separate line of development
-- **Push** — Send commits to GitHub
-- **Pull** — Download changes from GitHub
-
-**Common commands:**
-```bash
-git status              # Check what's changed
-git add .               # Stage all changes
-git commit -m "message" # Save with description
-git push                # Upload to GitHub
-git pull                # Download latest
-```
-
-**Good commit messages:**
-- Start with a verb: "Add", "Update", "Fix", "Remove"
-- Be specific about what changed
-- Example: `git commit -m "Add user authentication feature"`
-
-### Package Management
-
-**Bun** is PAL's package manager and runtime:
-
-```bash
-bun install           # Install all dependencies
-bun add package-name  # Add a new package
-bun run script-name   # Run a script from package.json
-```
-
-### Environment Variables
-
-Store sensitive information without putting it in code:
-
-```bash
-export ANTHROPIC_API_KEY="sk-ant-..."   # Set variable
-echo $ANTHROPIC_API_KEY                  # Use variable
-```
-
-Add to your shell profile for persistence:
-```bash
-echo 'export ANTHROPIC_API_KEY="your-key"' >> ~/.zshrc
-```
-
----
-
-## Part 5: Next Steps
-
-### Explore the Feature Catalog
-
-See [Docs/FEATURES.md](Docs/FEATURES.md) for:
-- All 8 skills with workflow details
-- All 3 agents with capabilities
-- All 3 hooks with behavior
-- Domain structure and examples
-
-### Configure Your Setup
-
-See [Docs/SETUP.md](Docs/SETUP.md) for:
-- Detailed installation instructions
-- Troubleshooting guide
-- Configuration options
-
-### Customize PAL
-
-Make PAL yours by editing:
-
-| File | Purpose |
-|------|---------|
-| `ABOUTME.md` | Your identity and background |
-| `DIRECTIVES.md` | How you want PAL to behave |
-| `CONTACTS.md` | People you work with |
-| `TERMINOLOGY.md` | Terms specific to your work |
+| File               | What to Add                                               |
+| ------------------ | --------------------------------------------------------- |
+| **ABOUTME.md**     | Your name, role, background, communication preferences    |
+| **DIRECTIVES.md**  | How you want PAL to behave — tone, formatting, priorities |
+| **CONTACTS.md**    | People you work with — names, roles, context              |
+| **TERMINOLOGY.md** | Terms specific to your work or industry                   |
 
 ### Create Your First Domain
 
@@ -416,13 +262,59 @@ Make PAL yours by editing:
 Create a domain for [your project name]
 ```
 
-PAL will set up the standard structure:
-- INDEX.md (source of truth)
-- 00_CONTEXT through 05_ARCHIVE folders
+PAL will scaffold the standard structure:
+
+```
+Domains/YourProject/
+├── INDEX.md           # Source of truth
+├── CONNECTIONS.yaml   # External links
+├── 00_CONTEXT/        # Background info
+├── 01_PROJECTS/       # Active project files
+├── 02_SESSIONS/       # Session logs
+├── 03_ASSETS/         # Reference materials
+├── 04_OUTPUTS/        # Generated deliverables
+└── 05_ARCHIVE/        # Completed work
+```
 
 ---
 
-**Document Version:** 0.1.0-alpha
-**Last Updated:** 2026-02-23
+## Part 5: What's Next
 
-**Next:** [Docs/FEATURES.md](Docs/FEATURES.md) — Complete feature catalog
+### Learn Claude Code in Depth
+
+The **[Claude101 Guide](Docs/Claude101/)** is a 14-part series covering everything from installation to advanced workflows:
+
+| Guide                                                                    | Topic                                               |
+| ------------------------------------------------------------------------ | --------------------------------------------------- |
+| [01 — Getting Started](Docs/Claude101/01-getting-started.md)             | Installation, first workflow, essential commands    |
+| [02 — Core Concepts](Docs/Claude101/02-core-concepts.md)                 | Interaction loop, context management, plan mode     |
+| [03 — PAL Second Brain](Docs/Claude101/03-pal-second-brain.md)           | Domains, agents, skills, and the inbox              |
+| [04 — Requirements & Hooks](Docs/Claude101/04-requirements-and-hooks.md) | CLAUDE.md, hooks, and configuration                 |
+| [05 — Cheatsheet](Docs/Claude101/05-cheatsheet.md)                       | Quick reference for commands and shortcuts          |
+| [06 — Adoption Approaches](Docs/Claude101/06-adoption-approaches.md)     | Turnkey vs autonomous learning path                 |
+| [07 — Data Privacy](Docs/Claude101/07-data-privacy.md)                   | What data goes where and how to control it          |
+| [08 — Learning with AI](Docs/Claude101/08-learning-with-ai.md)           | The UVAL protocol — use AI without losing your edge |
+|                                                                          |                                                     |
+|                                                                          |                                                     |
+|                                                                          |                                                     |
+|                                                                          |                                                     |
+
+### Explore All Features
+
+See **[Docs/FEATURES.md](Docs/FEATURES.md)** for the complete catalog:
+
+- All 8 skills with triggers and workflow details
+- All 5 agents with capabilities and commands
+- All 3 hooks with behavior and configuration
+- Domain structure and examples
+
+### Contribute
+
+PAL is open source. See **[Docs/CONTRIBUTING.md](Docs/CONTRIBUTING.md)** to get involved.
+
+---
+
+**Version:** 0.1.0-beta
+**Last Updated:** 2026-03-02
+
+**Next:** [Docs/Claude101/01-getting-started.md](Docs/Claude101/01-getting-started.md) — Installation and your first workflow

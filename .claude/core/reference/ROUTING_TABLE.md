@@ -3,7 +3,7 @@ title: PAL Routing Table
 version: 1.0.0
 layer: SYSTEM
 purpose: Agent routing for PAL Master — loaded only on *agents command
-last_updated: 2026-02-07
+last_updated: 2026-02-20
 ---
 
 # Routing Table
@@ -33,4 +33,14 @@ last_updated: 2026-02-07
   domain: laralou
   location: .claude/agents/substack-manager.md
   routes_to: "Substack content, newsletter management, growth strategy"
+
+- name: pal-release-manager
+  domain: PALOpenSource
+  location: .claude/agents/pal-release-manager.md
+  routes_to: "open-source release management, version control, sync private to public, changelog updates, release validation"
+
+- name: product-manager
+  domain: PALProduct
+  location: .claude/agents/product-manager.md
+  routes_to: "product strategy, roadmap planning, user research, feature prioritization, user value documentation, competitive analysis, PRD creation"
 ```

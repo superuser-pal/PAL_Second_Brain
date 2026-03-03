@@ -1,6 +1,7 @@
 ---
 name: create-domain
 description: Create and validate PAL domains (project workspaces). USE WHEN create domain, new domain, domain structure, validate domain, map domain, sync domain, archive domain, project workspace, housekeeping. SkillSearch('create-domain') for docs.
+user-invocable: false
 ---
 
 # create-domain

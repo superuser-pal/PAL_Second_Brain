@@ -1,6 +1,7 @@
 ---
 name: project-management
 description: Manage projects and tasks across domains. USE WHEN create project OR new project OR pull tasks OR sync tasks OR update plan OR project status OR list projects OR task dashboard OR archive project OR project management OR track tasks.
+user-invocable: false
 ---
 
 # Project Management Skill

@@ -58,6 +58,7 @@ Follow this exact structure:
 ---
 name: skill-name
 description: [What it does]. USE WHEN [intent triggers using OR]. [Additional capabilities].
+user-invocable: false
 ---
 
 # skill-name

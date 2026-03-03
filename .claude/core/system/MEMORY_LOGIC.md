@@ -26,7 +26,7 @@ If a hook does not follow this structure, it will not execute correctly within t
 
 **Context** = User-maintained configuration files that provide persistent, version-controlled information to PAL.
 
-**Location:** `.claude/base/` (Base configuration files)
+**Location:** `.claude/core/` (Base configuration files)
 
 **Purpose:** Provide consistent, explicit context every session without automated memory systems.
 
@@ -241,7 +241,7 @@ Stop hook executes: notifications, save transcript, log summary
 | Practice | Description |
 | :------- | :---------- |
 | **Keep Base current** | Update as preferences evolve, remove outdated entries, review monthly |
-| **Use Git** | Track changes (`git add .claude/base/`), enable rollback, audit history |
+| **Use Git** | Track changes (`git add .claude/core/`), enable rollback, audit history |
 | **Separate contexts** | General (ABOUTME, RESUME): reusable; Project-specific (TERMINOLOGY, TECHSTACK): reset per project |
 | **Document immediately** | Capture insights while fresh, add to TERMINOLOGY.md immediately |
 | **Be explicit** | Replace vague statements with specific guidelines |
@@ -274,7 +274,7 @@ Before context management is complete:
 
 ### Directory Structure
 
-- [ ] `.claude/base/` exists with three subdirectories
+- [ ] `.claude/core/` exists with three subdirectories
 - [ ] `user/` contains 4 files (ABOUTME, DIRECTIVES, TERMINOLOGY, CONTACTS)
 - [ ] `system/` contains 8 files (ARCHITECTURE, ORCHESTRATION, WORKFLOWS, MEMORY_LOGIC, TOOLBOX, AGENTS_LOGIC, SKILL_LOGIC, DOMAINS_LOGIC)
 - [ ] `security/` contains 2 files (GUARDRAILS, REPOS_RULES)
@@ -304,10 +304,10 @@ Before context management is complete:
 
 | Component | Purpose | Location |
 | :-------- | :------ | :------- |
-| **Base configuration** | User-maintained persistent context | `.claude/base/` |
-| **USER layer** | Identity, preferences (8 files) | `.claude/base/user/` |
-| **SYSTEM layer** | System logic (8 files) | `.claude/base/system/` |
-| **SECURITY layer** | Safety policies (2 files) | `.claude/base/security/` |
+| **Base configuration** | User-maintained persistent context | `.claude/core/` |
+| **USER layer** | Identity, preferences (8 files) | `.claude/core/user/` |
+| **SYSTEM layer** | System logic (8 files) | `.claude/core/system/` |
+| **SECURITY layer** | Safety policies (2 files) | `.claude/core/security/` |
 | **SessionStart hook** | Load Base context | `.claude/tools/hooks/session-start.ts` |
 | **PreToolUse hook** | Security validation | `.claude/tools/hooks/pre-tool-use.ts` |
 | **Stop hook** | Notifications and cleanup | `.claude/tools/hooks/stop.ts` |

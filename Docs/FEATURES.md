@@ -2,7 +2,7 @@
 
 > Complete reference for all PAL Second Brain capabilities
 
-**Version:** 0.1.0-alpha
+**Version:** 0.1.0-beta
 **Last Updated:** 2026-02-16
 
 ---
@@ -12,12 +12,12 @@
 PAL v0.1 includes:
 
 | Component | Count |
-|-----------|-------|
-| Skills | 8 |
-| Workflows | 40 |
-| Agents | 5 |
-| Domains | 4 |
-| Hooks | 3 |
+| --------- | ----- |
+| Skills    | 8     |
+| Workflows | 40    |
+| Agents    | 3     |
+| Domains   | 2     |
+| Hooks     | 3     |
 
 ---
 
@@ -37,6 +37,7 @@ PAL v0.1 includes:
 **Triggers:** "create agent", "new agent", "agent structure", "validate agent", "check agent", "domain agent"
 
 **Example:**
+
 > "Create a new agent for managing my recipes"
 
 **Location:** `.claude/skills/create-agent/`
@@ -58,6 +59,7 @@ PAL v0.1 includes:
 **Triggers:** "create domain", "new domain", "domain structure", "validate domain", "map domain", "sync domain", "archive domain", "project workspace", "housekeeping"
 
 **Example:**
+
 > "Create a new domain for my side project"
 
 **Location:** `.claude/skills/create-domain/`
@@ -79,6 +81,7 @@ PAL v0.1 includes:
 **Triggers:** "create skill", "new skill", "skill structure", "canonicalize", "validate skill", "check skill"
 
 **Example:**
+
 > "Create a skill for managing my reading list"
 
 **Location:** `.claude/skills/create-skill/`
@@ -99,6 +102,7 @@ PAL v0.1 includes:
 **Triggers:** "update beliefs", "add goal", "life mission", "add lesson", "update projects", "mental models", "frames", "extract notes", "process ideas", "export life summary", "life report"
 
 **Life Categories:**
+
 - Mission — Your purpose and direction
 - Beliefs — Core convictions and values
 - Frames — Mental frameworks and perspectives
@@ -108,6 +112,7 @@ PAL v0.1 includes:
 - Projects — Active initiatives
 
 **Example:**
+
 > "Add a new goal: Launch my newsletter by Q2"
 
 **Location:** `.claude/skills/life-management/`
@@ -130,6 +135,7 @@ PAL v0.1 includes:
 **Triggers:** "process notes", "organize notes", "add frontmatter", "distribute notes", "ingest PDF", "ingest document", "convert document", "inbox notes", "note management", "scan inbox", "move notes to domain", "braindump", "brain dump", "capture thoughts", "dump thoughts", "url dump", "save link", "bookmark url", "capture url", "save for later"
 
 **Example:**
+
 > "Braindump: I've been thinking about reorganizing my project structure..."
 
 **Location:** `.claude/skills/note-taking/`
@@ -143,13 +149,14 @@ PAL v0.1 includes:
 **Workflows:**
 | Workflow | Description |
 |----------|-------------|
-| `create_project` | Create PROJECT_*.md in domain's 01_PROJECTS/ |
+| `create_project` | Create PROJECT\_\*.md in domain's 01_PROJECTS/ |
 | `pull_tasks` | Aggregate tasks from all domains into /tasks/MASTER.md |
 | `update_plan` | Push task status updates back to project files |
 | `project_dashboard` | Display all projects grouped by status |
 | `archive_project` | Move completed project to 05_ARCHIVE |
 
 **Task Format:**
+
 ```markdown
 - [ ] Task description `#open`
 - [ ] Task description `#in-progress`
@@ -159,6 +166,7 @@ PAL v0.1 includes:
 **Triggers:** "create project", "new project", "pull tasks", "sync tasks", "update plan", "project status", "list projects", "task dashboard", "archive project", "project management", "track tasks"
 
 **Example:**
+
 > "Create a project for the website redesign in the Studio domain"
 
 **Location:** `.claude/skills/project-management/`
@@ -185,6 +193,7 @@ PAL v0.1 includes:
 | `tasks_to_issues` | Export tasks to GitHub issues |
 
 **Workflow Sequence:**
+
 1. `specify` → Create specification
 2. `clarify` → Resolve ambiguities (optional)
 3. `plan` → Generate implementation plan
@@ -197,6 +206,7 @@ PAL v0.1 includes:
 **Triggers:** "create spec", "specification", "feature spec", "implementation plan", "generate tasks", "task breakdown", "checklist", "clarify requirements", "analyze consistency", "constitution", "system build", "build system", "develop PAL"
 
 **Example:**
+
 > "Create a spec for adding dark mode to the system"
 
 **Location:** `.claude/skills/system-build/`
@@ -217,6 +227,7 @@ PAL v0.1 includes:
 | `health_report` | Run all audits and calculate system health score |
 
 **Health Status:**
+
 - **HEALTHY** — 0 issues
 - **MINOR ISSUES** — 1-5 issues
 - **NEEDS ATTENTION** — 6+ issues
@@ -224,6 +235,7 @@ PAL v0.1 includes:
 **Triggers:** "audit system", "check references", "validate naming", "find orphans", "health report", "system health", "clean system"
 
 **Example:**
+
 > "Run a health report on the system"
 
 **Location:** `.claude/skills/system-cleaner/`
@@ -243,6 +255,7 @@ Hooks are TypeScript code that executes at specific system lifecycle points. The
 **Location:** `.claude/tools/hooks/session-start.ts`
 
 **What It Loads:**
+
 - **USER Layer:** ABOUTME.md, DIRECTIVES.md, TERMINOLOGY.md, CONTACTS.md
 - **SYSTEM Layer:** ARCHITECTURE.md, ORCHESTRATION.md, WORKFLOWS.md, MEMORY_LOGIC.md, TOOLBOX.md
 - **SECURITY Layer:** GUARDRAILS.md, REPOS_RULES.md
@@ -260,6 +273,7 @@ Hooks are TypeScript code that executes at specific system lifecycle points. The
 **Location:** `.claude/tools/hooks/pre-tool-use.ts`
 
 **What It Does:**
+
 1. Reads operation details (tool, path, action)
 2. Checks against GUARDRAILS.md rules
 3. Checks data policies in REPOS_RULES.md
@@ -269,6 +283,7 @@ Hooks are TypeScript code that executes at specific system lifecycle points. The
    - **ALLOW** — Safe operation, proceed
 
 **Protected Paths:**
+
 - `.claude/base/` — System files (warn on edit)
 - `.env`, `credentials.*` — Secrets (block)
 - `node_modules/` — Dependencies (block write)
@@ -284,6 +299,7 @@ Hooks are TypeScript code that executes at specific system lifecycle points. The
 **Location:** `.claude/tools/hooks/stop.ts`
 
 **What It Does:**
+
 - Sends configured notifications (if enabled)
 - Saves session transcript (if configured)
 - Logs session summary
@@ -302,6 +318,7 @@ Hooks are TypeScript code that executes at specific system lifecycle points. The
 **When Active:** Default agent at session start
 
 **Capabilities:**
+
 - Intent classification (understand what you want)
 - Skill activation (match request to skill)
 - Agent loading (load specialists on request)
@@ -361,6 +378,7 @@ Hooks are TypeScript code that executes at specific system lifecycle points. The
 **When to Use:** Working with your personal context — updating beliefs, adding goals, processing life notes
 
 **Managed Files:**
+
 - `mission.md` — Your purpose and direction
 - `beliefs.md` — Core convictions
 - `frames.md` — Mental frameworks
@@ -379,7 +397,6 @@ Hooks are TypeScript code that executes at specific system lifecycle points. The
 | `*files` | List life context files |
 | `*dismiss` | Return to PAL Master |
 
-
 ---
 
 ## Domains
@@ -397,12 +414,12 @@ domains/[DomainName]/
 ├── 00_CONTEXT/           # Background and reference docs
 ├── 01_PROJECTS/          # Active project files (PROJECT_*.md)
 ├── 02_SESSIONS/          # Session logs (YYYY-MM-DD_title.md)
-├── 03_ASSETS/            # Reference materials
-├── 04_OUTPUTS/           # Generated deliverables
+├── 03_PAGES/             # Notes, research, reference materials
+├── 04_WORKSPACE/         # Drafts, generated outputs, staging area
 └── 05_ARCHIVE/           # Deprecated content
 ```
 
-**Nesting Limit:** Maximum 3 levels below domain root
+**Nesting Limit:** Maximum 3 - 4 levels below domain root
 
 ---
 
@@ -415,6 +432,7 @@ domains/[DomainName]/
 **Agent:** PAL Builder
 
 **Contains:**
+
 - Architecture decisions
 - Feature specifications
 - Implementation plans
@@ -430,6 +448,7 @@ domains/[DomainName]/
 **Agent:** Life Coach
 
 **Contains:**
+
 - Mission and purpose
 - Beliefs and values
 - Mental models and frames
@@ -456,15 +475,15 @@ Skills activate via **intent matching**, not keywords. PAL Master reads your req
 
 ### Essential Commands
 
-| Command | Description |
-|---------|-------------|
-| `*menu` | Show available commands |
-| `*skills` | List all skills |
-| `*agents` | Show domain agents |
-| `*context` | Display loaded context |
-| `*dismiss` | Exit current agent |
+| Command    | Description             |
+| ---------- | ----------------------- |
+| `*menu`    | Show available commands |
+| `*skills`  | List all skills         |
+| `*agents`  | Show domain agents      |
+| `*context` | Display loaded context  |
+| `*dismiss` | Exit current agent      |
 
 ---
 
-**Document Version:** 0.1.0-alpha
+**Document Version:** 0.1.0-beta
 **Last Updated:** 2026-02-16

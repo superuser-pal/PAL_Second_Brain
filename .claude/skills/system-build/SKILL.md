@@ -1,6 +1,7 @@
 ---
 name: system-build
 description: Specification-driven development toolkit for PAL system building. USE WHEN create spec, specification, feature spec, implementation plan, generate tasks, task breakdown, checklist, clarify requirements, analyze consistency, constitution, system build, build system, develop PAL.
+user-invocable: false
 ---
 
 # system-build

@@ -36,35 +36,35 @@ PAL's second brain architecture is built on 8 foundational principles:
 - Organizing context in an editable and navigable way provides more control over system responses
 - Skills and agents inherit context from specific knowledge domains
 
-#### 2. Plan-First Execution
+#### 2. Token & Cost Efficiency
 
-**Principle:** Recommended workflow for transparency in the session.
-
-**What This Means:**
-
-- Users are encouraged to approach every operation in "Plan Mode" first.
-- The system provides all key details to build and understand the plan.
-- Users verify context, task comprehension, and intended output before execution
-
-#### 3. Pattern-Based System
-
-**Principle:** Low-floor, high-ceiling design through composable patterns.
+**Principle:** Strategic resource management is a core constraint of system design. 
 
 **What This Means:**
 
-- Patterns are repetitive, modular structures that define how the system operates
-- They dictate best practices for the ingestion, management, and execution of operations
-- Simple, recognizable patterns combine and stack to create complex workflows
+- The system seeks to be optimized for **Token Efficiency** to remain cost-effective for the user.
+- Context efficiency optimization is how the system ensure a minimum waste in operations. 
+- Every function addition is weighed against the cost of the underlying services
+
+#### 3. Pattern-Based JTBD
+
+**Principle:** Patterns are the "How" that achieve the "Job-to-be-Done".
+
+**What This Means:**
+
+- **Patterns** are modular structures—chunks of code, workflows, or skills—that define operation best practices.
+- JTBD is the framework how functions are structured and presented.
+- Patterns dictate best practices for the ingestion, management, and execution of operations.
 
 #### 4. Domain-Driven Documentation
 
-**Principle:** Structure context around specific domains to prevent context pollution and ensure precision.
+**Principle:** Accessibility via a non-technical UI over traditional IDEs.
 
 **What This Means:**
 
-- All related information is documented within specific domain folders
-- Every domain acts as a siloed environment containing its own index, templates, documentation, and plans
-- Keeping data organized within domains ensures information is structured, easy to access, and highly relevant
+- **Obsidian** serves as the primary action interface for the Second Brain, replacing the complexity of terminals or IDEs.
+- This enables non-technical users to build and manage their own agentic systems.
+- The UI focuses on navigable knowledge domains where data is structured, siloed, and highly relevant.
 
 #### 5. Self Update System
 
@@ -307,9 +307,9 @@ domains/ProjectAlpha/             # PascalCase directory
 │   └── PROJECT_FEATURE_X.md
 ├── 02_SESSIONS/                  # Chronological interaction logs
 │   └── 2026-01-18_sync.md
-├── 03_ASSETS/                    # Reference materials and resources
+├── 03_PAGES/                    # Pages and reference materials
 │   └── api_documentation.md
-├── 04_OUTPUTS/                   # Generated deliverables
+├── 04_WORKSPACE/                   # Agent workspace and staging area
 │   └── quarterly_report.pdf
 └── 05_ARCHIVE/                   # Deprecated content
 ```
@@ -372,7 +372,7 @@ PAL is designed for user customization and extension:
 | Extension Type    | When to Extend                                                                                                                                  | How to Extend                        | Key Details                                                                           |
 | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------- |
 | **Skills**        | Domain-specific work requires specialized knowledge, workflows, vocabulary                                                                      | Use skill creation commands/patterns | Each skill includes SKILL.md definition, workflows/, optional templates/ and tools/   |
-| **Base Files**    | USER Layer: When preferences/context changes<br>SYSTEM Layer: When changing fundamental behavior (rare)<br>SECURITY Layer: When policies evolve | Direct file editing in `.claude/base/`     | **Best Practice:** Maintain in version control, review changes in session transcripts |
+| **Base Files**    | USER Layer: When preferences/context changes<br>SYSTEM Layer: When changing fundamental behavior (rare)<br>SECURITY Layer: When policies evolve | Direct file editing in `.claude/core/`     | **Best Practice:** Maintain in version control, review changes in session transcripts |
 | **Custom Agents** | Extended domain work requiring specialized persona                                                                                              | Use agent creation commands/patterns | Agents inherit Base context + domain skill, loaded via `/[agent]`                |
 | **Toolbox**       | Need CLI utilities, external integrations, workflow automation                                                                                  | Add to `.claude/tools/` directory    | **See:** [TOOLBOX.md](TOOLBOX.md) for configuration                                   |
 

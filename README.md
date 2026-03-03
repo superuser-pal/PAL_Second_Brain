@@ -1,40 +1,36 @@
 # PAL Second Brain
 
-> A pattern-based modular system that gives non-technical professionals the base and blocks to build AI automations and workflows through organized context engineering and modular design.
+> The AI-assisted second brain that connects your notes, ideas, and tasks into persistent context for agentic workflows.
 
-[![Version](https://img.shields.io/badge/version-0.1.0--alpha-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.1.0--beta-blue.svg)](Docs/CHANGELOG.md)
 [![Claude Code](https://img.shields.io/badge/powered%20by-Claude%20Code-orange.svg)]()
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 ---
 
-## What is PAL Second Brain?
+## The Problem
 
-PAL Second Brain (Patterned Agentic Logic) solves three fundamental problems in AI interaction: **context loss**, **knowledge fragmentation**, and **configuration complexity**.
+Every time you open an AI chat, it feels like you start from zero or with outdated context. You re-explain your goals, the latest key details of what you're working on, what you've already tried, and how you want things done. Your projects live in scattered notes, random folders, and half-remembered conversations.
 
-Instead of starting every conversation from scratch—re-explaining who you are, what you're working on, and how you want responses—PAL maintains your persistent context, organized knowledge, and reusable workflows.
+**PAL fixes this.**
 
-### Dual-Interface Architecture
+PAL (Patterned Agentic Logic) is an open-source second brain that gives your AI **a spotless framework to handle context**, **organize knowledge**, and **process the information into systems** — so your AI operates with the same goals, history, and strategic intent as you do.
 
-PAL uses a **dual-interface architecture** that combines the best of both worlds:
+### Before PAL vs After PAL
 
-- **[Obsidian](https://obsidian.md)** — Human-friendly reading, note-taking, and navigation
-- **Claude Code** — AI-powered execution, automation, and context engineering
-
-This pairing makes AI context engineering accessible to non-technical professionals who find developer IDEs intimidating, while providing the full power of programmatic AI workflows.
-
-### Centralized Second Brain
-
-At its core, PAL functions as a **knowledge management hub** where all information flows through a unified pipeline:
-
-```
-Inbox (capture) → Skills (process) → Domains (contextualize)
-```
-
-Every captured idea, note, or resource becomes part of the persistent context available to AI interactions.
+| Without PAL                                                                                     | With PAL                                                                                     |
+| ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| "I'm working on the following project, where these are the latest tasks open. I want you to..." | "Present to me the latest ideas and open tasks from my project"                              |
+| Notes scattered across apps, folders, and bookmarks                                             | One knowledge pipeline: Inbox → Process → Domain → Context                                   |
+| Every session starts cold — no memory of past decisions                                         | Session hooks load your identity, preferences, and context automatically                     |
+| "Here are my ideas related to this project, and here are my ideas to my other project..."       | Executes Braindump workflow, AI automatically sorts the details to the corresponding project |
+| Generic AI responses with no understanding of the key moving details of your goals and project  | AI that knows your very last intent, progress on goals, and patterns of your ideas           |
 
 ---
 
 ## Quick Start
+
+Three commands and you're running:
 
 ```bash
 # 1. Clone the repository
@@ -44,38 +40,76 @@ cd pal-personal
 # 2. Install dependencies
 bun install
 
-# 3. Start Claude Code in the directory
+# 3. Start Claude Code
 claude
 ```
 
-**Recommended:** Open the folder in [Obsidian](https://obsidian.md) to have a more casual reading experience. Cursor, Antigravity and any other IDEs work perfect if you plan to enhance the experience with mutliple AI models. 
+PAL greets you. Your context is already loaded. You're ready to work.
 
-See [Docs/SETUP.md](Docs/SETUP.md) for detailed installation instructions.
+> **Note:** PAL runs on [Claude Code](https://claude.ai/download), which requires an active Anthropic subscription. See [claude.com/pricing](https://claude.com/pricing) for plans.
+
+**Recommended:** Open the folder in [Obsidian](https://obsidian.md) for the best reading and navigation experience. Any IDE (Cursor, VS Code, etc.) also works.
+
+👉 **[START-HERE.md](START-HERE.md)** — Full onboarding guide with Obsidian setup
+
+---
+
+## Why PAL?
+
+### 1. Context Engineering, Not Prompt Engineering
+
+The best AI results don't come from clever prompts — they come from **organized context**. PAL structures your identity, projects, and preferences so the AI has everything it needs before you type a single word.
+
+### 2. Built for Non-Technical Professionals
+
+PAL pairs **Obsidian** (for reading and navigating your knowledge) with **Claude Code** (for AI-powered execution). No IDE experience required. If you can use a notes app, you can use PAL.
+
+### 3. Your Data, Your Files, Your Control
+
+Everything is local markdown files on your machine. No vendor lock-in, no cloud dependency, no proprietary formats. Fork it, customize it and ultimately migrate it if desired.
+
+### 4. Modular by Design
+
+Start with what you need, extend when friction appears. Every component — skills, agents, domains, hooks — is a standalone file you can add, edit, or remove without breaking anything else.
+
+### 5. Scale the System via Spec Driven Development
+
+[PLACEHOLDER]
 
 ---
 
 ## Features at a Glance
 
-> Note: This is an Alpha release.
+> PAL v0.1 — Beta release. Core features are stable; some workflows and documentation are still being refined.
 
-PAL v0.1 includes **8 skills** with **40 workflows**:
+| Component     | Count | What They Do                                             |
+| ------------- | ----- | -------------------------------------------------------- |
+| **Skills**    | 8     | Reusable capabilities that activate by intent            |
+| **Workflows** | 40    | Step-by-step processes within skills                     |
+| **Agents**    | 3     | Specialized AI personas for focused work                 |
+| **Domains**   | 2     | Siloed project workspaces                                |
+| **Hooks**     | 3     | Automated lifecycle actions (security, context, logging) |
 
-| Skill | Purpose | Workflows |
-|-------|---------|-----------|
-| **create-agent** | Create and validate domain agents | 3 |
-| **create-domain** | Create project workspaces | 4 |
-| **create-skill** | Build new PAL skills | 4 |
-| **life-management** | Personal context (mission, beliefs, goals) | 3 |
-| **note-taking** | Note pipeline from inbox to domains | 5 |
-| **project-management** | Task and project tracking | 5 |
-| **system-build** | Spec-driven PAL development | 11 |
-| **system-cleaner** | System auditing and housekeeping | 5 |
+### Skills
 
-See [Docs/FEATURES.md](Docs/FEATURES.md) for the complete feature catalog.
+| Skill                  | Purpose                                | Workflows |
+| ---------------------- | -------------------------------------- | --------- |
+| **note-taking**        | Capture, process, and distribute notes | 5         |
+| **project-management** | Tasks, projects, and dashboards        | 5         |
+| **life-management**    | Personal goals, beliefs, and mission   | 3         |
+| **system-build**       | Spec-driven PAL development            | 11        |
+| **create-domain**      | Create and manage project workspaces   | 4         |
+| **create-skill**       | Build new reusable capabilities        | 4         |
+| **create-agent**       | Create specialized AI personas         | 3         |
+| **system-cleaner**     | Auditing and housekeeping              | 5         |
+
+See [Docs/FEATURES.md](Docs/FEATURES.md) for the complete catalog with examples and triggers.
 
 ---
 
 ## Architecture
+
+PAL organizes everything into three layers:
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -97,61 +131,72 @@ See [Docs/FEATURES.md](Docs/FEATURES.md) for the complete feature catalog.
 └─────────────────────────────────────────────────────────┘
 ```
 
-### 8 Core Principles
+### The Knowledge Pipeline
 
-1. **Context > Prompts** — Organized context beats clever prompts
-2. **Plan-First Execution** — Review plans before execution
-3. **Pattern-Based System** — Composable, reusable patterns for scalability
-4. **Domain-Driven Documentation** — Siloed project workspaces
-5. **Self Update System** — Modular evolution without rebuilds
-6. **PAL Master with Sub-Agents** — Primary orchestrator with domain specialists
-7. **Inbox-First Capture** — Friction-free entry point for all raw data
-8. **Spec-Driven Development** — System evolution governed by persistent requirements
+All information flows through a unified pipeline:
+
+```
+Inbox (capture) → Skills (process) → Domains (contextualize)
+```
+
+Capture first, organize later. Every idea, note, and resource enriches your persistent context.
+
+### 8 Design Principles
+
+1. **Context beats prompts** — Organized context produces better AI results than clever prompts.
+2. **Cost-conscious by design** — Every component is weighed against token cost, so the system stays efficient as it grows.
+3. **Reusable patterns** — Skills and workflows are modular blocks you apply across projects, not one-off solutions.
+4. **Built for non-technical users** — Obsidian replaces the terminal as your primary interface. If you can use a notes app, you can use PAL.
+5. **Self-updating** — Skills and workflows can be added or modified without rebuilding anything else.
+6. **Orchestrated, not monolithic** — PAL Master routes your requests to the right specialist agent, so context stays focused and relevant.
+7. **Capture first** — The Inbox is frictionless by design. Drop anything in; organize it later.
+8. **Spec-driven growth** — New features follow a formal spec process, so the system evolves without accumulating chaos.
 
 ---
 
 ## Hooks
 
-PAL uses three hooks to manage session lifecycle and security:
-
-| Hook | When It Runs | What It Does |
-|------|--------------|--------------|
-| **SessionStart** | Session begins | Loads your context (USER + SYSTEM + SECURITY files) |
-| **PreToolUse** | Before any tool runs | Validates against GUARDRAILS.md — blocks, warns, or allows |
-| **Stop** | Session ends | Sends notifications, saves transcript, logs summary |
+| Hook             | When It Runs         | What It Does                                                           |
+| ---------------- | -------------------- | ---------------------------------------------------------------------- |
+| **SessionStart** | Session begins       | Loads your identity, preferences, and security rules automatically     |
+| **PreToolUse**   | Before any tool runs | Validates every action against your guardrails — blocks risky ones     |
+| **Stop**         | Session ends         | Sends a notification, saves the transcript, and logs a session summary |
 
 ---
 
 ## Agents
 
-Load specialized agents for focused work in specific domains:
-
-| Agent | Role | Domain | Load Command |
-|-------|------|--------|--------------|
-| **PAL Master** | Primary orchestrator | System-wide | (default) |
-| **PAL Builder** | System architect | PALBuilder | `/pal-builder` |
-| **Life Coach** | Personal life management | LifeOS | `/life-coach` |
-
+| Agent           | Role                                                        | Load Command   |
+| --------------- | ----------------------------------------------------------- | -------------- |
+| **PAL Master**  | Primary orchestrator — routes requests to skills and agents | _(default)_    |
+| **PAL Builder** | System architect for PAL development                        | `/pal-builder` |
+| **Life Coach**  | Personal life management (goals, beliefs, mission)          | `/life-coach`  |
 
 ---
 
 ## Documentation
 
-| Document | Description |
-|----------|-------------|
-| [ONBOARDING.md](START-HERE.md) | Getting started guide with Obsidian setup |
-| [Docs/SETUP.md](Docs/SETUP.md) | Detailed installation instructions |
-| [Docs/FEATURES.md](Docs/FEATURES.md) | Complete feature catalog |
-| [CHANGELOG.md](CHANGELOG.md) | Version history |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute |
+| Document                                                     | Description                                                     |
+| ------------------------------------------------------------ | --------------------------------------------------------------- |
+| **[START-HERE.md](START-HERE.md)**                           | Onboarding guide — Obsidian setup, first session, core concepts |
+| **[Docs/Claude101/](Domains/PALOpenSource/Docs/Claude101/)** | 14-part guide to mastering Claude Code and PAL                  |
+| **[Docs/FEATURES.md](Docs/FEATURES.md)**                     | Complete feature catalog with all skills, agents, and workflows |
+| **[Docs/CHANGELOG.md](Docs/CHANGELOG.md)**                   | Version history                                                 |
+| **[Docs/CONTRIBUTING.md](Docs/CONTRIBUTING.md)**             | How to contribute                                               |
+
+---
+
+## Contributing
+
+PAL is open source and welcomes contributions. Whether it's a new skill, a bug fix, documentation improvement, or a domain template — check [Docs/CONTRIBUTING.md](Docs/CONTRIBUTING.md) to get started.
 
 ---
 
 ## License
 
-MIT License - See [LICENSE](LICENSE) for details.
+MIT License — See [LICENSE](LICENSE) for details.
 
 ---
 
-**Version:** 0.1.0-alpha
-**Last Updated:** 2026-02-23
+**Version:** 0.1.0-beta
+**Last Updated:** 2026-03-02

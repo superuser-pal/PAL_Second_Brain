@@ -1,6 +1,7 @@
 ---
 name: life-management
 description: Manage personal life context - mission, beliefs, goals, projects, mental models, lessons. USE WHEN update beliefs, add goal, life mission, add lesson, update projects, mental models, frames, extract notes, process ideas, export life summary, life report.
+user-invocable: false
 ---
 
 # Life Management Skill
