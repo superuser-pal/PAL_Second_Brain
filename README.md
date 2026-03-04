@@ -10,7 +10,7 @@
 
 ## The Problem
 
-Every time you open an AI chat, it feels like you start from zero or with outdated context. You re-explain your goals, the latest key details of what you're working on, what you've already tried, and how you want things done. Your projects live in scattered notes, random folders, and half-remembered conversations.
+Every time you open an AI chat, it feels like you start from zero or with outdated context. You re-explain your instructions, the latest key details of what you're working on, what you've already tried, and how you want things done. Your projects live in scattered notes, random folders, and half-remembered conversations.
 
 **PAL fixes this.**
 
@@ -29,6 +29,8 @@ PAL (Patterned Agentic Logic) is an open-source second brain that gives your AI 
 ---
 
 ## Quick Start
+
+[MODIFY TO MAKE IT COMPULSORY TO HAVE OBSIDIAN IN THE INITIAL SET UP + OPEN THE VAULT]
 
 Three commands and you're running:
 
@@ -113,25 +115,27 @@ PAL organizes everything into three layers:
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                      USER LAYER                          │
+│                      USER LAYER                         │
 │   ABOUTME.md • DIRECTIVES.md • CONTACTS.md              │
-│   Your identity, preferences, and personal context       │
+│   Your identity, preferences, and personal context      │
 └─────────────────────────────────────────────────────────┘
                            ↓
 ┌─────────────────────────────────────────────────────────┐
-│                     SYSTEM LAYER                         │
-│   Skills • Agents • Workflows • Orchestration            │
-│   How PAL processes your requests                        │
+│                     SYSTEM LAYER                        │
+│   Skills • Agents • Workflows • Orchestration           │
+│   How PAL processes your requests                       │
 └─────────────────────────────────────────────────────────┘
                            ↓
 ┌─────────────────────────────────────────────────────────┐
-│                    SECURITY LAYER                        │
+│                    SECURITY LAYER                       │
 │   GUARDRAILS.md • REPOS_RULES.md                        │
-│   What PAL will never do                                 │
+│   What PAL will never do                                │
 └─────────────────────────────────────────────────────────┘
 ```
 
 ### The Knowledge Pipeline
+
+[ENHANCE THIS PART WITH ADDITIONAL DETAILS OF THE NOTES AND IDEAS INGESTION]
 
 All information flows through a unified pipeline:
 
@@ -141,7 +145,7 @@ Inbox (capture) → Skills (process) → Domains (contextualize)
 
 Capture first, organize later. Every idea, note, and resource enriches your persistent context.
 
-### 8 Design Principles
+### 8 PAL Principles
 
 1. **Context beats prompts** — Organized context produces better AI results than clever prompts.
 2. **Cost-conscious by design** — Every component is weighed against token cost, so the system stays efficient as it grows.
