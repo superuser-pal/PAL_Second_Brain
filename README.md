@@ -44,9 +44,11 @@ bun install
 
 # 3. Start Claude Code
 claude
-```
 
-PAL greets you. Your context is already loaded. You're ready to work.
+# 4. Run the set up command
+/setup-context
+
+```
 
 > **Note:** PAL runs on [Claude Code](https://claude.ai/download), which requires an active Anthropic subscription. See [claude.com/pricing](https://claude.com/pricing) for plans.
 
@@ -73,10 +75,6 @@ Everything is local markdown files on your machine. No vendor lock-in, no cloud 
 ### 4. Modular by Design
 
 Start with what you need, extend when friction appears. Every component — skills, agents, domains, hooks — is a standalone file you can add, edit, or remove without breaking anything else.
-
-### 5. Scale the System via Spec Driven Development
-
-[PLACEHOLDER]
 
 ---
 
@@ -123,7 +121,7 @@ PAL organizes everything into three layers:
 ┌─────────────────────────────────────────────────────────┐
 │                     SYSTEM LAYER                        │
 │   Skills • Agents • Workflows • Orchestration           │
-│   How PAL processes your requests                       │
+│   How PAL processes requests                            │
 └─────────────────────────────────────────────────────────┘
                            ↓
 ┌─────────────────────────────────────────────────────────┐

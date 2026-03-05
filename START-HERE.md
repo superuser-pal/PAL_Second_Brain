@@ -15,7 +15,8 @@ Here's what we're doing:
 2. **Run your first PAL session** with Claude Code
 3. **Understand the core concepts** — skills, agents, domains, hooks
 4. **Customize PAL** with your identity and preferences
-5. **Know where to go next** for deeper learning
+5. **Create Domains and Projects** home of your notes and tasks
+6. **Know where to go next** for deeper learning
 
 Expect to spend about 30 minutes on the basic setup. If you want to explore every corner, give it an hour.
 
@@ -23,13 +24,11 @@ Expect to spend about 30 minutes on the basic setup. If you want to explore ever
 
 ## What you'll need
 
-| Component | Why it's here | Where to get it |
-| :--- | :--- | :--- |
-| **macOS or Windows** | Primary tested platforms | — |
-| **Git** | For versioning your brain | — |
-| **Bun** | The runtime that keeps it fast | [bun.sh](https://bun.sh) |
-| **Claude Code** | The AI layer | `npm install -g @anthropic-ai/claude-code` |
-| **Obsidian** | For reading and taking notes | [obsidian.md](https://obsidian.md) |
+| Requirement     | Purpose                                     | Install                                    |
+| --------------- | ------------------------------------------- | ------------------------------------------ |
+| **Bun**         | Package manager and runtime                 | [bun.sh](https://bun.sh)                   |
+| **Claude Code** | AI interaction layer                        | `npm install -g @anthropic-ai/claude-code` |
+| **Obsidian**    | Reading and navigation (highly recommended) | [obsidian.md](https://obsidian.md)         |
 
 > **Claude Code requires an Anthropic subscription** — this is the AI engine that powers PAL. See [claude.com/pricing](https://claude.com/pricing) for plans. Most users find the Pro plan ($20/mo) sufficient for daily use.
 
@@ -72,11 +71,17 @@ cd ~/path/to/pal-second-brain
 claude
 ```
 
-[NEED TO ADD THE SET UP COMMAND]
+### Step 2: Setup Your Context
 
-Claude will greet you. It's already loading your identity and project rules in the background.
+Run the following command inside Claude Code to personalize your second brain:
 
-### Step 2: Explore
+```
+/setup-context
+```
+
+_PAL will walk you through a series of questions to populate your identity and preferences. Once complete, your context will load automatically in the background._
+
+### Step 3: Explore
 
 Try these commands to see what's available:
 
@@ -89,11 +94,21 @@ Try these commands to see what's available:
 | `*context`   | Display what's currently loaded in context |
 | `*help`      | Show help documentation                    |
 
-### Step 3: Create Domains
+### Step 4: Create Domains and Projects
 
-[PLACEHOLDER]
+Now that you're set up, it's time to build your structure. PAL uses **Domains** as high-level workspaces (e.g., `Work`, `Personal`) and **Projects** for specific initiatives within those domains.
 
-### Step 4: Try a Braindump within your Inbox/Notes
+To create them, use the built-in skills:
+
+1.  **Create a Domain**:
+    Say: `Create a domain for [Domain Name]`
+    _PAL will use the `create-domain` skill to scaffold the 6-folder structure and `INDEX.md`._
+
+2.  **Create a Project**:
+    Say: `Create a project for [Project Name]`
+    _PAL will use the `project-management` skill to prompt you for details and initialize the project file._
+
+### Step 5: Try a Braindump within your Inbox/Notes
 
 Say something like:
 
@@ -105,14 +120,6 @@ PAL will:
 2. Create individual tasks and relate them to the project and domain.
 3. Extract questions, decisions, and action items
 4. Suggest relevant categories, types, and actions
-
-### Step 5: Create a Project
-
-Say:
-
-> "Create a project for the website redesign"
-
-PAL will ask for domain selection, project name, objective, initial tasks, and priority — then create the full folder structure, INDEX.md, and project file in one step.
 
 ### Step 6: Load a Specialized Agent
 
@@ -201,7 +208,7 @@ Check what's loaded anytime with `*context`.
 
 ## Part 4: Personalize PAL
 
-This is where PAL stops being a template and becomes *your* second brain. These four files load at the start of every session — the more accurately they reflect you, the better PAL performs.
+This is where PAL stops being a template and becomes _your_ second brain. These four files load at the start of every session — the more accurately they reflect you, the better PAL performs.
 
 | File               | What to Add                                               |
 | ------------------ | --------------------------------------------------------- |
@@ -210,25 +217,9 @@ This is where PAL stops being a template and becomes *your* second brain. These 
 | **CONTACTS.md**    | People you work with — names, roles, context              |
 | **TERMINOLOGY.md** | Terms specific to your work or industry                   |
 
-### Create Your First Domain
+### Next Steps
 
-```
-Create a domain for [your project name]
-```
-
-PAL will scaffold the standard structure:
-
-```
-Domains/YourProject/
-├── INDEX.md           # Source of truth
-├── CONNECTIONS.yaml   # External links
-├── 00_CONTEXT/        # Background info
-├── 01_PROJECTS/       # Active project files
-├── 02_SESSIONS/       # Session logs
-├── 03_ASSETS/         # Reference materials
-├── 04_OUTPUTS/        # Generated deliverables
-└── 05_ARCHIVE/        # Completed work
-```
+Start by capturing your thoughts in the inbox or creating your first project as shown in Part 2.
 
 ---
 
