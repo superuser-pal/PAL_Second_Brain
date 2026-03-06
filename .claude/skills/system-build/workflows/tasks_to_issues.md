@@ -1,40 +1,64 @@
 # Tasks to Issues Workflow
 
-Convert tasks.md into GitHub issues.
+Convert feature tasks into GitHub issues.
 
 ## Prerequisites
 
-- tasks.md exists in feature folder
+- Feature file exists (FEATURE.md or tasks.md)
 - Project hosted on GitHub
-- spec.md status is `implemented` or `documented`
+- Feature status is `implemented` or `documented`
 
 ## Steps
 
-1. **Verify GitHub remote**
+1. **Format detection**
+   - Check for `FEATURE.md` (v2 format) or `tasks.md` (v1 format)
+   - Read frontmatter from appropriate file:
+     - v2: `FEATURE.md` frontmatter
+     - v1: `spec.md` frontmatter
+
+2. **Verify GitHub remote**
    - Run `git config --get remote.origin.url`
    - ONLY proceed if remote is a GitHub URL
    - NEVER create issues in non-matching repositories
 
-2. **Load tasks**
-   - Read `domains/{domain}/01_PROJECTS/FEAT_NNN_name/tasks.md`
-   - Extract task ID, description, phase, file paths, markers
+3. **Verify Repository Target (Routing Check)**
+   - Read routing from frontmatter (`routing: personal | open-source`)
+   - If `routing: open-source`:
+     - Verify working directory is within `Domains/PALOpenSource/` OR
+     - Explicitly target the submodule repo: `superuser-pal/PAL_Framework`
+     - Use `gh issue create --repo superuser-pal/PAL_Framework` for issue creation
+   - If `routing: personal`:
+     - Target main repo's GitHub remote
+   - **WARN** if routing field doesn't match current repository context
+   - **STOP** if mismatch detected and ask user to confirm correct target
 
-3. **Create issues** (for each task)
+4. **Load tasks**
+   - v2 format (FEATURE.md):
+     - Read from `## Tasks` section in `domains/{domain}/01_PROJECTS/FEAT_NNN_name/FEATURE.md`
+     - Extract task ID, description, phase, file paths, markers
+   - v1 format (tasks.md):
+     - Read from `domains/{domain}/01_PROJECTS/FEAT_NNN_name/tasks.md`
+     - Extract task ID, description, phase, file paths, markers
+
+5. **Create issues** (for each task)
    - **Title**: Task description (without checkbox/ID)
    - **Body**: Task ID, file path, phase, dependencies, user story label
    - **Labels**: `setup`, `foundational`, `user-story-N`, `polish`, `parallel`
 
-4. **Update status**
-   - Update spec.md frontmatter:
-     ```yaml
-     status: exported
-     next_step: archive
-     phase_history:
-       - ... existing entries
-       - { phase: exported, date: {today}, by: tasks_to_issues }
-     ```
+6. **Update status**
+   - v2 format (FEATURE.md):
+     - Update FEATURE.md frontmatter:
+       ```yaml
+       status: exported
+       current_phase: completed
+       phase_history:
+         - ... existing entries
+         - { phase: exported, date: {today}, by: tasks_to_issues }
+       ```
+   - v1 format (spec.md):
+     - Update spec.md frontmatter as above
 
-5. **Report completion**
+7. **Report completion**
    - Total issues created
    - Issues by phase/label
    - Link to GitHub issues page
@@ -49,4 +73,11 @@ Convert tasks.md into GitHub issues.
 
 - GitHub issues created
 - Status: `exported`
+- Current Phase: `completed`
 - Next: archive feature folder
+
+## Format Detection Note
+
+- New format (v2): Tasks in `FEATURE.md` under `## Tasks` section
+- Old format (v1): Tasks in `tasks.md` file
+- Both formats coexist - workflow detects and handles appropriately

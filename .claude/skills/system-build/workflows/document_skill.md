@@ -1,179 +1,270 @@
-# document_skill Workflow
+# document Workflow
 
-Generate requirements documentation from a skill's structure and workflows.
+Generate requirements documentation from any PAL system component: skills, commands, or hooks.
+
+## Supported Types
+
+| Type | Source Location | Target Document | ID Prefix |
+|------|-----------------|-----------------|-----------|
+| `skill` | `.claude/skills/[name]/` | `01_SKILLS.md` | `1` |
+| `command` | `.claude/commands/**/[name].md` | `03_COMMANDS.md` | `3` |
+| `hook` | `.claude/tools/hooks/[name].ts` | `04_TOOLS_AND_HOOKS.md` | `4` |
 
 ## Prerequisites
 
-- Skill folder exists at `.claude/skills/[skill-name]/`
-- SKILL.md exists with valid YAML frontmatter
-- At least one workflow in `workflows/` subfolder
+- Target component exists at expected location
+- For skills: SKILL.md exists with valid YAML frontmatter and at least one workflow
+- For commands: Command file exists in `.claude/commands/[category]/`
+- For hooks: Hook TypeScript file exists in `.claude/tools/hooks/`
 
 ## Steps
 
-1. **Parse input**
-   - Extract skill name from user input
-   - If not provided: prompt for skill name
-   - Validate skill exists at `.claude/skills/[skill-name]/`
-   - If not found: ERROR "Skill not found at [path]. Run `ls .claude/skills/` to see available skills."
+### 1. Parse Input
 
-2. **Load skill context**
-   - Read `.claude/skills/[skill-name]/SKILL.md`
-   - Extract YAML frontmatter: `name`, `description`
-   - Extract `USE WHEN` triggers from description field
-   - Parse Workflow Routing table (if exists)
-   - Parse Authoritative Sources section (if exists)
+- Extract type and name from user input
+- Expected format: `document [type] [name]`
+- If type not provided: Ask "What type? (skill, command, hook)"
+- If name not provided: List available items of that type:
+  - For skills: `ls .claude/skills/`
+  - For commands: `ls .claude/commands/*/`
+  - For hooks: `ls .claude/tools/hooks/`
 
-3. **Load workflow files**
-   - List all `.md` files in `.claude/skills/[skill-name]/workflows/`
-   - For each workflow file, extract:
-     - Workflow name (from filename and H1 heading)
-     - Trigger phrases (from Workflow Routing table in SKILL.md)
-     - Prerequisites section
-     - Steps section (numbered steps)
-     - Output section
-     - Error Handling section (if exists)
+### 1.5. Determine Target Repository
 
-4. **Determine section ID**
-   - Read `Domains/PALBuilder/03_REQUIREMENTS/01_SKILLS.md`
-   - Find highest existing section number (e.g., `## 1.6 Skill:`)
-   - Next section number = highest + 1 (e.g., 1.7)
-   - Section ID format: `1.[N]` where N is the next available number
+Before documenting, check the component's location and determine routing:
 
-5. **Generate skill section header**
-   - Format:
-     ```markdown
-     ## 1.[N] Skill: [skill-name]
+- If component is in `Domains/PALOpenSource/.claude/` → Document to submodule requirements
+- If component is in `.claude/` (main repo root) → Ask user for routing preference:
+  > "Should this be documented for:
+  > 1. **Personal system** - Requirements stay in main repo
+  > 2. **Open Source** - Requirements go to submodule for framework users"
 
-     **What It Does:** [First sentence from description, without USE WHEN clause]
+Target paths based on routing:
+- **Personal:** `Domains/PALBuilder/03_REQUIREMENTS/`
+- **Open Source:** `Domains/PALOpenSource/Domains/PALBuilder/03_REQUIREMENTS/`
 
-     **Activates When:** [USE WHEN triggers as quoted list]
+### 2. Validate Component Exists
 
-     **Source:** [skill-name SKILL.md](.claude/skills/[skill-name]/SKILL.md)
+- **Skill:** Check `.claude/skills/[name]/SKILL.md` exists
+- **Command:** Check `.claude/commands/**/[name].md` exists (search all subdirectories)
+- **Hook:** Check `.claude/tools/hooks/[name].ts` exists
 
-     ---
-     ```
+If not found: ERROR with appropriate message and list available items.
 
-6. **Extract requirements from SKILL.md**
-   - **Workflow activation requirements:**
-     - For each row in Workflow Routing table, create:
-       ```markdown
-       ### 1.[N].[M] [Workflow Name] Activates on Trigger
+### 3. Route by Type
 
-       **Given** the [skill-name] skill is active
-       **When** user mentions "[trigger phrases]"
-       **Then** the [workflow-name] workflow executes
+Based on component type, execute the appropriate documentation flow:
 
-       Category: Functional
-       Verification: Say "[example trigger]" and confirm [workflow-name] workflow activates
-       Source: [skill-name SKILL.md](.claude/skills/[skill-name]/SKILL.md)
-       ```
-   - **Authoritative source requirements (if section exists):**
-     - For each authoritative source, create:
-       ```markdown
-       ### 1.[N].[M] Reference [Source Name] for [Purpose]
+---
 
-       **Given** a workflow in [skill-name] runs
-       **When** [data type] information is needed
-       **Then** the workflow consults [source path]
+## Skill Documentation Flow (type=skill)
 
-       Category: Validation
-       Verification: Run workflow and confirm [source] is referenced
-       Source: [skill-name SKILL.md](.claude/skills/[skill-name]/SKILL.md)
-       ```
+### 3a. Load Skill Context
 
-7. **Extract requirements from workflows**
-   - For each workflow file:
-     - **Prerequisite requirements (select most important):**
-       ```markdown
-       ### 1.[N].[M] Verify [Prerequisite] Before [Workflow]
+- Read `.claude/skills/[skill-name]/SKILL.md`
+- Extract YAML frontmatter: `name`, `description`
+- Extract `USE WHEN` triggers from description field
+- Parse Workflow Routing table (if exists)
+- Parse Authoritative Sources section (if exists)
 
-       **Given** user invokes [workflow-name]
-       **When** prerequisites are checked
-       **Then** [prerequisite condition] must be true
+### 4a. Load Workflow Files
 
-       **If [prerequisite] is missing:**
-       **Then** workflow stops with clear error message
+- List all `.md` files in `.claude/skills/[skill-name]/workflows/`
+- For each workflow file, extract:
+  - Workflow name (from filename and H1 heading)
+  - Trigger phrases (from Workflow Routing table in SKILL.md)
+  - Prerequisites section
+  - Steps section (numbered steps)
+  - Output section
+  - Error Handling section (if exists)
 
-       Category: Validation
-       Verification: Attempt [workflow] without [prerequisite] and confirm error
-       Source: [workflow_name.md](.claude/skills/[skill-name]/workflows/[workflow_name].md)
-       ```
-     - **Functional requirements (major steps only):**
-       ```markdown
-       ### 1.[N].[M] [Step Description]
+### 5a. Determine Section ID
 
-       **Given** [context from previous steps or prerequisites]
-       **When** [workflow-name] executes [step description]
-       **Then** [outcome or output]
+- Read `domains/PALBuilder/03_REQUIREMENTS/01_SKILLS.md`
+- Find highest existing section number (e.g., `## 1.8 Skill:`)
+- Next section number = highest + 1 (e.g., 1.9)
+- Section ID format: `1.[N]` where N is the next available number
 
-       Category: Functional
-       Verification: Run [workflow] and confirm [outcome]
-       Source: [workflow_name.md](.claude/skills/[skill-name]/workflows/[workflow_name].md)
-       ```
-     - **Output requirements:**
-       ```markdown
-       ### 1.[N].[M] [Workflow] Produces [Output]
+### 6a. Generate Skill Section Header
 
-       **Given** [workflow-name] completes successfully
-       **When** outputs are examined
-       **Then** [output artifact] exists at [location]
+Format:
+```markdown
+## 1.[N] Skill: [skill-name]
 
-       Category: Functional
-       Verification: Run [workflow] and confirm [output] exists
-       Source: [workflow_name.md](.claude/skills/[skill-name]/workflows/[workflow_name].md)
-       ```
+**What It Does:** [First sentence from description, without USE WHEN clause]
 
-8. **Assemble requirements section**
-   - Combine all generated requirements
-   - Number requirements sequentially within section: 1.[N].1, 1.[N].2, ...
-   - Ensure horizontal rules (`---`) separate requirements
+**Activates When:** [USE WHEN triggers as quoted list]
 
-9. **Update 01_SKILLS.md**
-   - Find insertion point (after last skill section, before any closing content)
-   - Insert new section with all requirements
-   - Add horizontal rule after last requirement
+**Source:** [skill-name SKILL.md](.claude/skills/[skill-name]/SKILL.md)
 
-10. **Update README.md summary**
-    - Read `Domains/PALBuilder/03_REQUIREMENTS/README.md`
-    - Update "Skills (1.X.Y)" section mapping to include new skill
-    - Update Requirements Summary table:
-      - Increment Skills sections count
-      - Increment Skills requirements count
-      - Recalculate Total
+---
+```
 
-11. **Report completion**
-    - Show:
-      - Skill documented: [skill-name]
-      - Section ID: 1.[N]
-      - Requirements generated: [count]
-      - Target document: `03_REQUIREMENTS/01_SKILLS.md`
-    - Suggest next steps: "Document another skill" or "Review generated requirements"
+### 7a. Extract Requirements from SKILL.md
+
+- **Workflow activation requirements:**
+  - For each row in Workflow Routing table, create:
+    ```markdown
+    ### 1.[N].[M] [Workflow Name] Activates on Trigger
+
+    **Given** the [skill-name] skill is active
+    **When** user mentions "[trigger phrases]"
+    **Then** the [workflow-name] workflow executes
+
+    Category: Functional
+    Verification: Say "[example trigger]" and confirm [workflow-name] workflow activates
+    Source: [skill-name SKILL.md](.claude/skills/[skill-name]/SKILL.md)
+    ```
+
+- **Authoritative source requirements (if section exists):**
+  - For each authoritative source, create requirement
+
+### 8a. Extract Requirements from Workflows
+
+For each workflow file:
+
+- **Prerequisite requirements (select most important)**
+- **Functional requirements (major steps only)**
+- **Output requirements**
+
+### 9a. Assemble and Insert
+
+- Combine all generated requirements
+- Number requirements sequentially: 1.[N].1, 1.[N].2, ...
+- Insert into `01_SKILLS.md` after last skill section
+- Update README.md Requirements Summary
+
+---
+
+## Command Documentation Flow (type=command)
+
+### 3b. Load Command Context
+
+- Read `.claude/commands/[category]/[name].md`
+- Identify category from path (agents/ or sessions/)
+- Extract command description and steps
+
+### 4b. Determine Section and ID
+
+- For agent commands: Section 3.1, next available ID
+- For session commands: Section 3.2, next available ID
+- Read `domains/PALBuilder/03_REQUIREMENTS/03_COMMANDS.md`
+- Find highest existing requirement number in target section
+
+### 5b. Generate Command Requirements
+
+Format for each key behavior:
+```markdown
+### 3.[section].[M] [Behavior Name]
+
+**Given** [context or prerequisite]
+**When** [command is invoked or action occurs]
+**Then** [expected outcome]
+
+Category: [Functional | Validation | UI]
+Verification: [How to test this requirement]
+Source: [command-name.md](.claude/commands/[category]/[command-name].md)
+```
+
+Focus on:
+- Command invocation behavior
+- Key steps and outputs
+- Error handling
+- User feedback
+
+### 6b. Insert and Update
+
+- Insert requirements into appropriate section of `03_COMMANDS.md`
+- Update README.md Requirements Summary counts
+
+---
+
+## Hook Documentation Flow (type=hook)
+
+### 3c. Load Hook Context
+
+- Read `.claude/tools/hooks/[name].ts`
+- Extract hook type from header comment
+- Parse configuration object
+- Identify key functions and their purposes
+- Extract validation rules (for pre-tool-use) or behaviors
+
+### 4c. Determine Section ID
+
+- All hooks go in Section 4.1
+- Read `domains/PALBuilder/03_REQUIREMENTS/04_TOOLS_AND_HOOKS.md`
+- Find highest existing requirement number in section 4.1
+
+### 5c. Generate Hook Requirements
+
+Format for each key behavior:
+```markdown
+### 4.1.[M] [Behavior Name]
+
+**Given** [trigger condition]
+**When** [hook executes]
+**Then** [expected outcome]
+
+Category: [Functional | Security | UI]
+Verification: [How to test this requirement]
+Source: [hook-name.ts](.claude/tools/hooks/[hook-name].ts)
+```
+
+Focus on:
+- Trigger conditions
+- Key behaviors and rules
+- Security rules (for pre-tool-use: blocked patterns, warned patterns)
+- Error handling and graceful degradation
+
+### 6c. Insert and Update
+
+- Insert requirements into section 4.1 of `04_TOOLS_AND_HOOKS.md`
+- Update README.md Requirements Summary counts
+
+---
+
+## 10. Report Completion (All Types)
+
+Show:
+- Type documented: [skill/command/hook]
+- Component name: [name]
+- Section ID: [X.Y]
+- Requirements generated: [count]
+- Target document: [document path]
+
+Suggest next steps: "Document another component" or "Review generated requirements"
 
 ## Guidelines
 
-- **Selectivity over completeness:** Not every workflow step becomes a requirement. Focus on:
-  - Steps that produce verifiable outputs
-  - Steps that make decisions or branch
-  - Steps that validate inputs
-  - Steps that interact with external files
-- **Avoid duplication:** If a behavior is already covered in 1.0 Skill Architecture Requirements, do not duplicate it
-- **Quality over quantity:** 3-7 requirements per workflow is typical. Very simple workflows may have 1-2.
-- **Verification must be concrete:** "Run workflow X" is not enough. Specify what to observe.
+- **Selectivity over completeness:** Not every behavior becomes a requirement. Focus on:
+  - Behaviors that produce verifiable outputs
+  - Behaviors that make decisions or branch
+  - Behaviors that validate inputs
+  - Behaviors that interact with external files
+  - Security rules and guardrails
+- **Avoid duplication:** Don't duplicate behaviors already in architecture sections (1.0, 3.0, 4.0)
+- **Quality over quantity:** 3-7 requirements per workflow/command/hook is typical
+- **Verification must be concrete:** "Run X" is not enough. Specify what to observe.
 - **Source links are critical:** Every requirement must trace back to its implementation file.
 - **Respect exclusions:** Check README.md "Excluded from Documentation" section before documenting.
 
 ## Output
 
-- New section added to `Domains/PALBuilder/03_REQUIREMENTS/01_SKILLS.md`
+- New requirements added to appropriate document:
+  - Skills → `domains/PALBuilder/03_REQUIREMENTS/01_SKILLS.md`
+  - Commands → `domains/PALBuilder/03_REQUIREMENTS/03_COMMANDS.md`
+  - Hooks → `domains/PALBuilder/03_REQUIREMENTS/04_TOOLS_AND_HOOKS.md`
 - README.md summary table updated
-- No status tracking (skills don't follow spec.md lifecycle)
 
 ## Error Handling
 
 | Error | Resolution |
 |-------|------------|
+| Type not recognized | "Unknown type '[type]'. Use: skill, command, or hook." |
 | Skill not found | "Skill directory not found at [path]. Run `ls .claude/skills/` to see available skills." |
-| No workflows found | "No workflows found in [skill]/workflows/. Ensure workflows exist before documenting." |
-| SKILL.md missing | "SKILL.md not found. This is required for documentation. See create-skill for structure." |
-| Skill already documented | "Section 1.[N] for [skill-name] already exists in 01_SKILLS.md. Update existing section or choose a different skill." |
-| Skill in exclusion list | "Skill [name] is in the excluded list in README.md. Remove from exclusions first if documentation is needed." |
+| Command not found | "Command not found at [path]. Run `ls .claude/commands/*/` to see available commands." |
+| Hook not found | "Hook not found at [path]. Run `ls .claude/tools/hooks/` to see available hooks." |
+| No workflows in skill | "No workflows found in [skill]/workflows/. Ensure workflows exist before documenting." |
+| SKILL.md missing | "SKILL.md not found. This is required for documentation." |
+| Already documented | "Section for [name] already exists in [document]. Update existing section or choose a different component." |
+| In exclusion list | "[name] is in the excluded list in README.md. Remove from exclusions first if documentation is needed." |

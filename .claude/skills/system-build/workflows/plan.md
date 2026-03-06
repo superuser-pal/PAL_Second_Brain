@@ -4,15 +4,17 @@ Generate an implementation plan from a feature specification.
 
 ## Prerequisites
 
-- spec.md exists in feature folder
-- spec.md status is `draft` or `specified`
+- Feature file exists (FEATURE.md or spec.md)
+- Status is `specified` or `clarified`
 
 ## Steps
 
 1. **Load context**
-   - Read `domains/{domain}/01_PROJECTS/FEAT_NNN_name/spec.md`
+   - Detect format: Check for `FEATURE.md` (v2) or `spec.md` (v1)
+   - v2: Read `domains/{domain}/01_PROJECTS/FEAT_NNN_name/FEATURE.md` (## Specification section)
+   - v1: Read `domains/{domain}/01_PROJECTS/FEAT_NNN_name/spec.md`
    - Read `domains/{domain}/00_CONTEXT/constitution.md` (if exists)
-   - Reference `templates/plan_template.md` for structure
+   - Reference `templates/feature_template.md` for structure
 
 2. **Generate implementation plan**
    - Extract technical context from spec requirements
@@ -29,15 +31,16 @@ Generate an implementation plan from a feature specification.
    - `data-model.md` - Entities, fields, relationships
    - `contracts/` - API schemas (OpenAPI/GraphQL)
 
-5. **Write plan.md**
-   - Write to `domains/{domain}/01_PROJECTS/FEAT_NNN_name/plan.md`
-   - Update spec.md frontmatter:
+5. **Write plan section**
+   - v2: Append `## Implementation Plan` section to FEATURE.md
+   - v1: Write to `domains/{domain}/01_PROJECTS/FEAT_NNN_name/plan.md`
+   - Update frontmatter:
      ```yaml
      status: planned
-     next_step: tasks
+     current_phase: planning
      phase_history:
        - ... existing entries
-       - { phase: planned, date: {today}, by: plan }
+       - { phase: planning, date: {today}, by: plan }
      ```
 
 6. **Report completion**
@@ -52,7 +55,9 @@ Generate an implementation plan from a feature specification.
 
 ## Output
 
-- `domains/{domain}/01_PROJECTS/FEAT_NNN_name/plan.md`
+- v2: `## Implementation Plan` section in FEATURE.md
+- v1: `plan.md` file
 - Optional: `data-model.md`, `contracts/`
 - Status: `planned`
+- Current Phase: `planning`
 - Next: `tasks`

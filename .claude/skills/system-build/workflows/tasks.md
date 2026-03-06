@@ -4,14 +4,15 @@ Break implementation plan into actionable, dependency-ordered tasks.
 
 ## Prerequisites
 
-- spec.md and plan.md exist in feature folder
-- spec.md status is `planned`
+- Feature file with spec and plan exists
+- Status is `planned`
 
 ## Steps
 
 1. **Load context**
-   - Read `domains/{domain}/01_PROJECTS/FEAT_NNN_name/spec.md` (user stories, priorities)
-   - Read `domains/{domain}/01_PROJECTS/FEAT_NNN_name/plan.md` (tech stack, phases)
+   - Detect format: Check for `FEATURE.md` (v2) or `spec.md`/`plan.md` (v1)
+   - v2: Read `FEATURE.md` (## Specification and ## Implementation Plan sections)
+   - v1: Read `spec.md` (user stories), `plan.md` (tech stack, phases)
    - Optional: `data-model.md`, `contracts/`, `research.md`
 
 2. **Generate tasks by phase**
@@ -28,14 +29,15 @@ Break implementation plan into actionable, dependency-ordered tasks.
    - `[P]` = parallelizable (optional)
    - `[US1]` = user story label (required for story phases)
 
-4. **Write tasks.md**
-   - Write to `domains/{domain}/01_PROJECTS/FEAT_NNN_name/tasks.md`
+4. **Write tasks section**
+   - v2: Append `## Tasks` section to FEATURE.md
+   - v1: Write to `tasks.md` file
    - Include dependency graph and parallel opportunities
    - Each task must be specific enough to execute without additional context
-   - Update spec.md frontmatter:
+   - Update frontmatter:
      ```yaml
      status: tasked
-     next_step: checklist
+     current_phase: tasked
      phase_history:
        - ... existing entries
        - { phase: tasked, date: {today}, by: tasks }
@@ -53,6 +55,8 @@ Break implementation plan into actionable, dependency-ordered tasks.
 
 ## Output
 
-- `domains/{domain}/01_PROJECTS/FEAT_NNN_name/tasks.md`
+- v2: `## Tasks` section in FEATURE.md
+- v1: `tasks.md` file
 - Status: `tasked`
-- Next: `checklist`
+- Current Phase: `tasked`
+- Next: `implement`

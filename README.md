@@ -10,7 +10,7 @@
 
 ## The Problem
 
-Every time you open an AI chat, it feels like you start from zero or with outdated context. You re-explain your instructions, the latest key details of what you're working on, what you've already tried, and how you want things done. Your projects live in scattered notes, random folders, and half-remembered conversations.
+Every time you open an AI chat, it feels like you start from zero or with outdated context. You re-explain your instructions, the latest key details of what you're working on, what you've already tried, and how you want things done. Your projects live in scattered notes, random folders, and half-remembered conversations that need constant updates with the latest details.
 
 **PAL fixes this.**
 
@@ -63,12 +63,12 @@ PAL (Patterned Agentic Logic) is an open-source second brain that gives your AI 
 PAL's workspace is organized to keep focus sharp and context contained:
 
 - **Domains/**: Your high-level workspaces (e.g., `Work`, `Personal`, `SideProjects`). Each domain is a siloed environment for its specific projects and notes.
-- **Docs/**: The central hub for all guides, tutorials, and resources. Start here to learn how to master the system.
-- **.claude/**: The **DocLot** (System Core). This houses the three layers:
-  - `USER/`: Your identity and preferences.
-  - `SYSTEM/`: Skills, agents, and specialized workflows.
-  - `SECURITY/`: The guardrails that keep your AI safe.
-- **Inbox/**: Your effortless action-taking space. Drop raw thoughts, clipped articles, or quick tasks here to be processed later.
+- **Docs/**: The central hub for all guides, tutorials, and resources.
+- **.claude/**: The **configuration layer** with PAL SB Core where you will find three layers:
+  - `USER/`: Your details and preferences.
+  - `SYSTEM/`: Files that dictate and explain the logic of the system.
+  - `SECURITY/`: The guardrails that keep your data and interactions with AI safe.
+- **Inbox/**: Your action-taking space. Drop raw thoughts, clipped articles, or quick tasks here to be processed later.
 
 ---
 
@@ -121,30 +121,6 @@ See [Docs/FEATURES.md](Docs/FEATURES.md) for the complete catalog with examples 
 
 ---
 
-## Architecture
-
-PAL organizes everything into three layers:
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                      USER LAYER                         │
-│   ABOUTME.md • DIRECTIVES.md • CONTACTS.md              │
-│   Your identity, preferences, and personal context      │
-└─────────────────────────────────────────────────────────┘
-                           ↓
-┌─────────────────────────────────────────────────────────┐
-│                     SYSTEM LAYER                        │
-│   Skills • Agents • Workflows • Orchestration           │
-│   How PAL processes requests                            │
-└─────────────────────────────────────────────────────────┘
-                           ↓
-┌─────────────────────────────────────────────────────────┐
-│                    SECURITY LAYER                       │
-│   GUARDRAILS.md • REPOS_RULES.md                        │
-│   What PAL will never do                                │
-└─────────────────────────────────────────────────────────┘
-```
-
 ### The Knowledge Pipeline
 
 Capture raw information and transform it into structured knowledge automatically.
@@ -163,7 +139,7 @@ Inbox (capture) → Skills (process) → Domains (contextualize)
 
 Capture first, organize later. Every idea, note, and resource enriches your persistent context.
 
-### 8 PAL Principles
+### The 8 PAL Design Principles
 
 1. **Context beats prompts** — Organized context produces better AI results than clever prompts.
 2. **Cost-conscious by design** — Every component is weighed against token cost, so the system stays efficient as it grows.
@@ -198,13 +174,13 @@ Capture first, organize later. Every idea, note, and resource enriches your pers
 
 ## Documentation
 
-| Document                                                     | Description                                                     |
-| ------------------------------------------------------------ | --------------------------------------------------------------- |
-| **[START-HERE.md](START-HERE.md)**                           | Onboarding guide — Obsidian setup, first session, core concepts |
-| **[Docs/Claude101/](Domains/PALOpenSource/Docs/Claude101/)** | 14-part guide to mastering Claude Code and PAL                  |
-| **[Docs/FEATURES.md](Docs/FEATURES.md)**                     | Complete feature catalog with all skills, agents, and workflows |
-| **[Docs/CHANGELOG.md](Docs/CHANGELOG.md)**                   | Version history                                                 |
-| **[Docs/CONTRIBUTING.md](Docs/CONTRIBUTING.md)**             | How to contribute                                               |
+| Document                                               | Description                                                     |
+| ------------------------------------------------------ | --------------------------------------------------------------- |
+| **[START-HERE.md](START-HERE.md)**                     | Onboarding guide — Obsidian setup, first session, core concepts |
+| **[Docs/PAL101/](Domains/PALOpenSource/Docs/PAL101/)** | 14-part guide to mastering Claude Code and PAL                  |
+| **[Docs/FEATURES.md](Docs/FEATURES.md)**               | Complete feature catalog with all skills, agents, and workflows |
+| **[Docs/CHANGELOG.md](Docs/CHANGELOG.md)**             | Version history                                                 |
+| **[Docs/CONTRIBUTING.md](Docs/CONTRIBUTING.md)**       | How to contribute                                               |
 
 ---
 

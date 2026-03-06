@@ -7,16 +7,17 @@
 
 ---
 
-## The Plan
+## How to get started?
 
-Here's what we're doing:
+Here's what is needed:
 
 1. **Set up Obsidian** as your main navigation and input layer
 2. **Run your first PAL session** with Claude Code
 3. **Understand the core concepts** — skills, agents, domains, hooks
 4. **Customize PAL** with your identity and preferences
-5. **Create Domains and Projects** home of your notes and tasks
-6. **Know where to go next** for deeper learning
+5. **How Context & Agents Work** — understand how PAL loads your world
+6. **Create Domains and Projects** as the home of your notes and tasks
+7. **Know where to go next** for deeper learning
 
 Expect to spend about 30 minutes on the basic setup. If you want to explore every corner, give it an hour.
 
@@ -223,26 +224,55 @@ Start by capturing your thoughts in the inbox or creating your first project as 
 
 ---
 
-## Part 5: What's Next
+## Part 5: How Context & Agents Work
 
-### Learn Claude Code in Depth
+PAL does more than sync notes and tasks to Claude Code. It builds the operational context Claude needs to run your systems and workflows without you repeating yourself. This happens in two stages:
 
-The **[Claude101 Guide](Docs/Claude101/)** is a 14-part series covering everything from installation to advanced workflows:
+### 1. Setting the Stage: The SessionStart Hook
 
-| Guide                                                                    | Topic                                               |
-| ------------------------------------------------------------------------ | --------------------------------------------------- |
-| [01 — Getting Started](Docs/Claude101/01-getting-started.md)             | Installation, first workflow, essential commands    |
-| [02 — Core Concepts](Docs/Claude101/02-core-concepts.md)                 | Interaction loop, context management, plan mode     |
-| [03 — PAL Second Brain](Docs/Claude101/03-pal-second-brain.md)           | Domains, agents, skills, and the inbox              |
-| [04 — Requirements & Hooks](Docs/Claude101/04-requirements-and-hooks.md) | CLAUDE.md, hooks, and configuration                 |
-| [05 — Cheatsheet](Docs/Claude101/05-cheatsheet.md)                       | Quick reference for commands and shortcuts          |
-| [06 — Adoption Approaches](Docs/Claude101/06-adoption-approaches.md)     | Turnkey vs autonomous learning path                 |
-| [07 — Data Privacy](Docs/Claude101/07-data-privacy.md)                   | What data goes where and how to control it          |
-| [08 — Learning with AI](DELETE-08-learning-with-ai.md)           | The UVAL protocol — use AI without losing your edge |
-|                                                                          |                                                     |
-|                                                                          |                                                     |
-|                                                                          |                                                     |
-|                                                                          |                                                     |
+Every time you open Claude Code, the **SessionStart** hook runs automatically. It loads your base context from `.claude/core/`:
+
+- **USER Layer**: Your identity (ABOUTME), preferences (DIRECTIVES), and contacts.
+- **SECURITY Layer**: Your safety guardrails and repo rules.
+- **SYSTEM Layer**: The core orchestration logic and available skills (optional).
+
+This ensures that from the first message, PAL knows who you are and how you want to work.
+
+### 2. Deep Dive: Loading Domain Agents
+
+When you switch to a specialized agent (e.g.,loading it with a command `/product-manager`), the system pivots its focus:
+
+- **Base Context persists**: Your identity and guardrails stay loaded.
+- **Domain Context loads**: The agent pulls in the `INDEX.md` and `00_CONTEXT` files from the specific `Domains/` folder.
+
+This "two-group context model" allows agents to have deep, specialized knowledge without overloading the AI's memory with irrelevant files from other domains.
+
+### How to manage context
+
+- **Identity & Preferences**: Edit files in `.claude/core/user/` (ABOUTME, DIRECTIVES) to change how PAL perceives and interacts with you globally.
+- **Agent Knowledge**: Edit the **Activation Protocol** section of agent files in `.claude/agents/` (e.g., `product-manager.md`) to change which domain files are loaded automatically (`[AUTO]`) vs on-demand (`[REF]`).
+- **Domain Data**: Add or update files within a domain's `00_CONTEXT/` folder to provide the raw information the agent needs to reference.
+- **Check Status**: Type `*context` at any time to see exactly which files are currently influencing the AI's "brain."
+
+---
+
+## Part 6: What's Next
+
+### The PAL Beginner Guide
+
+The **[PAL101 Guide](Docs/PAL101/)** is a 9-part series covering everything you need to get started:
+
+| Guide                                                             | Topic                                               |
+| ----------------------------------------------------------------- | --------------------------------------------------- |
+| [01 — Welcome to PAL](Docs/PAL101/01-welcome.md)                  | What PAL is, PADA method, architecture, quick start |
+| [02 — Domains & Projects](Docs/PAL101/02-domains-and-projects.md) | Creating domains, projects, and agents              |
+| [03 — Session Flow](Docs/PAL101/03-session-flow.md)               | The ideal session: agent → context → focused work   |
+| [04 — Note-Taking](Docs/PAL101/04-note-taking.md)                 | Capture → process → distribute → contextualize      |
+| [05 — LifeOS & Notes](Docs/PAL101/05-lifeos-and-notes.md)         | Personal life management and life categories        |
+| [06 — PAL Builder](Docs/PAL101/06-pal-builder.md)                 | Spec-driven development for extending PAL           |
+| [07 — Data Privacy](Docs/PAL101/07-data-privacy.md)               | What data goes where and how to control it          |
+| [08 — Cheatsheet](Docs/PAL101/08-cheatsheet.md)                   | Quick reference for commands and shortcuts          |
+| [09 — Recommended Plugins](Docs/PAL101/09-recommended-plugins.md) | Obsidian plugins that enhance PAL                   |
 
 ### Explore All Features
 
@@ -260,6 +290,6 @@ PAL is open source. See **[Docs/CONTRIBUTING.md](Docs/CONTRIBUTING.md)** to get 
 ---
 
 **Version:** 0.1.0-beta
-**Last Updated:** 2026-03-02
+**Last Updated:** 2026-03-06
 
-**Next:** [Docs/Claude101/01-getting-started.md](Docs/Claude101/01-getting-started.md) — Installation and your first workflow
+**Next:** [Docs/PAL101/01-welcome.md](Docs/PAL101/01-welcome.md) — Welcome to PAL

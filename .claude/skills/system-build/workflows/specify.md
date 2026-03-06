@@ -19,31 +19,47 @@ Create a feature specification from a natural language description.
    - Calculate next number: highest NNN + 1 (or 001 if none exist)
    - Feature ID: `FEAT_{NNN}_{short-name}`
 
-3. **Create feature folder**
-   - Create `domains/{domain}/01_PROJECTS/FEAT_NNN_short-name/`
+3. **Determine destination repository**
+   - Ask user: "Is this feature for your personal system or the open-source framework?"
+     1. **Personal** - Stays in main repo (default)
+     2. **Open Source** - Goes to `Domains/PALOpenSource/` submodule
+   - Based on answer, set base path:
+     - **Personal:** `Domains/{domain}/01_PROJECTS/`
+     - **Open Source:** `Domains/PALOpenSource/Domains/PALBuilder/01_PROJECTS/`
+   - Record routing decision for spec.md frontmatter
 
-4. **Generate specification**
-   - Reference `templates/spec_template.md` for structure
+4. **Create feature folder**
+   - Create `{base_path}/FEAT_NNN_short-name/`
+
+5. **Generate specification**
+   - Reference `templates/feature_template.md` for structure
    - Extract from description: actors, actions, data, constraints
-   - Fill User Scenarios with Given-When-Then acceptance criteria
-   - Generate Functional Requirements (testable, FR-001 format)
-   - Define Success Criteria (measurable, technology-agnostic)
+   - Fill **ONLY the ## Specification section**:
+     - Overview
+     - User Stories & Acceptance Criteria (Given-When-Then format)
+     - Edge Cases
+     - Requirements (Functional Requirements + Key Entities)
+     - Success Criteria (measurable, technology-agnostic)
+   - Leave other sections (Implementation Plan, Tasks, Testing Instructions, etc.) as placeholders from template
    - Mark unclear aspects with `[NEEDS CLARIFICATION: question]` (max 3)
 
-5. **Write spec.md**
-   - Write to `domains/{domain}/01_PROJECTS/FEAT_NNN_short-name/spec.md`
+6. **Write FEATURE.md**
+   - Write to `{base_path}/FEAT_NNN_short-name/FEATURE.md`
    - Include YAML frontmatter with status tracking:
      ```yaml
      feature: FEAT_NNN_short-name
      branch: NNN-short-name
      created: {today}
-     status: draft
-     next_step: clarify
+     status: specified
+     routing: personal | open-source
+     target_path: {resolved_path}
+     current_phase: specification
      phase_history:
-       - { phase: draft, date: {today}, by: specify }
+       - { phase: specification, date: {today}, by: specify }
+     input: "{feature_description}"
      ```
 
-6. **Report completion**
+7. **Report completion**
    - Show feature ID, spec path, and next step
    - If NEEDS CLARIFICATION markers exist → suggest `clarify` workflow
    - Otherwise → suggest `plan` workflow
@@ -57,6 +73,16 @@ Create a feature specification from a natural language description.
 
 ## Output
 
-- `domains/{domain}/01_PROJECTS/FEAT_NNN_short-name/spec.md`
-- Status: `draft`
+- `{base_path}/FEAT_NNN_short-name/FEATURE.md`
+  - Personal: `Domains/{domain}/01_PROJECTS/FEAT_NNN_short-name/FEATURE.md`
+  - Open Source: `Domains/PALOpenSource/Domains/PALBuilder/01_PROJECTS/FEAT_NNN_short-name/FEATURE.md`
+- Status: `specified`
+- Current Phase: `specification`
+- Routing: `personal` or `open-source` (recorded in frontmatter)
 - Next: `clarify` (if ambiguities) or `plan`
+
+## Format Detection Note
+
+- New format (v2): `FEATURE.md` in feature folder
+- Old format (v1): `spec.md`, `plan.md`, `tasks.md`, `checklist.md` in feature folder
+- Both formats coexist - workflows detect and handle appropriately

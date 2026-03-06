@@ -4,15 +4,16 @@ Execute tasks from tasks.md, tracking progress in real-time.
 
 ## Prerequisites
 
-- tasks.md exists in feature folder
-- spec.md status is `tasked` or `validated` or `analyzed`
+- Feature file with tasks exists
+- Status is `tasked`
 
 ## Steps
 
 1. **Load context**
-   - Read `domains/{domain}/01_PROJECTS/FEAT_NNN_name/tasks.md`
-   - Read `domains/{domain}/01_PROJECTS/FEAT_NNN_name/plan.md`
-   - Optional: `data-model.md`, `contracts/`, `checklist.md`
+   - Detect format: Check for `FEATURE.md` (v2) or `tasks.md` (v1)
+   - v2: Read FEATURE.md (## Tasks, ## Specification sections)
+   - v1: Read `tasks.md`, `plan.md`, `spec.md`
+   - Optional: `data-model.md`, `contracts/`
 
 2. **Check checklists** (if checklist.md exists)
    - Count completed `[X]` vs incomplete `[ ]` items
@@ -31,29 +32,43 @@ Execute tasks from tasks.md, tracking progress in real-time.
    - Halt on non-parallel task failure
    - Continue parallel tasks independently, report failures
 
-5. **On completion**
+5. **On completion - Generate UAT**
    - Verify all tasks marked `[X]`
-   - Update spec.md frontmatter:
+   - v2: Populate `## Testing Instructions` section:
+     - Generate step-by-step testing guide from user stories
+     - Extract acceptance criteria from ## Specification into checklist
+     - Add to `## Implementation Notes` section
+   - v1: (Skip UAT generation for old format)
+   - Update frontmatter:
      ```yaml
      status: implemented
-     next_step: document
+     current_phase: testing
      phase_history:
        - ... existing entries
        - { phase: implemented, date: {today}, by: implement }
      ```
 
-6. **Report completion**
-   - Show tasks completed, any skipped/failed
-   - Suggest `document` workflow
+6. **UAT Prompt (v2 only)**
+   - Present testing instructions to user
+   - **STOP and WAIT for user feedback**:
+     - **PASS**: User confirms tests pass → Update status to `tested`, proceed to document
+     - **FAIL**: Capture feedback in `## Implementation Notes > Testing Feedback`, create new tasks, loop back to step 3
+
+7. **Report completion**
+   - Show tasks completed
+   - v2: Present testing instructions, await user testing
+   - v1: Suggest `document` workflow
 
 ## Guidelines
 
 - Execute TDD if tests exist: tests before implementation
 - Provide clear error messages with context
-- If tasks incomplete, suggest running `tasks` workflow first
+- v2: Always generate UAT after implementation
+- v2: Do NOT proceed to document until user confirms tests pass
 
 ## Output
 
-- tasks.md with completed tasks marked `[X]`
-- Status: `implementing` → `implemented`
-- Next: `document`
+- v2: Tasks marked `[X]` in FEATURE.md, ## Testing Instructions populated
+- v1: tasks.md with completed tasks marked `[X]`
+- Status: `implemented` (awaiting UAT for v2)
+- Next: User testing (v2) or `document` (v1)
