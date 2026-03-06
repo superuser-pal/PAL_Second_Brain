@@ -186,4 +186,4 @@ PAL's built-in session commands (`/sessions:*`) cover basic session management. 
 
 ---
 
-**Previous:** [10 — Observability](./10-observability.md) | **Next:** [12 — AI Ecosystem](./12-ai-ecosystem.md)
+**Previous:** [10 — Observability](./10-observability.md) | **Next:** [12 — AI Ecosystem](DELETE-12-ai-ecosystem.md)

@@ -192,4 +192,4 @@ To evaluate your own PAL agents, start by reviewing session logs in `02_SESSIONS
 
 ---
 
-**Previous:** [08 — Learning with AI](./08-learning-with-ai.md) | **Next:** [10 — Observability](./10-observability.md)
+**Previous:** [08 — Learning with AI](DELETE-08-learning-with-ai.md) | **Next:** [10 — Observability](./10-observability.md)

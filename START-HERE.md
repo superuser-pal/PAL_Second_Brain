@@ -238,7 +238,7 @@ The **[Claude101 Guide](Docs/Claude101/)** is a 14-part series covering everythi
 | [05 — Cheatsheet](Docs/Claude101/05-cheatsheet.md)                       | Quick reference for commands and shortcuts          |
 | [06 — Adoption Approaches](Docs/Claude101/06-adoption-approaches.md)     | Turnkey vs autonomous learning path                 |
 | [07 — Data Privacy](Docs/Claude101/07-data-privacy.md)                   | What data goes where and how to control it          |
-| [08 — Learning with AI](Docs/Claude101/08-learning-with-ai.md)           | The UVAL protocol — use AI without losing your edge |
+| [08 — Learning with AI](DELETE-08-learning-with-ai.md)           | The UVAL protocol — use AI without losing your edge |
 |                                                                          |                                                     |
 |                                                                          |                                                     |
 |                                                                          |                                                     |

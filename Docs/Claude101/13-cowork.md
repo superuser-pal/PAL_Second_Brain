@@ -88,4 +88,4 @@ If you're a non-developer exploring PAL, Cowork may be a gentler entry point. PA
 
 ---
 
-**Previous:** [12 — AI Ecosystem](./12-ai-ecosystem.md) | **Next:** [14 — Git Workflow](./14-git-workflow.md)
+**Previous:** [12 — AI Ecosystem](DELETE-12-ai-ecosystem.md) | **Next:** [14 — Git Workflow](./14-git-workflow.md)

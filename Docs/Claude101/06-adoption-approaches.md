@@ -10,8 +10,6 @@ order: 6
 
 > Part of the [PAL Second Brain](https://github.com/yourusername/pal-second-brain) documentation series.
 
-> **Disclaimer**: Claude Code is young (~1 year). Nobody has definitive answers yet — including this guide. These are starting points based on observed patterns, not proven best practices. Adapt heavily to your context.
-
 ---
 
 ## What We Do Know

@@ -30,31 +30,45 @@ PAL (Patterned Agentic Logic) is an open-source second brain that gives your AI 
 
 ## Quick Start
 
-[MODIFY TO MAKE IT COMPULSORY TO HAVE OBSIDIAN IN THE INITIAL SET UP + OPEN THE VAULT]
+1. **Clone the repository**:
 
-Three commands and you're running:
+   ```bash
+   git clone https://github.com/superuser-pal/PAL_Second_Brain
+   cd PAL_Second_Brain
+   ```
 
-```bash
-# 1. Clone the repository
-git clone https://github.com/yourusername/pal-personal.git
-cd pal-personal
+2. **Open in Obsidian**:
+   Download [Obsidian](https://obsidian.md) and open the `PAL_Second_Brain` folder as a vault. This is your primary interface for reading and navigating your second brain.
 
-# 2. Install dependencies
-bun install
+3. **Install dependencies**:
 
-# 3. Start Claude Code
-claude
+   ```bash
+   bun install
+   ```
 
-# 4. Run the set up command
-/setup-context
+4. **Start Claude Code & Setup**:
+   ```bash
+   claude
+   /setup-context
+   ```
 
-```
+> **Note:** PAL runs on [Claude Code](https://claude.ai/download), which requires an active Anthropic subscription.
 
-> **Note:** PAL runs on [Claude Code](https://claude.ai/download), which requires an active Anthropic subscription. See [claude.com/pricing](https://claude.com/pricing) for plans.
+👉 **[START-HERE.md](START-HERE.md)** — Full onboarding guide for more details.
 
-**Recommended:** Open the folder in [Obsidian](https://obsidian.md) for the best reading and navigation experience. Any IDE (Cursor, VS Code, etc.) also works.
+---
 
-👉 **[START-HERE.md](START-HERE.md)** — Full onboarding guide with Obsidian setup
+## Folder Structure
+
+PAL's workspace is organized to keep focus sharp and context contained:
+
+- **Domains/**: Your high-level workspaces (e.g., `Work`, `Personal`, `SideProjects`). Each domain is a siloed environment for its specific projects and notes.
+- **Docs/**: The central hub for all guides, tutorials, and resources. Start here to learn how to master the system.
+- **.claude/**: The **DocLot** (System Core). This houses the three layers:
+  - `USER/`: Your identity and preferences.
+  - `SYSTEM/`: Skills, agents, and specialized workflows.
+  - `SECURITY/`: The guardrails that keep your AI safe.
+- **Inbox/**: Your effortless action-taking space. Drop raw thoughts, clipped articles, or quick tasks here to be processed later.
 
 ---
 
@@ -133,7 +147,13 @@ PAL organizes everything into three layers:
 
 ### The Knowledge Pipeline
 
-[ENHANCE THIS PART WITH ADDITIONAL DETAILS OF THE NOTES AND IDEAS INGESTION]
+Capture raw information and transform it into structured knowledge automatically.
+
+| Stage          | Activity                       | Result                              |
+| :------------- | :----------------------------- | :---------------------------------- |
+| **Ingest**     | Drop notes/tasks into `/Inbox` | frictionless capture                |
+| **Process**    | AI applies `note-taking` skill | categorized and structured markdown |
+| **Distribute** | Move to correct `/Domain`      | contextually relevant persistence   |
 
 All information flows through a unified pipeline:
 

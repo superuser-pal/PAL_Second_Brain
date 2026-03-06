@@ -12,12 +12,6 @@ order: 1
 
 ---
 
-## Before You Start
-
-This guide is a community resource, not official Anthropic documentation. Use critically, experiment, and share what works for you.
-
----
-
 ## Table of Contents
 
 1. [Installation](#installation)
@@ -53,7 +47,7 @@ claude doctor          # Verify system health
 ### First Launch
 
 ```bash
-cd your-project
+cd your-seconbrain-location
 claude
 ```
 
@@ -149,12 +143,12 @@ You: Show me what's in my Domains/MyProject/ folder now
 
 ### Shortcuts
 
-| Shortcut | Action | Example |
-|----------|--------|---------|
-| `@file` | Reference a specific file | `@Domains/MyProject/INDEX.md` |
-| `!command` | Run shell command directly | `!git status` |
-| `Ctrl+C` | Cancel current operation | Stop long-running analysis |
-| `Esc` | Stop Claude mid-action | Interrupt current operation |
+| Shortcut | Action                    | Example                       |
+| -------- | ------------------------- | ----------------------------- |
+| `@file`  | Reference a specific file | `@Domains/MyProject/INDEX.md` |
+| `Ctrl+C` | Cancel current operation  | Stop long-running analysis    |
+| `Esc`    | Stop Claude mid-action    | Interrupt current operation   |
+|          |                           |                               |
 
 ### File References with @
 

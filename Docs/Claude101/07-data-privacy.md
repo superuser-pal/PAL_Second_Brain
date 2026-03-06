@@ -184,4 +184,4 @@ You don't need to configure these manually — they're active from the first ses
 
 ---
 
-**Previous:** [06 — Adoption Approaches](./06-adoption-approaches.md) | **Next:** [08 — Learning with AI](./08-learning-with-ai.md)
+**Previous:** [06 — Adoption Approaches](./06-adoption-approaches.md) | **Next:** [08 — Learning with AI](DELETE-08-learning-with-ai.md)
