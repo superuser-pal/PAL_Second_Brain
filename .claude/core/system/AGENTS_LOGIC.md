@@ -49,7 +49,7 @@ All agents in the PAL Second Brain **MUST** follow the structure and conventions
 | :------------- | :------------------------ | :------------------------ | :-------------------------------- |
 | **Purpose**    | Orchestration and routing | Extended domain sessions  | Domain-specific capabilities      |
 | **Duration**   | Always active             | Loaded for session        | Activated per task                |
-| **Invocation** | Default at session start  | `/[agent]` command   | Automatic (intent-based)          |
+| **Invocation** | Default at session start  | `/[agent]` command        | Automatic (intent-based)          |
 | **Context**    | Base + System config      | Base + Domain             | Skill-specific only               |
 | **Persona**    | Generalist orchestrator   | Domain specialist         | None (capability only)            |
 | **State**      | Session-wide              | Until dismissed           | Stateless                         |
@@ -85,13 +85,13 @@ All agents in the PAL Second Brain **MUST** follow the structure and conventions
 
 ## Naming Conventions (MANDATORY)
 
-| Category               | Convention            | Example                | Purpose                  |
-| :--------------------- | :-------------------- | :--------------------- | :----------------------- |
-| **Agent file**         | `lower-kebab-case.md` | `blog-agent.md`        | Agent definition file    |
-| **YAML name**          | `lower-kebab-case`    | `name: blog-agent`     | Matches file name        |
-| **Domain field**       | `PascalCase`          | `domain: BlogContent`  | Matches domain directory |
-| **Invocation command** | `/[agent-name]`  | `/blog-agent`     | Load and activate agent  |
-| **Dismiss command**    | `*dismiss`            | `*dismiss`             | End agent session        |
+| Category               | Convention            | Example               | Purpose                  |
+| :--------------------- | :-------------------- | :-------------------- | :----------------------- |
+| **Agent file**         | `lower-kebab-case.md` | `blog-agent.md`       | Agent definition file    |
+| **YAML name**          | `lower-kebab-case`    | `name: blog-agent`    | Matches file name        |
+| **Domain field**       | `PascalCase`          | `domain: BlogContent` | Matches domain directory |
+| **Invocation command** | `/[agent-name]`       | `/blog-agent`         | Load and activate agent  |
+| **Dismiss command**    | `*dismiss`            | `*dismiss`            | End agent session        |
 
 ### Convention Rules
 
@@ -168,19 +168,26 @@ Every domain agent must contain these 8 sections in order:
 
 ---
 
-## Context Model: Base + Domain
+### Activation Protocol
 
-Domain agents load context from two groups. This replaces the previous four-layer model.
+Domain agents follow a 6-step boot sequence:
 
-### Base Context (Fixed)
+1. **Load Persona** — Agent file already in context
+2. **Load Domain Files** — Execute AUTO files (INDEX.md)
+3. **Load Domain Folders** — Index REF folders from domain
+4. **Extract User Name** — From ABOUTME.md
+5. **Display Greeting** — State role, show Command Menu
+6. **Wait for Input** — STOP and wait (do not auto-execute)
 
-Three files, always `[REF]`. These are the same for every domain agent:
+---
 
-- [REF] `.claude/core/user/ABOUTME.md` — Core Identity & Background
-- [REF] `.claude/core/user/DIRECTIVES.md` — Critical System Rules
-- [REF] `.claude/core/security/GUARDRAILS.md` — Safety Validation
+## Context Model: Domain-Centric
 
-### Domain Context (Configurable)
+Domain agents load context primarily from their domain. Base context (ABOUTME, DIRECTIVES, GUARDRAILS) is loaded automatically via the `session-start` hook and does not need to be explicitly managed by the agent.
+
+### Domain Context (Mapped from INDEX.md)
+
+Mapped from the domain's `INDEX.md`. Step 2 loads the domain files, and Step 3 indexes the folders.
 
 Mapped from the domain's `INDEX.md`. Each agent author decides what is `[AUTO]` vs `[REF]`.
 
@@ -207,20 +214,16 @@ This is the standard structure. Agent authors may add or remove folders based on
 | **[AUTO]** | Read and load immediately at activation | Critical for all interactions (use sparingly) |
 | **[REF]**  | Index path, load on demand              | Needed only for specific tasks                |
 
-**Zero Trust Principle:** Default to `[REF]`. Only use `[AUTO]` for files required in every interaction. Domain `INDEX.md` is the one standard exception.
+**Zero Trust Principle:** Default to `[REF]`. Only use `[AUTO]` for files required in every interaction. Domain `INDEX.md` is the standard Step 2 AUTO load.
 
 ### Example Configuration
 
-```markdown
-**Base Context:**
-
-- [REF] `.claude/core/user/ABOUTME.md`
-- [REF] `.claude/core/user/DIRECTIVES.md`
-- [REF] `.claude/core/security/GUARDRAILS.md`
-
-**Domain Context (BlogContent):**
+**Step 2: Load Domain Files**
 
 - [AUTO] `Domains/BlogContent/INDEX.md` — Domain source of truth
+
+**Step 3: Load Domain Folders**
+
 - [REF] `Domains/BlogContent/00_CONTEXT/` — Domain reference docs
 - [REF] `Domains/BlogContent/01_PROJECTS/` — Active projects
 - [REF] `Domains/BlogContent/02_SESSIONS/` — Session logs
@@ -228,50 +231,43 @@ This is the standard structure. Agent authors may add or remove folders based on
 - [REF] `Domains/BlogContent/04_WORKSPACE/` — Agent workspace and staging area
 - [REF] `Domains/BlogContent/05_ARCHIVE/` — Archived items
 - [REF] `Domains/BlogContent/CONNECTIONS.yaml` — Integrations
-```
 
 ---
 
-## Inline Capability Model
+## Registry Capability Model
 
-Agent capabilities are declared **inline in the agent file** (Section 5: My Capabilities). A comprehensive read-only index is available in `.claude/core/reference/SYSTEM_INDEX.md`.
+Agent capabilities are registered in `.claude/core/reference/SYSTEM_INDEX.md` (the Skills Registry). Agents point to the registry instead of declaring capabilities inline.
 
 ### How It Works
 
-1. Each agent declares its own skills, workflows, and prompts directly in Section 5
-2. When `*skills` or `*workflows` is invoked, the agent reads its own Section 5 — zero external file loads
-3. Capabilities are scoped by architecture: an agent only sees what's in its own file
-4. No filtering logic is needed — the boundary is structural, not procedural
+1. Skills are assigned to agents via rows in SYSTEM_INDEX.md's Skills Registry table
+2. When `*skills` is invoked, the agent reads SYSTEM_INDEX.md and filters for its own name
+3. When `*workflows` is invoked, the agent reads the SKILL.md routing tables for its registered skills
+4. Capabilities are scoped by the registry: an agent only has skills assigned to it in SYSTEM_INDEX.md
+5. A skill can be assigned to multiple agents (one row per assignment)
 
-### Example: Section 5 of a Blog Agent
+### Example: Section 5 of a Domain Agent
 
-```yaml
-### Skills
-- name: blogging
-  location: .claude/skills/blogging/SKILL.md
-  use_when: "User wants to write, edit, or manage blog posts"
+```markdown
+## 5. My Capabilities
 
-- name: seo-optimizer
-  location: .claude/skills/seo-optimizer/SKILL.md
-  use_when: "User wants to optimize content for search engines"
+My skills are registered in `.claude/core/reference/SYSTEM_INDEX.md`.
 
-### Workflows
-- name: create-post
-  source: blogging/create_post
-  location: .claude/skills/blogging/workflows/create_post.md
-  use_when: "User wants to write a new blog post"
+**View:** Read SYSTEM_INDEX.md, filter for `Agent: blog-agent`
+**Add:** Add a row to the Skills Registry table with this agent's name
 
-- name: optimize-seo
-  source: seo-optimizer/optimize_seo
-  location: .claude/skills/seo-optimizer/workflows/optimize_seo.md
-  use_when: "User wants to run SEO optimization on a post"
+### Capability Rules
+
+- If a skill is not registered to me in SYSTEM_INDEX.md, I do not have it
+- Do not infer, hallucinate, or borrow capabilities from other agents
+- Out of scope → suggest `*dismiss`
 ```
 
 ### Rules
 
-- **Agent owns its capabilities:** skills, workflows, and prompts are declared in the agent's own file
-- **No external lookup:** `*skills` and `*workflows` read Section 5 directly (already in context)
-- **No inference:** if a capability is not listed in Section 5, it does not exist for this agent
+- **Registry is source of truth:** skill-to-agent assignments live in SYSTEM_INDEX.md
+- **Skill definitions stay in SKILL.md:** USE WHEN triggers, workflow routing, and documentation live in each skill's own file
+- **No inference:** if a skill is not registered to this agent in SYSTEM_INDEX.md, it does not exist for this agent
 - **No borrowing:** agents never access another agent's capabilities
 - **Out of scope:** if a request needs capabilities this agent doesn't have, suggest `*dismiss` to return to PAL Master
 
@@ -279,9 +275,9 @@ Agent capabilities are declared **inline in the agent file** (Section 5: My Capa
 
 PAL Master uses `ROUTING_TABLE.md` for the `*agents` command — a lightweight file listing all agents, their domains, and routing hints. Domain agents do NOT access this file.
 
-### System Index (Reference Only)
+### System Index (Writable Registry)
 
-`SYSTEM_INDEX.md` is a generated read-only file that provides a system-wide view of all capabilities across all agents. It is located in `.claude/core/reference/SYSTEM_INDEX.md` and is never loaded at runtime. It is regenerated by the `map-domain` workflow.
+`SYSTEM_INDEX.md` is the writable capability registry located at `.claude/core/reference/SYSTEM_INDEX.md`. It records which skills belong to which agents. When creating a new skill, register it in SYSTEM_INDEX.md. When creating a new agent, register its skills in SYSTEM_INDEX.md.
 
 ---
 
@@ -302,8 +298,8 @@ PAL Master uses `ROUTING_TABLE.md` for the `*agents` command — a lightweight f
 **6-Step Protocol:**
 
 1. **Load Persona** — Agent file already in context
-2. **Load Base Context** — Index 3 fixed REF files (ABOUTME, DIRECTIVES, GUARDRAILS)
-3. **Load Domain Context** — Execute AUTO files (INDEX.md), index REF files from domain
+2. **Load Domain Files** — Execute AUTO files (INDEX.md)
+3. **Load Domain Folders** — Index REF folders from domain
 4. **Extract User Name** — From ABOUTME.md
 5. **Display Greeting** — State role, show Command Menu
 6. **Wait for Input** — STOP and wait (do not auto-execute)
@@ -412,31 +408,29 @@ Before an agent is complete, verify the following:
 - [ ] Section 2: Activation Protocol (6 steps)
 - [ ] Section 3: Command Menu (unified table with actions)
 - [ ] Section 4: How I Work (classify → route → execute pipeline)
-- [ ] Section 5: My Capabilities (inline skills, workflows, prompts with use_when)
+- [ ] Section 5: My Capabilities (registry pointer to SYSTEM_INDEX.md with capability rules)
 - [ ] Section 6: Session State Model (tracked data, reset rules)
 - [ ] Section 7: Error Handling & Recovery (categories, protocol, degradation)
 - [ ] Section 8: Operational Rules (numbered constraints)
 
 ### Context Configuration
 
-- [ ] Base Context: 3 fixed REFs (ABOUTME, DIRECTIVES, GUARDRAILS)
-- [ ] Domain Context: INDEX.md as [AUTO], other files as [REF]
+- [ ] Domain Context: INDEX.md as [AUTO] in Step 2, folders as [REF] in Step 3
+- [ ] Base context handled by hook (not in agent file)
 - [ ] Zero Trust applied — minimal [AUTO] usage
 
 ### Capability Declaration
 
-- [ ] Section 5 lists all skills owned by this agent (with location and use_when)
-- [ ] Section 5 lists all workflows (with source, location, and use_when)
-- [ ] Section 5 lists all prompts if any (with location and use_when)
-- [ ] Listed skills exist in `.claude/skills/`
-- [ ] Listed workflows exist in their respective skill directories
+- [ ] Section 5 contains registry pointer to SYSTEM_INDEX.md
+- [ ] Section 5 includes capability rules (no inference, no borrowing, out-of-scope → `*dismiss`)
+- [ ] Skills registered in SYSTEM_INDEX.md for this agent
+- [ ] Registered skills exist in `.claude/skills/`
 - [ ] Capabilities align with agent's domain and responsibilities
-- [ ] Capability rules stated: no inference, no borrowing, out-of-scope → `*dismiss`
 
 ### Post-Creation
 
 - [ ] Agent added to `ROUTING_TABLE.md` (name, domain, location, routes_to)
-- [ ] `map-domain` run to regenerate `SYSTEM_INDEX.md`
+- [ ] Skills registered in `SYSTEM_INDEX.md` Skills Registry table
 
 ### Operational Validation
 
@@ -450,24 +444,24 @@ Before an agent is complete, verify the following:
 
 ## Summary
 
-| Component               | Purpose                                                  | Required |
-| :---------------------- | :------------------------------------------------------- | :------- |
-| **YAML Frontmatter**    | Agent metadata (name, description, version, domain)      | Yes      |
-| **Identity & Persona**  | Role, voice, core principles                             | Yes      |
-| **Activation Protocol** | 6-step startup sequence                                  | Yes      |
-| **Command Menu**        | Unified command table with actions                       | Yes      |
-| **How I Work**          | Classify → Route → Execute pipeline                      | Yes      |
-| **My Capabilities**     | Inline skills, workflows, prompts with use_when triggers | Yes      |
-| **Session State Model** | What gets tracked and when it resets                     | Yes      |
-| **Error Handling**      | Error categories, recovery protocol                      | Yes      |
-| **Operational Rules**   | Numbered behavioral constraints                          | Yes      |
+| Component               | Purpose                                                   | Required |
+| :---------------------- | :-------------------------------------------------------- | :------- |
+| **YAML Frontmatter**    | Agent metadata (name, description, version, domain)       | Yes      |
+| **Identity & Persona**  | Role, voice, core principles                              | Yes      |
+| **Activation Protocol** | 6-step startup sequence                                   | Yes      |
+| **Command Menu**        | Unified command table with actions                        | Yes      |
+| **How I Work**          | Classify → Route → Execute pipeline                       | Yes      |
+| **My Capabilities**     | Registry pointer to SYSTEM_INDEX.md with capability rules | Yes      |
+| **Session State Model** | What gets tracked and when it resets                      | Yes      |
+| **Error Handling**      | Error categories, recovery protocol                       | Yes      |
+| **Operational Rules**   | Numbered behavioral constraints                           | Yes      |
 
 **Key Principles:**
 
 1. **Single-file agents** — no nested directories, related files in their locations
 2. **Mandatory domain binding** — every agent must bind to an existing domain
 3. **Two-group context** — Base (3 fixed REFs) + Domain (configurable AUTO/REF)
-4. **Inline capabilities** — skills, workflows, prompts declared in agent Section 5
+4. **Registry capabilities** — skills assigned to agents in SYSTEM_INDEX.md, agents point to registry in Section 5
 5. **8-section structure** — consistent template for all domain agents
 6. **INDEX.md as source of truth** — domain files discovered from INDEX.md
 7. **Zero Trust context** — load only what's needed

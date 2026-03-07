@@ -32,6 +32,17 @@
           }
         ]
       }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run .claude/tools/hooks/post-tool-use.ts"
+          }
+        ]
+      }
     ]
   },
   "permissions": {

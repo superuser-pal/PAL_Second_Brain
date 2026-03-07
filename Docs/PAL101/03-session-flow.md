@@ -8,7 +8,7 @@ order: 3
 
 # 03 — Session Flow
 
-> The better your session setup, the better the results. Here's how to actually use this thing.
+> The better your session setup, the better the results. Here's how to actually use PAL Second Brain Session Logic.
 
 ---
 
@@ -16,7 +16,7 @@ order: 3
 
 Every time I sit down to work with PAL, I follow a simple ritual. It’s not just about opening the terminal—it’s about making sure the AI has exactly what it needs to be useful.
 
-Think of it like setting up your physical desk before a deep work session. You clear the clutter, grab your coffee, and lay out the specific tools you need for the task at hand.
+Think of it like setting up your physical desk before a deep work session. You clear the clutter, grab the documents you need, and lay out the specific tools for the task at hand.
 
 Here is the flow:
 
@@ -25,11 +25,11 @@ Here is the flow:
 3. **Drop in extra context**: If you need to reference specific files, use `@` to pull them in.
 4. **Work**: Braindump, plan, or execute.
 
-**Why bother?** If you just start typing without setup, the AI is guessing. If you set the stage, it becomes a true partner.
+**Why bother?** If you just start typing without setup, the AI is guessing. If you set the stage, it becomes a context loaded assistant.
 
 ---
 
-## Step 1: Session Start (The quiet part)
+## Step 1: Session Start (The silent part)
 
 When you run `claude`, a few things happen in the background before you even see the prompt. PAL loads your identity (`ABOUTME.md`), your specific styling preferences (`DIRECTIVES.md`), and your safety rules (`GUARDRAILS.md`).
 
@@ -44,11 +44,11 @@ If you’re stepping into a Domain (like Work or side projects), load the agent 
 ```text
 /product-manager       → Product strategy
 /life-coach            → Personal life management
-/pal-builder           → Coding and system work
+/pal-builder           → Build a new feature for your second brain
 ```
 
 **What this actually does:**
-It’s like switching hats. The agent persona loads its specific "vibe" and rules, but most importantly, it auto-loads the domain’s `INDEX.md`. It greets you with a specialized menu so you don't have to remember where you left off.
+It’s like switching hats. The agent persona loads its specific "knowledge" and rules, but most importantly, it auto-loads the domain’s `INDEX.md`. It greets you with a specialized menu so you don't have to remember where you left off. The context that is loaded, can be configured easily via the .claude/agents.
 
 _If you don't have an agent yet, just stay with PAL Master. It can still do everything, you'll just have to be a bit more specific about what files you want it to look at._
 
@@ -77,7 +77,7 @@ Now you’re set up. My typical sessions usually look like one of these:
 ### Pro Tips:
 
 - **One domain at a time**: Don't try to plan your vacation and your product roadmap in the same session. Context bleed is real.
-- **Use `*compact`**: If the conversation gets long and the AI starts getting "fuzzy," run `*compact` to clean up its memory.
+- **Use `*compact`**: If the conversation gets long and the AI starts getting "fuzzy," run `*compact` to clean up its memory (best around 70% to 80%)
 - **Commit your work**: Before you close the terminal, run a quick git commit. PAL records what you did, but you still want to version control it.
 
 ---

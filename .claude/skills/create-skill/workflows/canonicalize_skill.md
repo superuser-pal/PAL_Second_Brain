@@ -258,6 +258,16 @@ Place the Examples section after Workflow Routing.
 
 ---
 
+## Step 9.5: Verify Registry Entry
+
+Check `.claude/core/reference/SYSTEM_INDEX.md` for this skill:
+
+1. If skill was renamed, update the Skill column in SYSTEM_INDEX.md
+2. If skill location changed, update the Location column
+3. If skill has no entry, add one for the appropriate agent(s)
+
+---
+
 ## Step 10: Verify
 
 Run checklist:
@@ -291,6 +301,10 @@ Run checklist:
 - [ ] Workflows contain ONLY work execution procedures
 - [ ] Reference docs live at skill root (not in workflows/)
 - [ ] No `backups/` directory inside skill
+
+### Registry
+
+- [ ] Registered in SYSTEM_INDEX.md for at least one agent
 
 ---
 

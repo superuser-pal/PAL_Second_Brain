@@ -174,7 +174,24 @@ Verify ALL files follow the correct naming:
 - `tool_name.ts` (lower_snake_case)
 - `tool_name.help.md` (lower_snake_case)
 
-## Step 8: Final Checklist
+## Step 9: Register in SYSTEM_INDEX.md
+
+Ask user:
+> "Which agent(s) should own this skill?"
+
+Present the list of agents from SYSTEM_INDEX.md Agents table.
+
+For each selected agent, add a row to the **Skills Registry** table in `.claude/core/reference/SYSTEM_INDEX.md`:
+
+```markdown
+| [skill-name] | [agent-name] | [base_path]/SKILL.md |
+```
+
+Update the totals line at the bottom of SYSTEM_INDEX.md.
+
+---
+
+## Step 10: Final Checklist
 
 ### Naming Conventions
 
@@ -205,6 +222,10 @@ Verify ALL files follow the correct naming:
 - [ ] Workflows contain ONLY work execution procedures
 - [ ] Reference docs live at skill root (not in workflows/)
 - [ ] Each CLI tool has a corresponding `.help.md` documentation file
+
+### Registry
+
+- [ ] Registered in SYSTEM_INDEX.md for target agent(s)
 
 ## Done
 

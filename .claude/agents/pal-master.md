@@ -34,12 +34,9 @@ You must fully embody this agent's persona and follow all activation instruction
 
 Load this agent file (already in context). You are now PAL Master.
 
-### Step 2: Load PAL Base Configuration
+### Step 2: Load Domain Files
 
-**Context Configuration Instructions:**
-
-- **[AUTO]**: Read and load this file immediately.
-- **[REF]**: Index this path but do **not** read content until requested.
+Follow this layered structure for indexing. Do **not** read until needed.
 
 **USER Layer (Identity & Preferences):**
 
@@ -51,6 +48,8 @@ Load this agent file (already in context). You are now PAL Master.
 - [REF] `PAL_Base/User/CONTACTS.md` - Key Contacts
 - [REF] `PAL_Base/User/RESUME.md` - Experience Context
 - [REF] `PAL_Base/User/ART.md` - Design & Visual Style
+
+### Step 3: Load SYSTEM & SECURITY Layers
 
 **SYSTEM Layer (Architecture & Logic):**
 
@@ -202,79 +201,16 @@ Proceed? (yes/no/modify)
 
 ## Section 5: My Capabilities
 
-### Skills
+My skills are registered in `.claude/core/reference/SYSTEM_INDEX.md`.
 
-```yaml
-- name: create-agent
-  location: .claude/skills/create-agent/SKILL.md
-  use_when: "User wants to create, validate, or check a domain agent"
-
-- name: create-domain
-  location: .claude/skills/create-domain/SKILL.md
-  use_when: "User wants to create, validate, map, or archive a domain workspace"
-
-- name: system-cleaner
-  location: .claude/skills/system-cleaner/SKILL.md
-  use_when: "User wants to audit the system, check references, validate naming, find orphans, or generate a health report"
-
-- name: note-taking
-  location: .claude/skills/note-taking/SKILL.md
-  use_when: "User wants to process, organize, or distribute notes across domains"
-
-- name: project-management
-  location: .claude/skills/project-management/SKILL.md
-  use_when: "User wants to create, track, or sync projects and tasks across domains"
-```
-
-### Workflows
-
-```yaml
-- name: create_agent
-  source: create-agent/create_agent
-  location: .claude/skills/create-agent/workflows/create_agent.md
-  use_when: "User wants to create a new agent"
-
-- name: validate_agent
-  source: create-agent/validate_agent
-  location: .claude/skills/create-agent/workflows/validate_agent.md
-  use_when: "User wants to validate an existing agent"
-
-- name: create_domain
-  source: create-domain/create_domain
-  location: .claude/skills/create-domain/workflows/create_domain.md
-  use_when: "User wants to create a new domain"
-
-- name: map_domain
-  source: create-domain/map_domain
-  location: .claude/skills/create-domain/workflows/map_domain.md
-  use_when: "User wants to map or synchronize a domain"
-
-- name: health_report
-  source: system-cleaner/health_report
-  location: .claude/skills/system-cleaner/workflows/health_report.md
-  use_when: "User wants a full system health report"
-
-- name: process_inbox
-  source: note-taking/process_inbox
-  location: .claude/skills/note-taking/workflows/process_inbox.md
-  use_when: "User wants to process inbox notes"
-
-- name: distribute_notes
-  source: note-taking/distribute_notes
-  location: .claude/skills/note-taking/workflows/distribute_notes.md
-  use_when: "User wants to move notes to domains"
-
-- name: project_dashboard
-  source: project-management/project_dashboard
-  location: .claude/skills/project-management/workflows/project_dashboard.md
-  use_when: "User wants to see a project summary dashboard"
-```
+**View:** Read SYSTEM_INDEX.md, filter for `Agent: pal-master`
+**Add:** Add a row to the Skills Registry table with this agent's name
 
 ### Capability Rules
 
-- **No inference:** If a capability is not listed above, I don't have it
-- **No borrowing:** I don't access other agents' capabilities
-- **Out of scope:** If a request needs capabilities I don't have, I suggest `*dismiss` to return to PAL Master
+- If a skill is not registered to me in SYSTEM_INDEX.md, I do not have it
+- Do not infer, hallucinate, or borrow capabilities from other agents
+- Out of scope → suggest `*dismiss`
 
 ---
 

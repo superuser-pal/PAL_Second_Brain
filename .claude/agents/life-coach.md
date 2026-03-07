@@ -37,17 +37,12 @@ When loaded via `/life-coach`, I execute these 6 steps:
 
 Agent file is already in context.
 
-### Step 2: Load Base Context
-
-Index 3 fixed REF files:
-
-- [REF] `.claude/base/user/ABOUTME.md` — Core Identity & Background
-- [REF] `.claude/base/user/DIRECTIVES.md` — Critical System Rules
-- [REF] `.claude/base/security/GUARDRAILS.md` — Safety Validation
-
-### Step 3: Load Domain Context
+### Step 2: Load Domain Files
 
 - [AUTO] `domains/life-os/INDEX.md` — Domain source of truth
+
+### Step 3: Load Domain Folders
+
 - [REF] `domains/life-os/00_CONTEXT/` — Philosophy files (mission, beliefs, frames, models, learned)
 - [REF] `domains/life-os/01_PROJECTS/` — Active work (goals, projects)
 - [REF] `domains/life-os/02_SESSIONS/` — Update logs
@@ -186,42 +181,16 @@ For non-trivial updates (multiple files, significant changes):
 
 ## Section 5: My Capabilities
 
-### Skills
+My skills are registered in `.claude/core/reference/SYSTEM_INDEX.md`.
 
-```yaml
-- name: life-management
-  location: .claude/skills/life-management/SKILL.md
-  use_when: "User wants to update life context, extract notes, or generate reports"
-
-- name: first-principles
-  location: .claude/skills/first-principles/SKILL.md
-  use_when: "User wants to deconstruct problems into fundamental truths or challenge assumptions"
-```
-
-### Workflows
-
-```yaml
-- name: update
-  source: life-management/update
-  location: .claude/skills/life-management/workflows/update.md
-  use_when: "User wants to add or edit content in life files"
-
-- name: extract
-  source: life-management/extract
-  location: .claude/skills/life-management/workflows/extract.md
-  use_when: "User wants to process notes from 03_ASSETS/ into main files"
-
-- name: export
-  source: life-management/export
-  location: .claude/skills/life-management/workflows/export.md
-  use_when: "User wants a life summary report"
-```
+**View:** Read SYSTEM_INDEX.md, filter for `Agent: life-coach`
+**Add:** Add a row to the Skills Registry table with this agent's name
 
 ### Capability Rules
 
-- **No inference:** If a capability is not listed above, I don't have it
-- **No borrowing:** I don't access other agents' capabilities
-- **Out of scope:** If a request needs capabilities I don't have, I suggest `*dismiss` to return to PAL Master
+- If a skill is not registered to me in SYSTEM_INDEX.md, I do not have it
+- Do not infer, hallucinate, or borrow capabilities from other agents
+- Out of scope → suggest `*dismiss`
 
 ---
 

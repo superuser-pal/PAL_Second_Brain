@@ -33,9 +33,10 @@ If a tool does not follow this structure, it will not integrate correctly with P
 **Key Characteristics:**
 
 - **Deterministic** - Same input always produces same output
-- **Hook-integrated** - Tools execute via SessionStart, PreToolUse, and Stop hooks
+- **Hook-integrated** - Tools execute via SessionStart, PreToolUse, PostToolUse, and Stop hooks
 - **Workflow-callable** - Workflows invoke tools for automation steps
 - **Security-validated** - PreToolUse hook validates tool execution before running
+- **Schema-validated** - PostToolUse hook validates frontmatter after writing
 
 ---
 
@@ -43,13 +44,13 @@ If a tool does not follow this structure, it will not integrate correctly with P
 
 **Tool naming follows PAL's standard file naming conventions for consistency across the system.**
 
-| Category | Convention | Example | Purpose |
-| :------- | :--------- | :------ | :------ |
-| **Tools directory** | `tools/` | `.claude/tools/` | System-level tools location. |
-| **Tool files** | `lower_snake_case.ts` | `validate_base.ts` | TypeScript CLI utilities. |
-| **Help files** | `lower_snake_case.help.md` | `validate_base.help.md` | Tool documentation. |
-| **Hook files** | `lower-kebab-case.ts` | `session-start.ts` | Hook implementation files. |
-| **Config files** | `lower-kebab-case.json` | `settings.json` | Configuration files. |
+| Category            | Convention                 | Example                 | Purpose                      |
+| :------------------ | :------------------------- | :---------------------- | :--------------------------- |
+| **Tools directory** | `tools/`                   | `.claude/tools/`        | System-level tools location. |
+| **Tool files**      | `lower_snake_case.ts`      | `validate_base.ts`      | TypeScript CLI utilities.    |
+| **Help files**      | `lower_snake_case.help.md` | `validate_base.help.md` | Tool documentation.          |
+| **Hook files**      | `lower-kebab-case.ts`      | `session-start.ts`      | Hook implementation files.   |
+| **Config files**    | `lower-kebab-case.json`    | `settings.json`         | Configuration files.         |
 
 **Convention Rules:**
 
@@ -70,6 +71,7 @@ Tools live in two locations:
 │   ├── hooks/                      # Hook implementations
 │   │   ├── session-start.ts        # SessionStart hook
 │   │   ├── pre-tool-use.ts         # PreToolUse hook
+│   │   ├── post-tool-use.ts        # PostToolUse hook (schema validation)
 │   │   └── stop.ts                 # Stop hook
 │   ├── validate_base.ts            # Validation utility
 │   └── validate_base.help.md       # Tool documentation
@@ -88,12 +90,13 @@ Tools live in two locations:
 
 PAL provides four essential tool categories for reliable core operations.
 
-| Tool Category | Purpose | Implementation | Key Capabilities |
-| :------------ | :------ | :------------- | :--------------- |
-| **Notifications** | Inform user of session completion and important events | Stop hook (`.claude/tools/hooks/stop.ts`) | Desktop notifications, session alerts, configurable preferences |
-| **Security Validation** | Validate operations before execution to prevent security issues | PreToolUse hook (`.claude/tools/hooks/pre-tool-use.ts`) | Credential detection, PII scanning, GUARDRAILS enforcement, risk assessment (ALLOW/WARN/BLOCK) |
-| **File Validation** | Check file structure, integrity, and format compliance | Utility functions (callable from workflows/hooks) | YAML frontmatter validation, markdown structure checking, file size limits, format compliance |
-| **Bun Commands** | Enable deterministic CLI operations and workflow automation | Bun runtime commands via Bash tool | Run TypeScript utilities directly, workflow automation, file processing, data transformation |
+| Tool Category           | Purpose                                                              | Implementation                                            | Key Capabilities                                                                               |
+| :---------------------- | :------------------------------------------------------------------- | :-------------------------------------------------------- | :--------------------------------------------------------------------------------------------- |
+| **Notifications**       | Inform user of session completion and important events               | Stop hook (`.claude/tools/hooks/stop.ts`)                 | Desktop notifications, session alerts, configurable preferences                                |
+| **Security Validation** | Validate operations before execution to prevent security issues      | PreToolUse hook (`.claude/tools/hooks/pre-tool-use.ts`)   | Credential detection, PII scanning, GUARDRAILS enforcement, risk assessment (ALLOW/WARN/BLOCK) |
+| **Schema Validation**   | Validate YAML frontmatter after Write/Edit on notes and domain files | PostToolUse hook (`.claude/tools/hooks/post-tool-use.ts`) | Inbox notes, domain pages, INDEX.md, PROJECT files — warn-only, never blocks                   |
+| **File Validation**     | Check file structure, integrity, and format compliance               | Utility functions (callable from workflows/hooks)         | YAML frontmatter validation, markdown structure checking, file size limits, format compliance  |
+| **Bun Commands**        | Enable deterministic CLI operations and workflow automation          | Bun runtime commands via Bash tool                        | Run TypeScript utilities directly, workflow automation, file processing, data transformation   |
 
 **Design Philosophy:**
 
@@ -114,13 +117,14 @@ PAL provides four essential tool categories for reliable core operations.
 
 **Purpose:** Control system behavior deterministically (context loading, security validation, notifications).
 
-### Three Essential Hooks
+### Four Essential Hooks
 
-| Hook | Trigger Point | Purpose | File |
-| :--- | :------------ | :------ | :--- |
-| **SessionStart** | Session initialization | Load Base context (USER + SYSTEM + SECURITY files) | `session-start.ts` |
-| **PreToolUse** | Before tool execution | Validate operation against GUARDRAILS.md | `pre-tool-use.ts` |
-| **Stop** | Session end | Send notifications, save transcript, log summary | `stop.ts` |
+| Hook             | Trigger Point          | Purpose                                                    | File               |
+| :--------------- | :--------------------- | :--------------------------------------------------------- | :----------------- |
+| **SessionStart** | Session initialization | Load Base context (USER + SYSTEM + SECURITY files)         | `session-start.ts` |
+| **PreToolUse**   | Before tool execution  | Validate operation against GUARDRAILS.md                   | `pre-tool-use.ts`  |
+| **PostToolUse**  | After Write/Edit       | Validate YAML frontmatter schema on notes and domain files | `post-tool-use.ts` |
+| **Stop**         | Session end            | Send notifications, save transcript, log summary           | `stop.ts`          |
 
 ### Hook Execution Flow
 
@@ -134,6 +138,8 @@ PAL Master initialized with full context
 During Execution:
     - Before tool use → PreToolUse hook validates against GUARDRAILS.md
     - Decision: Block (catastrophic) / Warn (risky) / Allow (safe)
+    - After Write/Edit → PostToolUse hook validates YAML frontmatter schema
+    - Decision: Warn on missing fields (never blocks)
     ↓
 Session End
     ↓
@@ -189,8 +195,10 @@ Workflows call Bun commands for deterministic operations:
 
 ```markdown
 ### Step 3: Generate Metadata
+
 **Purpose:** Extract metadata for blog index
 **Actions:**
+
 - Run Bun utility: `bun run scripts/extract_metadata.ts blog/ai-ethics.md`
 - Utility reads blog post, extracts title, date, tags, summary
 - Outputs JSON metadata file
@@ -207,24 +215,24 @@ Workflows call Bun commands for deterministic operations:
 
 ### Common Use Cases
 
-| Use Case | Scenario | Command Example |
-| :------- | :------- | :-------------- |
-| **File Validation** | Validate Base configuration files have correct structure | `bun run .claude/tools/validate_base.ts` |
-| **Data Transformation** | Convert blog posts to different formats | `bun run scripts/convert_blog.ts --input=blog/post.md --format=html` |
-| **Diagram Generation** | Generate diagrams from data files | `bun run scripts/generate_diagrams.ts --data=docs/api-spec.json` |
-| **Security Scanning** | Scan files for sensitive data before committing | `bun run scripts/scan_secrets.ts --path=. --exclude=node_modules` |
+| Use Case                | Scenario                                                 | Command Example                                                      |
+| :---------------------- | :------------------------------------------------------- | :------------------------------------------------------------------- |
+| **File Validation**     | Validate Base configuration files have correct structure | `bun run .claude/tools/validate_base.ts`                             |
+| **Data Transformation** | Convert blog posts to different formats                  | `bun run scripts/convert_blog.ts --input=blog/post.md --format=html` |
+| **Diagram Generation**  | Generate diagrams from data files                        | `bun run scripts/generate_diagrams.ts --data=docs/api-spec.json`     |
+| **Security Scanning**   | Scan files for sensitive data before committing          | `bun run scripts/scan_secrets.ts --path=. --exclude=node_modules`    |
 
 ### Security Considerations
 
 Bun commands require security awareness:
 
-| Security Risk | Prevention Strategy | Safe Practice |
-| :------------ | :------------------ | :------------ |
-| **Input Validation** | Always validate command arguments | Check input exists and matches expected pattern before processing |
-| **Path Traversal** | Prevent directory traversal attacks | Use `resolve()` and `join()` to validate paths stay within base directory |
-| **Command Injection** | Never execute user input as shell commands | Use Node.js APIs directly instead of `exec()` with user input |
-| **Sensitive Data** | Never log or expose sensitive data | Mask credentials in logs |
-| **File System Permissions** | Respect file system boundaries | Allow: `.claude/`, `blog/`, `docs/` | Block: `.env`, `.git/`, system directories |
+| Security Risk               | Prevention Strategy                        | Safe Practice                                                             |
+| :-------------------------- | :----------------------------------------- | :------------------------------------------------------------------------ | ------------------------------------------ |
+| **Input Validation**        | Always validate command arguments          | Check input exists and matches expected pattern before processing         |
+| **Path Traversal**          | Prevent directory traversal attacks        | Use `resolve()` and `join()` to validate paths stay within base directory |
+| **Command Injection**       | Never execute user input as shell commands | Use Node.js APIs directly instead of `exec()` with user input             |
+| **Sensitive Data**          | Never log or expose sensitive data         | Mask credentials in logs                                                  |
+| **File System Permissions** | Respect file system boundaries             | Allow: `.claude/`, `blog/`, `docs/`                                       | Block: `.env`, `.git/`, system directories |
 
 ---
 
@@ -342,13 +350,7 @@ Configure allowed paths for Bun utilities:
         "scripts/",
         "public/"
       ],
-      "blockedPaths": [
-        ".env",
-        ".git/",
-        "node_modules/",
-        "/etc/",
-        "/usr/"
-      ]
+      "blockedPaths": [".env", ".git/", "node_modules/", "/etc/", "/usr/"]
     }
   }
 }
@@ -452,13 +454,13 @@ Every CLI tool must:
 
 ### Best Practices
 
-| Practice | Purpose | Implementation |
-| :------- | :------ | :------------- |
+| Practice                  | Purpose                       | Implementation                                                                   |
+| :------------------------ | :---------------------------- | :------------------------------------------------------------------------------- |
 | **Single Responsibility** | Each tool does ONE thing well | Separate tools: `validate_base.ts`, `extract_metadata.ts`, `generate_diagram.ts` |
-| **Composability** | Tools work together | Chain: `extract_metadata.ts` output → `generate_diagram.ts` input |
-| **Idempotency** | Same input = same output | Avoid timestamps or random values in output |
-| **Testing** | Write tests for tools | Use `bun:test` for unit tests |
-| **Self-Documenting** | Include help text | Check for `--help` flag → Print usage → Exit |
+| **Composability**         | Tools work together           | Chain: `extract_metadata.ts` output → `generate_diagram.ts` input                |
+| **Idempotency**           | Same input = same output      | Avoid timestamps or random values in output                                      |
+| **Testing**               | Write tests for tools         | Use `bun:test` for unit tests                                                    |
+| **Self-Documenting**      | Include help text             | Check for `--help` flag → Print usage → Exit                                     |
 
 ---
 
@@ -497,12 +499,12 @@ Before a tool is complete:
 
 ## Summary
 
-| Component | Purpose | Location |
-| :-------- | :------ | :------- |
-| **System tools** | Cross-cutting concerns (validation, hooks) | `.claude/tools/` |
-| **Skill tools** | Domain-specific operations | `.claude/skills/[skill-name]/tools/` |
-| **Hooks** | Lifecycle automation (start, pre-tool, stop) | `.claude/tools/hooks/` |
-| **Configuration** | Tool and hook settings | `.claude/settings.json` |
+| Component         | Purpose                                                 | Location                             |
+| :---------------- | :------------------------------------------------------ | :----------------------------------- |
+| **System tools**  | Cross-cutting concerns (validation, hooks)              | `.claude/tools/`                     |
+| **Skill tools**   | Domain-specific operations                              | `.claude/skills/[skill-name]/tools/` |
+| **Hooks**         | Lifecycle automation (start, pre-tool, post-tool, stop) | `.claude/tools/hooks/`               |
+| **Configuration** | Tool and hook settings                                  | `.claude/settings.json`              |
 
 This system ensures:
 

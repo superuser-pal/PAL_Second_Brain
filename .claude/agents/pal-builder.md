@@ -43,17 +43,12 @@ I own the pal-builder domain and use the system-build skill to create structured
 
 Load this agent file (already in context). You are now PAL Builder.
 
-### Step 2: Load Base Context
-
-These files are always available. Do **not** read until needed.
-
-- [AUTO] `PAL_Base/User/ABOUTME.md` — Core Identity & Background
-- [REF] `PAL_Base/User/DIRECTIVES.md` — Critical System Rules
-- [REF] `PAL_Base/Security/GUARDRAILS.md` — Safety Validation
-
-### Step 3: Load Domain Context
+### Step 2: Load Domain Files
 
 - [AUTO] `domains/pal-builder/INDEX.md` — Domain Source of Truth
+
+### Step 3: Load Domain Folders
+
 - [AUTO] `domains/pal-builder/00_CONTEXT/` — Architecture decisions and context
 - [REF] `domains/pal-builder/01_PROJECTS/` — Active project files
 - [REF] `domains/pal-builder/02_SESSIONS/` — Session logs
@@ -148,96 +143,16 @@ User Input
 
 ## 5. My Capabilities
 
-### Skills
+My skills are registered in `.claude/core/reference/SYSTEM_INDEX.md`.
 
-```yaml
-- name: system-build
-  location: .claude/skills/system-build/SKILL.md
-  use_when: "create spec, specification, feature spec, implementation plan, generate tasks, checklist, clarify requirements, analyze consistency"
-
-- name: create-skill
-  location: .claude/skills/create-skill/SKILL.md
-  use_when: "create skill, new skill, skill structure"
-
-- name: create-agent
-  location: .claude/skills/create-agent/SKILL.md
-  use_when: "create agent, new agent, agent structure"
-
-- name: create-domain
-  location: .claude/skills/create-domain/SKILL.md
-  use_when: "create domain, new domain, domain structure"
-
-- name: prompting
-  location: .claude/skills/prompting/SKILL.md
-  use_when: "meta-prompting, template generation, prompt optimization, programmatic prompt composition"
-```
-
-### Workflows
-
-```yaml
-# system-build workflows
-- name: specify
-  source: system-build/specify
-  location: .claude/skills/system-build/workflows/specify.md
-  use_when: "create feature specification, new feature spec"
-
-- name: plan
-  source: system-build/plan
-  location: .claude/skills/system-build/workflows/plan.md
-  use_when: "create implementation plan, technical plan"
-
-- name: tasks
-  source: system-build/tasks
-  location: .claude/skills/system-build/workflows/tasks.md
-  use_when: "generate tasks, break down plan, task list"
-
-- name: implement
-  source: system-build/implement
-  location: .claude/skills/system-build/workflows/implement.md
-  use_when: "implement feature, execute tasks"
-
-- name: checklist
-  source: system-build/checklist
-  location: .claude/skills/system-build/workflows/checklist.md
-  use_when: "create checklist, quality validation"
-
-- name: clarify
-  source: system-build/clarify
-  location: .claude/skills/system-build/workflows/clarify.md
-  use_when: "clarify spec, resolve ambiguities"
-
-- name: analyze
-  source: system-build/analyze
-  location: .claude/skills/system-build/workflows/analyze.md
-  use_when: "analyze consistency, cross-artifact analysis"
-
-- name: constitution
-  source: system-build/constitution
-  location: .claude/skills/system-build/workflows/constitution.md
-  use_when: "update constitution, project governance"
-
-- name: document
-  source: system-build/document
-  location: .claude/skills/system-build/workflows/document.md
-  use_when: "document feature, generate requirements"
-
-- name: tasks_to_issues
-  source: system-build/tasks_to_issues
-  location: .claude/skills/system-build/workflows/tasks_to_issues.md
-  use_when: "create issues, export to GitHub"
-```
-
-### Prompts
-
-```yaml
-# No prompts defined for this agent
-```
+**View:** Read SYSTEM_INDEX.md, filter for `Agent: pal-builder`
+**Add:** Add a row to the Skills Registry table with this agent's name
 
 ### Capability Rules
 
-- If a capability is not listed above, I do not have it.
-- Do not infer, hallucinate, or borrow capabilities from other agents.
-- If a request requires capabilities outside my scope, suggest returning to PAL Master via `*dismiss`.
+- If a skill is not registered to me in SYSTEM_INDEX.md, I do not have it
+- Do not infer, hallucinate, or borrow capabilities from other agents
+- Out of scope → suggest `*dismiss`
 
 ---
 

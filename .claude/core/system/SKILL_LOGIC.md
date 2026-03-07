@@ -456,6 +456,29 @@ Think of SKILL.md as a script - it already encodes "how to do X" so you can foll
 
 ---
 
+## Registry Registration
+
+After creating a skill, it must be registered in `.claude/core/reference/SYSTEM_INDEX.md` to be assigned to agent(s).
+
+### How Registration Works
+
+1. Skills are assigned to agents via rows in the **Skills Registry** table in SYSTEM_INDEX.md
+2. A skill can be assigned to multiple agents (one row per assignment)
+3. Agents read SYSTEM_INDEX.md to discover their capabilities — if a skill is not registered to an agent, that agent does not have it
+4. Skill definitions (USE WHEN, workflows, documentation) remain in each skill's `SKILL.md` file
+
+### Registration Process
+
+After creating or renaming a skill:
+
+1. Open `.claude/core/reference/SYSTEM_INDEX.md`
+2. Add a row to the Skills Registry table: `| [skill-name] | [agent-name] | [location] |`
+3. Update the totals line at the bottom
+
+**Skills are NOT declared inline in agent files.** Agent Section 5 contains a pointer to SYSTEM_INDEX.md, not capability YAML blocks.
+
+---
+
 ## Complete Checklist
 
 Before a skill is complete:
@@ -486,6 +509,9 @@ Before a skill is complete:
 - [ ] Reference docs live at skill root (not in Workflows/)
 - [ ] Each CLI tool has a corresponding `.help.md` documentation file
 - [ ] (Recommended) Output Requirements section for variable-output skills
+
+### Registry
+- [ ] Skill registered in SYSTEM_INDEX.md for target agent(s)
 
 ---
 

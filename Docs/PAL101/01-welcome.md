@@ -8,23 +8,23 @@ order: 1
 
 # 01 — Welcome to PAL
 
-> Your AI-powered second brain — organized, persistent, and built to make your interactions with AI actually stick.
+> Your AI-powered second brain — organized, persistent, and built to improve how you give and store knowledge to AI
 
 ---
 
 ## What is PAL?
 
-PAL (Patterned Agentic Logic) is basically how I handle context. I got tired of repeating myself to Claude every single session—re-explaining my stack, my preferences, and what I was working on ten minutes ago.
+PAL (Patterned Agentic Logic) is basically how I handle context. I got tired of repeating myself to Claude every single session—re-explaining my details, the latest progress, and what I was working on ten minutes ago.
 
 So I built PAL on top of Claude Code and Obsidian. It’s a framework that ensures the AI **remembers who you are**, **knows your projects**, and **picks up exactly where you left off**. No more starting from scratch every morning.
 
-When you start a session, PAL automatically loads your identity and project goals. You just say what you need, and PAL handles the rest.
+When you start a session, PAL automatically loads your identity and project context. You just capture ideas, notes and tasks, and PAL handles the distribution to your second brain.
 
 ---
 
 ## The PADA Method: Domains First
 
-PAL uses the **PADA method** to keep things sane. The core idea is simple:
+PAL uses the **PADA method** to keep things organized. The core idea is simple:
 
 > **Start with a Domain.**
 
@@ -32,36 +32,55 @@ A **Domain** is just a workspace for one specific part of your life. It's a fold
 
 ```
 Examples:
-  Work/         → Client work, meetings, codebases
+  Work/         → Client work, meetings, projects
   LifeOS/       → Personal goals, routines, "lessons learned"
   SideProject/  → That app idea you're hacking on
   Learning/     → Courses, research, reading notes
 ```
 
-**Why do this?** AI works best when it isn't drowning in irrelevant data. Keeping your "Work" context away from your "Personal Goals" means less noise and better results.
+**Why domains first?** Because the AI performs best when the context is focused. A domain keeps one area's information isolated from everything else — no bleed, no confusion.
 
-Inside a domain, you can add:
+From there:
 
-- **Projects**: Specific initiatives with their own deadlines or tasks.
-- **Agents**: Specialized AI personas (like a "Technical Architect" or "Life Coach") that live in that domain.
+- **Projects** are optional — create them inside a domain when you have specific initiatives to track
+- **Agents** are optional — create one when you want a specialized AI persona for extended work in that domain
 
-We'll set these up together in the [next guide](./02-domains-and-projects.md).
+You'll learn how to create all three in the [next guide](./02-domains-and-projects.md).
 
 ---
 
-## How PAL works (under the hood)
+## How PAL Is Built
 
-Everything lives inside `.claude/` and is split into three layers:
+Everything in PAL runs on three layers inside `.claude/`:
 
-1. **USER**: Your identity. This is where `ABOUTME.md` and `DIRECTIVES.md` live. It's the "who you are" part.
-2. **SYSTEM**: The logic. Skills, agents, and the orchestration that makes PAL move.
-3. **SECURITY**: The "never do this" list. `GUARDRAILS.md` keeps things safe.
+| Layer        | Purpose                       | Key Files                              |
+| ------------ | ----------------------------- | -------------------------------------- |
+| **USER**     | Your identity and preferences | ABOUTME.md, DIRECTIVES.md, CONTACTS.md |
+| **SYSTEM**   | How PAL processes requests    | Skills, agents, orchestration          |
+| **SECURITY** | What PAL will never do        | GUARDRAILS.md, REPOS_RULES.md          |
 
-### The Building Blocks
+### The Three System Blocks
 
-- **Skills**: These are automatic. If you say "take a note," PAL knows to use the note-taking skill. You don't have to memorize commands.
-- **Agents**: These are for deep work. You can switch to a specialized persona (like `/life-coach`) when you need a specific expertise.
-- **Domains**: The 6-folder structure that keeps your files organized. Every domain has an `INDEX.md`—that's the first thing PAL reads when you step inside.
+**Skills** — Reusable capabilities that activate automatically based on your intent.
+Say "I want to capture some thoughts" → the note-taking skill activates. No commands to memorize.
+
+**Agents** — Specialized AI personas for focused domain work.
+Load with `/agent-name` (e.g., `/life-coach`). Each agent has deep context about its domain.
+
+**Domains** — Siloed project workspaces with a standard 6-folder structure.
+Every domain has an `INDEX.md` — the source of truth loaded first when entering that domain.
+
+### Hooks: 
+
+PAL uses three automated hooks that run without you doing anything:
+
+| Hook             | When            | What                                             |
+| ---------------- | --------------- | ------------------------------------------------ |
+| **SessionStart** | Session begins  | Loads your identity, preferences, security rules |
+| **PreToolUse**   | Before any tool | Validates against guardrails — blocks or allows  |
+| **Stop**         | Session ends    | Saves transcript, sends notification             |
+
+This is why PAL "remembers" you. Before you type anything, the AI already knows your name, style, and rules.
 
 ---
 

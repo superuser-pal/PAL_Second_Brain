@@ -23,12 +23,12 @@ Ask the user:
 
 **Agent naming follows PAL's standard conventions.**
 
-| Component | Format | Example |
-| :-------- | :----- | :------ |
-| Agent file | `lower-kebab-case.md` | `blog-agent.md` |
-| YAML name | `lower-kebab-case` | `name: blog-agent` |
-| Domain field | `PascalCase` | `domain: BlogContent` |
-| Invocation | `/[agent-name]` | `/blog-agent` |
+| Component    | Format                | Example               |
+| :----------- | :-------------------- | :-------------------- |
+| Agent file   | `lower-kebab-case.md` | `blog-agent.md`       |
+| YAML name    | `lower-kebab-case`    | `name: blog-agent`    |
+| Domain field | `PascalCase`          | `domain: BlogContent` |
+| Invocation   | `/[agent-name]`       | `/blog-agent`         |
 
 **Naming Rules:**
 
@@ -105,22 +105,19 @@ domain: domain-name
 
 **No other YAML fields.** Capabilities are declared inline in Section 5.
 
-## Step 8: Configure Two-Group Context
+## Step 8: Configure Domain Context
 
 Set up the context configuration in the Activation Protocol section (Section 2):
 
-**Base Context (fixed — same for every agent):**
-
-```markdown
-- [REF] `PAL_Base/User/ABOUTME.md` — Core Identity & Background
-- [REF] `PAL_Base/User/DIRECTIVES.md` — Critical System Rules
-- [REF] `PAL_Base/Security/GUARDRAILS.md` — Safety Validation
-```
-
-**Domain Context (configurable — mapped from INDEX.md):**
+**Step 2: Load Domain Files**
 
 ```markdown
 - [AUTO] `domains/[DomainName]/INDEX.md` — Domain Source of Truth
+```
+
+**Step 3: Load Domain Folders**
+
+```markdown
 - [REF] `domains/[DomainName]/00_CONTEXT/` — Background knowledge and domain-specific context documents
 - [REF] `domains/[DomainName]/01_PROJECTS/` — Active project files tracked in INDEX.md Active Work table
 - [REF] `domains/[DomainName]/02_SESSIONS/` — Session logs capturing discussions, changes, and decisions
@@ -132,14 +129,14 @@ Set up the context configuration in the Activation Protocol section (Section 2):
 
 **Folder Purpose Reference:**
 
-| Folder | Purpose |
-|--------|---------|
-| `00_CONTEXT/` | Background knowledge the agent loads for domain understanding |
-| `01_PROJECTS/` | Active project files with status tracked in INDEX.md |
-| `02_SESSIONS/` | Memory system for session discussions and decisions |
-| `03_ASSETS/` | External reference materials (docs, data, media) |
-| `04_OUTPUTS/` | Agent-generated deliverables |
-| `05_ARCHIVE/` | Deprecated content excluded from context |
+| Folder         | Purpose                                                       |
+| -------------- | ------------------------------------------------------------- |
+| `00_CONTEXT/`  | Background knowledge the agent loads for domain understanding |
+| `01_PROJECTS/` | Active project files with status tracked in INDEX.md          |
+| `02_SESSIONS/` | Memory system for session discussions and decisions           |
+| `03_ASSETS/`   | External reference materials (docs, data, media)              |
+| `04_OUTPUTS/`  | Agent-generated deliverables                                  |
+| `05_ARCHIVE/`  | Deprecated content excluded from context                      |
 
 **Loading Mode Guidelines:**
 
@@ -159,15 +156,15 @@ Fill in:
 
 Set up the standard command table:
 
-| # | Command | Description | Action |
-| --- | ------- | ----------- | ------ |
-| 1 | `*menu` | Redisplay this menu | Print this table |
-| 2 | `*skills` | List my skills | Display Section 5 → Skills |
-| 3 | `*workflows` | List my workflows | Display Section 5 → Workflows |
-| 4 | `*context` | Show loaded context and session state | Show loaded files by layer, active skill (Sec 6) |
-| 5 | `*save-session` | Save current session to log | Create session log in 02_SESSIONS/ (see Rule 11) |
-| 6 | `*help` | Agent help and documentation | Show responsibilities summary |
-| 7 | `*dismiss` | Dismiss this agent | Auto-save session log, confirm, return to PAL Master |
+| #   | Command         | Description                           | Action                                               |
+| --- | --------------- | ------------------------------------- | ---------------------------------------------------- |
+| 1   | `*menu`         | Redisplay this menu                   | Print this table                                     |
+| 2   | `*skills`       | List my skills                        | Display Section 5 → Skills                           |
+| 3   | `*workflows`    | List my workflows                     | Display Section 5 → Workflows                        |
+| 4   | `*context`      | Show loaded context and session state | Show loaded files by layer, active skill (Sec 6)     |
+| 5   | `*save-session` | Save current session to log           | Create session log in 02_SESSIONS/ (see Rule 11)     |
+| 6   | `*help`         | Agent help and documentation          | Show responsibilities summary                        |
+| 7   | `*dismiss`      | Dismiss this agent                    | Auto-save session log, confirm, return to PAL Master |
 
 ## Step 11: Configure Section 4 — How I Work
 
@@ -306,7 +303,7 @@ grep "[agent-name]" PAL_Base/System/ROUTING_TABLE.md
 - [ ] Section 5 lists prompts if any
 - [ ] All listed skills exist in `.claude/skills/`
 - [ ] All listed workflows exist in their respective skill directories
-- [ ] Capability rules present (no inference, no borrowing, out-of-scope → *dismiss)
+- [ ] Capability rules present (no inference, no borrowing, out-of-scope → \*dismiss)
 - [ ] Capabilities align with agent's domain and responsibilities
 
 ### Routing Table

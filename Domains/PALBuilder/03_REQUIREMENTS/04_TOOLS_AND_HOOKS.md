@@ -12,12 +12,15 @@
 A **hook** is TypeScript code that runs automatically at specific points in the PAL session lifecycle. Hooks extend Claude Code's native behavior without user intervention.
 
 **Key Difference from Commands:**
+
 - **Commands** require explicit invocation (e.g., `/agents:pal-builder`)
 - **Hooks** run automatically at lifecycle triggers (session start, before tool use, session end)
 
 **Hook Types:**
+
 - `session-start` — Runs when a Claude Code session begins
 - `pre-tool-use` — Runs before each tool invocation (Read, Write, Edit, Bash, etc.)
+- `post-tool-use` — Runs after each tool invocation (scoped to Write/Edit for schema validation)
 - `stop` — Runs when a session ends
 
 **Hook Location:** `.claude/tools/hooks/`
@@ -43,13 +46,15 @@ Source: [hooks/](.claude/tools/hooks/)
 **Given** hooks are configured in PAL
 **When** their lifecycle trigger occurs
 **Then** they execute automatically:
+
 - `session-start.ts` — When session begins
 - `pre-tool-use.ts` — Before each tool invocation
+- `post-tool-use.ts` — After Write/Edit tool invocations
 - `stop.ts` — When session ends
 
 Category: Functional
 Verification: Start/use tools/end session and confirm hooks execute
-Source: [ARCHITECTURE.md](.claude/base/system/ARCHITECTURE.md)
+Source: [ARCHITECTURE.md](.claude/core/system/ARCHITECTURE.md)
 
 ---
 
@@ -87,7 +92,7 @@ Source: [stop.ts](.claude/tools/hooks/stop.ts)
 
 **Given** a Claude Code session begins
 **When** the session-start hook executes
-**Then** PAL base context files are loaded from `.claude/base/` in priority order
+**Then** PAL base context files are loaded from `.claude/core/` in priority order
 
 Category: Functional
 Verification: Start session, confirm context loading banner appears
@@ -100,6 +105,7 @@ Source: [session-start.ts](.claude/tools/hooks/session-start.ts)
 **Given** multiple base files exist
 **When** files are loaded
 **Then** they are loaded in priority order (lower number = higher priority):
+
 - USER layer: Priority 1-9
 - SYSTEM layer: Priority 11-15
 - SECURITY layer: Priority 21-22
@@ -115,6 +121,7 @@ Source: [session-start.ts](.claude/tools/hooks/session-start.ts)
 **Given** context loading completes
 **When** the hook finishes
 **Then** a summary is displayed showing:
+
 - Total files loaded
 - Any failed loads
 
@@ -131,6 +138,7 @@ Source: [session-start.ts](.claude/tools/hooks/session-start.ts)
 **Then** the tool input is validated against security rules
 
 **And then** the result is one of:
+
 - `allow` — Tool executes normally
 - `warn` — Warning displayed, tool executes
 - `block` — Error displayed, tool blocked
@@ -148,6 +156,7 @@ Source: [pre-tool-use.ts](.claude/tools/hooks/pre-tool-use.ts)
 **Then** the operation is BLOCKED
 
 **Blocked patterns include:**
+
 - API keys (20+ character strings after `api_key=`)
 - Passwords (after `password=`)
 - Secrets (after `secret=`)
@@ -182,6 +191,7 @@ Source: [pre-tool-use.ts](.claude/tools/hooks/pre-tool-use.ts)
 **Then** the operation is BLOCKED
 
 **Blocked paths include:**
+
 - System directories (`/etc/`, `/usr/`, `/bin/`, `/System/`, `/var/`)
 - SSH config (`~/.ssh/`)
 - AWS config (`~/.aws/`)
@@ -203,6 +213,7 @@ Source: [pre-tool-use.ts](.claude/tools/hooks/pre-tool-use.ts)
 **Then** the operation is BLOCKED
 
 **Blocked commands include:**
+
 - Recursive deletion (`rm -rf /` or `~`)
 - Mass file deletion (`rm *.md`)
 - Overly permissive chmod (`chmod 777`)
@@ -225,6 +236,7 @@ Source: [pre-tool-use.ts](.claude/tools/hooks/pre-tool-use.ts)
 **Then** a WARNING is displayed but operation is ALLOWED
 
 **PII patterns include:**
+
 - Email addresses
 - Phone numbers (xxx-xxx-xxxx)
 - Social Security Numbers (xxx-xx-xxxx)
@@ -243,6 +255,7 @@ Source: [pre-tool-use.ts](.claude/tools/hooks/pre-tool-use.ts)
 **Then** the PII warning is suppressed
 
 **Exception files:**
+
 - `CONTACTS.md`
 - `RESUME.md`
 - `.env.example`
@@ -260,6 +273,7 @@ Source: [pre-tool-use.ts](.claude/tools/hooks/pre-tool-use.ts)
 **Then** a WARNING is displayed but operation is ALLOWED
 
 **Warning triggers:**
+
 - `git reset --hard`
 - `git stash drop`
 - `DELETE FROM...WHERE` (with WHERE clause)
@@ -287,6 +301,7 @@ Source: [stop.ts](.claude/tools/hooks/stop.ts)
 **Given** a session ends
 **When** the stop hook executes
 **Then** a formatted summary is printed to the terminal showing:
+
 - "PAL SESSION COMPLETE" banner
 - Timestamp when session ended
 
@@ -308,6 +323,82 @@ Source: [stop.ts](.claude/tools/hooks/stop.ts)
 
 ---
 
+### 4.1.15 post-tool-use Hook Validates Frontmatter Schema
+
+**Given** a Write or Edit operation completes on a `.md` file
+**When** the file path matches a validated scope (Inbox Notes, Domain Pages, Domain INDEX, Project files)
+**Then** the hook reads the file from disk and validates YAML frontmatter against the required schema
+
+**And then** missing fields are reported as warnings via `additionalContext` JSON output
+
+Category: Data Quality
+Verification: Write a note to `Inbox/Notes/` without frontmatter, confirm schema warning appears
+Source: [post-tool-use.ts](.claude/tools/hooks/post-tool-use.ts)
+
+---
+
+### 4.1.16 post-tool-use Hook Validates Inbox Notes
+
+**Given** a file is written to `Inbox/Notes/*.md`
+**When** the post-tool-use hook executes
+**Then** it validates required fields: `status`, `category`, `created`, `last_modified`
+
+Category: Data Quality
+Verification: Write note to Inbox/Notes/ with missing `status`, confirm warning
+Source: [post-tool-use.ts](.claude/tools/hooks/post-tool-use.ts)
+
+---
+
+### 4.1.17 post-tool-use Hook Validates Domain Pages
+
+**Given** a file is written to `Domains/*/03_PAGES/*.md`
+**When** the post-tool-use hook executes
+**Then** it validates required fields: `status`, `domain`, `category`, `type`, `created`, `last_modified`
+
+Category: Data Quality
+Verification: Write page to domain 03_PAGES/ with missing `domain`, confirm warning
+Source: [post-tool-use.ts](.claude/tools/hooks/post-tool-use.ts)
+
+---
+
+### 4.1.18 post-tool-use Hook Validates Domain INDEX
+
+**Given** a file is written to `Domains/*/INDEX.md`
+**When** the post-tool-use hook executes
+**Then** it validates required fields: `name`, `description`, `status`, `created`, `updated`
+
+Category: Data Quality
+Verification: Write INDEX.md with missing `description`, confirm warning
+Source: [post-tool-use.ts](.claude/tools/hooks/post-tool-use.ts)
+
+---
+
+### 4.1.19 post-tool-use Hook Validates Project Files
+
+**Given** a file is written to `Domains/*/01_PROJECTS/PROJECT_*.md`
+**When** the post-tool-use hook executes
+**Then** it validates required fields: `name`, `status`, `created`
+
+Category: Data Quality
+Verification: Write PROJECT file with missing `name`, confirm warning
+Source: [post-tool-use.ts](.claude/tools/hooks/post-tool-use.ts)
+
+---
+
+### 4.1.20 post-tool-use Hook Never Blocks
+
+**Given** a schema validation warning is generated
+**When** the hook outputs the warning
+**Then** the hook exits with code 0 (warning only, never blocking)
+
+**And then** the warning is delivered as `additionalContext` JSON for the agent to see and correct
+
+Category: Data Quality
+Verification: Write file with missing fields, confirm write succeeds and warning is informational only
+Source: [post-tool-use.ts](.claude/tools/hooks/post-tool-use.ts)
+
+---
+
 ## Adding New Hooks
 
 When creating new hooks:
@@ -317,6 +408,7 @@ When creating new hooks:
 2. **Use appropriate hook type:**
    - `session-start` — For initialization tasks
    - `pre-tool-use` — For validation/transformation before tools
+   - `post-tool-use` — For validation/enforcement after tools (scoped via matcher)
    - `stop` — For cleanup/notification tasks
 
 3. **Handle errors gracefully** — Exit cleanly on error to avoid blocking
@@ -331,4 +423,4 @@ When creating new hooks:
 
 ---
 
-*Generated using the system-build documentation workflow.*
+_Generated using the system-build documentation workflow._

@@ -8,7 +8,7 @@ order: 6
 
 # 06 — PAL Builder
 
-> Think of this as a "co-pilot for building your co-pilot."
+> How to build new features, skills, and agents without breaking things.
 
 ---
 
@@ -20,13 +20,13 @@ While the standard PAL Master is there to help you through your day, **PAL Build
 /agent:pal-builder
 ```
 
-Most AI projects get messy because it's so easy to jump straight into coding without a clear goal. PAL Builder helps you avoid that by using a "Specify First" approach. It makes sure you and the AI are on same page before a single line of code is written.
+Most AI projects get messy because it's so easy to jump straight into coding and build on top really fast. PAL Builder helps you avoid that by using a "Specify First" approach. It makes sure you and the AI are on same page before a single line of code is written.
 
 ---
 
 ## The Workflow: From Idea to Feature
 
-We use a lean, 6-step process to build new things. It’s all recorded in a single `FEATURE.md` file so you never lose the "Why" behind a change.
+We use a lean, 6-step process to build new things based on SDD (Spec Driven Development). It’s all recorded in `REQUIREMENTS.md` file so you always can refer to have you build.
 
 1. **SPECIFY**: You explain what you want. The AI helps you pin down the details.
 2. **PLAN**: The AI drafts a technical plan—no guessing.
@@ -35,7 +35,7 @@ We use a lean, 6-step process to build new things. It’s all recorded in a sing
 5. **TEST**: You verify it actually works as intended.
 6. **DOCUMENT**: The AI updates the manual for your new feature.
 
-**The Benefit**: You don’t have to keep the whole system in your head. You just focus on the current task, and the system remembers the big picture for you.
+**Why this works**: You don’t have to keep the whole system in your head. You just focus on the current task, and the system remembers the big picture.
 
 ---
 

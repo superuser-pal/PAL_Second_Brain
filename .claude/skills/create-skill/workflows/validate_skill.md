@@ -137,6 +137,19 @@ Verify:
 
 ---
 
+## Step 7b: Check Registry Entry
+
+Verify the skill has at least one entry in `.claude/core/reference/SYSTEM_INDEX.md`:
+
+```bash
+grep -c "[skill-name]" .claude/core/reference/SYSTEM_INDEX.md
+```
+
+- If found → Note which agent(s) it is assigned to
+- If NOT found → Flag as **unregistered skill** (needs registration)
+
+---
+
 ## Step 7: Check Structure
 
 ```bash
@@ -220,6 +233,10 @@ grep -l "Intent-to-Flag" ~/.claude/skills/[skill-name]/workflows/*.md
 
 - [ ] `tools/` directory exists
 - [ ] No `backups/` inside skill
+
+### Registry
+
+- [ ] Registered in SYSTEM_INDEX.md for at least one agent
 
 ### CLI-First Integration (for skills with CLI tools)
 

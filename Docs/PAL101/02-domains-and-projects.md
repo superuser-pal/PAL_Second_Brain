@@ -14,9 +14,7 @@ order: 2
 
 ## What Is a Domain?
 
-A **Domain** is basically a walled-off workspace for one part of your life. In PAL, we map these to your high-level "Life Areas." Keeping them separate is critical—it ensures that when you're working on a client project, the AI doesn't get distracted by your personal workout routine or grocery list.
-
-Think of it like having different physical desks for different types of work. You wouldn't want your taxes mixed in with your scrapbooking, right?
+A **Domain** is basically a walled-off workspace for one part of your life. In PAL, we map these to your high-level "Life Areas." Keeping them separate is critical—it ensures that when you're working on a client project, the AI doesn't get distracted by your personal workout routine or your personal financial goals.
 
 Here’s how I usually break mine down:
 
@@ -41,9 +39,9 @@ PAL uses the `create-domain` skill to scaffold everything for you. It builds a s
 
 ---
 
-## The 6-Folder Structure (The "Front Door")
+## The 6-Folder Structure
 
-Every domain looks exactly like this. Once you've seen one, you know how to navigate them all. The `INDEX.md` is essentially the "Front Door"—it's the first thing an AI agent reads when it "walks into" a domain.
+Every domain looks exactly like this. Once you've seen one, you know how to navigate them all. The `INDEX.md` is the first thing an AI agent reads when it goes through a domain.
 
 ```text
 Domains/Work/

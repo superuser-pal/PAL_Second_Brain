@@ -44,13 +44,13 @@ If a hook does not follow this structure, it will not execute correctly within t
 
 **Hook and context file naming follows PAL's standard conventions.**
 
-| Category | Convention | Example | Purpose |
-| :------- | :--------- | :------ | :------ |
-| **Hooks directory** | `hooks/` | `.claude/tools/hooks/` | Hook implementations location. |
-| **Hook files** | `lower-kebab-case.ts` | `session-start.ts` | TypeScript hook implementations. |
-| **Base directories** | `lower-case` | `user/`, `system/`, `security/` | Layer organization. |
-| **Base files** | `UPPER_SNAKE_CASE.md` | `ABOUTME.md` | Configuration files. |
-| **Settings files** | `lower-kebab-case.json` | `settings.json` | Configuration. |
+| Category             | Convention              | Example                         | Purpose                          |
+| :------------------- | :---------------------- | :------------------------------ | :------------------------------- |
+| **Hooks directory**  | `hooks/`                | `.claude/tools/hooks/`          | Hook implementations location.   |
+| **Hook files**       | `lower-kebab-case.ts`   | `session-start.ts`              | TypeScript hook implementations. |
+| **Base directories** | `lower-case`            | `user/`, `system/`, `security/` | Layer organization.              |
+| **Base files**       | `UPPER_SNAKE_CASE.md`   | `ABOUTME.md`                    | Configuration files.             |
+| **Settings files**   | `lower-kebab-case.json` | `settings.json`                 | Configuration.                   |
 
 **Convention Rules:**
 
@@ -88,17 +88,18 @@ Context and hooks live in specific locations:
 │   └── hooks/                      # Hook implementations
 │       ├── session-start.ts
 │       ├── pre-tool-use.ts
+│       ├── post-tool-use.ts
 │       └── stop.ts
 └── settings.json                   # Hook configuration
 ```
 
 **Three-Layer Base Structure:**
 
-| Layer | Files | Purpose |
-| :---- | :---- | :------ |
-| **USER** | 4 files | Identity, preferences, personal context |
-| **SYSTEM** | 8 files | System logic and operations |
-| **SECURITY** | 2 files | Safety validation and policies |
+| Layer        | Files   | Purpose                                 |
+| :----------- | :------ | :-------------------------------------- |
+| **USER**     | 4 files | Identity, preferences, personal context |
+| **SYSTEM**   | 8 files | System logic and operations             |
+| **SECURITY** | 2 files | Safety validation and policies          |
 
 ---
 
@@ -112,13 +113,14 @@ Context and hooks live in specific locations:
 
 **Purpose:** Control system behavior deterministically (context loading, security validation, notifications).
 
-### Three Essential Hooks
+### Four Essential Hooks
 
-| Hook | Trigger | Purpose | File |
-| :--- | :------ | :------ | :--- |
-| **SessionStart** | Session initialization | Load Base context (USER + SYSTEM + SECURITY) | `session-start.ts` |
-| **PreToolUse** | Before tool execution | Validate operation against GUARDRAILS.md | `pre-tool-use.ts` |
-| **Stop** | Session end | Send notifications, save transcript, cleanup | `stop.ts` |
+| Hook             | Trigger                | Purpose                                                    | File               |
+| :--------------- | :--------------------- | :--------------------------------------------------------- | :----------------- |
+| **SessionStart** | Session initialization | Load Base context (USER + SYSTEM + SECURITY)               | `session-start.ts` |
+| **PreToolUse**   | Before tool execution  | Validate operation against GUARDRAILS.md                   | `pre-tool-use.ts`  |
+| **PostToolUse**  | After Write/Edit       | Validate YAML frontmatter schema on notes and domain files | `post-tool-use.ts` |
+| **Stop**         | Session end            | Send notifications, save transcript, cleanup               | `stop.ts`          |
 
 ### Hook Execution Flow
 
@@ -132,6 +134,8 @@ PAL Master initialized with full context
 During Execution:
     - Before tool use → PreToolUse hook validates against GUARDRAILS.md
     - Decision: Block (catastrophic) / Warn (risky) / Allow (safe)
+    - After Write/Edit → PostToolUse hook validates YAML frontmatter schema
+    - Decision: Warn on missing fields (never blocks)
     ↓
 Session End
     ↓
@@ -151,6 +155,7 @@ Stop hook executes: notifications, save transcript, log summary
 **Purpose:** Load Base configuration context
 
 **Actions:**
+
 - Read all Base files (USER + SYSTEM + SECURITY)
 - Load into PAL Master's context
 - Session ready with full context
@@ -166,12 +171,14 @@ Stop hook executes: notifications, save transcript, log summary
 **Purpose:** Validate operation against security rules
 
 **Actions:**
+
 - Intercept tool execution
 - Read GUARDRAILS.md and REPOS_RULES.md
 - Validate operation (security rules, sensitive data, risk level)
 - Decision: ALLOW / WARN / BLOCK
 
 **Validation Checks:**
+
 - Catastrophic operations (destructive commands)
 - Credentials (API keys, passwords)
 - PII (personal information)
@@ -190,12 +197,38 @@ Stop hook executes: notifications, save transcript, log summary
 **Purpose:** Send notifications, save session data, cleanup
 
 **Actions:**
+
 - Execute configured notifications (desktop/email/Slack)
 - Save transcript
 - Log session summary
 - Cleanup temp files
 
 **User Action:** Configure in settings.json (optional)
+
+### 4. PostToolUse Hook
+
+**File:** `.claude/tools/hooks/post-tool-use.ts`
+
+**Trigger:** After Write or Edit tool completes on a `.md` file
+
+**Purpose:** Validate YAML frontmatter schema for notes and domain files
+
+**Actions:**
+
+- Read written/edited file from disk
+- Match file path against validation scopes (Inbox Notes, Domain Pages, INDEX.md, PROJECT files)
+- Parse YAML frontmatter
+- Check required fields for matched scope
+- Output warning via `additionalContext` JSON if fields missing
+
+**Validation Scopes:**
+
+- `Inbox/Notes/*.md` → status, category, created, last_modified
+- `Domains/*/03_PAGES/*.md` → status, domain, category, type, created, last_modified
+- `Domains/*/INDEX.md` → name, description, status, created, updated
+- `Domains/*/01_PROJECTS/PROJECT_*.md` → name, status, created
+
+**User Action:** None (automatic). Warns only, never blocks writes.
 
 ---
 
@@ -238,33 +271,33 @@ Stop hook executes: notifications, save transcript, log summary
 
 ### For Users
 
-| Practice | Description |
-| :------- | :---------- |
-| **Keep Base current** | Update as preferences evolve, remove outdated entries, review monthly |
-| **Use Git** | Track changes (`git add .claude/core/`), enable rollback, audit history |
-| **Separate contexts** | General (ABOUTME, RESUME): reusable; Project-specific (TERMINOLOGY, TECHSTACK): reset per project |
-| **Document immediately** | Capture insights while fresh, add to TERMINOLOGY.md immediately |
-| **Be explicit** | Replace vague statements with specific guidelines |
+| Practice                 | Description                                                                                       |
+| :----------------------- | :------------------------------------------------------------------------------------------------ |
+| **Keep Base current**    | Update as preferences evolve, remove outdated entries, review monthly                             |
+| **Use Git**              | Track changes (`git add .claude/core/`), enable rollback, audit history                           |
+| **Separate contexts**    | General (ABOUTME, RESUME): reusable; Project-specific (TERMINOLOGY, TECHSTACK): reset per project |
+| **Document immediately** | Capture insights while fresh, add to TERMINOLOGY.md immediately                                   |
+| **Be explicit**          | Replace vague statements with specific guidelines                                                 |
 
 ### For PAL Master
 
-| Practice | Description |
-| :------- | :---------- |
-| **Load Base every session** | SessionStart hook handles automatically |
-| **Reference Base frequently** | Check DIRECTIVES, TERMINOLOGY, GUARDRAILS |
-| **Suggest updates** | When user expresses new preference, offer to update Base |
-| **Explain decisions** | When Base context influences decisions, explain reasoning |
+| Practice                      | Description                                               |
+| :---------------------------- | :-------------------------------------------------------- |
+| **Load Base every session**   | SessionStart hook handles automatically                   |
+| **Reference Base frequently** | Check DIRECTIVES, TERMINOLOGY, GUARDRAILS                 |
+| **Suggest updates**           | When user expresses new preference, offer to update Base  |
+| **Explain decisions**         | When Base context influences decisions, explain reasoning |
 
 ---
 
 ## Troubleshooting
 
-| Issue | Symptoms | Solutions |
-| :---- | :------- | :-------- |
-| **Behavior misalignment** | PAL Master choices don't match preferences | Verify Base loaded (`/context`), update outdated files, make directives explicit |
-| **SessionStart failure** | PAL Master lacks Base context | Verify hook file exists, check Base directory structure, review error messages |
-| **Security issues** | PreToolUse blocks legitimate ops OR allows risky ops | Review GUARDRAILS.md rules, add exceptions for edge cases |
-| **TERMINOLOGY ignored** | PAL Master doesn't use project vocabulary | Verify load via `/context`, make terms explicit with ALWAYS/NEVER rules |
+| Issue                     | Symptoms                                             | Solutions                                                                        |
+| :------------------------ | :--------------------------------------------------- | :------------------------------------------------------------------------------- |
+| **Behavior misalignment** | PAL Master choices don't match preferences           | Verify Base loaded (`/context`), update outdated files, make directives explicit |
+| **SessionStart failure**  | PAL Master lacks Base context                        | Verify hook file exists, check Base directory structure, review error messages   |
+| **Security issues**       | PreToolUse blocks legitimate ops OR allows risky ops | Review GUARDRAILS.md rules, add exceptions for edge cases                        |
+| **TERMINOLOGY ignored**   | PAL Master doesn't use project vocabulary            | Verify load via `/context`, make terms explicit with ALWAYS/NEVER rules          |
 
 ---
 
@@ -284,6 +317,7 @@ Before context management is complete:
 - [ ] `.claude/tools/hooks/` directory exists
 - [ ] `session-start.ts` exists and loads Base files
 - [ ] `pre-tool-use.ts` exists and validates against GUARDRAILS.md
+- [ ] `post-tool-use.ts` exists and validates YAML frontmatter schema
 - [ ] `stop.ts` exists and handles notifications/cleanup
 
 ### Configuration
@@ -302,15 +336,16 @@ Before context management is complete:
 
 ## Summary
 
-| Component | Purpose | Location |
-| :-------- | :------ | :------- |
-| **Base configuration** | User-maintained persistent context | `.claude/core/` |
-| **USER layer** | Identity, preferences (8 files) | `.claude/core/user/` |
-| **SYSTEM layer** | System logic (8 files) | `.claude/core/system/` |
-| **SECURITY layer** | Safety policies (2 files) | `.claude/core/security/` |
-| **SessionStart hook** | Load Base context | `.claude/tools/hooks/session-start.ts` |
-| **PreToolUse hook** | Security validation | `.claude/tools/hooks/pre-tool-use.ts` |
-| **Stop hook** | Notifications and cleanup | `.claude/tools/hooks/stop.ts` |
+| Component              | Purpose                            | Location                               |
+| :--------------------- | :--------------------------------- | :------------------------------------- |
+| **Base configuration** | User-maintained persistent context | `.claude/core/`                        |
+| **USER layer**         | Identity, preferences (8 files)    | `.claude/core/user/`                   |
+| **SYSTEM layer**       | System logic (8 files)             | `.claude/core/system/`                 |
+| **SECURITY layer**     | Safety policies (2 files)          | `.claude/core/security/`               |
+| **SessionStart hook**  | Load Base context                  | `.claude/tools/hooks/session-start.ts` |
+| **PreToolUse hook**    | Security validation                | `.claude/tools/hooks/pre-tool-use.ts`  |
+| **PostToolUse hook**   | Schema validation                  | `.claude/tools/hooks/post-tool-use.ts` |
+| **Stop hook**          | Notifications and cleanup          | `.claude/tools/hooks/stop.ts`          |
 
 This system ensures:
 

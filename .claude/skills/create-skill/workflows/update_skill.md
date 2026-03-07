@@ -129,6 +129,10 @@ All files must use `lower_snake_case`:
 - [ ] All routes point to existing files
 - [ ] New workflow files have routing entries
 
+### Registry
+
+- [ ] If skill name or location changed, update SYSTEM_INDEX.md
+
 ---
 
 ## Done

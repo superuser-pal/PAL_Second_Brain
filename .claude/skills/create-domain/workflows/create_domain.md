@@ -142,6 +142,24 @@ Expected output:
 - `04_OUTPUTS/` (with README.md)
 - `05_ARCHIVE/` (with README.md)
 
+## Step 8.5: Check for Domain Agent
+
+Ask the user:
+
+> "Does this domain need a domain agent?"
+> 1. **Yes** — Create a new domain agent now
+> 2. **No** — Skip agent creation
+
+**If Yes:**
+
+Invoke the `create_agent` workflow:
+
+- Location: `.claude/skills/create-agent/workflows/create_agent.md`
+- The domain name from Step 3 is the binding domain — pass it forward as the `domain:` field
+- Wait for agent creation to complete before continuing
+
+**If No:** Proceed to Step 9.
+
 ## Step 9: Final Checklist
 
 ### Structure
@@ -171,14 +189,17 @@ Expected output:
 - [ ] 04_OUTPUTS/README.md exists
 - [ ] 05_ARCHIVE/README.md exists
 
+### Domain Agent
+
+- [ ] Domain agent created (or noted as not needed)
+
 ## Done
 
 Domain created following canonical structure. Ready for use with Domain Agents.
 
 **Next Steps:**
 
-1. Configure a Domain Agent to access this domain (see `AGENTS_LOGIC.md`)
-2. Add context and reference docs to `00_CONTEXT/`
-3. Add project files to `01_PROJECTS/` as needed
-4. Log sessions in `02_SESSIONS/`
-5. Store reference materials in `03_ASSETS/`
+1. Add context and reference docs to `00_CONTEXT/`
+2. Add project files to `01_PROJECTS/` as needed
+3. Log sessions in `02_SESSIONS/`
+4. Store reference materials in `03_ASSETS/`

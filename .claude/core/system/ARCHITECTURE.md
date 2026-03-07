@@ -38,12 +38,12 @@ PAL's second brain architecture is built on 8 foundational principles:
 
 #### 2. Token & Cost Efficiency
 
-**Principle:** Strategic resource management is a core constraint of system design. 
+**Principle:** Strategic resource management is a core constraint of system design.
 
 **What This Means:**
 
 - The system seeks to be optimized for **Token Efficiency** to remain cost-effective for the user.
-- Context efficiency optimization is how the system ensure a minimum waste in operations. 
+- Context efficiency optimization is how the system ensure a minimum waste in operations.
 - Every function addition is weighed against the cost of the underlying services
 
 #### 3. Pattern-Based JTBD
@@ -112,11 +112,11 @@ PAL's second brain architecture is built on 8 foundational principles:
 
 PAL organizes context and operations into 3 layers:
 
-| Layer        | Purpose                                         | Files   | Key Files                                                                                              | Characteristics                                                                                                                                  | Access Pattern                                                                                  |
-| ------------ | ----------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
-| **USER**     | Personal context, preferences, domain knowledge | 4 files | ABOUTME, DIRECTIVES, TERMINOLOGY, CONTACTS                      | • Uppercase filenames<br>• User-editable, frequently updated<br>• YAML frontmatter<br>• Persistent context to PAL Master                         | SessionStart hook loads all → PAL Master has full context → Skills/agents inherit               |
+| Layer        | Purpose                                         | Files   | Key Files                                                                                               | Characteristics                                                                                                                                  | Access Pattern                                                                                  |
+| ------------ | ----------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| **USER**     | Personal context, preferences, domain knowledge | 4 files | ABOUTME, DIRECTIVES, TERMINOLOGY, CONTACTS                                                              | • Uppercase filenames<br>• User-editable, frequently updated<br>• YAML frontmatter<br>• Persistent context to PAL Master                         | SessionStart hook loads all → PAL Master has full context → Skills/agents inherit               |
 | **SYSTEM**   | Operational logic, orchestration, workflows     | 8 files | ARCHITECTURE, ORCHESTRATION, WORKFLOWS, MEMORY_LOGIC, TOOLBOX, AGENTS_LOGIC, SKILL_LOGIC, DOMAINS_LOGIC | • Uppercase filenames<br>• User-readable, infrequently modified<br>• YAML frontmatter<br>• Documents HOW system operates                         | PAL Master references for logic → Pattern Library provides education → Users read to understand |
-| **SECURITY** | Permissive security with catastrophic blocking  | 2 files | GUARDRAILS, REPOS_RULES                                                                                | • Uppercase filenames<br>• User-configurable, rarely modified<br>• Enforced via PreToolUse hook<br>• Blocks catastrophic, allows controlled risk | PreToolUse hook reads files → Validates against rules → Block/warn/allow decision               |
+| **SECURITY** | Permissive security with catastrophic blocking  | 2 files | GUARDRAILS, REPOS_RULES                                                                                 | • Uppercase filenames<br>• User-configurable, rarely modified<br>• Enforced via PreToolUse hook<br>• Blocks catastrophic, allows controlled risk | PreToolUse hook reads files → Validates against rules → Block/warn/allow decision               |
 
 ---
 
@@ -249,6 +249,7 @@ Each skill follows this structure:
 ```
 
 **Key Structure Rules:**
+
 - **Skill directories:** Use `lower-kebab-case`
 - **SKILL.md:** Always uppercase
 - **Context files:** Live in skill root, use `lower_snake_case`
@@ -315,6 +316,7 @@ domains/ProjectAlpha/             # PascalCase directory
 ```
 
 **Key Characteristics:**
+
 - **Context containers** - Domains hold documentation and reference materials
 - **Agent-loaded** - Domains are accessed via Domain Agents, not auto-activated
 - **Siloed environments** - Each domain is isolated to prevent context pollution
@@ -345,12 +347,13 @@ Domains are accessed through Domain Agents using the **two-group context model**
 
 **Purpose:** Control system behavior deterministically (context loading, security validation, notifications)
 
-### PAL Hooks (3 Essential)
+### PAL Hooks (4 Essential)
 
 | Hook             | Trigger Point          | Purpose                                                     | Implementation     |
 | ---------------- | ---------------------- | ----------------------------------------------------------- | ------------------ |
 | **SessionStart** | Session initialization | Load Base context (USER + SYSTEM + SECURITY files)          | `session-start.ts` |
 | **PreToolUse**   | Before tool execution  | Validate operation against GUARDRAILS.md and REPOS_RULES.md | `pre-tool-use.ts`  |
+| **PostToolUse**  | After Write/Edit       | Validate YAML frontmatter schema on notes and domain files  | `post-tool-use.ts` |
 | **Stop**         | Session end            | Send notifications, save transcript, log summary            | `stop.ts`          |
 
 ### Hook Execution Flow
@@ -358,7 +361,7 @@ Domains are accessed through Domain Agents using the **two-group context model**
 **Session Lifecycle:**
 
 1. **Session Start** → SessionStart hook loads Base (USER + SYSTEM + SECURITY files) → PAL Master initialized with full context
-2. **During Execution** → Before tool use, PreToolUse hook validates against GUARDRAILS.md and REPOS_RULES.md → Decision: Block (catastrophic) / Warn (risky) / Allow (safe)
+2. **During Execution** → Before tool use, PreToolUse hook validates against GUARDRAILS.md and REPOS_RULES.md → Decision: Block (catastrophic) / Warn (risky) / Allow (safe). After Write/Edit, PostToolUse hook validates YAML frontmatter schema → Warns on missing fields (never blocks)
 3. **Session End** → Stop hook executes: notifications, save transcript, log summary, cleanup
 
 **See table above for detailed hook specifications. See:** [MEMORY_LOGIC.md](MEMORY_LOGIC.md) for hook implementation guidance
@@ -369,17 +372,18 @@ Domains are accessed through Domain Agents using the **two-group context model**
 
 PAL is designed for user customization and extension:
 
-| Extension Type    | When to Extend                                                                                                                                  | How to Extend                        | Key Details                                                                           |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------- |
-| **Skills**        | Domain-specific work requires specialized knowledge, workflows, vocabulary                                                                      | Use skill creation commands/patterns | Each skill includes SKILL.md definition, workflows/, optional templates/ and tools/   |
-| **Base Files**    | USER Layer: When preferences/context changes<br>SYSTEM Layer: When changing fundamental behavior (rare)<br>SECURITY Layer: When policies evolve | Direct file editing in `.claude/core/`     | **Best Practice:** Maintain in version control, review changes in session transcripts |
-| **Custom Agents** | Extended domain work requiring specialized persona                                                                                              | Use agent creation commands/patterns | Agents inherit Base context + domain skill, loaded via `/[agent]`                |
-| **Toolbox**       | Need CLI utilities, external integrations, workflow automation                                                                                  | Add to `.claude/tools/` directory    | **See:** [TOOLBOX.md](TOOLBOX.md) for configuration                                   |
+| Extension Type    | When to Extend                                                                                                                                  | How to Extend                          | Key Details                                                                           |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------- |
+| **Skills**        | Domain-specific work requires specialized knowledge, workflows, vocabulary                                                                      | Use skill creation commands/patterns   | Each skill includes SKILL.md definition, workflows/, optional templates/ and tools/   |
+| **Base Files**    | USER Layer: When preferences/context changes<br>SYSTEM Layer: When changing fundamental behavior (rare)<br>SECURITY Layer: When policies evolve | Direct file editing in `.claude/core/` | **Best Practice:** Maintain in version control, review changes in session transcripts |
+| **Custom Agents** | Extended domain work requiring specialized persona                                                                                              | Use agent creation commands/patterns   | Agents inherit Base context + domain skill, loaded via `/[agent]`                     |
+| **Toolbox**       | Need CLI utilities, external integrations, workflow automation                                                                                  | Add to `.claude/tools/` directory      | **See:** [TOOLBOX.md](TOOLBOX.md) for configuration                                   |
 
 ### Current Toolbox
 
 - Notifications (Stop hook)
 - Security Validation (PreToolUse hook)
+- Schema Validation (PostToolUse hook)
 - File Validation
 - Bun Commands (CLI utilities)
 

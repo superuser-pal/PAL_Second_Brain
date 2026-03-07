@@ -8,7 +8,7 @@ order: 4
 
 # 04 — Note-Taking
 
-> Stop worrying about where things go. Just capture them.
+> Here's how information flows through your second brain, from a random thought to permanent knowledge.
 
 ---
 
@@ -29,7 +29,7 @@ In most productivity systems, the moment you have an idea, you have to decide wh
 
 Everything you capture lands in `Inbox/Notes/`. You don't need to name the files or pick a folder.
 
-### The Braindump
+### The Braindump (My favorite)
 
 This is the core of the system. Run the command `braindump` and just start talking. It’s stream-of-consciousness mode.
 
@@ -41,12 +41,16 @@ You: "I've been thinking about the pricing for the new app. Maybe freemium?
       wondering if we should use Postgres or something else..."
 ```
 
-PAL doesn't just save a text file. It actually listens for **Intent**. It knows you talked about pricing (Research), emailing Sarah (Action), and databases (Decision).
+PAL doesn't just save the text. It analyzes it for themes, extracts action items (like emailing Sarah), and flags questions you need to answer.
 
 ### URL Dumps
 
 "Save this link: [URL]"
-PAL grabs the content, summarizes the main points, and extracts the "Gold" so you don't have to re-read the whole thing six months from now.
+PAL fetches the content, summarizes it, and extracts the key insights so you don't have to re-read the whole thing later.
+
+### Direct Notes
+
+If you’re in Obsidian, just create a new `.md` file in `Inbox/Notes/`. PAL will find it when you’re ready to process.
 
 ---
 
@@ -55,15 +59,19 @@ PAL grabs the content, summarizes the main points, and extracts the "Gold" so yo
 Once your Inbox has a few raw thoughts in it, it’s time to give them some shape. Run:
 `"Process my inbox notes"`
 
-PAL scans your new notes and suggests **how** to structure them. It might say: _"I see a pricing idea here for the 'Startup' domain. Should I tag this as a #decision?"_
+PAL scans every file in `Inbox/Notes/` and suggests how to structure them. It will:
 
-You’re always the boss. PAL proposes the metadata, and you just say "Yes" or "No."
+- **Add metadata**: (which domain it belongs to, what type of note it is).
+- **Categorize**: Is this a _Fact_, an _Idea_, a _Decision_, or an _Action_?
+- **Link**: It looks for similar notes already in your vault and suggests connections.
+
+**You’re always in control.** PAL will propose these changes, and you just say "Yes" or "No" to each one.
 
 ---
 
 ## Step 3: Distribute
 
-This is where the magic happens. After processing, tell PAL:
+After the notes are processed and ready, just say:
 `"Distribute my notes"`
 
 PAL moves the files from the Inbox into the right Domain folders (usually under `03_PAGES/`). But it does one more thing: **it extracts the work.**

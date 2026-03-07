@@ -41,21 +41,16 @@ I am [detailed description of who/what the agent is, its scope, and what it owns
 
 Load this agent file (already in context). You are now [Agent Name].
 
-### Step 2: Load Base Context
-
-These files are always available. Do **not** read until needed.
-
-- [REF] `PAL_Base/User/ABOUTME.md` — Core Identity & Background
-- [REF] `PAL_Base/User/DIRECTIVES.md` — Critical System Rules
-- [REF] `PAL_Base/Security/GUARDRAILS.md` — Safety Validation
-
-### Step 3: Load Domain Context
-
-> **INSTRUCTIONS FOR TEMPLATE USER:**
-> Your domain follows this base structure. Mark each as `[AUTO]` (loaded immediately — use sparingly) or `[REF]` (loaded on demand).
-> The domain INDEX.md should always be `[AUTO]`. Folders may be added or removed based on domain needs.
+### Step 2: Load Domain Files
 
 - [AUTO] `domains/[domain-name]/INDEX.md` — Domain Source of Truth
+
+### Step 3: Load Domain Folders
+
+> **INSTRUCTIONS FOR TEMPLATE USER:**
+> Your domain follows this base structure. Mark each as `[REF]` (loaded on demand).
+> Folders may be added or removed based on domain needs.
+
 - [REF] `domains/[domain-name]/00_CONTEXT/` — Background knowledge and domain-specific context documents
 - [REF] `domains/[domain-name]/01_PROJECTS/` — Active project files tracked in INDEX.md Active Work table
 - [REF] `domains/[domain-name]/02_SESSIONS/` — Session logs capturing discussions, changes, and decisions
@@ -80,14 +75,14 @@ Greet user by name, state your role in one sentence, then display the **Command 
 
 ## 3. Command Menu
 
-| #   | Command         | Description                           | Action                                          |
-| --- | --------------- | ------------------------------------- | ----------------------------------------------- |
-| 1   | `*menu`         | Redisplay this menu                   | Print this table                                |
-| 2   | `*skills`       | List my skills                        | Display Section 5 → Skills                      |
-| 3   | `*workflows`    | List my workflows                     | Display Section 5 → Workflows                   |
-| 4   | `*context`      | Show loaded context and session state | Show loaded files by layer, active skill (Sec 6)|
-| 5   | `*save-session` | Save current session to log           | Create session log in 02_SESSIONS/ (see Rule 11)|
-| 6   | `*help`         | Agent help and documentation          | Show responsibilities summary                   |
+| #   | Command         | Description                           | Action                                               |
+| --- | --------------- | ------------------------------------- | ---------------------------------------------------- |
+| 1   | `*menu`         | Redisplay this menu                   | Print this table                                     |
+| 2   | `*skills`       | List my skills                        | Display Section 5 → Skills                           |
+| 3   | `*workflows`    | List my workflows                     | Display Section 5 → Workflows                        |
+| 4   | `*context`      | Show loaded context and session state | Show loaded files by layer, active skill (Sec 6)     |
+| 5   | `*save-session` | Save current session to log           | Create session log in 02_SESSIONS/ (see Rule 11)     |
+| 6   | `*help`         | Agent help and documentation          | Show responsibilities summary                        |
 | 7   | `*dismiss`      | Dismiss this agent                    | Auto-save session log, confirm, return to PAL Master |
 
 **Input Processing Rules:**
@@ -274,10 +269,12 @@ Display this state when `*context` is invoked, organized by layer (BASE / DOMAIN
 ### Rule 11: Session Logging Protocol
 
 **When to log:**
+
 - **Automatically** on `*dismiss` — always create a session log before ending
 - **Manually** via `*save-session` — user can save progress at any time
 
 **Log file format:**
+
 - Location: `domains/[domain-name]/02_SESSIONS/YYYY-MM-DD_[brief-title].md`
 - Naming: Use today's date + descriptive title (e.g., `2026-02-11_feature_planning.md`)
 
@@ -293,34 +290,42 @@ duration: [approximate session length]
 # Session: [Brief Title]
 
 ## Summary
+
 [2-3 sentence overview of what was accomplished]
 
 ## Topics Discussed
+
 - [Topic 1]
 - [Topic 2]
 
 ## Decisions Made
+
 - [Decision 1]: [Rationale]
 - [Decision 2]: [Rationale]
 
 ## Changes Made
-| File | Action | Description |
-|------|--------|-------------|
+
+| File   | Action                     | Description    |
+| ------ | -------------------------- | -------------- |
 | [path] | [created/modified/deleted] | [what changed] |
 
 ## Commands Executed
+
 - `[command 1]` → [result]
 - `[command 2]` → [result]
 
 ## Action Items
+
 - [ ] [Follow-up task 1]
 - [ ] [Follow-up task 2]
 
 ## Open Questions
+
 - [Any unresolved questions for next session]
 ```
 
 **On `*dismiss`:**
+
 1. Generate session log from execution history (Sec. 6)
 2. Save to `02_SESSIONS/` with today's date
 3. Confirm log saved with filename
