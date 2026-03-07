@@ -256,6 +256,19 @@ Add the new agent to `PAL_Base/System/ROUTING_TABLE.md`:
 grep "[agent-name]" PAL_Base/System/ROUTING_TABLE.md
 ```
 
+## Step 15.5: Create Command File
+
+Create a command file in `.claude/commands/agent/` using `command_template.md` (in this skill's root) as the base.
+
+```bash
+touch .claude/commands/agent/[agent-name].md
+```
+
+**Fill the command file:**
+
+- Replace `[Agent Name]` with the agent's human-readable name (e.g., `Blog Agent`)
+- Replace `[agent-name]` with the agent's file name (e.g., `blog-agent`)
+
 ## Step 16: Final Checklist
 
 ### Structure
@@ -310,6 +323,12 @@ grep "[agent-name]" PAL_Base/System/ROUTING_TABLE.md
 
 - [ ] Agent entry added to `PAL_Base/System/ROUTING_TABLE.md`
 - [ ] Entry includes: name, domain, location, routes_to
+
+### Command File
+
+- [ ] Command file exists in `.claude/commands/agent/`
+- [ ] Filename matches `[agent-name].md`
+- [ ] Proper human-readable name and agent file name filled from `command_template.md`
 
 ### Operational Validation
 
