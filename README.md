@@ -9,7 +9,7 @@
 > [!IMPORTANT]
 > 👋 Hi! PAL is currently in Beta (v0.1.0).
 >
-> I’m building this in the open and looking for early adopters to help test the core agentic workflows. If you’re into AI-assisted productivity, I’d love your feedback.
+> I’m building this in the open and looking for early adopters to help test the core flows. If you’re into AI-assisted productivity, I’d love your feedback.
 >
 > ⚠️ **A quick heads-up:** We’re moving fast, so expect frequent updates and some breaking changes as the project evolves.
 
