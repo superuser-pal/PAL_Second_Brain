@@ -240,7 +240,7 @@ This ensures that from the first message, PAL knows who you are and how you want
 
 ### 2. Deep Dive: Loading Domain Agents
 
-When you switch to a specialized agent (e.g.,loading it with a command `/product-manager`), the system pivots its focus:
+When you switch to a specialized agent (e.g., loading it with a command `/pal-builder`), the system pivots its focus:
 
 - **Base Context persists**: Your identity and guardrails stay loaded.
 - **Domain Context loads**: The agent pulls in the `INDEX.md` and `00_CONTEXT` files from the specific `Domains/` folder.

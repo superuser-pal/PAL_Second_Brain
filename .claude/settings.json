@@ -72,8 +72,8 @@
     ]
   },
   "env": {
-    "CLAUDE_PROJECT_DIR": "/Users/rodrigocanoteran/projects/pal-framework",
-    "PROJECT_NAME": "pal-framework"
+    "CLAUDE_PROJECT_DIR": "",
+    "PROJECT_NAME": "pal-second-brain"
   },
   "alwaysThinkingEnabled": false,
   "sandbox": {

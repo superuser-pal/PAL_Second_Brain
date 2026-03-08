@@ -6,6 +6,13 @@
 [![Claude Code](https://img.shields.io/badge/powered%20by-Claude%20Code-orange.svg)]()
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
+> [!IMPORTANT]
+> 👋 Hi! PAL is currently in Beta (v0.1.0).
+>
+> I’m building this in the open and looking for early adopters to help test the core agentic workflows. If you’re into AI-assisted productivity, I’d love your feedback.
+>
+> ⚠️ **A quick heads-up:** We’re moving fast, so expect frequent updates and some breaking changes as the project evolves.
+
 ---
 
 ## The Problem
@@ -14,7 +21,7 @@ Every time you open an AI chat, it feels like you start from zero or with outdat
 
 **PAL fixes this.**
 
-PAL (Patterned Agentic Logic) is an open-source second brain that gives your AI **a spotless framework to handle context**, **organize knowledge**, and **process the information into systems** — so your AI operates with the same goals, history, and strategic intent as you do.
+PAL is an open-source second brain that gives your AI **a spotless framework to handle context**, **organize knowledge**, and **process the information into systems** — so your AI operates with the same goals, history, and strategic intent as you do.
 
 ### Before PAL vs After PAL
 
@@ -45,6 +52,8 @@ PAL (Patterned Agentic Logic) is an open-source second brain that gives your AI 
    ```bash
    bun install
    ```
+
+   > **Note:** This installs dependencies needed by the PAL system hooks and scripts located in the `.claude/` directory.
 
 4. **Start Claude Code & Setup**:
    ```bash
@@ -174,13 +183,13 @@ Capture first, organize later. Every idea, note, and resource enriches your pers
 
 ## Documentation
 
-| Document                                               | Description                                                     |
-| ------------------------------------------------------ | --------------------------------------------------------------- |
-| **[START-HERE.md](START-HERE.md)**                     | Onboarding guide — Obsidian setup, first session, core concepts |
-| **[Docs/PAL101/](Domains/PALOpenSource/Docs/PAL101/)** | 09-part guide to mastering Claude Code and PAL                  |
-| **[Docs/FEATURES.md](Docs/FEATURES.md)**               | Complete feature catalog with all skills, agents, and workflows |
-| **[Docs/CHANGELOG.md](Docs/CHANGELOG.md)**             | Version history                                                 |
-| **[Docs/CONTRIBUTING.md](Docs/CONTRIBUTING.md)**       | How to contribute                                               |
+| Document                                         | Description                                                     |
+| ------------------------------------------------ | --------------------------------------------------------------- |
+| **[START-HERE.md](START-HERE.md)**               | Onboarding guide — Obsidian setup, first session, core concepts |
+| **[Docs/PAL101/](Docs/PAL101/)**                 | 09-part guide to mastering Claude Code and PAL                  |
+| **[Docs/FEATURES.md](Docs/FEATURES.md)**         | Complete feature catalog with all skills, agents, and workflows |
+| **[Docs/CHANGELOG.md](Docs/CHANGELOG.md)**       | Version history                                                 |
+| **[Docs/CONTRIBUTING.md](Docs/CONTRIBUTING.md)** | How to contribute                                               |
 
 ---
 

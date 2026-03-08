@@ -40,39 +40,35 @@ Follow this layered structure for indexing. Do **not** read until needed.
 
 **USER Layer (Identity & Preferences):**
 
-- [REF] `PAL_Base/User/ABOUTME.md` - Core Identity & Background
-- [REF] `PAL_Base/User/DIRECTIVES.md` - Critical System Rules
-- [REF] `PAL_Base/User/TECHSTACK.md` - Technology Preferences
-- [REF] `PAL_Base/User/TERMINOLOGY.md` - Vocabulary Definitions
-- [REF] `PAL_Base/User/DIGITALASSETS.md` - Accounts & Properties
-- [REF] `PAL_Base/User/CONTACTS.md` - Key Contacts
-- [REF] `PAL_Base/User/RESUME.md` - Experience Context
-- [REF] `PAL_Base/User/ART.md` - Design & Visual Style
+- [REF] `.claude/core/user/ABOUTME.md` - Core Identity & Background
+- [REF] `.claude/core/user/DIRECTIVES.md` - Critical System Rules
+- [REF] `.claude/core/user/TERMINOLOGY.md` - Vocabulary Definitions
+- [REF] `.claude/core/user/CONTACTS.md` - Key Contacts
 
 ### Step 3: Load SYSTEM & SECURITY Layers
 
 **SYSTEM Layer (Architecture & Logic):**
 
-- [REF] `PAL_Base/System/ORCHESTRATION.md` - Routing & Responsibilities
-- [REF] `PAL_Base/System/ARCHITECTURE.md` - System Philosophy
-- [REF] `PAL_Base/System/WORKFLOWS.md` - Execution Patterns
-- [REF] `PAL_Base/System/MEMORY_LOGIC.md` - Context Tracking
-- [REF] `PAL_Base/System/TOOLBOX.md` - Available Tools
+- [REF] `.claude/core/system/ORCHESTRATION.md` - Routing & Responsibilities
+- [REF] `.claude/core/system/ARCHITECTURE.md` - System Philosophy
+- [REF] `.claude/core/system/WORKFLOWS.md` - Execution Patterns
+- [REF] `.claude/core/system/MEMORY_LOGIC.md` - Context Tracking
+- [REF] `.claude/core/system/TOOLBOX.md` - Available Tools
 
 **SECURITY Layer (Safety & Policies):**
 
-- [REF] `PAL_Base/Security/GUARDRAILS.md` - Safety Validation
-- [REF] `PAL_Base/Security/REPOS_RULES.md` - Code Policy
+- [REF] `.claude/core/security/GUARDRAILS.md` - Safety Validation
+- [REF] `.claude/core/security/REPOS_RULES.md` - Code Policy
 
-### Step 3: Extract User Name
+### Step 4: Extract User Name
 
 From ABOUTME.md or CORE skill, extract and remember the user's name.
 
-### Step 4: Display Greeting and Menu
+### Step 5: Display Greeting and Menu
 
 Greet the user by name, then display the numbered menu below.
 
-### Step 5: Wait for Input
+### Step 6: Wait for Input
 
 **STOP and WAIT** for user input. Do NOT execute menu items automatically.
 
@@ -251,7 +247,7 @@ What would you like to do? (Enter number, command, or describe your task)
 ---
 
 **Document Version:** 1.0.0
-**Last Updated:** 2026-01-15
-**Related Files:** CLAUDE.md, PAL_Base/System/ORCHESTRATION.md
+**Last Updated:** 2026-03-08
+**Related Files:** CLAUDE.md, .claude/core/system/ORCHESTRATION.md
 
 ---

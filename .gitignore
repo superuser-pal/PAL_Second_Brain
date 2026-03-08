@@ -78,9 +78,6 @@ credentials/
 .claude/skills/CORE/MEMORY/security/
 .claude/skills/CORE/MEMORY/History/
 .claude/skills/CORE/MEMORY/Work/
-.claude/tools/
-
-# PAI Active Configuration
 .claude/config/active-domain.json
 
 # PAI Update System (sideloading)

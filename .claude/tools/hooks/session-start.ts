@@ -4,22 +4,22 @@
 // Type: session-start
 // ═══════════════════════════════════════════════════════════════════
 
-const BASE_PATH = ".claude/base";
+const BASE_PATH = ".claude/core";
 
 // Files to load, in priority order
 // Lower number = loaded first = higher priority
 const BASE_FILES = [
   // USER Layer (Priority 1-9)
-  //{ path: "user/ABOUTME.md", priority: 1, layer: "USER" },
-  //{ path: "user/DIRECTIVES.md", priority: 2, layer: "USER" },
-  //{ path: "user/TERMINOLOGY.md", priority: 4, layer: "USER" },
+  { path: "user/ABOUTME.md", priority: 1, layer: "USER" },
+  { path: "user/DIRECTIVES.md", priority: 2, layer: "USER" },
+  { path: "user/TERMINOLOGY.md", priority: 4, layer: "USER" },
 
   // SYSTEM Layer (Priority 11-15)
   { path: "system/ARCHITECTURE.md", priority: 11, layer: "SYSTEM" },
   { path: "system/ORCHESTRATION.md", priority: 12, layer: "SYSTEM" },
 
   // SECURITY Layer (Priority 21-22)
-  //{ path: "security/GUARDRAILS.md", priority: 21, layer: "SECURITY" },
+  { path: "security/GUARDRAILS.md", priority: 21, layer: "SECURITY" },
 ];
 
 // ─────────────────────────────────────────────────────────────────

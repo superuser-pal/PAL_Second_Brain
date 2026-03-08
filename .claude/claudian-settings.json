@@ -40,10 +40,10 @@
   },
   "model": "sonnet",
   "thinkingBudget": "off",
-  "permissionMode": "yolo",
+  "permissionMode": "default",
   "excludedTags": [],
   "mediaFolder": "",
-  "environmentVariables": "CLAUDE_PROJECT_DIR=/Users/rodrigocanoteran/projects/pal-framework\nPROJECT_NAME=pal-framework",
+  "environmentVariables": "",
   "envSnippets": [],
   "systemPrompt": "You are a helpful AI assistant working under the pillars and guidelines of PAL (Patterned Agentic Logic) second brain.",
   "allowedExportPaths": [
