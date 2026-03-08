@@ -66,14 +66,12 @@ tags: []
 
 ## Tasks
 
-### Open
-
+### Active
 {{#each TASKS}}
+- [ ] {{this}}
+{{/each}}
 
-- [ ] {{this}} `#open`
-      {{/each}}
-
-### In Progress
+### Inactive
 
 ### Done
 
@@ -84,30 +82,44 @@ tags: []
 
 ## Task Format Rules
 
-1. **Checkbox syntax**: Use `- [ ]` for open/in-progress, `- [x]` for done
-2. **Status tags**: Every task MUST end with a status tag:
-   - `#open` - Task not started
-   - `#in-progress` - Task being worked on
-   - `#done` - Task completed
-3. **Section headers**: Tasks grouped under `### Open`, `### In Progress`, `### Done`
-4. **Moving tasks**: When status changes, move task to appropriate section AND update tag
+Tasks use **checkbox symbols** to indicate status. No hashtags needed.
+
+### Checkbox Symbol Reference
+
+- `[ ]` To Do - Task not started, ready to work on
+- `[/]` In Progress - Task actively being worked on
+- `[!]` Blocked - Cannot proceed (dependency, external blocker)
+- `[?]` Paused - Intentionally paused or temporarily deprioritized
+- `[I]` Backlog - Moved to backlog (not doing now, might do later)
+- `[-]` Not Doing - Decided not to do this task
+- `[x]` Done - Task completed
+
+### Section Grouping
+
+- `### Active` - Contains `[ ]` (todo) and `[/]` (in-progress) tasks
+- `### Inactive` - Contains `[!]` (blocked), `[?]` (paused), `[I]` (backlog), `[-]` (not-doing) tasks
+- `### Done` - Contains `[x]` (done) tasks
+
+### Moving Tasks
+
+When status changes, update the checkbox symbol AND move task to appropriate section.
 
 ### Example Tasks
 
 ```markdown
-### Open
+### Active
+- [ ] Research API documentation
+- [/] Implement user authentication
 
-- [ ] Research API documentation `#open`
-- [ ] Design database schema `#open`
-
-### In Progress
-
-- [ ] Implement user authentication `#in-progress`
+### Inactive
+- [!] Deploy to production (waiting for security review)
+- [?] Add advanced analytics (paused until Q2)
+- [I] Internationalization support
+- [-] Add GraphQL support (decided against)
 
 ### Done
-
-- [x] Set up project repository `#done`
-- [x] Create initial documentation `#done`
+- [x] Set up project repository
+- [x] Create initial documentation
 ```
 
 ## Filename Convention

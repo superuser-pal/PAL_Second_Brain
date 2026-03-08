@@ -36,7 +36,7 @@ const MASTER_FILE = path.join(TASKS_DIR, "MASTER.md");
 // Types
 interface Task {
   text: string;
-  status: "open" | "in-progress" | "done";
+  status: "todo" | "in-progress" | "blocked" | "paused" | "backlog" | "not-doing" | "done";
   checked: boolean;
 }
 
@@ -47,8 +47,8 @@ interface Project {
   status: string;
   priority: string;
   tasks: {
-    open: Task[];
-    inProgress: Task[];
+    active: Task[];      // todo + in-progress
+    inactive: Task[];    // blocked + paused + backlog + not-doing
     done: Task[];
   };
   lastModified: string;
@@ -138,28 +138,62 @@ function parseFrontmatter(content: string): Record<string, any> {
 
 // Parse tasks from project file content
 function parseTasks(content: string): Project["tasks"] {
-  const tasks: Project["tasks"] = { open: [], inProgress: [], done: [] };
+  const tasks: Project["tasks"] = { active: [], inactive: [], done: [] };
 
   // Find task sections
-  const openMatch = content.match(/### Open\n([\s\S]*?)(?=###|## |$)/);
-  const inProgressMatch = content.match(/### In Progress\n([\s\S]*?)(?=###|## |$)/);
+  const activeMatch = content.match(/### Active\n([\s\S]*?)(?=###|## |$)/);
+  const inactiveMatch = content.match(/### Inactive\n([\s\S]*?)(?=###|## |$)/);
   const doneMatch = content.match(/### Done\n([\s\S]*?)(?=###|## |$)/);
 
   const parseTaskSection = (section: string | undefined): Task[] => {
     if (!section) return [];
-    const taskLines = section.match(/- \[[ x]\] .+/g) || [];
+    const taskLines = section.match(/- \[[ x\/!?I\-]\] .+/g) || [];
     return taskLines.map((line) => {
-      const checked = line.includes("[x]");
-      const statusMatch = line.match(/#(open|in-progress|done)/);
-      const status = (statusMatch?.[1] || "open") as Task["status"];
-      const text = line.replace(/- \[[ x]\] /, "").replace(/`#(open|in-progress|done)`/, "").trim();
+      // Parse checkbox symbol
+      const checkboxMatch = line.match(/- \[(.)\]/);
+      const symbol = checkboxMatch?.[1] || ' ';
+
+      // Parse hashtag (if present)
+      const hashtagMatch = line.match(/#(open|in-progress|blocked|paused|backlog|not-doing|done)/);
+      const hashtag = hashtagMatch?.[1];
+
+      let status: Task["status"];
+      let checked = false;
+
+      // Checkbox symbols take precedence over hashtags
+      if (symbol !== ' ' && symbol !== 'x') {
+        // Custom checkbox symbol - use it
+        switch (symbol) {
+          case '/': status = 'in-progress'; break;
+          case '!': status = 'blocked'; break;
+          case '?': status = 'paused'; break;
+          case 'I': status = 'backlog'; break;
+          case '-': status = 'not-doing'; break;
+          default: status = 'todo'; break;
+        }
+      } else if (hashtag) {
+        // No custom symbol, use hashtag
+        status = hashtag === 'open' ? 'todo' : hashtag as Task["status"];
+      } else {
+        // Default based on checkbox
+        status = symbol === 'x' ? 'done' : 'todo';
+      }
+
+      checked = (symbol === 'x' || status === 'done');
+      const text = line.replace(/- \[.\] /, '').replace(/`#[a-z-]+`/, '').trim();
       return { text, status, checked };
     });
   };
 
-  tasks.open = parseTaskSection(openMatch?.[1]);
-  tasks.inProgress = parseTaskSection(inProgressMatch?.[1]);
-  tasks.done = parseTaskSection(doneMatch?.[1]);
+  // Parse all sections
+  const activeTasks = parseTaskSection(activeMatch?.[1]);
+  const inactiveTasks = parseTaskSection(inactiveMatch?.[1]);
+  const doneTasks = parseTaskSection(doneMatch?.[1]);
+
+  // Group tasks by status (for backward compatibility and validation)
+  tasks.active = activeTasks.filter(t => t.status === 'todo' || t.status === 'in-progress');
+  tasks.inactive = inactiveTasks.filter(t => ['blocked', 'paused', 'backlog', 'not-doing'].includes(t.status));
+  tasks.done = doneTasks.filter(t => t.status === 'done');
 
   return tasks;
 }
@@ -209,19 +243,46 @@ function scanProjects(): Project[] {
   return projects;
 }
 
+// Map status to checkbox symbol
+function getCheckboxSymbol(status: Task["status"]): string {
+  switch (status) {
+    case 'done': return 'x';
+    case 'in-progress': return '/';
+    case 'blocked': return '!';
+    case 'paused': return '?';
+    case 'backlog': return 'I';
+    case 'not-doing': return '-';
+    default: return ' '; // todo
+  }
+}
+
+// Map status to hashtag
+function getHashtag(status: Task["status"]): string {
+  const hashtagMap: Record<Task["status"], string> = {
+    'todo': 'open',
+    'in-progress': 'in-progress',
+    'blocked': 'blocked',
+    'paused': 'paused',
+    'backlog': 'backlog',
+    'not-doing': 'not-doing',
+    'done': 'done',
+  };
+  return hashtagMap[status];
+}
+
 // Generate MASTER.md content
 function generateMasterContent(projects: Project[]): string {
   const now = new Date().toISOString().slice(0, 16).replace("T", " ");
   const domains = [...new Set(projects.map((p) => p.domain))];
 
   let totalTasks = 0;
-  let openTasks = 0;
-  let inProgressTasks = 0;
+  let activeTasks = 0;
+  let inactiveTasks = 0;
 
   projects.forEach((p) => {
-    openTasks += p.tasks.open.length;
-    inProgressTasks += p.tasks.inProgress.length;
-    totalTasks += p.tasks.open.length + p.tasks.inProgress.length;
+    activeTasks += p.tasks.active.length;
+    inactiveTasks += p.tasks.inactive.length;
+    totalTasks += p.tasks.active.length + p.tasks.inactive.length;
   });
 
   let content = `---
@@ -230,14 +291,17 @@ domains_scanned:
 ${domains.map((d) => `  - ${d}`).join("\n")}
 total_projects: ${projects.length}
 total_tasks: ${totalTasks}
-open_tasks: ${openTasks}
-in_progress_tasks: ${inProgressTasks}
+active_tasks: ${activeTasks}
+inactive_tasks: ${inactiveTasks}
 ---
 
 # Task Master List
 
 > Last synchronized: ${now}
 > Run \`update plan\` to push changes back to projects
+
+**Checkbox Symbol Reference:**
+- \`[ ]\` To Do  |  \`[/]\` In Progress  |  \`[!]\` Blocked  |  \`[?]\` Paused  |  \`[I]\` Backlog  |  \`[-]\` Not Doing  |  \`[x]\` Done
 
 `;
 
@@ -253,27 +317,31 @@ in_progress_tasks: ${inProgressTasks}
     content += `---\n\n## ${domain}\n\n`;
 
     for (const project of domainProjects) {
-      const hasOpenTasks = project.tasks.open.length > 0 || project.tasks.inProgress.length > 0;
+      const hasActiveTasks = project.tasks.active.length > 0 || project.tasks.inactive.length > 0;
 
-      if (!hasOpenTasks) continue;
+      if (!hasActiveTasks) continue;
 
       const relativePath = path.relative(PROJECT_ROOT, project.path);
       content += `### ${project.name}\n`;
       content += `> Source: ${relativePath}\n`;
       content += `> Priority: ${project.priority} | Status: ${project.status}\n\n`;
 
-      if (project.tasks.open.length > 0) {
-        content += `#### Open\n`;
-        for (const task of project.tasks.open) {
-          content += `- [ ] ${task.text} \`#open\`\n`;
+      if (project.tasks.active.length > 0) {
+        content += `#### Active (${project.tasks.active.length} tasks)\n`;
+        for (const task of project.tasks.active) {
+          const symbol = getCheckboxSymbol(task.status);
+          const hashtag = getHashtag(task.status);
+          content += `- [${symbol}] ${task.text} \`#${hashtag}\`\n`;
         }
         content += `\n`;
       }
 
-      if (project.tasks.inProgress.length > 0) {
-        content += `#### In Progress\n`;
-        for (const task of project.tasks.inProgress) {
-          content += `- [ ] ${task.text} \`#in-progress\`\n`;
+      if (project.tasks.inactive.length > 0) {
+        content += `#### Inactive (${project.tasks.inactive.length} tasks)\n`;
+        for (const task of project.tasks.inactive) {
+          const symbol = getCheckboxSymbol(task.status);
+          const hashtag = getHashtag(task.status);
+          content += `- [${symbol}] ${task.text} \`#${hashtag}\`\n`;
         }
         content += `\n`;
       }
@@ -306,12 +374,32 @@ async function pullTasks(): Promise<void> {
 
   // Summary
   const domains = [...new Set(projects.map((p) => p.domain))];
-  let openCount = 0;
+  let activeCount = 0;
+  let inactiveCount = 0;
+
+  // Count by specific status
+  let todoCount = 0;
   let inProgressCount = 0;
+  let blockedCount = 0;
+  let pausedCount = 0;
+  let backlogCount = 0;
+  let notDoingCount = 0;
 
   projects.forEach((p) => {
-    openCount += p.tasks.open.length;
-    inProgressCount += p.tasks.inProgress.length;
+    activeCount += p.tasks.active.length;
+    inactiveCount += p.tasks.inactive.length;
+
+    p.tasks.active.forEach(t => {
+      if (t.status === 'todo') todoCount++;
+      if (t.status === 'in-progress') inProgressCount++;
+    });
+
+    p.tasks.inactive.forEach(t => {
+      if (t.status === 'blocked') blockedCount++;
+      if (t.status === 'paused') pausedCount++;
+      if (t.status === 'backlog') backlogCount++;
+      if (t.status === 'not-doing') notDoingCount++;
+    });
   });
 
   console.log(`
@@ -322,9 +410,14 @@ ${colors.bold}Scan Summary:${colors.reset}
   Projects found: ${projects.length}
 
 ${colors.bold}Task Breakdown:${colors.reset}
-  Open tasks: ${openCount}
-  In-progress tasks: ${inProgressCount}
-  Total active: ${openCount + inProgressCount}
+  Active tasks: ${activeCount}
+    - [ ] To Do: ${todoCount}
+    - [/] In Progress: ${inProgressCount}
+  Inactive tasks: ${inactiveCount}
+    - [!] Blocked: ${blockedCount}
+    - [?] Paused: ${pausedCount}
+    - [I] Backlog: ${backlogCount}
+    - [-] Not Doing: ${notDoingCount}
 
 ${colors.bold}Output:${colors.reset} ${outputPath}
 
@@ -356,18 +449,18 @@ async function showStatus(): Promise<void> {
   const projects = scanProjects();
   const domains = [...new Set(projects.map((p) => p.domain))];
 
-  let openCount = 0;
-  let inProgressCount = 0;
+  let activeCount = 0;
+  let inactiveCount = 0;
   let doneCount = 0;
 
   projects.forEach((p) => {
-    openCount += p.tasks.open.length;
-    inProgressCount += p.tasks.inProgress.length;
+    activeCount += p.tasks.active.length;
+    inactiveCount += p.tasks.inactive.length;
     doneCount += p.tasks.done.length;
   });
 
   console.log(`${colors.bold}Projects:${colors.reset} ${projects.length} across ${domains.length} domains`);
-  console.log(`${colors.bold}Tasks:${colors.reset} ${openCount} open, ${inProgressCount} in-progress, ${doneCount} done`);
+  console.log(`${colors.bold}Tasks:${colors.reset} ${activeCount} active, ${inactiveCount} inactive, ${doneCount} done`);
 
   if (fs.existsSync(MASTER_FILE)) {
     const stat = fs.statSync(MASTER_FILE);
