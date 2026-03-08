@@ -29,27 +29,33 @@ Select domain (enter number or name):
 Prompt user for project details:
 
 #### 2a. Project Name
+
 ```
 Project name: [user input]
 ```
+
 - Convert to UPPER_SNAKE_CASE for filename
-- Example: "API Integration" → `PROJECT_API_INTEGRATION.md`
+- Example: "API Integration" → `API_INTEGRATION_PROJECT.md`
 
 #### 2b. Objective
+
 ```
 Project objective (brief description):
 [user input - 1-2 sentences]
 ```
 
 #### 2c. Initial Tasks
+
 ```
 Initial tasks (comma-separated or one per line):
 [user input]
 ```
+
 - Parse into individual task items
 - Each task gets `#open` tag
 
 #### 2d. Priority
+
 ```
 Priority:
 1. low
@@ -60,12 +66,14 @@ Select priority:
 ```
 
 #### 2e. Due Date (Optional)
+
 ```
 Due date (YYYY-MM-DD or skip):
 [user input or blank]
 ```
 
 #### 2f. Owner (Optional)
+
 ```
 Owner/assignee (or skip):
 [user input or blank]
@@ -77,7 +85,7 @@ Using `project_template.md`, generate the project file:
 
 ```yaml
 ---
-name: PROJECT_API_INTEGRATION
+name: API_INTEGRATION_PROJECT
 status: planning
 priority: high
 domain: example-domain
@@ -113,9 +121,10 @@ Integrate third-party payment API into the existing checkout flow.
 
 ### Step 4: Save Project File
 
-Save to: `domains/[domain]/01_PROJECTS/PROJECT_[NAME].md`
+Save to: `domains/[domain]/01_PROJECTS/[NAME]_PROJECT.md`
 
 **Validation:**
+
 - Check file doesn't already exist
 - If exists, prompt: overwrite / rename / cancel
 
@@ -124,9 +133,9 @@ Save to: `domains/[domain]/01_PROJECTS/PROJECT_[NAME].md`
 Add entry to the Active Work table in domain's INDEX.md:
 
 ```markdown
-| Project | Status | Last Updated |
-|---------|--------|--------------|
-| [PROJECT_API_INTEGRATION](01_PROJECTS/PROJECT_API_INTEGRATION.md) | planning | 2026-02-11 |
+| Project                                                           | Status   | Last Updated |
+| ----------------------------------------------------------------- | -------- | ------------ |
+| [API_INTEGRATION_PROJECT](01_PROJECTS/API_INTEGRATION_PROJECT.md) | planning | 2026-02-11   |
 ```
 
 Also update the `updated:` field in INDEX.md frontmatter.
@@ -136,7 +145,7 @@ Also update the `updated:` field in INDEX.md frontmatter.
 ```
 Project created successfully!
 
-File: domains/example-domain/01_PROJECTS/PROJECT_API_INTEGRATION.md
+File: domains/example-domain/01_PROJECTS/API_INTEGRATION_PROJECT.md
 Domain: example-domain
 Status: planning
 Priority: high
@@ -148,14 +157,14 @@ Domain INDEX.md updated with project reference.
 
 ## Error Handling
 
-| Error | Resolution |
-|-------|------------|
-| No domains exist | Suggest running create-domain workflow first |
-| Domain missing 01_PROJECTS/ | Create the folder automatically |
-| Project file exists | Offer: overwrite / rename / cancel |
-| Invalid date format | Re-prompt with correct format |
+| Error                       | Resolution                                   |
+| --------------------------- | -------------------------------------------- |
+| No domains exist            | Suggest running create-domain workflow first |
+| Domain missing 01_PROJECTS/ | Create the folder automatically              |
+| Project file exists         | Offer: overwrite / rename / cancel           |
+| Invalid date format         | Re-prompt with correct format                |
 
 ## Output
 
-- New project file at `domains/[domain]/01_PROJECTS/PROJECT_[NAME].md`
+- New project file at `domains/[domain]/01_PROJECTS/[NAME]_PROJECT.md`
 - Updated domain INDEX.md with project entry

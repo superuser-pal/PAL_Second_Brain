@@ -1,4 +1,4 @@
-# Pages
+# Assets
 
 Reference materials from external sources - raw documentation, data files, PDFs, images, etc.
 
@@ -11,7 +11,6 @@ This folder stores external reference materials that support domain work but are
 Files must use `lower_snake_case` format (any extension).
 
 **Examples:**
-
 - `api_documentation.md`
 - `design_mockup.png`
 - `requirements_spec.pdf`

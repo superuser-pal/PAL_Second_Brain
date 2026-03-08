@@ -1,10 +1,10 @@
 ---
-name: {{domain-name}}
-description: {{Brief one-line description}}
+name: { { domain-name } }
+description: { { Brief one-line description } }
 status: active
-created: {{YYYY-MM-DD}}
-updated: {{YYYY-MM-DD}}
-owner: {{Owner name or team (optional)}}
+created: { { YYYY-MM-DD } }
+updated: { { YYYY-MM-DD } }
+owner: { { Owner name or team (optional) } }
 ---
 
 # {{Domain Name Title Case}}
@@ -24,9 +24,9 @@ owner: {{Owner name or team (optional)}}
 
 ## Active Work
 
-| Project | Status | Last Updated |
-|---------|--------|--------------|
-| _No active projects yet_ | - | - |
+| Project                  | Status | Last Updated |
+| ------------------------ | ------ | ------------ |
+| _No active projects yet_ | -      | -            |
 
 <!--
 Project tracking rules:
@@ -40,6 +40,6 @@ Project tracking rules:
 - [Context](00_CONTEXT/) - Reference docs and background
 - [Projects](01_PROJECTS/) - Active project files
 - [Sessions](02_SESSIONS/) - Interaction logs
-- [Assets](03_ASSETS/) - Raw materials and resources
-- [Outputs](04_OUTPUTS/) - Generated deliverables
+- [Pages](03_PAGES/) - Raw materials and resources
+- [Workspace](04_WORKSPACE/) - Generated deliverables
 - [Archive](05_ARCHIVE/) - Deprecated content

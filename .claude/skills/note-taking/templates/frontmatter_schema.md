@@ -12,6 +12,7 @@ project: null
 category: notes
 type: note
 subsection: null
+description: null
 created: 2026-02-11
 last_modified: 2026-02-11
 source_type: manual
@@ -36,10 +37,10 @@ tags: []
 
 | Status | Meaning | Location |
 |--------|---------|----------|
-| `unprocessed` | Needs domain/project assignment | inbox/notes/ |
-| `draft` | Partial processing (no agent context) | inbox/notes/ |
-| `ready` | Ready for distribution | inbox/notes/ |
-| `processed` | Distributed to domain | domains/*/03_ASSETS/ |
+| `unprocessed` | Needs domain/project assignment | Inbox/Notes/ |
+| `draft` | Partial processing (no agent context) | Inbox/Notes/ |
+| `ready` | Ready for distribution | Inbox/Notes/ |
+| `processed` | Distributed to domain | domains/*/03_PAGES/ |
 | `archived` | Moved to archive | domains/*/05_ARCHIVE/ |
 
 ## Entity Type Values
@@ -82,8 +83,8 @@ tags: []
 
 ### Category Routing Logic
 
-- **LifeOS categories** (ending in `.md`): Content is appended to the target file in LifeOS domain, original note moved to `03_ASSETS/`
-- **General categories**: Note file is moved to `domains/[domain]/03_ASSETS/`
+- **LifeOS categories** (ending in `.md`): Content is appended to the target file in LifeOS domain, original note moved to `03_PAGES/`
+- **General categories**: Note file is moved to `domains/[domain]/03_PAGES/`
 
 ## Optional Fields
 
@@ -91,6 +92,7 @@ tags: []
 |-------|------|-------------|
 | `project` | string\|null | Linked PROJECT_*.md file |
 | `subsection` | string\|null | Target subsection for smart insertion |
+| `description` | string\|null | Short (1-2 sentence) summary of note content for AI context |
 | `source_type` | enum | How note was created |
 | `source_file` | string\|null | Original filename |
 | `source_url` | string\|null | Source URL |
@@ -125,6 +127,7 @@ domain: null
 project: null
 category: "reference"
 subsection: null
+description: "GitHub automation tool for workflow optimization and CI/CD enhancement"
 created: "2026-02-16"
 last_modified: "2026-02-16"
 source_type: "url-tool"
@@ -252,3 +255,32 @@ Notes can link to other notes using Obsidian wikilinks:
 - Uses Obsidian wikilink syntax for graph view compatibility
 
 **See:** `templates/relation_types.md` for full documentation
+
+---
+
+## Protected User Notes Section
+
+Notes created by workflows include a `## Notes` section at the very bottom. This is a **protected zone for user content**.
+
+### Structure
+
+```markdown
+---
+
+## Notes
+
+<!-- User notes below this line are preserved during distribution -->
+[User's personal annotations go here]
+```
+
+### Rules
+
+1. **Created automatically** by url_dump, process_inbox, and braindump workflows
+2. **Never modified** by any workflow, including distribution
+3. **Never analyzed** - content is user-private and not processed
+4. **Preserved exactly** when notes are moved to domains
+5. **Content extraction stops** at this section - LifeOS appends never include Notes content
+
+### Purpose
+
+Allows users to add personal annotations, thoughts, and reflections that persist with the note through all lifecycle stages without being touched by automation

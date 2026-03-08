@@ -5,7 +5,7 @@
 ## Prerequisites
 
 - At least one domain with projects in `01_PROJECTS/`
-- `/tasks/` directory exists at project root
+- `Inbox/Tasks/` directory exists at project root
 
 ## Workflow Steps
 
@@ -20,7 +20,7 @@ Found: example-domain, client-project, internal-tools
 
 ### Step 2: Discover Project Files
 
-For each domain, scan `01_PROJECTS/` for files matching `PROJECT_*.md`:
+For each domain, scan `01_PROJECTS/` for files matching `*_PROJECT.md`:
 
 ```
 Scanning projects...
@@ -40,13 +40,14 @@ For each project file:
 4. Filter to only `#open` and `#in-progress` tasks
 
 **Task Parsing Rules:**
+
 - Line starts with `- [ ]` or `- [x]`
 - Status determined by tag: `#open`, `#in-progress`, `#done`
 - Preserve full task text (minus the tag for display)
 
 ### Step 4: Generate MASTER.md
 
-Create `/tasks/MASTER.md` with aggregated tasks:
+Create `Inbox/Tasks/MASTER.md` with aggregated tasks:
 
 ```markdown
 ---
@@ -70,24 +71,29 @@ in_progress_tasks: 4
 
 ## example-domain
 
-### PROJECT_API_INTEGRATION
-> Source: domains/example-domain/01_PROJECTS/PROJECT_API_INTEGRATION.md
+### API_INTEGRATION_PROJECT
+
+> Source: domains/example-domain/01_PROJECTS/API_INTEGRATION_PROJECT.md
 > Priority: high | Status: in-progress
 
 #### Open
+
 - [ ] Research API documentation `#open`
 - [ ] Create authentication flow `#open`
 
 #### In Progress
+
 - [ ] Implement payment endpoints `#in-progress`
 
 ---
 
-### PROJECT_SECURITY_AUDIT
-> Source: domains/example-domain/01_PROJECTS/PROJECT_SECURITY_AUDIT.md
+### SECURITY_AUDIT_PROJECT
+
+> Source: domains/example-domain/01_PROJECTS/SECURITY_AUDIT_PROJECT.md
 > Priority: medium | Status: planning
 
 #### Open
+
 - [ ] Review access controls `#open`
 - [ ] Audit logging configuration `#open`
 
@@ -95,14 +101,17 @@ in_progress_tasks: 4
 
 ## client-project
 
-### PROJECT_WEBSITE_REDESIGN
-> Source: domains/client-project/01_PROJECTS/PROJECT_WEBSITE_REDESIGN.md
+### WEBSITE_REDESIGN_PROJECT
+
+> Source: domains/client-project/01_PROJECTS/WEBSITE_REDESIGN_PROJECT.md
 > Priority: high | Status: in-progress
 
 #### Open
+
 - [ ] Finalize color palette `#open`
 
 #### In Progress
+
 - [ ] Build responsive navigation `#in-progress`
 - [ ] Implement hero section `#in-progress`
 
@@ -126,6 +135,7 @@ total_tasks: 0
 No open or in-progress tasks found across all projects.
 
 All projects are either:
+
 - In planning stage with no tasks defined
 - Completed with all tasks done
 ```
@@ -144,7 +154,7 @@ Task Breakdown:
   In-progress tasks: 4
   Total active: 16
 
-Output: /tasks/MASTER.md
+Output: Inbox/Tasks/MASTER.md
 
 To push changes back to projects, run: update plan
 ```
@@ -154,22 +164,22 @@ To push changes back to projects, run: update plan
 Each project section includes a source reference for bidirectional sync:
 
 ```markdown
-> Source: domains/[domain]/01_PROJECTS/[PROJECT].md
+> Source: domains/[domain]/01_PROJECTS/[NAME]\_PROJECT.md
 ```
 
 This reference is used by `update_plan` workflow to locate the original file.
 
 ## Error Handling
 
-| Error | Resolution |
-|-------|------------|
-| No domains found | Report "No domains exist" |
-| Domain has no 01_PROJECTS/ | Skip domain, note in summary |
-| Project has no task sections | Skip project, note in summary |
-| /tasks/ doesn't exist | Create the directory |
-| Parse error in project | Log warning, continue with other projects |
+| Error                        | Resolution                                |
+| ---------------------------- | ----------------------------------------- |
+| No domains found             | Report "No domains exist"                 |
+| Domain has no 01_PROJECTS/   | Skip domain, note in summary              |
+| Project has no task sections | Skip project, note in summary             |
+| Inbox/Tasks/ doesn't exist   | Create the directory                      |
+| Parse error in project       | Log warning, continue with other projects |
 
 ## Output
 
-- `/tasks/MASTER.md` - Aggregated task list with source references
+- `Inbox/Tasks/MASTER.md` - Aggregated task list with source references
 - Summary report with scan statistics

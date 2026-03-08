@@ -1,4 +1,4 @@
-# Workspace
+# Outputs
 
 Markdown files and deliverables created by the agent at user request.
 
@@ -11,7 +11,6 @@ This folder contains generated content and deliverables produced during domain w
 Flexible - no strict naming enforcement. Use descriptive names.
 
 **Examples:**
-
 - `final_report.md`
 - `generated_documentation.md`
 - `export_2026-02-11.csv`

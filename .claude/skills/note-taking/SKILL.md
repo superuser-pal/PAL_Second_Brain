@@ -43,7 +43,7 @@ User: "braindump"
 -> If non-LifeOS domain: sets domain, category = notes
 -> If multiple domains match (>= 70%): asks user to choose
 -> If no match: presents domain selection menu
--> Saves to inbox/notes/braindump_YYYY-MM-DD_HHMM.md
+-> Saves to Inbox/Notes/topic-DD-MM-YYYY.md
 -> Next: distribute_notes to route to correct domain
 ```
 
@@ -51,7 +51,7 @@ User: "braindump"
 ```
 User: "Process my inbox notes"
 -> Invokes process_inbox workflow
--> Scans inbox/notes/ for .md files without YAML frontmatter
+-> Scans Inbox/Notes/ for .md files without YAML frontmatter
 -> Prompts user for domain, project, category assignment
 -> Adds standardized YAML frontmatter
 -> Notes ready for distribution
@@ -61,8 +61,8 @@ User: "Process my inbox notes"
 ```
 User: "Distribute my notes to their domains"
 -> Invokes distribute_notes workflow
--> Scans inbox/notes/ for notes with status: ready
--> Moves each note to domains/[domain]/03_ASSETS/
+-> Scans Inbox/Notes/ for notes with status: ready
+-> Moves each note to domains/[domain]/03_PAGES/
 -> Adds reference link to PROJECT_*.md if project field set
 -> Leaves notes without frontmatter in place
 ```
@@ -75,7 +75,7 @@ User: "Ingest the PDF in my ports folder"
 -> Converts content to structured markdown
 -> AI generates summary and key ideas
 -> Adds YAML frontmatter with source metadata
--> Outputs to inbox/notes/ ready for processing
+-> Outputs to Inbox/Notes/ ready for processing
 ```
 
 **Example 4: Save a URL with insights**
@@ -86,7 +86,7 @@ User: "save this link: https://example.com/article"
 -> Detects content type (article vs tool)
 -> Extracts key insights and summary
 -> Auto-detects category (research, reference, etc.)
--> Saves to inbox/notes/url_article-title_2026-02-16_1430.md
+-> Saves to Inbox/Notes/article-title-16-02-2026.md
 -> If tool detected: includes evaluation checklist
 -> Next: distribute_notes to move to domain
 ```
@@ -94,9 +94,9 @@ User: "save this link: https://example.com/article"
 ## Quick Reference
 
 **Folder Locations:**
-- Raw notes: `inbox/notes/`
+- Raw notes: `Inbox/Notes/`
 - Document input: `ports/In/`
-- Processed notes destination: `domains/[domain]/03_ASSETS/`
+- Processed notes destination: `domains/[domain]/03_PAGES/`
 - Project updates: `domains/[domain]/01_PROJECTS/`
 
 **Full Documentation:**

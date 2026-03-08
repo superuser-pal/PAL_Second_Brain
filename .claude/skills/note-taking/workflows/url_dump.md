@@ -13,7 +13,7 @@ Capture URLs with automatic content extraction, insight generation, and categori
 
 ## Output Location
 
-- **Path:** `inbox/notes/url_[slug]_YYYY-MM-DD_HHMM.md`
+- **Path:** `Inbox/Notes/url_[slug]_YYYY-MM-DD.md`
 - **Status:** `ready` (for distribution to domains)
 
 ---
@@ -33,6 +33,7 @@ Prompt the user:
 > "What URL(s) would you like to save? (You can paste one or more URLs, optionally with a note about why you're saving it)"
 
 Accept any format:
+
 - Single URL: `https://example.com/article`
 - Multiple URLs (newline or comma separated)
 - Markdown links: `[title](url)`
@@ -66,12 +67,18 @@ WebFetch URL with prompt: "Extract the following:
 ```
 
 **If fetch fails:**
-- Note limitation in output
-- Continue with available metadata (URL, domain)
+
+- If the failure is due to **automated request blocking** (e.g., 403 Forbidden, Cloudflare challenge, "Access Denied"):
+  - Notify the user: "Content cannot be retrieved because the site blocks automated requests."
+  - **Stop the operation** for this URL (do not create a file).
+- For other fetch failures:
+  - Note limitation in output
+  - Continue with available metadata (URL, domain)
 
 ### Step 3c: Detect Content Type
 
 **Tool Detection Signals:**
+
 - URL patterns: `github.com`, `gitlab.com`, `npmjs.com`, `pypi.org`, product pages, SaaS domains
 - Content signals: pricing sections, feature lists, "sign up" / "get started" CTAs, API documentation
 - Page structure: product screenshots, comparison tables, testimonials
@@ -105,14 +112,14 @@ WebFetch URL with prompt: "Extract the following:
 
 Map content to PAL categories:
 
-| Content Signals | PAL Category |
-|-----------------|--------------|
-| Long-form analysis, tutorials, studies, papers | `research` |
-| Software, utilities, APIs, libraries, tools | `reference` |
-| Documentation, specs, standards | `reference` |
-| Creative references, design inspiration | `idea` |
-| News, updates, temporal content | `notes` |
-| General articles, unclear | `notes` |
+| Content Signals                                | PAL Category |
+| ---------------------------------------------- | ------------ |
+| Long-form analysis, tutorials, studies, papers | `research`   |
+| Software, utilities, APIs, libraries, tools    | `reference`  |
+| Documentation, specs, standards                | `reference`  |
+| Creative references, design inspiration        | `idea`       |
+| News, updates, temporal content                | `notes`      |
+| General articles, unclear                      | `notes`      |
 
 **If unclear, default to `notes` and let user adjust during distribution.**
 
@@ -129,6 +136,7 @@ domain: null
 project: null
 category: "[detected-category]"
 subsection: null
+description: "[AI-generated 1-2 sentence summary]"
 created: "YYYY-MM-DD"
 last_modified: "YYYY-MM-DD"
 source_type: "url-article"
@@ -153,6 +161,7 @@ domain: null
 project: null
 category: "reference"
 subsection: null
+description: "[AI-generated 1-2 sentence summary]"
 created: "YYYY-MM-DD"
 last_modified: "YYYY-MM-DD"
 source_type: "url-tool"
@@ -167,6 +176,15 @@ eval_status: "to-evaluate"
 ---
 ```
 
+**Generate description:**
+From the extracted summary and key insights, create a 1-2 sentence description.
+Format: "[What it is]. [Key value/insight]."
+
+**Examples:**
+
+- Article: "Article about product-led growth strategies for B2B SaaS. Emphasizes user onboarding and activation metrics."
+- Tool: "GitHub automation tool for workflow optimization and CI/CD enhancement. Supports multiple programming languages and cloud platforms."
+
 ### Step 3g: Build Markdown Content
 
 **Article Template:**
@@ -175,37 +193,51 @@ eval_status: "to-evaluate"
 # [Title]
 
 ## Quick Summary
+
 [2-3 sentence summary of the content]
 
 ## Key Insights
+
 - **Insight 1:** [description with context]
 - **Insight 2:** [description with context]
 - **Insight 3:** [description with context]
 
 ## Why This Matters
+
 [Connection to potential use cases. What makes this worth saving?]
 
 ## User Note
+
 [Original user note if provided, otherwise omit section]
 
 ## Content Highlights
+
 [Key excerpts or quotes from the content - 200-400 words max]
 
 ## Practical Takeaways
+
 - [ ] [Action item 1 if applicable]
 - [ ] [Action item 2 if applicable]
 
 ## Source Details
-| Field | Value |
-|-------|-------|
-| Domain | [domain] |
-| Author | [author or "Unknown"] |
-| Published | [date or "Unknown"] |
-| Word Count | [~X words] |
-| Read Time | [~X minutes] |
+
+| Field      | Value                 |
+| ---------- | --------------------- |
+| Domain     | [domain]              |
+| Author     | [author or "Unknown"] |
+| Published  | [date or "Unknown"]   |
+| Word Count | [~X words]            |
+| Read Time  | [~X minutes]          |
 
 ---
-*Captured via url_dump workflow*
+
+_Captured via url_dump workflow_
+
+---
+
+## Notes
+
+<!-- User notes below this line are preserved during distribution -->
 ```
 
 **Tool Template:**
@@ -214,40 +246,51 @@ eval_status: "to-evaluate"
 # [Tool Name]
 
 ## What It Does
+
 [1-2 sentence description]
 
 ## Key Features
+
 - Feature 1
 - Feature 2
 - Feature 3
 
 ## Use Cases
+
 - Use case 1
 - Use case 2
 
 ## Pricing
+
 [Pricing details if available, otherwise "Unknown"]
 
 ## Why It's Relevant
+
 [Connection to user's work/interests if detectable]
 
 ## Evaluation Checklist
+
 - [ ] Sign up / try demo
 - [ ] Test key features
 - [ ] Compare with alternatives
 - [ ] Decision: [use|pass|revisit]
 
-## Notes
-[Space for user's evaluation notes]
-
 ## Source Details
-| Field | Value |
-|-------|-------|
+
+| Field  | Value    |
+| ------ | -------- |
 | Domain | [domain] |
-| URL | [url] |
+| URL    | [url]    |
 
 ---
-*Captured via url_dump workflow*
+
+_Captured via url_dump workflow_
+
+---
+
+## Notes
+
+<!-- User notes below this line are preserved during distribution -->
 ```
 
 ## Step 4: Save File
@@ -255,16 +298,18 @@ eval_status: "to-evaluate"
 Generate filename from title slug:
 
 ```
-url_[title-slug]_YYYY-MM-DD_HHMM.md
+[title-slug]-DD-MM-YYYY.md
 ```
 
 **Title slug rules:**
+
 - Lowercase
 - Replace spaces with hyphens
 - Remove special characters
-- Max 50 characters
+- Append current date in DD-MM-YYYY format
+- Max 50 characters (before date)
 
-Save to `inbox/notes/`
+Save to `Inbox/Notes/`
 
 ## Step 5: Report Results
 
@@ -273,16 +318,19 @@ Save to `inbox/notes/`
 ```markdown
 ## URL Captured
 
-**Saved:** inbox/notes/url_[slug]_YYYY-MM-DD_HHMM.md
+**Saved:** Inbox/Notes/[slug]-DD-MM-YYYY.md
 **Title:** [Page Title]
 **Type:** [article|tool|etc]
 **Category:** [detected category]
 **Status:** ready
+**Description:** [generated description]
 
 ### Quick Summary
+
 > "[2-sentence summary preview]..."
 
 ### Next Steps
+
 Run `distribute notes` to assign domain and move to project
 ```
 
@@ -293,21 +341,23 @@ Run `distribute notes` to assign domain and move to project
 
 Processing [X] URLs...
 
-| # | Title | Type | Category | Status |
-|---|-------|------|----------|--------|
-| 1 | [Title 1] | article | research | saved |
-| 2 | [Title 2] | tool | reference | saved |
-| 3 | [Title 3] | - | - | failed: [reason] |
+| #   | Title     | Type    | Category  | Status           |
+| --- | --------- | ------- | --------- | ---------------- |
+| 1   | [Title 1] | article | research  | saved            |
+| 2   | [Title 2] | tool    | reference | saved            |
+| 3   | [Title 3] | -       | -         | failed: [reason] |
 
 **Summary:**
+
 - Articles: [X] saved
 - Tools: [Y] saved
 - Failed: [Z]
 - Total: [N] URLs processed
 
-**Files saved to:** inbox/notes/
+**Files saved to:** Inbox/Notes/
 
 ### Next Steps
+
 Run `distribute notes` to assign domains and move to projects
 ```
 
@@ -315,16 +365,18 @@ Run `distribute notes` to assign domains and move to projects
 
 ## Error Handling
 
-| Error | Response |
-|-------|----------|
-| Invalid URL format | "Invalid URL: [url]. Skipping." |
-| Fetch failed | Create entry with minimal metadata, note "Content unavailable" |
-| Paywalled content | Extract available preview, note "Paywalled - limited extraction" |
-| Empty page | "No content extracted from [url]. Skipping." |
-| Duplicate URL | "URL already captured: [existing-file]. Skipping." (check inbox/notes/ for matching source_url) |
+| Error                     | Response                                                                                        |
+| ------------------------- | ----------------------------------------------------------------------------------------------- |
+| Invalid URL format        | "Invalid URL: [url]. Skipping."                                                                 |
+| Automated request blocked | Notify user that content can't be retrieved and **stop the operation**.                         |
+| Fetch failed (other)      | Create entry with minimal metadata, note "Content unavailable"                                  |
+| Paywalled content         | Extract available preview, note "Paywalled - limited extraction"                                |
+| Empty page                | "No content extracted from [url]. Skipping."                                                    |
+| Duplicate URL             | "URL already captured: [existing-file]. Skipping." (check Inbox/Notes/ for matching source_url) |
 
 ## Next Workflows
 
 After url_dump, suggest:
+
 - `distribute_notes` - Assign domain and move to project folder
 - `process_inbox` - If user wants to refine category assignment first

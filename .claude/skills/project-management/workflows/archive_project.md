@@ -17,18 +17,19 @@ Scan all domains and list projects that can be archived:
 Active Projects:
 
 example-domain:
-  1. PROJECT_API_INTEGRATION    [in-progress] high
-  2. PROJECT_DOCUMENTATION      [planning]    medium
-  3. PROJECT_TESTING            [completed]   low    ← Ready to archive
+  1. API_INTEGRATION_PROJECT    [in-progress] high
+  2. DOCUMENTATION_PROJECT      [planning]    medium
+  3. TESTING_PROJECT            [completed]   low    ← Ready to archive
 
 client-project:
-  4. PROJECT_WEBSITE_REDESIGN   [in-progress] high
-  5. PROJECT_MOBILE_APP         [completed]   medium ← Ready to archive
+  4. WEBSITE_REDESIGN_PROJECT   [in-progress] high
+  5. MOBILE_APP_PROJECT         [completed]   medium ← Ready to archive
 
 Select project to archive (enter number):
 ```
 
 **Visual indicators:**
+
 - `← Ready to archive` for projects with status `completed`
 - Other statuses shown but require confirmation
 
@@ -37,7 +38,7 @@ Select project to archive (enter number):
 If project status is NOT `completed`:
 
 ```
-Warning: PROJECT_API_INTEGRATION has status "in-progress"
+Warning: API_INTEGRATION_PROJECT has status "in-progress"
 
 Archiving an incomplete project will:
 - Move it out of active projects
@@ -55,7 +56,7 @@ Select option:
 If status IS `completed`:
 
 ```
-Archiving: PROJECT_TESTING (example-domain)
+Archiving: TESTING_PROJECT (example-domain)
 Status: completed
 Tasks: 0 open, 0 in-progress, 8 done
 
@@ -76,6 +77,7 @@ Select reason:
 ```
 
 If "Superseded by another project" selected:
+
 ```
 Enter the superseding project name or file:
 [user input]
@@ -86,21 +88,22 @@ Enter the superseding project name or file:
 Prepend deprecation metadata to project file:
 
 **Before:**
+
 ```yaml
 ---
-name: PROJECT_TESTING
+name: TESTING_PROJECT
 status: completed
 priority: low
 domain: example-domain
 created: 2026-01-15
 last_modified: 2026-02-10
 ---
-
 # Project: Testing Framework
 ...
 ```
 
 **After:**
+
 ```yaml
 ---
 deprecated: 2026-02-11
@@ -108,16 +111,14 @@ reason: Project completed
 original_location: 01_PROJECTS/
 archived_by: user
 ---
-
 ---
-name: PROJECT_TESTING
+name: TESTING_PROJECT
 status: completed
 priority: low
 domain: example-domain
 created: 2026-01-15
 last_modified: 2026-02-10
 ---
-
 # Project: Testing Framework
 ...
 ```
@@ -125,22 +126,25 @@ last_modified: 2026-02-10
 ### Step 5: Move to Archive
 
 Move file from:
+
 ```
-domains/example-domain/01_PROJECTS/PROJECT_TESTING.md
+domains/example-domain/01_PROJECTS/TESTING_PROJECT.md
 ```
 
 To:
+
 ```
-domains/example-domain/05_ARCHIVE/PROJECT_TESTING.md
+domains/example-domain/05_ARCHIVE/TESTING_PROJECT.md
 ```
 
 **If file exists in archive:**
+
 ```
-File already exists in archive: PROJECT_TESTING.md
+File already exists in archive: TESTING_PROJECT.md
 
 Options:
 1. Overwrite existing archived file
-2. Rename new file (PROJECT_TESTING_2.md)
+2. Rename new file (TESTING_PROJECT_2.md)
 3. Cancel archive operation
 
 Select option:
@@ -151,25 +155,28 @@ Select option:
 Remove project from Active Work table:
 
 **Before:**
+
 ```markdown
-| Project | Status | Last Updated |
-|---------|--------|--------------|
-| [PROJECT_API_INTEGRATION](01_PROJECTS/PROJECT_API_INTEGRATION.md) | in-progress | 2026-02-11 |
-| [PROJECT_TESTING](01_PROJECTS/PROJECT_TESTING.md) | completed | 2026-02-10 |
+| Project                                                           | Status      | Last Updated |
+| ----------------------------------------------------------------- | ----------- | ------------ |
+| [API_INTEGRATION_PROJECT](01_PROJECTS/API_INTEGRATION_PROJECT.md) | in-progress | 2026-02-11   |
+| [TESTING_PROJECT](01_PROJECTS/TESTING_PROJECT.md)                 | completed   | 2026-02-10   |
 ```
 
 **After:**
+
 ```markdown
-| Project | Status | Last Updated |
-|---------|--------|--------------|
-| [PROJECT_API_INTEGRATION](01_PROJECTS/PROJECT_API_INTEGRATION.md) | in-progress | 2026-02-11 |
+| Project                                                           | Status      | Last Updated |
+| ----------------------------------------------------------------- | ----------- | ------------ |
+| [API_INTEGRATION_PROJECT](01_PROJECTS/API_INTEGRATION_PROJECT.md) | in-progress | 2026-02-11   |
 ```
 
 Also update `updated:` timestamp in INDEX.md frontmatter.
 
 ### Step 7: Update MASTER.md (if exists)
 
-If `/tasks/MASTER.md` exists and contains tasks from archived project:
+If `Inbox/Tasks/MASTER.md` exists and contains tasks from archived project:
+
 - Remove the project section from MASTER.md
 - Update task counts in frontmatter
 
@@ -178,17 +185,17 @@ If `/tasks/MASTER.md` exists and contains tasks from archived project:
 ```
 Project archived successfully!
 
-Project: PROJECT_TESTING
+Project: TESTING_PROJECT
 Domain: example-domain
 Reason: Project completed
 
-Archived to: domains/example-domain/05_ARCHIVE/PROJECT_TESTING.md
+Archived to: domains/example-domain/05_ARCHIVE/TESTING_PROJECT.md
 
 Updates applied:
   ✓ Deprecation header added
   ✓ File moved to 05_ARCHIVE/
   ✓ Removed from domain INDEX.md Active Work table
-  ✓ Removed from /tasks/MASTER.md
+  ✓ Removed from Inbox/Tasks/MASTER.md
 
 To restore this project, move it back to 01_PROJECTS/ and remove the deprecation header.
 ```
@@ -197,29 +204,30 @@ To restore this project, move it back to 01_PROJECTS/ and remove the deprecation
 
 ```yaml
 ---
-deprecated: YYYY-MM-DD           # Date of archival
-reason: [reason text]            # Why it was archived
-original_location: 01_PROJECTS/  # Where it came from
-archived_by: [user/auto]         # Who/what archived it
-superseded_by: [file]            # Optional: replacement project
+deprecated: YYYY-MM-DD # Date of archival
+reason: [reason text] # Why it was archived
+original_location: 01_PROJECTS/ # Where it came from
+archived_by: [user/auto] # Who/what archived it
+superseded_by: [file] # Optional: replacement project
 ---
 ```
 
 **Reason Options:**
+
 - `Project completed`
 - `Project cancelled`
-- `Superseded by [PROJECT_NAME]`
+- `Superseded by [NAME]_PROJECT`
 - `No longer relevant`
 - Custom text
 
 ## Error Handling
 
-| Error | Resolution |
-|-------|------------|
-| No projects found | Display "No active projects to archive" |
-| 05_ARCHIVE/ doesn't exist | Create the folder automatically |
-| Permission denied | Report error with path |
-| INDEX.md parse error | Warn user, skip INDEX.md update |
+| Error                     | Resolution                              |
+| ------------------------- | --------------------------------------- |
+| No projects found         | Display "No active projects to archive" |
+| 05_ARCHIVE/ doesn't exist | Create the folder automatically         |
+| Permission denied         | Report error with path                  |
+| INDEX.md parse error      | Warn user, skip INDEX.md update         |
 
 ## Batch Archive
 
@@ -227,9 +235,9 @@ For archiving multiple completed projects at once:
 
 ```
 Found 3 completed projects:
-  1. PROJECT_TESTING (example-domain)
-  2. PROJECT_MOBILE_APP (client-project)
-  3. PROJECT_OLD_API (internal-domain)
+  1. TESTING_PROJECT (example-domain)
+  2. MOBILE_APP_PROJECT (client-project)
+  3. OLD_API_PROJECT (internal-domain)
 
 Archive all completed projects?
 1. Yes, archive all

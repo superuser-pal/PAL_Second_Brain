@@ -17,12 +17,12 @@ MANDATORY agent creation system for ALL domain agent creation requests.
 
 ## Naming Conventions (MANDATORY)
 
-| Category          | Convention         | Example                | Purpose                               |
-| :---------------- | :----------------- | :--------------------- | :------------------------------------ |
-| **Agent file**    | `lower-kebab-case` | `blog-agent.md`        | Agent definition in `.claude/agents/` |
-| **YAML name**     | `lower-kebab-case` | `name: blog-agent`     | Matches file name                     |
-| **Domain field**  | `PascalCase`       | `domain: BlogContent`  | Matches domain directory              |
-| **Routing entry** | `lower-kebab-case` | `name: blog-agent`     | Entry in `ROUTING_TABLE.md`           |
+| Category          | Convention         | Example               | Purpose                               |
+| :---------------- | :----------------- | :-------------------- | :------------------------------------ |
+| **Agent file**    | `lower-kebab-case` | `blog-agent.md`       | Agent definition in `.claude/agents/` |
+| **YAML name**     | `lower-kebab-case` | `name: blog-agent`    | Matches file name                     |
+| **Domain field**  | `PascalCase`       | `domain: BlogContent` | Matches domain directory              |
+| **Routing entry** | `lower-kebab-case` | `name: blog-agent`    | Entry in `ROUTING_TABLE.md`           |
 
 **Key Rules:**
 
@@ -87,10 +87,11 @@ User: "Validate the security-agent"
 3. Validate domain binding:
    → Domain exists at domains/[DomainName]/
    → INDEX.md present in domain directory
-4. Validate 8-section structure:
+4. Validate 9-section structure:
    → Identity & Persona, Activation Protocol, Command Menu,
      How I Work, My Capabilities, Session State Model,
-     Error Handling & Recovery, Operational Rules
+     Error Handling & Recovery, Operational Rules,
+     Domain File Routing
 5. Validate Section 5 (My Capabilities):
    → Skills listed with name, location, use_when
    → Workflows listed with name, source, location, use_when
@@ -143,7 +144,7 @@ User: "Adapt this custom agent to the PAL template"
 
 **No other YAML fields.** Capabilities are declared inline in Section 5.
 
-**8-Section Structure:**
+**9-Section Structure:**
 
 1. Identity & Persona
 2. Activation Protocol (6 steps)
@@ -153,6 +154,7 @@ User: "Adapt this custom agent to the PAL template"
 6. Session State Model
 7. Error Handling & Recovery
 8. Operational Rules
+9. Domain File Routing (03_ASSETS first-check rule)
 
 **Context Model (Base + Domain):**
 

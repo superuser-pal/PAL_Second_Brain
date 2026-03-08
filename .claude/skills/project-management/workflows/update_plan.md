@@ -4,14 +4,15 @@
 
 ## Prerequisites
 
-- `/tasks/MASTER.md` exists (run `pull tasks` first)
+- `Inbox/Tasks/MASTER.md` exists (run `pull tasks` first)
 - Source project files still exist at referenced paths
 
 ## Workflow Steps
 
 ### Step 1: Read MASTER.md
 
-Parse `/tasks/MASTER.md`:
+Parse `Inbox/Tasks/MASTER.md`:
+
 - Extract `last_pulled` timestamp from frontmatter
 - Parse all task entries with their source references
 - Build map of tasks by source file
@@ -38,9 +39,9 @@ For each source project file:
 
 ```
 Comparing tasks...
-  PROJECT_API_INTEGRATION: 2 changes detected
-  PROJECT_SECURITY_AUDIT: 0 changes
-  PROJECT_WEBSITE_REDESIGN: 3 changes detected
+  API_INTEGRATION_PROJECT: 2 changes detected
+  SECURITY_AUDIT_PROJECT: 0 changes
+  WEBSITE_REDESIGN_PROJECT: 3 changes detected
 ```
 
 ### Step 3: Detect Conflicts
@@ -50,7 +51,7 @@ Check if source file was modified after `last_pulled`:
 ```
 Conflict detected!
 
-PROJECT_API_INTEGRATION was modified after last pull:
+API_INTEGRATION_PROJECT was modified after last pull:
   MASTER.md pulled: 2026-02-11 14:30
   Source modified:  2026-02-11 15:45
 
@@ -71,8 +72,10 @@ For each project without conflicts (or with user resolution):
 Move tasks between sections based on tag changes:
 
 **Before (in source):**
+
 ```markdown
 ### Open
+
 - [ ] Implement payment endpoints `#open`
 
 ### In Progress
@@ -81,10 +84,12 @@ Move tasks between sections based on tag changes:
 ```
 
 **After (applying MASTER.md change):**
+
 ```markdown
 ### Open
 
 ### In Progress
+
 - [ ] Implement payment endpoints `#in-progress`
 
 ### Done
@@ -96,6 +101,7 @@ If MASTER.md has tasks not in source, add to appropriate section:
 
 ```markdown
 ### Open
+
 - [ ] New task from MASTER.md `#open`
 ```
 
@@ -105,6 +111,7 @@ Move completed tasks (`#done`) to Done section with checkbox:
 
 ```markdown
 ### Done
+
 - [x] Research API documentation `#done`
 ```
 
@@ -135,15 +142,15 @@ For each domain with modified projects:
 Update complete!
 
 Projects Updated:
-  PROJECT_API_INTEGRATION (example-domain)
+  API_INTEGRATION_PROJECT (example-domain)
     - 1 task: #open → #in-progress
     - 1 task: marked #done
-  PROJECT_WEBSITE_REDESIGN (client-project)
+  WEBSITE_REDESIGN_PROJECT (client-project)
     - 2 tasks: #open → #in-progress
     - 1 new task added
 
 Projects Skipped:
-  PROJECT_SECURITY_AUDIT - no changes
+  SECURITY_AUDIT_PROJECT - no changes
 
 Conflicts Resolved:
   None (or list resolved conflicts)
@@ -156,16 +163,16 @@ Summary:
 
 ## Conflict Resolution Options
 
-| Option | Behavior |
-|--------|----------|
-| Force update | MASTER.md changes overwrite source file |
-| Skip project | Source file preserved, MASTER.md changes discarded |
-| Manual review | Show task-by-task diff, user decides each |
+| Option        | Behavior                                           |
+| ------------- | -------------------------------------------------- |
+| Force update  | MASTER.md changes overwrite source file            |
+| Skip project  | Source file preserved, MASTER.md changes discarded |
+| Manual review | Show task-by-task diff, user decides each          |
 
 ### Manual Review Mode
 
 ```
-Task conflict in PROJECT_API_INTEGRATION:
+Task conflict in API_INTEGRATION_PROJECT:
 
 Source (current):
   - [ ] Implement payment endpoints with retry logic `#in-progress`
@@ -183,12 +190,12 @@ Select:
 
 ## Error Handling
 
-| Error | Resolution |
-|-------|------------|
-| MASTER.md doesn't exist | Prompt to run `pull tasks` first |
-| Source file not found | Log warning, remove from MASTER.md |
-| Parse error in source | Skip project, report error |
-| Permission denied | Report error, suggest checking file permissions |
+| Error                   | Resolution                                      |
+| ----------------------- | ----------------------------------------------- |
+| MASTER.md doesn't exist | Prompt to run `pull tasks` first                |
+| Source file not found   | Log warning, remove from MASTER.md              |
+| Parse error in source   | Skip project, report error                      |
+| Permission denied       | Report error, suggest checking file permissions |
 
 ## Output
 

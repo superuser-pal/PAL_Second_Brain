@@ -32,10 +32,10 @@ Verify these components exist:
 | `01_PROJECTS/README.md` | Yes | README in folder |
 | `02_SESSIONS/` | Yes | Directory exists |
 | `02_SESSIONS/README.md` | Yes | README in folder |
-| `03_ASSETS/` | Yes | Directory exists |
-| `03_ASSETS/README.md` | Yes | README in folder |
-| `04_OUTPUTS/` | Yes | Directory exists |
-| `04_OUTPUTS/README.md` | Yes | README in folder |
+| `03_PAGES/` | Yes | Directory exists |
+| `03_PAGES/README.md` | Yes | README in folder |
+| `04_WORKSPACE/` | Yes | Directory exists |
+| `04_WORKSPACE/README.md` | Yes | README in folder |
 | `05_ARCHIVE/` | Yes | Directory exists |
 | `05_ARCHIVE/README.md` | Yes | README in folder |
 
@@ -91,8 +91,8 @@ Check schema compliance:
 | 00_CONTEXT/ | lower_snake_case.md | `background_info.md`, `domain_rules.md` |
 | 01_PROJECTS/ | PROJECT_XXX.md | `PROJECT_FEATURE_X.md`, `PROJECT_MIGRATION.md` |
 | 02_SESSIONS/ | YYYY-MM-DD_title.md | `2026-01-15_sync.md` |
-| 03_ASSETS/ | lower_snake_case | `api_documentation.md` |
-| 04_OUTPUTS/ | Flexible (no enforcement) | Any naming convention |
+| 03_PAGES/ | lower_snake_case | `api_documentation.md` |
+| 04_WORKSPACE/ | Flexible (no enforcement) | Any naming convention |
 | 05_ARCHIVE/ | Preserve original name | No renaming expected |
 
 ## Step 7: Check Nesting Depth
@@ -101,12 +101,12 @@ Maximum depth: 3 levels below domain root.
 
 **Allowed:**
 ```
-domains/ProjectAlpha/03_ASSETS/diagrams/architecture.png  # 3 levels - OK
+domains/ProjectAlpha/03_PAGES/diagrams/architecture.png  # 3 levels - OK
 ```
 
 **Not Allowed:**
 ```
-domains/ProjectAlpha/03_ASSETS/diagrams/v1/draft/file.png  # 5 levels - TOO DEEP
+domains/ProjectAlpha/03_PAGES/diagrams/v1/draft/file.png  # 5 levels - TOO DEEP
 ```
 
 ## Step 8: Generate Report
@@ -122,16 +122,16 @@ Output validation results:
 - [ ] 00_CONTEXT/ exists
 - [ ] 01_PROJECTS/ exists
 - [ ] 02_SESSIONS/ exists
-- [ ] 03_ASSETS/ exists
-- [ ] 04_OUTPUTS/ exists
+- [ ] 03_PAGES/ exists
+- [ ] 04_WORKSPACE/ exists
 - [ ] 05_ARCHIVE/ exists
 
 ### README Files Check
 - [ ] 00_CONTEXT/README.md exists
 - [ ] 01_PROJECTS/README.md exists
 - [ ] 02_SESSIONS/README.md exists
-- [ ] 03_ASSETS/README.md exists
-- [ ] 04_OUTPUTS/README.md exists
+- [ ] 03_PAGES/README.md exists
+- [ ] 04_WORKSPACE/README.md exists
 - [ ] 05_ARCHIVE/README.md exists
 
 ### INDEX.md Check

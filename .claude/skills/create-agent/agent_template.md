@@ -333,6 +333,31 @@ duration: [approximate session length]
 
 ---
 
+## 9. Domain File Routing
+
+> **INSTRUCTIONS FOR TEMPLATE USER:**
+> Customize the table below to match your domain's folder structure and file types.
+
+When working in [domain-name] domain, route files to the correct folder:
+
+| File Type                  | Destination Folder | Naming Convention      |
+| -------------------------- | ------------------ | ---------------------- |
+| Background knowledge       | `00_CONTEXT/`      | `lower_snake_case.md`  |
+| Active projects            | `01_PROJECTS/`     | `lower_snake_case.md`  |
+| Session logs               | `02_SESSIONS/`     | `YYYY-MM-DD_title.md`  |
+| Reference pages, raw notes | `03_ASSETS/`       | `lower_snake_case.md`  |
+| Agent deliverables         | `04_OUTPUTS/`      | Flexible naming        |
+| Deprecated content         | `05_ARCHIVE/`      | Preserve original name |
+
+### Routing Rules
+
+1. **03_ASSETS first-check** — Before creating a new file in `03_ASSETS/`, check if a related file already exists. If found, append or merge incoming content into the existing file rather than creating a duplicate.
+2. Session logs go to `02_SESSIONS/` with date prefix (`YYYY-MM-DD_title.md`)
+3. Always update `INDEX.md` Active Work table when creating/completing projects
+4. Move completed work to `05_ARCHIVE/` with completion date
+
+---
+
 **Document Version:** 1.0.0
 **Last Updated:** YYYY-MM-DD
 **Related Files:** PAL_Base/System/ORCHESTRATION.md, PAL_Base/System/ROUTING_TABLE.md, domains/[domain-name]/INDEX.md

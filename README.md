@@ -177,7 +177,7 @@ Capture first, organize later. Every idea, note, and resource enriches your pers
 | Document                                               | Description                                                     |
 | ------------------------------------------------------ | --------------------------------------------------------------- |
 | **[START-HERE.md](START-HERE.md)**                     | Onboarding guide — Obsidian setup, first session, core concepts |
-| **[Docs/PAL101/](Domains/PALOpenSource/Docs/PAL101/)** | 14-part guide to mastering Claude Code and PAL                  |
+| **[Docs/PAL101/](Domains/PALOpenSource/Docs/PAL101/)** | 09-part guide to mastering Claude Code and PAL                  |
 | **[Docs/FEATURES.md](Docs/FEATURES.md)**               | Complete feature catalog with all skills, agents, and workflows |
 | **[Docs/CHANGELOG.md](Docs/CHANGELOG.md)**             | Version history                                                 |
 | **[Docs/CONTRIBUTING.md](Docs/CONTRIBUTING.md)**       | How to contribute                                               |

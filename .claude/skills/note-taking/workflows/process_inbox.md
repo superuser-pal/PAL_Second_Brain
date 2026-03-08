@@ -5,7 +5,7 @@ Add standardized YAML frontmatter to raw notes in the inbox.
 ## Step 1: Scan Inbox Notes
 
 ```bash
-ls inbox/notes/*.md 2>/dev/null || echo "No markdown files found"
+ls Inbox/Notes/*.md 2>/dev/null || echo "No markdown files found"
 ```
 
 Identify all markdown files in the inbox/notes folder.
@@ -194,6 +194,16 @@ For each note without frontmatter, prompt user for:
    - Comma-separated list
    - Will be converted to array
 
+5. **Description:** Brief description (1-2 sentences, optional)
+   - If user provides description, use it
+   - If user skips (empty), AI generates from note content
+   - Format: "[What the note is about]. [Key insight or value]."
+
+**Example AI-generated descriptions:**
+- "Notes from API design meeting. Decided to use REST over GraphQL for initial release."
+- "Reference article about product-led growth strategies. Focuses on activation metrics."
+- "Ideas for improving onboarding flow. Includes wireframe sketches and user feedback."
+
 ## Step 4a: Type Selection
 
 After category assignment, determine the entity type:
@@ -326,10 +336,28 @@ tags: [user-provided-tags]
 ---
 ```
 
+## Step 5b: Ensure Notes Section
+
+After adding frontmatter, check if the note has a `## Notes` section at the bottom:
+
+1. **If `## Notes` exists:** Leave unchanged (user content is protected)
+2. **If `## Notes` missing:** Append at the very end of the file:
+
+```markdown
+
+---
+
+## Notes
+
+<!-- User notes below this line are preserved during distribution -->
+```
+
+**IMPORTANT:** The `## Notes` section is a protected zone for user content. Everything below this heading must NEVER be modified, analyzed, or changed by any workflow - including distribution. This is where users add their personal annotations that persist with the note.
+
 Use the add_frontmatter tool:
 ```bash
 bun .claude/skills/note-taking/tools/add_frontmatter.ts \
-  --file "inbox/notes/[filename]" \
+  --file "Inbox/Notes/[filename]" \
   --domain "[domain]" \
   --project "[project]" \
   --category "[category]" \
@@ -363,7 +391,7 @@ Present results in this format:
 
 ## Error Handling
 
-- **No files found:** Report "inbox/notes/ is empty or contains no .md files"
+- **No files found:** Report "Inbox/Notes/ is empty or contains no .md files"
 - **Invalid domain:** List available domains, ask user to select valid one
 - **Invalid project:** List available projects in domain, allow skip
 - **File read error:** Report error, continue with next file
@@ -372,4 +400,4 @@ Present results in this format:
 
 After processing, suggest:
 - Run `distribute_notes` to move notes to their domains
-- Review notes in `inbox/notes/` before distribution
+- Review notes in `Inbox/Notes/` before distribution

@@ -68,7 +68,7 @@ reason:
     Project completed | Superseded by PROJECT_NEW.md | No longer relevant | Cancelled,
   ]
 original_location:
-  [00_CONTEXT/ | 01_PROJECTS/ | 02_SESSIONS/ | 03_ASSETS/ | 04_OUTPUTS/]
+  [00_CONTEXT/ | 01_PROJECTS/ | 02_SESSIONS/ | 03_PAGES/ | 04_WORKSPACE/]
 ---
 
 [Original file content below]

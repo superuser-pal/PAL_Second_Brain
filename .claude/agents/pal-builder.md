@@ -229,6 +229,7 @@ domains/pal-builder/
 3. New features start as specs in 01_PROJECTS/
 4. Constitution and architecture docs go to 00_CONTEXT/
 5. Move completed work to 05_ARCHIVE/ with completion date
+6. **03_ASSETS first-check** — Before creating a new file in `03_ASSETS/` (or `03_REQUIREMENTS/`), check if a related file already exists. If found, append or merge incoming content into the existing file rather than creating a duplicate.
 
 ---
 

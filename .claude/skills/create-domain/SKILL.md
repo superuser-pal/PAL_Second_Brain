@@ -16,17 +16,17 @@ MANDATORY domain creation system for ALL domain creation requests.
 
 **Domain naming follows PAL's standard file naming conventions.**
 
-| Category             | Convention            | Example                  | Purpose                                     |
-| :------------------- | :-------------------- | :----------------------- | :------------------------------------------ |
-| **Domain directory** | `PascalCase`          | `ProjectAlpha/`          | Standard IDE navigation.                    |
-| **INDEX.md**         | `UPPERCASE.md`        | `INDEX.md`               | Source of Truth file (at domain root).      |
-| **CONNECTIONS.yaml** | `UPPERCASE.yaml`      | `CONNECTIONS.yaml`       | External sources configuration.             |
-| **Core folders**     | `NN_UPPER_CASE`       | `01_PROJECTS/`           | Numbered prefixes for sorting + visibility. |
-| **Context files**    | `lower_snake_case.md` | `background_info.md`     | Reference docs in 00_CONTEXT/.              |
-| **Project files**    | `UPPER_SNAKE_CASE.md` | `PROJECT_FEATURE_X.md`   | Active project files in 01_PROJECTS/.       |
-| **Session logs**     | `YYYY-MM-DD_title.md` | `2026-01-15_sync.md`     | Chronological session logs.                 |
-| **Asset files**      | `lower_snake_case.md` | `api_documentation.md`   | Reference materials and assets.             |
-| **Output files**     | Flexible              | Any naming               | Generated deliverables in 04_OUTPUTS/.      |
+| Category             | Convention            | Example                | Purpose                                     |
+| :------------------- | :-------------------- | :--------------------- | :------------------------------------------ |
+| **Domain directory** | `PascalCase`          | `ProjectAlpha/`        | Standard IDE navigation.                    |
+| **INDEX.md**         | `UPPERCASE.md`        | `INDEX.md`             | Source of Truth file (at domain root).      |
+| **CONNECTIONS.yaml** | `UPPERCASE.yaml`      | `CONNECTIONS.yaml`     | External sources configuration.             |
+| **Core folders**     | `NN_UPPER_CASE`       | `01_PROJECTS/`         | Numbered prefixes for sorting + visibility. |
+| **Context files**    | `lower_snake_case.md` | `background_info.md`   | Reference docs in 00_CONTEXT/.              |
+| **Project files**    | `UPPER_SNAKE_CASE.md` | `PROJECT_FEATURE_X.md` | Active project files in 01_PROJECTS/.       |
+| **Session logs**     | `YYYY-MM-DD_title.md` | `2026-01-15_sync.md`   | Chronological session logs.                 |
+| **Pages files**      | `lower_snake_case.md` | `api_documentation.md` | Reference materials and assets.             |
+| **Workspace files**  | Flexible              | Any naming             | Generated deliverables in 04_WORKSPACE/.    |
 
 ---
 
@@ -84,8 +84,8 @@ domains/DomainName/               # PascalCase directory
 ├── 00_CONTEXT/                   # Domain-specific context and reference docs
 ├── 01_PROJECTS/                  # Active project files
 ├── 02_SESSIONS/                  # Chronological interaction logs
-├── 03_ASSETS/                    # Reference materials
-├── 04_OUTPUTS/                   # Generated deliverables
+├── 03_PAGES/                     # Reference materials
+├── 04_WORKSPACE/                 # Staging area for generated files
 └── 05_ARCHIVE/                   # Deprecated content
 ```
 

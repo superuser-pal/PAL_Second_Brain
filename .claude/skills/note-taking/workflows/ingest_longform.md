@@ -66,6 +66,7 @@ status: unprocessed
 domain: null
 project: null
 category: reference
+description: [AI-generated 1-2 sentence summary]
 created: [YYYY-MM-DD]
 last_modified: [YYYY-MM-DD]
 source_type: [pdf|docx|txt]
@@ -105,6 +106,13 @@ tags: []
 [Converted markdown content from the document]
 ```
 
+**Generate description:**
+Create 1-2 sentence summary from the document content.
+Format: "[Document type about topic]. [Key insight or purpose]."
+
+**Example:**
+> "Research paper on distributed systems consensus algorithms. Compares Raft and Paxos performance characteristics."
+
 ## Step 5: Interactive Review (Optional)
 
 If running interactively, prompt user:
@@ -113,16 +121,23 @@ If running interactively, prompt user:
 3. Source URL or publication info to add?
 4. Pre-assign to a domain? (speeds up distribution)
 5. Set category? (research, reference, notes)
+6. Edit description? (Optional)
 
 ## Step 6: Convert Filename and Save
 
-Convert original filename to `lower_snake_case`:
-- `Research Paper.pdf` → `research_paper.md`
-- `Meeting Notes 2026.docx` → `meeting_notes_2026.md`
+Convert original filename to kebab-case and add date:
+- `Research Paper.pdf` → `research-paper-DD-MM-YYYY.md`
+- `Meeting Notes 2026.docx` → `meeting-notes-2026-DD-MM-YYYY.md`
 
-Save to inbox/notes/:
+**Filename rules:**
+- Convert to lowercase
+- Replace spaces with hyphens
+- Remove special characters
+- Append current date in DD-MM-YYYY format
+
+Save to Inbox/Notes/:
 ```bash
-# Write structured markdown to inbox/notes/[converted_filename].md
+# Write structured markdown to Inbox/Notes/[converted-filename-DD-MM-YYYY].md
 ```
 
 ## Step 7: Move Original to Transit
@@ -143,8 +158,8 @@ User can delete from transit after verifying ingestion.
 ### Documents Processed
 | Original File | Type | Output | Summary |
 |---------------|------|--------|---------|
-| research_paper.pdf | PDF | research_paper.md | Generated |
-| meeting_notes.docx | DOCX | meeting_notes.md | Generated |
+| research_paper.pdf | PDF | research-paper-08-03-2026.md | Generated |
+| meeting_notes.docx | DOCX | meeting-notes-2026-08-03-2026.md | Generated |
 
 ### Documents Skipped (unsupported format)
 - image.png

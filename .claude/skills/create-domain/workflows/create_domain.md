@@ -20,11 +20,11 @@ Ask the user:
 
 Convert user input to `PascalCase`:
 
-| User Input        | Converted Name    |
-| ----------------- | ----------------- |
-| "Project Alpha"   | `ProjectAlpha`    |
-| "My Blog Project" | `MyBlogProject`   |
-| "API_Integration" | `ApiIntegration`  |
+| User Input        | Converted Name   |
+| ----------------- | ---------------- |
+| "Project Alpha"   | `ProjectAlpha`   |
+| "My Blog Project" | `MyBlogProject`  |
+| "API_Integration" | `ApiIntegration` |
 
 ## Step 4: Create Directory Structure
 
@@ -32,8 +32,8 @@ Convert user input to `PascalCase`:
 mkdir -p domains/[DomainName]/00_CONTEXT
 mkdir -p domains/[DomainName]/01_PROJECTS
 mkdir -p domains/[DomainName]/02_SESSIONS
-mkdir -p domains/[DomainName]/03_ASSETS
-mkdir -p domains/[DomainName]/04_OUTPUTS
+mkdir -p domains/[DomainName]/03_PAGES
+mkdir -p domains/[DomainName]/04_WORKSPACE
 mkdir -p domains/[DomainName]/05_ARCHIVE
 ```
 
@@ -45,8 +45,8 @@ Create README.md in each core folder from templates:
 cp .claude/skills/create-domain/templates/README.00_CONTEXT.template.md domains/[DomainName]/00_CONTEXT/README.md
 cp .claude/skills/create-domain/templates/README.01_PROJECTS.template.md domains/[DomainName]/01_PROJECTS/README.md
 cp .claude/skills/create-domain/templates/README.02_SESSIONS.template.md domains/[DomainName]/02_SESSIONS/README.md
-cp .claude/skills/create-domain/templates/README.03_ASSETS.template.md domains/[DomainName]/03_ASSETS/README.md
-cp .claude/skills/create-domain/templates/README.04_OUTPUTS.template.md domains/[DomainName]/04_OUTPUTS/README.md
+cp .claude/skills/create-domain/templates/README.03_PAGES.template.md domains/[DomainName]/03_PAGES/README.md
+cp .claude/skills/create-domain/templates/README.04_WORKSPACE.template.md domains/[DomainName]/04_WORKSPACE/README.md
 cp .claude/skills/create-domain/templates/README.05_ARCHIVE.template.md domains/[DomainName]/05_ARCHIVE/README.md
 ```
 
@@ -91,8 +91,8 @@ owner: [Owner if provided]
 - [Context](00_CONTEXT/)
 - [Projects](01_PROJECTS/)
 - [Sessions](02_SESSIONS/)
-- [Assets](03_ASSETS/)
-- [Outputs](04_OUTPUTS/)
+- [Pages](03_PAGES/)
+- [Workspace](04_WORKSPACE/)
 - [Archive](05_ARCHIVE/)
 ```
 
@@ -138,8 +138,8 @@ Expected output:
 - `00_CONTEXT/` (with README.md)
 - `01_PROJECTS/` (with README.md)
 - `02_SESSIONS/` (with README.md)
-- `03_ASSETS/` (with README.md)
-- `04_OUTPUTS/` (with README.md)
+- `03_PAGES/` (with README.md)
+- `04_WORKSPACE/` (with README.md)
 - `05_ARCHIVE/` (with README.md)
 
 ## Step 8.5: Check for Domain Agent
@@ -147,6 +147,7 @@ Expected output:
 Ask the user:
 
 > "Does this domain need a domain agent?"
+>
 > 1. **Yes** — Create a new domain agent now
 > 2. **No** — Skip agent creation
 
@@ -167,7 +168,7 @@ Invoke the `create_agent` workflow:
 - [ ] Domain directory uses PascalCase
 - [ ] INDEX.md exists at domain root
 - [ ] CONNECTIONS.yaml exists at domain root
-- [ ] All six core folders exist (00_CONTEXT, 01_PROJECTS, 02_SESSIONS, 03_ASSETS, 04_OUTPUTS, 05_ARCHIVE)
+- [ ] All six core folders exist (00_CONTEXT, 01_PROJECTS, 02_SESSIONS, 03_PAGES, 04_WORKSPACE, 05_ARCHIVE)
 
 ### INDEX.md
 
@@ -185,8 +186,8 @@ Invoke the `create_agent` workflow:
 - [ ] 00_CONTEXT/README.md exists
 - [ ] 01_PROJECTS/README.md exists
 - [ ] 02_SESSIONS/README.md exists
-- [ ] 03_ASSETS/README.md exists
-- [ ] 04_OUTPUTS/README.md exists
+- [ ] 03_PAGES/README.md exists
+- [ ] 04_WORKSPACE/README.md exists
 - [ ] 05_ARCHIVE/README.md exists
 
 ### Domain Agent
@@ -202,4 +203,4 @@ Domain created following canonical structure. Ready for use with Domain Agents.
 1. Add context and reference docs to `00_CONTEXT/`
 2. Add project files to `01_PROJECTS/` as needed
 3. Log sessions in `02_SESSIONS/`
-4. Store reference materials in `03_ASSETS/`
+4. Store reference materials in `03_PAGES/`

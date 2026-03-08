@@ -24,7 +24,8 @@ Files moved here should include this header:
 ```yaml
 ---
 deprecated: YYYY-MM-DD
-reason: [Project completed | Superseded by FILE | No longer relevant | Cancelled]
+reason:
+  [Project completed | Superseded by FILE | No longer relevant | Cancelled]
 original_location: [Original folder path]
 ---
 ```
@@ -33,6 +34,6 @@ original_location: [Original folder path]
 
 - Completed projects (from `01_PROJECTS/`)
 - Old session logs (from `02_SESSIONS/`)
-- Outdated assets (from `03_ASSETS/`)
-- Superseded outputs (from `04_OUTPUTS/`)
+- Outdated pages (from `03_PAGES/`)
+- Superseded outputs (from `04_WORKSPACE/`)
 - Any content no longer actively used

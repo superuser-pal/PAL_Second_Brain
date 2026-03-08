@@ -285,6 +285,7 @@ When working in life-os domain, route files to these locations:
 3. **Reports** generated to `04_OUTPUTS/` with dated filenames
 4. **Backups** created automatically before any modification
 5. **Session logs** use dated format, not single UPDATES.md file
+6. **03_ASSETS first-check** — Before creating a new file in `03_ASSETS/`, check if a related file already exists. If found, append or merge incoming content into the existing file rather than creating a duplicate.
 
 ---
 

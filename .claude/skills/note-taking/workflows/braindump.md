@@ -12,8 +12,13 @@ Capture stream-of-consciousness thoughts with intelligent analysis and life-cont
 
 ## Output Location
 
-- **Path:** `inbox/notes/braindump_YYYY-MM-DD_HHMM.md`
+- **Path:** `Inbox/Notes/braindump_YYYY-MM-DD_topic.md`
 - **Status:** `ready` (if category assigned) or `unprocessed` (if user skips)
+
+**Topic naming:** The topic suffix is derived from the main theme identified during content analysis (Step 3). Examples:
+- `braindump_2026-02-26_career-reflections.md`
+- `braindump_2026-02-26_pal-architecture.md`
+- `braindump_2026-02-26_weekly-planning.md`
 
 ---
 
@@ -224,8 +229,8 @@ Your choice:
 If user chooses to split:
 
 1. **Create separate files** for each theme:
-   - `braindump_YYYY-MM-DD_HHMM_theme1.md`
-   - `braindump_YYYY-MM-DD_HHMM_theme2.md`
+   - `braindump_YYYY-MM-DD_theme1-topic.md`
+   - `braindump_YYYY-MM-DD_theme2-topic.md`
 
 2. **Assign individual frontmatter** to each:
    - Each gets its own `category`, `domain`, `type`
@@ -235,7 +240,7 @@ If user chooses to split:
    ```markdown
    ## Relations
 
-   - originated_with [[braindump_YYYY-MM-DD_HHMM_theme2]]
+   - originated_with [[braindump_YYYY-MM-DD_theme2-topic]]
    ```
 
 4. **Process each note** through remaining steps (5b, 6b, etc.)
@@ -441,6 +446,7 @@ project: null
 category: [selected category]
 type: braindump
 subsection: [detected subsection|null]
+description: [AI-generated 1-2 sentence summary]
 created: YYYY-MM-DD
 last_modified: YYYY-MM-DD
 source_type: braindump
@@ -449,6 +455,13 @@ source_url: null
 tags: ["braindump", "theme1", "theme2"]
 ---
 ```
+
+**Generate description:**
+Create a concise 1-2 sentence summary from the main theme identified in Step 3.
+Focus on what the note is about and why it matters.
+
+**Example:**
+> "Reflections on career direction and alignment with personal values. Explores transition from corporate to entrepreneurial path."
 
 **Domain values:**
 - `LifeOS` - Personal life context (with category for specific file)
@@ -520,15 +533,28 @@ tags: ["braindump", "theme1", "theme2"]
 - **Energy Level:** [assessment]
 - **Emotional Tone:** [assessment]
 - **Category Confidence:** [percentage] - [reasoning]
+
+---
+
+## Notes
+
+<!-- User notes below this line are preserved during distribution -->
 ```
 
 ## Step 7: Save File
 
-Filename format: `braindump_YYYY-MM-DD_HHMM.md`
+Filename format: `topic-DD-MM-YYYY.md`
+
+**Topic derivation:**
+1. Take the main theme from Step 3 analysis
+2. Convert to kebab-case (lowercase, hyphens for spaces and separators)
+3. Append current date in DD-MM-YYYY format
+4. Truncate topic to max 40 characters (before date)
+5. Examples: `career-reflections-08-03-2026.md`, `pal-architecture-08-03-2026.md`, `weekly-planning-08-03-2026.md`
 
 ```bash
 # Verify file was saved
-ls inbox/notes/braindump_*.md
+ls Inbox/Notes/*-DD-MM-YYYY.md
 ```
 
 ## Step 8: Report Summary
@@ -538,11 +564,12 @@ Present results:
 ```markdown
 ## Braindump Complete
 
-**Saved:** inbox/notes/braindump_YYYY-MM-DD_HHMM.md
+**Saved:** Inbox/Notes/topic-DD-MM-YYYY.md
 **Status:** [ready|unprocessed]
 **Domain:** [detected domain or "unassigned"]
 **Category:** [category]
 **Subsection:** [subsection|null]
+**Description:** [generated description]
 
 ### Detection Confidence
 - Domain: [X%] ([matched pattern or "manual selection"])
@@ -563,7 +590,7 @@ Present results:
 > Run `distribute notes` to append content to LifeOS/[category]
 
 **If `domain: [other]` and `status: ready`:**
-> Run `distribute notes` to move to [domain]/03_ASSETS/
+> Run `distribute notes` to move to [domain]/03_PAGES/
 
 **If `status: unprocessed`:**
 > Run `process_inbox` to assign domain/category, then `distribute notes`

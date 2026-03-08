@@ -1,6 +1,6 @@
 # create_agent Workflow
 
-Create a new domain agent following the 8-section structure with proper naming, two-group context (Base + Domain), inline capabilities, and routing table registration.
+Create a new domain agent following the 9-section structure with proper naming, two-group context (Base + Domain), inline capabilities, and routing table registration.
 
 ## Step 1: Read the Authoritative Sources
 
@@ -225,6 +225,10 @@ ls .claude/skills/[skill-name]/workflows/[workflow_name].md
 - Auto-logs on `*dismiss`, manual save via `*save-session`
 - Logs include: summary, decisions, changes made, commands executed, action items
 
+**Section 9 — Domain File Routing:** Add a routing table mapping file types to domain folders, and include the first-check rule:
+
+> Before creating a new file in `03_ASSETS/`, check if a related file already exists. If found, append or merge incoming content into the existing file rather than creating a duplicate.
+
 ## Step 14: Set Document Metadata
 
 At the bottom of the agent file:
@@ -286,7 +290,7 @@ touch .claude/commands/agent/[agent-name].md
 - [ ] `domain` field present (valid, existing domain name)
 - [ ] No extra fields (capabilities are declared inline in Section 5)
 
-### 8-Section Structure
+### 9-Section Structure
 
 - [ ] Section 1: Identity & Persona (role, voice, principles)
 - [ ] Section 2: Activation Protocol (6 steps)
@@ -296,6 +300,7 @@ touch .claude/commands/agent/[agent-name].md
 - [ ] Section 6: Session State Model (tracked data, reset rules)
 - [ ] Section 7: Error Handling & Recovery (categories, protocol)
 - [ ] Section 8: Operational Rules (numbered constraints)
+- [ ] Section 9: Domain File Routing (routing table + 03_ASSETS first-check rule)
 
 ### Context Configuration
 
@@ -348,6 +353,6 @@ Inform the user:
 
 ## Done
 
-Agent created following the 8-section structure with inline capabilities, two-group context (Base + Domain), and routing table registration.
+Agent created following the 9-section structure with inline capabilities, two-group context (Base + Domain), and routing table registration.
 
 **Invocation:** `/[agent-name]`

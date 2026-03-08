@@ -30,6 +30,7 @@ interface Frontmatter {
   domain: string | null;
   project: string | null;
   category: string;
+  description: string | null;
   created: string;
   last_modified: string;
   source_type: string;
@@ -47,6 +48,7 @@ const { values } = parseArgs({
     project: { type: "string", short: "p" },
     category: { type: "string", short: "c" },
     status: { type: "string", short: "s" },
+    description: { type: "string" },
     tags: { type: "string", short: "t" },
     "source-type": { type: "string" },
     "source-file": { type: "string" },
@@ -73,6 +75,7 @@ OPTIONS:
   --project, -p <name>    Project file name (PROJECT_*.md)
   --category, -c <cat>    Category: research | meeting | idea | reference | notes
   --status, -s <status>   Status: unprocessed | ready | processed | archived
+  --description <text>    Short (1-2 sentence) summary of note content
   --tags, -t <tags>       Comma-separated tags
   --source-type <type>    Source: manual | pdf | docx | txt | web
   --source-file <name>    Original source filename
@@ -196,6 +199,7 @@ function buildFrontmatter(
     domain: options.domain || existing?.domain || null,
     project: options.project || existing?.project || null,
     category: options.category || existing?.category || "notes",
+    description: options.description || existing?.description || null,
     created: existing?.created || today,
     last_modified: today,
     source_type: options["source-type"] || existing?.source_type || "manual",

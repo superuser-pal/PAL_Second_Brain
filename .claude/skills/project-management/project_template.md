@@ -6,31 +6,31 @@ This template defines the structure for all project files created by the `create
 
 ```yaml
 ---
-name: PROJECT_NAME                    # UPPER_SNAKE_CASE (matches filename)
-status: planning                      # planning | in-progress | review | completed
-priority: medium                      # low | medium | high
-domain: DomainName                    # PascalCase domain name
-created: YYYY-MM-DD                   # Creation date
-last_modified: YYYY-MM-DD             # Last modification date
-due_date: null                        # Optional: YYYY-MM-DD
-owner: null                           # Optional: assignee name
-tags: []                              # Optional: categorization tags
+name: NAME_PROJECT # UPPER_SNAKE_CASE (matches filename)
+status: planning # planning | in-progress | review | completed
+priority: medium # low | medium | high
+domain: DomainName # PascalCase domain name
+created: YYYY-MM-DD # Creation date
+last_modified: YYYY-MM-DD # Last modification date
+due_date: null # Optional: YYYY-MM-DD
+owner: null # Optional: assignee name
+tags: [] # Optional: categorization tags
 ---
 ```
 
 ### Field Definitions
 
-| Field | Required | Type | Description |
-|-------|----------|------|-------------|
-| `name` | Yes | string | Project name in UPPER_SNAKE_CASE |
-| `status` | Yes | enum | Current project status |
-| `priority` | Yes | enum | Priority level (low/medium/high) |
-| `domain` | Yes | string | Parent domain name |
-| `created` | Yes | date | Date project was created |
-| `last_modified` | Yes | date | Date of last modification |
-| `due_date` | No | date | Target completion date |
-| `owner` | No | string | Person responsible |
-| `tags` | No | array | Categorization tags |
+| Field           | Required | Type   | Description                      |
+| --------------- | -------- | ------ | -------------------------------- |
+| `name`          | Yes      | string | Project name in UPPER_SNAKE_CASE |
+| `status`        | Yes      | enum   | Current project status           |
+| `priority`      | Yes      | enum   | Priority level (low/medium/high) |
+| `domain`        | Yes      | string | Parent domain name               |
+| `created`       | Yes      | date   | Date project was created         |
+| `last_modified` | Yes      | date   | Date of last modification        |
+| `due_date`      | No       | date   | Target completion date           |
+| `owner`         | No       | string | Person responsible               |
+| `tags`          | No       | array  | Categorization tags              |
 
 ### Status Lifecycle
 
@@ -47,14 +47,14 @@ planning → in-progress → review → completed → (archived)
 
 ```markdown
 ---
-name: {{PROJECT_NAME}}
+name: { { NAME_PROJECT } }
 status: planning
-priority: {{PRIORITY}}
-domain: {{DOMAIN}}
-created: {{DATE}}
-last_modified: {{DATE}}
-due_date: {{DUE_DATE}}
-owner: {{OWNER}}
+priority: { { PRIORITY } }
+domain: { { DOMAIN } }
+created: { { DATE } }
+last_modified: { { DATE } }
+due_date: { { DUE_DATE } }
+owner: { { OWNER } }
 tags: []
 ---
 
@@ -67,9 +67,11 @@ tags: []
 ## Tasks
 
 ### Open
+
 {{#each TASKS}}
+
 - [ ] {{this}} `#open`
-{{/each}}
+      {{/each}}
 
 ### In Progress
 
@@ -78,7 +80,6 @@ tags: []
 ## Notes
 
 ## References
-
 ```
 
 ## Task Format Rules
@@ -95,13 +96,16 @@ tags: []
 
 ```markdown
 ### Open
+
 - [ ] Research API documentation `#open`
 - [ ] Design database schema `#open`
 
 ### In Progress
+
 - [ ] Implement user authentication `#in-progress`
 
 ### Done
+
 - [x] Set up project repository `#done`
 - [x] Create initial documentation `#done`
 ```
@@ -109,17 +113,20 @@ tags: []
 ## Filename Convention
 
 Project files follow the naming pattern:
+
 ```
-PROJECT_UPPER_SNAKE_CASE.md
+UPPER_SNAKE_CASE_PROJECT.md
 ```
 
 **Examples:**
-- `PROJECT_API_INTEGRATION.md`
-- `PROJECT_SECURITY_AUDIT.md`
-- `PROJECT_Q1_PLANNING.md`
+
+- `API_INTEGRATION_PROJECT.md`
+- `SECURITY_AUDIT_PROJECT.md`
+- `Q1_PLANNING_PROJECT.md`
 
 **Conversion rules:**
+
 - Replace spaces with underscores
 - Convert to UPPERCASE
-- Prefix with `PROJECT_`
+- Suffix with `_PROJECT`
 - Add `.md` extension

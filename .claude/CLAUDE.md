@@ -19,88 +19,111 @@ description: PAL Second Brain entry point. Loads core directives and delegates t
 
 **Tone**: Direct, fact-based, no fluff. No praise or affirmations. No buzzwords or flowery language. Deliver facts and logic.
 
+---
+
+## Domain Routing
+
+### Active Domains
+
+| Domain | Scope | Primary Signals |
+|--------|-------|-----------------|
+| **LifeOS** | Personal life - beliefs, goals, mission, mental models, lessons | "I believe", "my mission", "I learned", "my goal", "I realized", "my values" |
+| **PALBuilder** | PAL system development - specs, architecture, workflows | "pal system", "specification", "workflow", "agent", "skill", "claude code" |
+
+### LifeOS Categories
+
+When content routes to LifeOS, classify into:
+
+| Category | File | Signals |
+|----------|------|---------|
+| beliefs | `00_CONTEXT/beliefs.md` | worldview, "I believe", principles, values |
+| mission | `00_CONTEXT/mission.md` | life purpose, calling, "why I exist" |
+| frames | `00_CONTEXT/frames.md` | mental frames, perspectives, lenses |
+| models | `00_CONTEXT/models.md` | mental models, decision frameworks |
+| learned | `00_CONTEXT/learned.md` | lessons, realizations, "I learned" |
+| goals | `01_PROJECTS/goals.md` | aspirations, objectives, targets |
+| projects | `01_PROJECTS/projects.md` | active work, initiatives |
+
+### Routing Logic
+
+1. **Detect domain** - Match primary signals (high confidence) or secondary signals
+2. **LifeOS → detect category** - Route to specific file based on content type
+3. **Other domains → 03_PAGES/** - General notes go to domain's pages folder
+4. **No match** - Prompt user to select domain
+
+**Threshold:** ≥80% auto-suggest, 60-79% confirm, <60% show menu
+
+---
+
+## Capture Workflows
+
+### Commands
+
+| Action | Command | Output |
+|--------|---------|--------|
+| Capture thoughts | `/action:braindump` | `Inbox/Notes/braindump_*.md` |
+| Process inbox | `/action:process-inbox` | Adds YAML frontmatter |
+| Distribute notes | `/action:distribute-notes` | Moves to `Domains/[name]/03_PAGES/` |
+| Save URL | `/action:url-dump` | `Inbox/Notes/url_*.md` |
+| Ingest document | `/action:ingest-longform` | Converts `ports/In/` → `Inbox/Notes/` |
+
+### Observation Categories
+
+Break content into atomic observations:
+
+| Category | Use For |
+|----------|---------|
+| `[fact]` | Objective, verifiable information |
+| `[idea]` | Subjective concepts, hypotheses |
+| `[decision]` | Commitments, choices made |
+| `[technique]` | Methods, processes, tactics |
+| `[requirement]` | Constraints, dependencies |
+| `[question]` | Open inquiries to investigate |
+| `[insight]` | Realizations, pattern recognition |
+| `[problem]` | Issues, pain points |
+| `[solution]` | Fixes, workarounds |
+| `[action]` | Task items (auto-extract to PROJECT files) |
+
+**Syntax:** `- [category] content #tag1 #tag2`
+
+### Flow
+
+`Capture (Inbox/) → Process (add frontmatter, detect domain) → Distribute (move to domain)`
+
+---
+
+## Project Management
+
+| Action | Command | Description |
+|--------|---------|-------------|
+| Create project | `/action:create-project` | New `PROJECT_*.md` in domain |
+| Sync tasks | `/action:update-plan` | Push MASTER.md changes to projects |
+
+**Paths:** `Domains/*/01_PROJECTS/PROJECT_*.md`, `/tasks/MASTER.md`
+
+**Task format:** `- [ ] Description #open|#in-progress|#done`
 
 ---
 
 ## Architecture
 
-```
-.claude/                          -> System brain
-├── CLAUDE.md                     -> This file (entry point)
-├── settings.json                 -> Hook wiring, permissions, preferences
-├── agents/                       -> Agent definitions (*.md files only, no subdirs)
-├── skills/                       -> Reusable capabilities (lower-kebab-case dirs)
-├── commands/                     -> Slash commands
-│   ├── action/                   -> Workflow shortcuts (/action:braindump, etc.)
-│   ├── agent/                    -> Agent loaders (/agent:pal-builder, etc.)
-│   └── sessions/                 -> Session management (/sessions:session-start, etc.)
-├── core/                         -> Core protocols
-│   ├── user/                     -> Identity: ABOUTME, DIRECTIVES, TERMINOLOGY, CONTACTS, RESUME, TECHSTACK, ART
-│   ├── system/                   -> Logic: ARCHITECTURE, ORCHESTRATION, WORKFLOWS, MEMORY_LOGIC, TOOLBOX, AGENTS_LOGIC, SKILL_LOGIC, DOMAINS_LOGIC
-│   ├── security/                 -> Safety: GUARDRAILS, REPOS_RULES
-│   └── reference/                -> Maps: SYSTEM_INDEX, ROUTING_TABLE, REPO_ROUTING
-├── sessions/                     -> Session logs + .current-session tracker
-└── tools/
-    └── hooks/                    -> session-start.ts, pre-tool-use.ts, stop.ts
+**Core:** `.claude/` — agents, skills, commands, core protocols, sessions, hooks
+**Domains:** `Domains/[Name]/` — INDEX.md (source of truth), folders 00-05, CONNECTIONS.yaml
+**Inbox:** `Inbox/` — capture layer (Notes/, Tasks/, Resources/)
 
-Domains/                          -> Project workspaces (PascalCase, agent-loaded, siloed)
-└── [DomainName]/
-    ├── INDEX.md                  -> Source of Truth (always at root)
-    ├── CONNECTIONS.yaml          -> External integrations (always at root)
-    ├── 00_CONTEXT/               -> Domain background and reference docs
-    ├── 01_PROJECTS/              -> Active project files (PROJECT_* prefix)
-    ├── 02_SESSIONS/              -> Chronological interaction logs
-    ├── 03_PAGES/                 -> Reference materials
-    ├── 04_WORKSPACE/             -> Agent workspace and staging area
-    └── 05_ARCHIVE/               -> Deprecated content
-
-Inbox/                            -> Capture layer (notes, tasks, resources)
-```
-
-### Active Domains
-
-| Domain | Agent | Purpose |
-|--------|-------|---------|
-| PALBuilder | pal-builder | System development and specs |
-| LifeOS | life-coach | Personal life management |
+See `.claude/core/reference/SYSTEM_INDEX.md` for full inventory.
 
 ---
 
 ## Agent System
 
-### Invocation and Dismissal
+- **Load**: `/agent:[name]` (e.g., `/agent:pal-builder`)
+- **Dismiss**: `*dismiss` (returns to PAL Master)
+- **Files**: `.claude/agents/[name].md`
 
-- **Load agent**: `/agent:[agent-name]` (e.g., `/agent:pal-builder`)
-- **Dismiss agent**: `*dismiss` (returns to PAL Master)
-- **Agent files**: Single `.md` files in `.claude/agents/` (no subdirectories)
+**Activation:** Load persona → Load domain INDEX.md → Greet → Wait for input
 
-### Activation Protocol (6 steps)
-
-1. Load Persona (agent file)
-2. Load Base Context (3 fixed REFs: ABOUTME, DIRECTIVES, GUARDRAILS)
-3. Load Domain Context (INDEX.md as AUTO, domain folders as REF)
-4. Extract User Name from ABOUTME.md
-5. Display Greeting with Command Menu
-6. **STOP and wait for user input** (never auto-execute)
-
-### Two-Group Context Model (Domain Agents)
-
-**Base Context** (fixed, always REF): ABOUTME.md, DIRECTIVES.md, GUARDRAILS.md
-**Domain Context** (configurable): INDEX.md as AUTO, all folders (00-05) as REF
-
-### Agent Structure
-
-Every agent has 4 YAML fields (`name`, `description`, `version`, `domain`) and 8 sections:
-1. Identity & Persona
-2. Activation Protocol
-3. Command Menu
-4. How I Work
-5. My Capabilities (skills declared inline with `use_when`)
-6. Session State Model
-7. Error Handling & Recovery
-8. Operational Rules
-
-**After creating an agent**: Update ROUTING_TABLE.md + run `map-domain` to regenerate SYSTEM_INDEX.md.
+**Capabilities:** Registered in `SYSTEM_INDEX.md` Skills Registry table (not declared inline).
 
 **Authoritative doc**: `.claude/core/system/AGENTS_LOGIC.md`
 
@@ -108,31 +131,17 @@ Every agent has 4 YAML fields (`name`, `description`, `version`, `domain`) and 8
 
 ## Skill System
 
-- **Activation**: Intent-based via `USE WHEN` clause in SKILL.md YAML (conceptual matching, not keywords)
-- **YAML description**: Single line, `USE WHEN` is MANDATORY, max 1024 chars
-- **Directory**: `lower-kebab-case` in `.claude/skills/`
-- **Structure**: Flat (max 2 levels). SKILL.md + context files in root + `workflows/` + `tools/` (always present, even if empty)
-- **Never create**: `context/`, `docs/`, `templates/`, or `examples/` subdirectories
-- **Every skill must have**: `## Examples` section with 2-3 concrete patterns
-- **Frontmatter-first**: When listing/filtering notes or files, grep frontmatter — never read full files
+- **Activation**: Intent-based via `USE WHEN` clause (conceptual matching, not keywords)
+- **Directory**: `.claude/skills/[skill-name]/` with SKILL.md, `workflows/`, `tools/`
+- **Frontmatter-first**: When listing/filtering notes, grep frontmatter — never read full files
 
 **Authoritative doc**: `.claude/core/system/SKILL_LOGIC.md`
 
 ---
 
-## Session Management
+## Security
 
-Commands in `.claude/commands/sessions/`:
-
-Session files: `.claude/sessions/YYYY-MM-DD-HHMM[-name].md`
-
----
-
-## Security (PreToolUse Hook)
-
-The `pre-tool-use.ts` hook validates **every tool call**. Key rules:
-
-**BLOCKED** (hard stop):
+**BLOCKED:**
 - Hardcoded credentials (API keys, AWS AKIA*, Stripe sk_live_*, GitHub ghp_*, private keys, DB connection strings with passwords)
 - Restricted paths (`/etc/`, `/usr/`, `~/.ssh/`, `~/.aws/`, `.env` files, `credentials.json`)
 - Dangerous commands (`rm -rf /`, `git push --force main/master`, `DROP TABLE`, `DELETE` without WHERE)
@@ -147,39 +156,14 @@ The `pre-tool-use.ts` hook validates **every tool call**. Key rules:
 
 ---
 
-## Naming Conventions
+## Naming
 
 | Type | Convention | Example |
 |------|-----------|---------|
-| System files | UPPER_SNAKE_CASE | DIRECTIVES.md |
-| Domain folders | PascalCase | PALBuilder/ |
-| Domain subfolders | NN_UPPER_CASE | 00_CONTEXT/, 01_PROJECTS/ |
-| Skill directories | lower-kebab-case | create-agent/ |
-| Workflow files | lower_snake_case | create_post.md |
-| Workflow YAML name | TitleCase | CreatePost |
-| Context/work files | lower_snake_case | research_notes.md |
+| Notes/work files | lower_snake_case | research_notes.md |
 | Project files | PROJECT_ + UPPER_SNAKE | PROJECT_FEATURE_X.md |
-| Session logs | YYYY-MM-DD_title | 2026-01-15_sync.md |
-| Agent files | lower-kebab-case.md | pal-builder.md |
-| Hook files | lower-kebab-case.ts | pre-tool-use.ts |
-| Tool files | lower_snake_case.ts | validate_input.ts |
-| Settings files | lower-kebab-case.json | settings.json |
-
----
-
-## Response Format
-
-For task-based responses (unless agent config specifies otherwise):
-
-```
-📋 SUMMARY: [One sentence]
-🔍 ANALYSIS: [Key findings]
-⚡ ACTIONS: [Steps taken]
-✅ RESULTS: [Outcomes]
-➡️ NEXT: [Recommended next steps]
-```
-
-Omit sections that don't apply. Keep it concise.
+| Domains | PascalCase | PALBuilder/ |
+| Skills | lower-kebab-case | note-taking/ |
 
 ---
 
@@ -193,5 +177,5 @@ Omit sections that don't apply. Keep it concise.
 
 ---
 
-**Version:** 0.1.0
-**Last Updated:** 2026-03-03
+**Version:** 0.2.0
+**Last Updated:** 2026-03-07
