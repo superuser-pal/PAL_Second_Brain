@@ -1,6 +1,6 @@
 ---
 name: note-taking
-description: Manage notes with semantic structure and knowledge graph. USE WHEN process notes OR organize notes OR add frontmatter OR distribute notes OR ingest PDF OR ingest document OR convert document OR inbox notes OR note management OR scan inbox OR move notes to domain OR braindump OR brain dump OR capture thoughts OR dump thoughts OR url dump OR save link OR bookmark url OR capture url OR save for later OR categorize observations OR add relations OR link notes OR knowledge graph.
+description: Manage notes with semantic structure and knowledge graph. USE WHEN process notes OR organize notes OR add frontmatter OR distribute notes OR ingest PDF OR ingest document OR convert document OR inbox notes OR note management OR scan inbox OR move notes to domain OR braindump OR brain dump OR capture thoughts OR dump thoughts OR url dump OR save link OR bookmark url OR capture url OR save for later OR categorize observations OR add relations OR link notes OR knowledge graph OR export life summary OR life report OR generate life summary.
 user-invocable: false
 ---
 
@@ -26,6 +26,7 @@ Unified note management skill with semantic structure (observation categories, e
 | **distribute_notes** | "distribute notes", "move notes to domains", "organize notes" | `workflows/distribute_notes.md` |
 | **ingest_longform** | "ingest PDF", "convert document", "ingest document" | `workflows/ingest_longform.md` |
 | **url_dump** | "url dump", "save link", "bookmark url", "capture url" | `workflows/url_dump.md` |
+| **export_life_summary** | "export life summary", "life report", "generate life summary" | `workflows/export_life_summary.md` |
 
 ## Examples
 
@@ -89,6 +90,16 @@ User: "save this link: https://example.com/article"
 -> Saves to Inbox/Notes/article-title-16-02-2026.md
 -> If tool detected: includes evaluation checklist
 -> Next: distribute_notes to move to domain
+```
+
+**Example 5: Export life summary report**
+```
+User: "export life summary"
+-> Invokes export_life_summary workflow
+-> Reads all 7 LifeOS files (mission, beliefs, frames, models, learned, goals, projects)
+-> Generates structured summary report
+-> Outputs to domains/LifeOS/04_WORKSPACE/life_summary_YYYY-MM-DD.md
+-> Logs export to 02_SESSIONS/UPDATES.md
 ```
 
 ## Quick Reference

@@ -34,11 +34,11 @@ last_updated: 2026-03-06
 | create-agent       | pal-builder | .claude/skills/create-agent/SKILL.md       |
 | create-domain      | pal-builder | .claude/skills/create-domain/SKILL.md      |
 | prompting          | pal-builder | .claude/skills/prompting/SKILL.md          |
-| life-management    | life-coach  | .claude/skills/life-management/SKILL.md    |
+| note-taking        | life-coach  | .claude/skills/note-taking/SKILL.md        |
 | first-principles   | life-coach  | .claude/skills/first-principles/SKILL.md   |
 
 ---
 
-**Version:** 2.0.0
-**Last Updated:** 2026-03-06
-**Total:** 3 agents · 12 skill assignments (10 unique skills)
+**Version:** 2.1.0
+**Last Updated:** 2026-03-08
+**Total:** 3 agents · 12 skill assignments (9 unique skills)

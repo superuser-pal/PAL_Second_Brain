@@ -1,6 +1,6 @@
 # validate_agent Workflow
 
-Validate an existing domain agent against the AGENTS_LOGIC.md canonical structure.
+Validate an existing domain agent against the AGENTS_LOGIC.md canonical 9-section structure.
 
 ## Step 1: Read the Authoritative Source
 
@@ -46,12 +46,7 @@ Check for required fields:
 - [ ] `description` field present
 - [ ] `version` field present (semantic versioning: X.Y.Z)
 - [ ] `domain` field present (PascalCase)
-
-Check optional fields format (if present):
-
-- [ ] `skills` is a list of valid skill names
-- [ ] `workflows` uses format `skill-name/workflow_name`
-- [ ] `prompts` is a list of prompt names
+- [ ] No extra fields beyond name, description, version, domain
 
 **Validation Rules:**
 
@@ -81,56 +76,28 @@ FIX: Either create the domain using create-domain skill, or update the agent's d
 - [ ] INDEX.md has valid YAML frontmatter
 - [ ] INDEX.md contains required sections (Current State, Key Facts, Active Work)
 
-## Step 6: Validate Four-Layer Context
+## Step 6: Validate Lean 9-Section Structure
 
-Check that the Activation Protocol section includes all four layers:
+Check for required sections (inherits from AGENT_BASE.md):
 
-### 6.1 USER Layer
+- [ ] AGENT_BASE.md reference present (`> Inherits shared behavior from...`)
+- [ ] Section 1: Identity & Persona (role, communication traits)
+- [ ] Section 2: Activation Files ([AUTO]/[REF] files, with AUTO/REF explanation)
+- [ ] Section 3: Activation Folders ([AUTO]/[REF] folders, with AUTO/REF explanation)
+- [ ] Section 4: Persistent Memories
+- [ ] Section 5: Custom Critical Actions
+- [ ] Section 6: Custom Menu Items (bullet list, not table)
+- [ ] Section 7: Routing Examples (standalone section)
+- [ ] Section 8: Custom Prompts
+- [ ] Section 9: Custom Domain Context (bullet list, not table)
 
-- [ ] Section exists under "USER Layer"
-- [ ] References files from `.claude/base/user/`
-- [ ] Uses [AUTO] or [REF] markers
+**Check for REMOVED content (should NOT be present):**
 
-**Required USER files (at minimum):**
-
-- ABOUTME.md
-- DIRECTIVES.md
-
-### 6.2 SYSTEM Layer
-
-- [ ] Section exists under "SYSTEM Layer"
-- [ ] References files from `.claude/base/system/`
-- [ ] Uses [AUTO] or [REF] markers
-
-### 6.3 SECURITY Layer
-
-- [ ] Section exists under "SECURITY Layer"
-- [ ] References files from `.claude/base/security/`
-- [ ] Uses [AUTO] or [REF] markers
-
-**Required SECURITY files:**
-
-- GUARDRAILS.md
-
-### 6.4 DOMAIN Layer
-
-- [ ] Section exists under "DOMAIN Layer"
-- [ ] References files from `domains/[DomainName]/`
-- [ ] INDEX.md marked as [AUTO]
-- [ ] Other files marked appropriately
-
-## Step 7: Validate Template Sections
-
-Check for all required sections:
-
-- [ ] Activation Protocol with 5 steps
-- [ ] Context Configuration with all 4 layers
-- [ ] Persona section (Role, Identity, Communication Style, Core Principles)
-- [ ] Menu section with command table
-- [ ] Menu Handlers section with processing rules
-- [ ] Core Responsibilities section with numbered items
-- [ ] Operational Rules section with numbered rules
-- [ ] Greeting Template with menu display
+- [ ] No Voice section (moved to AGENT_BASE.md)
+- [ ] No Core Principles section (moved to AGENT_BASE.md)
+- [ ] No Plan-Before-Execute section (moved to AGENT_BASE.md)
+- [ ] No Classify → Route → Execute section (moved to AGENT_BASE.md)
+- [ ] No standard menu items (*menu, *skills, *context, *help, *projects, *dismiss) — these are inherited
 
 **Missing Sections:**
 
@@ -139,44 +106,27 @@ ISSUE: Missing section: [Section Name]
 FIX: Add [Section Name] section following the template in agent_template.md
 ```
 
-## Step 8: Validate Capability Binding
+**Duplicated Content:**
 
-If `skills`, `workflows`, or `prompts` are defined:
-
-### 8.1 Skills Validation
-
-For each skill in `skills:`:
-
-```bash
-ls .claude/skills/[skill-name]/SKILL.md
+```
+ISSUE: [Section] duplicates content from AGENT_BASE.md
+FIX: Remove [Section] — it is inherited from AGENT_BASE.md
 ```
 
-- [ ] Each listed skill exists in `.claude/skills/`
+## Step 7: Validate Context Configuration
 
-### 8.2 Workflows Validation
+- [ ] Domain Context: INDEX.md as [AUTO] in Section 2
+- [ ] Domain folders as [REF] in Section 3 (unless justified for [AUTO])
+- [ ] Base context handled by hook (not in agent file)
+- [ ] Zero Trust applied — minimal [AUTO] usage
 
-For each workflow in `workflows:`:
+## Step 8: Validate Registration
 
-- [ ] Format is `skill-name/workflow_name`
-- [ ] Skill exists
-- [ ] Workflow file exists at `.claude/skills/[skill-name]/workflows/[workflow_name].md`
+- [ ] Agent registered in SYSTEM_INDEX.md (Agents table)
+- [ ] Skills registered in SYSTEM_INDEX.md (Skills Registry with Routes To column)
+- [ ] Agent registered in ROUTING_TABLE.md
 
-### 8.3 Prompts Validation
-
-For each prompt in `prompts:`:
-
-- [ ] Prompt exists in `.claude/prompts/` or skill locations
-
-## Step 9: Validate Operational Rules
-
-Check for essential rules:
-
-- [ ] First-person voice rule included
-- [ ] `*dismiss` command documented
-- [ ] Security validation referenced (GUARDRAILS.md)
-- [ ] Stay-in-character rule included
-
-## Step 10: Generate Report
+## Step 9: Generate Report
 
 ### Report Format
 
@@ -201,85 +151,20 @@ Check for essential rules:
    - Issue: [Description]
    - Fix: [How to fix]
 
-2. **[Issue Category]**
-   - Issue: [Description]
-   - Fix: [How to fix]
-
 ### Passed Checks
 
 - [x] File location and naming
 - [x] YAML frontmatter
 - [x] Domain binding
-- [x] Four-layer context
-- [x] Template sections
-- [x] Capability binding
-- [x] Operational rules
+- [x] 9-section structure
+- [x] No duplicated AGENT_BASE.md content
+- [x] Context configuration
+- [x] Registration (SYSTEM_INDEX + ROUTING_TABLE)
 
 ### Recommendations
 
 [Optional suggestions for improvement]
 ```
-
-## Validation Checklist Reference
-
-From AGENTS_LOGIC.md:
-
-### Structure
-
-- [ ] Agent file exists in `.claude/agents/`
-- [ ] Filename follows `lower-kebab-case.md` convention
-- [ ] Single file (no nested directories)
-- [ ] Document version and last updated at bottom
-
-### YAML Frontmatter
-
-- [ ] `name` field present (lower-kebab-case)
-- [ ] `description` field present
-- [ ] `version` field present (semantic versioning)
-- [ ] `domain` field present (valid domain name)
-- [ ] `skills` field lists valid skills (if defined)
-- [ ] `workflows` field uses correct format `skill-name/workflow_name` (if defined)
-- [ ] `prompts` field lists valid prompts (if defined)
-
-### Template Sections
-
-- [ ] Activation Protocol with 5 steps
-- [ ] Context Configuration with all 4 layers
-- [ ] Persona section (Role, Identity, Communication Style, Core Principles)
-- [ ] Menu section with command table
-- [ ] Menu Handlers section with processing rules
-- [ ] Core Responsibilities section with numbered items
-- [ ] Operational Rules section with numbered rules
-- [ ] Greeting Template with menu display
-
-### Four-Layer Context Configuration
-
-- [ ] USER layer files identified with [AUTO]/[REF]
-- [ ] SYSTEM layer files identified with [AUTO]/[REF]
-- [ ] SECURITY layer files identified with [AUTO]/[REF]
-- [ ] DOMAIN layer files mapped from INDEX.md
-- [ ] Domain INDEX.md marked as [AUTO]
-- [ ] Minimum files marked [AUTO] (only essentials)
-
-### Domain Binding
-
-- [ ] `domain` field matches valid domain in `domains/`
-- [ ] Domain INDEX.md exists at `domains/[DomainName]/INDEX.md`
-- [ ] Domain files mapped to [AUTO]/[REF] based on relevance
-
-### Capability Binding (if defined)
-
-- [ ] All listed skills exist in `.claude/skills/`
-- [ ] All listed workflows exist in their respective skills
-- [ ] All listed prompts exist in `.claude/prompts/` or skill locations
-- [ ] Capabilities align with agent's domain and responsibilities
-
-### Operational Validation
-
-- [ ] First-person voice enforced in rules
-- [ ] `*dismiss` command documented
-- [ ] Security validation referenced
-- [ ] Stay-in-character rule included
 
 ## Done
 

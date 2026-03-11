@@ -107,8 +107,8 @@ Start with what you need, extend when friction appears. Every component — skil
 
 | Component     | Count | What They Do                                             |
 | ------------- | ----- | -------------------------------------------------------- |
-| **Skills**    | 8     | Reusable capabilities that activate by intent            |
-| **Workflows** | 40    | Step-by-step processes within skills                     |
+| **Skills**    | 7     | Reusable capabilities that activate by intent            |
+| **Workflows** | 38    | Step-by-step processes within skills                     |
 | **Agents**    | 3     | Specialized AI personas for focused work                 |
 | **Domains**   | 2     | Siloed project workspaces                                |
 | **Hooks**     | 3     | Automated lifecycle actions (security, context, logging) |

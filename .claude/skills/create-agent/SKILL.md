@@ -12,7 +12,8 @@ MANDATORY agent creation system for ALL domain agent creation requests.
 
 **Before creating ANY agent, READ:**
 
-- `AGENTS_LOGIC.md` — Agent structure, context model, and 8-section template
+- `AGENT_BASE.md` — Shared default behavior inherited by all agents
+- `AGENTS_LOGIC.md` — Agent structure, lean 8-section format
 - `DOMAINS_LOGIC.md` — Domain structure and binding
 
 ## Naming Conventions (MANDATORY)
@@ -29,7 +30,8 @@ MANDATORY agent creation system for ALL domain agent creation requests.
 - Agents are **single files** in `.claude/agents/` (NO directories)
 - Every agent must bind to an existing domain via `domain:` field
 - YAML contains only 4 fields: `name`, `description`, `version`, `domain`
-- Capabilities (skills, workflows, prompts) are declared **inline in Section 5** of the agent file
+- Agents inherit shared behavior from `AGENT_BASE.md` — only domain-specific content in agent file
+- The agent file IS the user's customization surface — no separate customize.md files
 
 ---
 
@@ -60,20 +62,19 @@ Before creating any agent file, verify:
 ```
 User: "Create an agent for my blog content"
 1. Read AGENTS_LOGIC.md and DOMAINS_LOGIC.md
-2. Check if domains/blog-content/ exists with INDEX.md
+2. Check if domains/BlogContent/ exists with INDEX.md
    → If missing: STOP, ask user to create domain first
    → If exists: proceed
 3. Create blog-agent.md in .claude/agents/ using agent_template.md
    → YAML: name, description, version, domain (4 fields only)
-   → 8-section structure: Identity, Activation, Menu, How I Work,
-     My Capabilities, State, Errors, Rules
-   → Base Context: 3 fixed REFs (ABOUTME, DIRECTIVES, GUARDRAILS)
+   → 8-section structure: Identity, Activation Files, Activation Folders,
+     Persistent Memories, Custom Critical Actions, Custom Menu Items,
+     Custom Prompts, Custom Domain Context
    → Domain Context: INDEX.md as [AUTO], domain folders as [REF]
-   → Section 5: declare skills/workflows/prompts inline with use_when triggers
 4. Add agent to ROUTING_TABLE.md
    → name, domain, location, routes_to (one line)
-5. Run validation checklist from AGENTS_LOGIC.md
-6. Suggest running map-domain to regenerate SYSTEM_INDEX.md
+5. Register skills in SYSTEM_INDEX.md
+6. Run validation checklist from AGENTS_LOGIC.md
 ```
 
 **Example 2: Validate an existing agent**
@@ -83,50 +84,18 @@ User: "Validate the security-agent"
 1. Read agent file from .claude/agents/security-agent.md
 2. Check YAML frontmatter:
    → Has exactly 4 fields: name, description, version, domain
-   → No skills/workflows/prompts in YAML
 3. Validate domain binding:
    → Domain exists at domains/[DomainName]/
    → INDEX.md present in domain directory
-4. Validate 9-section structure:
-   → Identity & Persona, Activation Protocol, Command Menu,
-     How I Work, My Capabilities, Session State Model,
-     Error Handling & Recovery, Operational Rules,
-     Domain File Routing
-5. Validate Section 5 (My Capabilities):
-   → Skills listed with name, location, use_when
-   → Workflows listed with name, source, location, use_when
-   → Listed skills exist in .claude/skills/
-   → Listed workflows exist in their respective skill directories
-   → Capability rules present (no inference, no borrowing, out-of-scope → *dismiss)
-6. Check ROUTING_TABLE.md for matching entry
-7. Validate context configuration:
-   → Base Context: 3 fixed REFs
-   → Domain Context: INDEX.md as [AUTO], others as [REF]
-8. Report issues with specific fixes
-```
-
-**Example 3: Create agent for non-existent domain**
-
-```
-User: "Create a ProjectAlpha agent"
-1. Check domains/ProjectAlpha/ → NOT FOUND
-2. STOP — inform user: "The domain 'ProjectAlpha' doesn't exist yet.
-   Would you like me to create it first?"
-3. If user confirms: invoke create-domain skill
-4. Once domain exists with INDEX.md: proceed with agent creation (Example 1)
-```
-
-**Example 4: Adapt a non-standard agent**
-
-```
-User: "Adapt this custom agent to the PAL template"
-1. Read existing agent file
-2. Identify non-standard sections or complex logic
-3. Create domains/[domain]/00_CONTEXT/[agent]_logic.md
-4. Move custom logic to the new context file
-5. Re-author the agent file using agent_template.md
-6. Reference the logic file in Activation Protocol (Section 2)
-7. Run validate-agent to confirm compliance
+4. Validate 8-section structure:
+   → Identity & Persona, Activation Files, Activation Folders,
+     Persistent Memories, Custom Critical Actions, Custom Menu Items,
+     Custom Prompts, Custom Domain Context
+5. Verify NO shared content duplicated from AGENT_BASE.md:
+   → No Voice section, no Core Principles, no Plan-Before-Execute,
+     no Classify-Route-Execute, no standard menu items
+6. Check ROUTING_TABLE.md and SYSTEM_INDEX.md for matching entries
+7. Report issues with specific fixes
 ```
 
 ---
@@ -142,42 +111,27 @@ User: "Adapt this custom agent to the PAL template"
 - `version` — Semantic version
 - `domain` — PascalCase, must match an existing domain in `domains/`
 
-**No other YAML fields.** Capabilities are declared inline in Section 5.
+**No other YAML fields.**
 
-**9-Section Structure:**
+**Lean Agent Structure (8 sections, inherits from AGENT_BASE.md):**
 
-1. Identity & Persona
-2. Activation Protocol (6 steps)
-3. Command Menu
-4. How I Work (Classify → Route → Execute)
-5. My Capabilities (inline skills, workflows, prompts)
-6. Session State Model
-7. Error Handling & Recovery
-8. Operational Rules
-9. Domain File Routing (03_ASSETS first-check rule)
+1. Identity & Persona (role, communication traits)
+2. Activation Files ([AUTO]/[REF] files)
+3. Activation Folders ([AUTO]/[REF] folders)
+4. Persistent Memories
+5. Custom Critical Actions
+6. Custom Menu Items (#7+)
+7. Custom Prompts
+8. Custom Domain Context
 
 **Context Model (Base + Domain):**
 
 - Base: [REF] ABOUTME.md, DIRECTIVES.md, GUARDRAILS.md
 - Domain: [AUTO] INDEX.md + [REF] domain folders
 
-**Base Domain Structure:**
-
-```
-domains/[DomainName]/
-├── 00_CONTEXT/
-├── 01_PROJECTS/
-├── 02_SESSIONS/
-├── 03_ASSETS/
-├── 04_OUTPUTS/
-├── 05_ARCHIVE/
-├── CONNECTIONS.yaml
-└── INDEX.md
-```
-
 **Post-Creation Steps:**
 
-1. Add agent entry to `PAL_Base/System/ROUTING_TABLE.md` (name, domain, location, routes_to)
-2. Run `map-domain` to regenerate `SYSTEM_INDEX.md`
+1. Add agent entry to `.claude/core/reference/ROUTING_TABLE.md` (name, domain, location, routes_to)
+2. Register skills in `SYSTEM_INDEX.md` Skills Registry with Routes To column
 
 **Full Template:** See `agent_template.md`

@@ -96,11 +96,20 @@ After moving, update the note's frontmatter:
    → domains/LifeOS/01_PROJECTS/[category]
    ```
 
-2. **Extract content from note:**
+2. **Create backup before modification:**
+   - Ensure backup directory exists: `domains/LifeOS/05_ARCHIVE/backups/`
+   - Copy target file to backup:
+     ```bash
+     cp "domains/LifeOS/[folder]/[category]" \
+        "domains/LifeOS/05_ARCHIVE/backups/[category]_YYYY-MM-DD_HH-MM-SS.md"
+     ```
+   - If backup fails, STOP and report error (do not proceed with append)
+
+3. **Extract content from note:**
    - Look for `## Extracted Content` or `## For [category]` section
    - If not found, use entire note content (excluding frontmatter)
 
-3. **Smart insertion based on subsection:**
+4. **Smart insertion based on subsection:**
 
    **If `subsection` field is set (not null):**
    - Read target file and find `## [subsection]` heading
@@ -129,14 +138,25 @@ After moving, update the note's frontmatter:
      > [extracted content]
      ```
 
-4. **Move original note to LifeOS assets:**
+5. **Move original note to LifeOS assets:**
    ```bash
    mv "inbox/notes/[original].md" "domains/LifeOS/03_ASSETS/[converted].md"
    ```
 
-5. **Update note frontmatter:**
+6. **Update note frontmatter:**
    - Set `status: processed`
    - Update `last_modified` to today's date
+
+7. **Log change to UPDATES.md:**
+   - Append to `domains/LifeOS/02_SESSIONS/UPDATES.md`:
+     ```markdown
+     ## YYYY-MM-DD HH:MM
+
+     - **Action:** Appended to [category]
+     - **Source:** [original_filename]
+     - **Subsection:** [subsection or "end of file"]
+     - **Backup:** 05_ARCHIVE/backups/[backup_filename]
+     ```
 
 ## Step 6c: Validate Relations
 

@@ -1,9 +1,9 @@
 ---
 title: PAL Agents System
-version: 3.0.0
+version: 5.1.0
 layer: SYSTEM
 purpose: Configuration system, structure, and operational rules for PAL agents
-last_updated: 2026-02-07
+last_updated: 2026-03-11
 ---
 
 # PAL Agents System
@@ -17,13 +17,119 @@ last_updated: 2026-02-07
 All agents in the PAL Second Brain **MUST** follow the structure and conventions defined in this document. When creating or modifying agents, reference this file for:
 
 - Required file structure and naming
-- Template sections and 8-section structure
+- Lean agent structure with AGENT_BASE.md inheritance
 - Two-group context loading (Base + Domain)
 - Domain binding (mandatory) and file mapping
-- Inline capability declaration (Section 5 of each agent)
+- Registry capability model (SYSTEM_INDEX.md)
 - Activation and dismissal protocols
 
 **Location:** `.claude/agents/`
+
+---
+
+## Architecture: 2-Layer
+
+```
+AGENT_BASE.md (shared behavior for ALL agents) → agent-name.md (user-editable, domain-specific)
+```
+
+- **AGENT_BASE.md**: Everything that is the same across ALL agents (voice, core principles, standard menu, CRE pipeline, plan-before-execute, session state, errors, operational rules, greeting)
+- **Agent file**: Everything the user would want to customize per agent (identity, activation files/folders, memories, custom actions, custom menu items, routing examples, custom prompts, custom domain context, domain extensions)
+
+### AGENT_BASE.md
+
+**Location:** `.claude/core/system/AGENT_BASE.md`
+
+Contains all shared behavior:
+
+| Content | Section in AGENT_BASE.md |
+|---------|--------------------------|
+| "You must fully embody..." instruction | Preamble |
+| Activation Steps 1, 4, 5, 6 | Section 1 |
+| Voice (first-person, direct, numbered lists, zero trust) | Section 2 |
+| Core Principles (zero trust, security first, runtime loading, domain scope) | Section 3 |
+| Input Processing Rules | Section 4 |
+| Standard Command Menu (*menu, *skills, *context, *help, *projects, *dismiss) | Section 5 |
+| Capabilities (SYSTEM_INDEX pointer + rules) | Section 6 |
+| Classify → Route → Execute Pipeline | Section 7 |
+| Plan-Before-Execute Protocol | Section 8 |
+| Session State Model | Section 9 |
+| Error Handling & Recovery | Section 10 |
+| Operational Rules 1-6 + Session Logging | Section 11 |
+| Domain File Routing defaults | Section 12 |
+| Greeting format | Section 13 |
+| Inheritance Reference | Section 14 |
+
+### Lean Agent Structure
+
+Agent files contain only domain-specific content organized into 9 sections:
+
+```markdown
+---
+name: [agent-name]
+description: [Brief description]
+version: X.Y.Z
+domain: [DomainName]
+---
+
+# [Agent Name]
+
+> Inherits shared behavior from `.claude/core/system/AGENT_BASE.md`
+
+## 1. Identity & Persona
+   - Role description (unique per agent)
+   - Communication traits (only if different from base voice)
+
+## 2. Activation Files
+   > AUTO = loaded immediately at activation | REF = indexed only, loaded on demand
+   - [AUTO] / [REF] files to load
+
+## 3. Activation Folders
+   > AUTO = loaded immediately at activation | REF = indexed only, loaded on demand
+   - [AUTO] / [REF] folders to load
+
+## 4. Persistent Memories
+   - Facts the agent should always remember across sessions
+
+## 5. Custom Critical Actions
+   - Domain-specific execution rules that override or extend base behavior
+
+## 6. Custom Menu Items
+   - ONLY domain-specific commands (standard menu is in AGENT_BASE)
+   - Format: `*command` — description → action
+
+## 7. Routing Examples
+   - Domain-specific routing examples (skill matches, direct responses, out-of-scope)
+
+## 8. Custom Prompts
+   - Persistent behavioral instructions for this agent
+
+## 9. Custom Domain Context
+   - Only if the domain has non-standard folder structure or special routing rules
+   - Format: **file type** → folder — naming
+
+## Domain Extensions (optional)
+   - Agent-specific features (Feature Dashboard, Context Tags, etc.)
+```
+
+### What Agents Inherit vs Define
+
+| Inherited from AGENT_BASE.md | Defined in Agent File |
+|-----------------------------|-----------------------|
+| Voice (first-person, direct, numbered lists) | Communication traits (domain-specific) |
+| Core Principles (zero trust, security, runtime, scope) | Identity & Persona (role, description) |
+| Standard Command Menu (#1-6) | Custom Menu Items (#7+) |
+| Classify → Route → Execute pipeline | Routing Examples (Section 7) |
+| Plan-Before-Execute Protocol | Custom Critical Actions |
+| Activation Steps 1, 4, 5, 6 | Activation Files & Folders (Steps 2-3) |
+| Input Processing Rules | Persistent Memories |
+| Capabilities registry model | Custom Prompts |
+| Session State Model | Custom Domain Context |
+| Error Handling & Recovery | Domain Extensions |
+| Standard Operational Rules 1-10 | — |
+| Session Logging Protocol | — |
+| Greeting format | — |
+| Domain File Routing defaults | — |
 
 ---
 
@@ -38,7 +144,7 @@ All agents in the PAL Second Brain **MUST** follow the structure and conventions
 | **Persona**          | Defined role, identity, and communication style                         |
 | **Domain**           | Bound to a specific domain (mandatory) with inherited context           |
 | **Context**          | Two-group loading: Base (3 fixed REFs) + Domain (configurable AUTO/REF) |
-| **Capabilities**     | Declared inline in agent file (Section 5: My Capabilities)              |
+| **Capabilities**     | Registered in SYSTEM_INDEX.md                                           |
 | **Responsibilities** | Specific tasks the agent handles                                        |
 | **Lifecycle**        | Loaded on demand, dismissed when complete                               |
 | **State**            | Maintains session context until dismissed                               |
@@ -136,7 +242,7 @@ Agents reference files from their respective locations — no duplication:
 
 ## Agent Template
 
-All agents follow the **8-section structure** defined below. See `agent_template.md` for the complete fillable template.
+All agents follow the **9-section structure** defined above. See `agent_template.md` in the create-agent skill for the complete fillable template.
 
 ### YAML Frontmatter
 
@@ -151,33 +257,16 @@ domain: [domain-name]
 
 **Required fields:** `name`, `description`, `version`, `domain`. No other fields.
 
-### 8-Section Structure
-
-Every domain agent must contain these 8 sections in order:
-
-| #   | Section                       | Purpose                                                                  |
-| --- | ----------------------------- | ------------------------------------------------------------------------ |
-| 1   | **Identity & Persona**        | Role, voice, core principles — who the agent is                          |
-| 2   | **Activation Protocol**       | 6-step boot sequence (see below)                                         |
-| 3   | **Command Menu**              | Available commands with actions in a unified table                       |
-| 4   | **How I Work**                | Classify → Route → Execute pipeline, plan protocol, execution oversight  |
-| 5   | **My Capabilities**           | Inline declaration of skills, workflows, and prompts owned by this agent |
-| 6   | **Session State Model**       | What gets tracked, what resets, when                                     |
-| 7   | **Error Handling & Recovery** | Error categories, recovery protocol, graceful degradation                |
-| 8   | **Operational Rules**         | Numbered behavioral constraints                                          |
-
----
-
 ### Activation Protocol
 
-Domain agents follow a 6-step boot sequence:
+Domain agents follow a 6-step boot sequence (Steps 1, 4-6 from AGENT_BASE.md; Steps 2-3 from agent file):
 
-1. **Load Persona** — Agent file already in context
-2. **Load Domain Files** — Execute AUTO files (INDEX.md)
-3. **Load Domain Folders** — Index REF folders from domain
-4. **Extract User Name** — From ABOUTME.md
-5. **Display Greeting** — State role, show Command Menu
-6. **Wait for Input** — STOP and wait (do not auto-execute)
+1. **Load Persona** — Agent file already in context *(AGENT_BASE.md)*
+2. **Load Activation Files** — Execute AUTO files (INDEX.md) *(agent file Section 2)*
+3. **Load Activation Folders** — Index REF folders from domain *(agent file Section 3)*
+4. **Extract User Name** — From ABOUTME.md *(AGENT_BASE.md)*
+5. **Display Greeting** — State role, show standard + custom menu *(AGENT_BASE.md)*
+6. **Wait for Input** — STOP and wait (do not auto-execute) *(AGENT_BASE.md)*
 
 ---
 
@@ -186,8 +275,6 @@ Domain agents follow a 6-step boot sequence:
 Domain agents load context primarily from their domain. Base context (ABOUTME, DIRECTIVES, GUARDRAILS) is loaded automatically via the `session-start` hook and does not need to be explicitly managed by the agent.
 
 ### Domain Context (Mapped from INDEX.md)
-
-Mapped from the domain's `INDEX.md`. Step 2 loads the domain files, and Step 3 indexes the folders.
 
 Mapped from the domain's `INDEX.md`. Each agent author decides what is `[AUTO]` vs `[REF]`.
 
@@ -216,22 +303,6 @@ This is the standard structure. Agent authors may add or remove folders based on
 
 **Zero Trust Principle:** Default to `[REF]`. Only use `[AUTO]` for files required in every interaction. Domain `INDEX.md` is the standard Step 2 AUTO load.
 
-### Example Configuration
-
-**Step 2: Load Domain Files**
-
-- [AUTO] `Domains/BlogContent/INDEX.md` — Domain source of truth
-
-**Step 3: Load Domain Folders**
-
-- [REF] `Domains/BlogContent/00_CONTEXT/` — Domain reference docs
-- [REF] `Domains/BlogContent/01_PROJECTS/` — Active projects
-- [REF] `Domains/BlogContent/02_SESSIONS/` — Session logs
-- [REF] `Domains/BlogContent/03_PAGES/` — Reference materials
-- [REF] `Domains/BlogContent/04_WORKSPACE/` — Agent workspace and staging area
-- [REF] `Domains/BlogContent/05_ARCHIVE/` — Archived items
-- [REF] `Domains/BlogContent/CONNECTIONS.yaml` — Integrations
-
 ---
 
 ## Registry Capability Model
@@ -245,23 +316,6 @@ Agent capabilities are registered in `.claude/core/reference/SYSTEM_INDEX.md` (t
 3. When `*workflows` is invoked, the agent reads the SKILL.md routing tables for its registered skills
 4. Capabilities are scoped by the registry: an agent only has skills assigned to it in SYSTEM_INDEX.md
 5. A skill can be assigned to multiple agents (one row per assignment)
-
-### Example: Section 5 of a Domain Agent
-
-```markdown
-## 5. My Capabilities
-
-My skills are registered in `.claude/core/reference/SYSTEM_INDEX.md`.
-
-**View:** Read SYSTEM_INDEX.md, filter for `Agent: blog-agent`
-**Add:** Add a row to the Skills Registry table with this agent's name
-
-### Capability Rules
-
-- If a skill is not registered to me in SYSTEM_INDEX.md, I do not have it
-- Do not infer, hallucinate, or borrow capabilities from other agents
-- Out of scope → suggest `*dismiss`
-```
 
 ### Rules
 
@@ -298,8 +352,8 @@ PAL Master uses `ROUTING_TABLE.md` for the `*agents` command — a lightweight f
 **6-Step Protocol:**
 
 1. **Load Persona** — Agent file already in context
-2. **Load Domain Files** — Execute AUTO files (INDEX.md)
-3. **Load Domain Folders** — Index REF folders from domain
+2. **Load Activation Files** — Execute AUTO files (INDEX.md)
+3. **Load Activation Folders** — Index REF folders from domain
 4. **Extract User Name** — From ABOUTME.md
 5. **Display Greeting** — State role, show Command Menu
 6. **Wait for Input** — STOP and wait (do not auto-execute)
@@ -309,7 +363,7 @@ PAL Master uses `ROUTING_TABLE.md` for the `*agents` command — a lightweight f
 **During Session:**
 
 - Agent maintains character until dismissed
-- Processes user input via Command Menu or natural language (Classify → Route → Execute)
+- Processes user input via Command Menu or natural language (Classify → Route → Execute from AGENT_BASE.md)
 - Loads [REF] files as needed
 - Validates operations against GUARDRAILS.md
 - Recognizes out-of-scope requests and suggests `*dismiss` to return to PAL Master
@@ -355,7 +409,7 @@ PAL Master uses `ROUTING_TABLE.md` for the `*agents` command — a lightweight f
 - Base + Domain context
 - Bound to specific domain via `domain` field (mandatory)
 - Domain INDEX.md as source of truth
-- Capabilities declared inline (Section 5)
+- Capabilities registered in SYSTEM_INDEX.md
 - Loaded on demand via `/[agent]`
 - Redirects out-of-scope requests to PAL Master
 
@@ -366,7 +420,7 @@ PAL Master uses `ROUTING_TABLE.md` for the `*agents` command — a lightweight f
 | **Scope**          | System-wide              | Single domain                 |
 | **Context**        | Base + System config     | Base + Domain                 |
 | **Domain Binding** | None                     | Required                      |
-| **Capabilities**   | Inline (Section 5)       | Inline (Section 5)            |
+| **Capabilities**   | Registry (SYSTEM_INDEX)  | Registry (SYSTEM_INDEX)       |
 | **Agent Routing**  | Loads `ROUTING_TABLE.md` | No access to routing table    |
 | **Expertise**      | Broad (routing)          | Deep (domain)                 |
 | **Duration**       | Session-long             | Task-specific                 |
@@ -392,37 +446,42 @@ Before an agent is complete, verify the following:
 - [ ] `description` field present
 - [ ] `version` field present (semantic versioning)
 - [ ] `domain` field present (valid, existing domain name)
-- [ ] No extra fields (capabilities are declared inline in Section 5)
+- [ ] No extra fields
 
 ### Domain Binding
 
 - [ ] `domain` field matches an existing directory in `Domains/`
 - [ ] `Domains/[DomainName]/INDEX.md` exists
-- [ ] Domain files mapped to [AUTO]/[REF] in Activation Protocol
+- [ ] Domain files mapped to [AUTO]/[REF] in Activation Files/Folders
 - [ ] Domain INDEX.md marked as [AUTO]
 - [ ] Minimum files marked [AUTO] (only essentials)
 
-### 8-Section Structure
+### Lean Structure (9 sections, inherits from AGENT_BASE.md)
 
-- [ ] Section 1: Identity & Persona (role, voice, principles)
-- [ ] Section 2: Activation Protocol (6 steps)
-- [ ] Section 3: Command Menu (unified table with actions)
-- [ ] Section 4: How I Work (classify → route → execute pipeline)
-- [ ] Section 5: My Capabilities (registry pointer to SYSTEM_INDEX.md with capability rules)
-- [ ] Section 6: Session State Model (tracked data, reset rules)
-- [ ] Section 7: Error Handling & Recovery (categories, protocol, degradation)
-- [ ] Section 8: Operational Rules (numbered constraints)
+- [ ] AGENT_BASE.md reference present (`> Inherits shared behavior from...`)
+- [ ] Section 1: Identity & Persona (role, communication traits)
+- [ ] Section 2: Activation Files ([AUTO]/[REF] files, with AUTO/REF explanation)
+- [ ] Section 3: Activation Folders ([AUTO]/[REF] folders, with AUTO/REF explanation)
+- [ ] Section 4: Persistent Memories
+- [ ] Section 5: Custom Critical Actions (domain-specific rules only)
+- [ ] Section 6: Custom Menu Items (bullet list, not table)
+- [ ] Section 7: Routing Examples (standalone section)
+- [ ] Section 8: Custom Prompts
+- [ ] Section 9: Custom Domain Context (bullet list, not table)
+- [ ] No Voice section (inherited from AGENT_BASE.md)
+- [ ] No Core Principles section (inherited from AGENT_BASE.md)
+- [ ] No Plan-Before-Execute section (inherited from AGENT_BASE.md)
+- [ ] No Classify-Route-Execute section (inherited from AGENT_BASE.md)
+- [ ] No standard menu items duplicated (inherited from AGENT_BASE.md)
 
 ### Context Configuration
 
-- [ ] Domain Context: INDEX.md as [AUTO] in Step 2, folders as [REF] in Step 3
+- [ ] Domain Context: INDEX.md as [AUTO] in Section 2, folders as [REF] in Section 3
 - [ ] Base context handled by hook (not in agent file)
 - [ ] Zero Trust applied — minimal [AUTO] usage
 
 ### Capability Declaration
 
-- [ ] Section 5 contains registry pointer to SYSTEM_INDEX.md
-- [ ] Section 5 includes capability rules (no inference, no borrowing, out-of-scope → `*dismiss`)
 - [ ] Skills registered in SYSTEM_INDEX.md for this agent
 - [ ] Registered skills exist in `.claude/skills/`
 - [ ] Capabilities align with agent's domain and responsibilities
@@ -434,44 +493,44 @@ Before an agent is complete, verify the following:
 
 ### Operational Validation
 
-- [ ] First-person voice enforced in rules
-- [ ] `*dismiss` command included in menu
-- [ ] Security validation referenced (GUARDRAILS.md)
-- [ ] Stay-in-character rule included
+- [ ] `*dismiss` command included in standard menu (inherited)
+- [ ] Security validation inherited from AGENT_BASE.md
 - [ ] Out-of-scope handling defined (redirect to PAL Master)
 
 ---
 
 ## Summary
 
-| Component               | Purpose                                                   | Required |
-| :---------------------- | :-------------------------------------------------------- | :------- |
-| **YAML Frontmatter**    | Agent metadata (name, description, version, domain)       | Yes      |
-| **Identity & Persona**  | Role, voice, core principles                              | Yes      |
-| **Activation Protocol** | 6-step startup sequence                                   | Yes      |
-| **Command Menu**        | Unified command table with actions                        | Yes      |
-| **How I Work**          | Classify → Route → Execute pipeline                       | Yes      |
-| **My Capabilities**     | Registry pointer to SYSTEM_INDEX.md with capability rules | Yes      |
-| **Session State Model** | What gets tracked and when it resets                      | Yes      |
-| **Error Handling**      | Error categories, recovery protocol                       | Yes      |
-| **Operational Rules**   | Numbered behavioral constraints                           | Yes      |
+| Component               | Purpose                                             | Required |
+| :---------------------- | :-------------------------------------------------- | :------- |
+| **YAML Frontmatter**    | Agent metadata (name, description, version, domain) | Yes      |
+| **Identity & Persona**  | Role, communication traits                          | Yes      |
+| **Activation Files**    | [AUTO]/[REF] files to load at boot                  | Yes      |
+| **Activation Folders**  | [AUTO]/[REF] folders to load at boot                | Yes      |
+| **Persistent Memories** | Facts to remember across sessions                   | Yes      |
+| **Custom Critical Actions** | Domain-specific execution rules                 | Yes      |
+| **Custom Menu Items**   | Domain-specific commands (#7+)                      | Yes      |
+| **Routing Examples**    | Domain-specific routing examples                    | Yes      |
+| **Custom Prompts**      | Persistent behavioral instructions                  | Yes      |
+| **Custom Domain Context** | Non-standard folder structure or routing rules    | Optional |
+| **Domain Extensions**   | Agent-specific features (dashboards, etc.)          | Optional |
 
 **Key Principles:**
 
 1. **Single-file agents** — no nested directories, related files in their locations
 2. **Mandatory domain binding** — every agent must bind to an existing domain
 3. **Two-group context** — Base (3 fixed REFs) + Domain (configurable AUTO/REF)
-4. **Registry capabilities** — skills assigned to agents in SYSTEM_INDEX.md, agents point to registry in Section 5
-5. **8-section structure** — consistent template for all domain agents
+4. **Registry capabilities** — skills assigned to agents in SYSTEM_INDEX.md
+5. **9-section structure** — consistent template for all domain agents
 6. **INDEX.md as source of truth** — domain files discovered from INDEX.md
 7. **Zero Trust context** — load only what's needed
-8. **First-person voice** — agents speak as themselves
+8. **First-person voice** — agents speak as themselves (inherited from AGENT_BASE.md)
 9. **Clear lifecycle** — load, activate, session, dismiss
 
 ---
 
-**Document Version:** 3.0.0
-**Last Updated:** 2026-02-07
-**Related Files:** [ARCHITECTURE.md](ARCHITECTURE.md), [ORCHESTRATION.md](ORCHESTRATION.md), [SKILL_LOGIC.md](SKILL_LOGIC.md), [DOMAINS_LOGIC.md](DOMAINS_LOGIC.md), [WORKFLOWS.md](WORKFLOWS.md), [MEMORY_LOGIC.md](MEMORY_LOGIC.md), [TOOLBOX.md](TOOLBOX.md)
+**Document Version:** 5.1.0
+**Last Updated:** 2026-03-11
+**Related Files:** [AGENT_BASE.md](AGENT_BASE.md), [ARCHITECTURE.md](ARCHITECTURE.md), [ORCHESTRATION.md](ORCHESTRATION.md), [SKILL_LOGIC.md](SKILL_LOGIC.md), [DOMAINS_LOGIC.md](DOMAINS_LOGIC.md), [WORKFLOWS.md](WORKFLOWS.md), [MEMORY_LOGIC.md](MEMORY_LOGIC.md), [TOOLBOX.md](TOOLBOX.md)
 
 ---
