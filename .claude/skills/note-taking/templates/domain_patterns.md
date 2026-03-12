@@ -5,7 +5,6 @@ Reference for domain detection in braindump and process_inbox workflows. Used to
 ## Schema
 
 Each domain has:
-
 - `name`: PascalCase domain folder name
 - `primary_keywords`: High-confidence indicators (40% weight, max 1 match)
 - `secondary_keywords`: Supporting indicators (25% weight each, max 2 matches)
@@ -46,11 +45,11 @@ function detect_domain(content):
 
 ## Thresholds
 
-| Confidence | Range  | Action                    |
-| ---------- | ------ | ------------------------- |
-| High       | >= 80% | Auto-suggest as primary   |
-| Medium     | 60-79% | Suggest with confirmation |
-| Low        | < 60%  | No match, show menu       |
+| Confidence | Range | Action |
+|------------|-------|--------|
+| High | >= 80% | Auto-suggest as primary |
+| Medium | 60-79% | Suggest with confirmation |
+| Low | < 60% | No match, show menu |
 
 ## Domains
 
@@ -58,23 +57,63 @@ function detect_domain(content):
 
 **Scope:** PAL framework development, specifications, architecture decisions, system building
 
-| Type      | Patterns                                                                                                          |
-| --------- | ----------------------------------------------------------------------------------------------------------------- |
-| Primary   | "pal system", "pal architecture", "pal framework", "system-build", "specification", "claude code", "second brain" |
-| Secondary | "workflow", "agent", "skill", "template", "frontmatter", "domain structure", "hook", "routing"                    |
-| Exclude   | "I believe", "my goal", "I learned" (LifeOS signals)                                                              |
+| Type | Patterns |
+|------|----------|
+| Primary | "pal system", "pal architecture", "pal framework", "system-build", "specification", "claude code", "second brain" |
+| Secondary | "workflow", "agent", "skill", "template", "frontmatter", "domain structure", "hook", "routing" |
+| Exclude | "I believe", "my goal", "I learned" (LifeOS signals) |
 
 ### LifeOS
 
 **Scope:** Personal life context - beliefs, goals, projects, mission, mental models, lessons learned
 
-| Type      | Patterns                                                                                                       |
-| --------- | -------------------------------------------------------------------------------------------------------------- |
-| Primary   | "I believe", "my mission", "I learned", "my goal", "life purpose", "I realized", "my values"                   |
+| Type | Patterns |
+|------|----------|
+| Primary | "I believe", "my mission", "I learned", "my goal", "life purpose", "I realized", "my values" |
 | Secondary | "values", "principles", "worldview", "aspiration", "mental model", "framework for life", "personal philosophy" |
-| Exclude   | (none - LifeOS is the default personal domain)                                                                 |
+| Exclude | (none - LifeOS is the default personal domain) |
 
 **Note:** LifeOS has additional category detection. See braindump.md Step 4b.
+
+### Studio
+
+**Scope:** Video production, Scaledraw presentations, visual content, media production
+
+| Type | Patterns |
+|------|----------|
+| Primary | "video", "Scaledraw", "presentation", "production", "whiteboard", "visual content" |
+| Secondary | "recording", "editing", "visual", "media", "demo", "animation", "graphics", "thumbnail" |
+| Exclude | (none) |
+
+### PALOpenSource
+
+**Scope:** Release management, changelog, public distribution, open source packaging
+
+| Type | Patterns |
+|------|----------|
+| Primary | "release", "changelog", "version", "open source", "public repo", "distribution" |
+| Secondary | "sync", "publish", "MIT license", "github release", "tag", "semantic versioning" |
+| Exclude | (none) |
+
+### PALProduct
+
+**Scope:** Product strategy, roadmap, PRDs, user research, competitive analysis
+
+| Type | Patterns |
+|------|----------|
+| Primary | "product", "roadmap", "PRD", "user research", "feature request", "product strategy" |
+| Secondary | "persona", "hypothesis", "metrics", "user value", "competitive", "market", "pricing", "positioning" |
+| Exclude | "code", "implementation", "architecture" (PALBuilder signals) |
+
+### LaraLou (Blog)
+
+**Scope:** Substack content, newsletter, growth strategy, blog writing
+
+| Type | Patterns |
+|------|----------|
+| Primary | "substack", "newsletter", "essay", "blog post", "subscriber", "LaraLou" |
+| Secondary | "writing", "growth", "publish", "Lara", "audience", "engagement", "content calendar" |
+| Exclude | (none) |
 
 ## Overlap Handling
 
@@ -104,17 +143,14 @@ When a new domain is created:
 ## Workflow Integration
 
 ### braindump.md
-
 - Step 4a: Domain detection runs before category detection
 - If LifeOS detected, proceeds to category detection (Step 4b)
 - If other domain detected, skips category detection
 
 ### process_inbox.md
-
 - Step 3: Can use domain patterns for suggestions
 - User confirms or selects from menu
 
 ### distribute_notes.md
-
 - Step 3: Validates domain exists before distribution
-- Routes to `domains/[domain]/03_ASSETS/`
+- Routes to `domains/[domain]/03_PAGES/`

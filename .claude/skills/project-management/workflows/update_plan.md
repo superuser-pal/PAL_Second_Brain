@@ -32,9 +32,10 @@ For each source project file:
 2. Parse existing tasks
 3. Compare with MASTER.md version
 4. Identify changes:
-   - Status changes (e.g., `#open` → `#in-progress`)
+   - Checkbox symbol changes (e.g., `[ ]` → `[/]`, `[!]` → `[ ]`)
+   - Section moves (Active → Inactive, Inactive → Active, any → Done)
    - Task additions (new tasks in MASTER.md)
-   - Task completions (`#open`/`#in-progress` → `#done`)
+   - Task completions (→ `[x]`)
    - Task modifications (text changes)
 
 ```
@@ -67,33 +68,39 @@ Select option:
 
 For each project without conflicts (or with user resolution):
 
-#### 4a. Update Task Status
+#### 4a. Update Task Status and Section
 
-Move tasks between sections based on tag changes:
+Move tasks between Active/Inactive/Done sections based on checkbox symbol changes:
 
-**Before (in source):**
+**Example 1: To Do → In Progress (stay in Active)**
 
-```markdown
-### Open
+Before: `### Active → - [ ] Implement payment endpoints`
+After:  `### Active → - [/] Implement payment endpoints`
 
-- [ ] Implement payment endpoints `#open`
+**Example 2: In Progress → Blocked (Active → Inactive)**
 
-### In Progress
+Before: `### Active   → - [/] Deploy to production`
+After:  `### Inactive → - [!] Deploy to production`
 
-### Done
-```
+**Example 3: Blocked → To Do (Inactive → Active)**
 
-**After (applying MASTER.md change):**
+Before: `### Inactive → - [!] Complete security review`
+After:  `### Active   → - [ ] Complete security review`
 
-```markdown
-### Open
+**Example 4: Paused → In Progress (Inactive → Active)**
 
-### In Progress
+Before: `### Inactive → - [?] Add advanced analytics`
+After:  `### Active   → - [/] Add advanced analytics`
 
-- [ ] Implement payment endpoints `#in-progress`
+**Example 5: To Do → Not Doing (Active → Inactive)**
 
-### Done
-```
+Before: `### Active   → - [ ] Add GraphQL support`
+After:  `### Inactive → - [-] Add GraphQL support`
+
+**Example 6: Any → Done**
+
+Before: `### Active or Inactive → - [/] Task`
+After:  `### Done              → - [x] Task`
 
 #### 4b. Add New Tasks
 

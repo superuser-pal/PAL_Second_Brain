@@ -13,7 +13,7 @@ Capture URLs with automatic content extraction, insight generation, and categori
 
 ## Output Location
 
-- **Path:** `Inbox/Notes/url_[slug]_YYYY-MM-DD.md`
+- **Path:** `Inbox/Notes/[slug]-DD-MM-YYYY.md`
 - **Status:** `ready` (for distribution to domains)
 
 ---

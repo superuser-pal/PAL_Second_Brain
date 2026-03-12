@@ -12,13 +12,13 @@ Capture stream-of-consciousness thoughts with intelligent analysis and life-cont
 
 ## Output Location
 
-- **Path:** `Inbox/Notes/braindump_YYYY-MM-DD_topic.md`
+- **Path:** `Inbox/Notes/topic-DD-MM-YYYY.md`
 - **Status:** `ready` (if category assigned) or `unprocessed` (if user skips)
 
-**Topic naming:** The topic suffix is derived from the main theme identified during content analysis (Step 3). Examples:
-- `braindump_2026-02-26_career-reflections.md`
-- `braindump_2026-02-26_pal-architecture.md`
-- `braindump_2026-02-26_weekly-planning.md`
+**Topic naming:** The topic prefix is derived from the main theme identified during content analysis (Step 3). Examples:
+- `career-reflections-26-02-2026.md`
+- `pal-architecture-26-02-2026.md`
+- `weekly-planning-26-02-2026.md`
 
 ---
 
@@ -229,8 +229,8 @@ Your choice:
 If user chooses to split:
 
 1. **Create separate files** for each theme:
-   - `braindump_YYYY-MM-DD_theme1-topic.md`
-   - `braindump_YYYY-MM-DD_theme2-topic.md`
+   - `theme1-topic-DD-MM-YYYY.md`
+   - `theme2-topic-DD-MM-YYYY.md`
 
 2. **Assign individual frontmatter** to each:
    - Each gets its own `category`, `domain`, `type`
@@ -240,7 +240,7 @@ If user chooses to split:
    ```markdown
    ## Relations
 
-   - originated_with [[braindump_YYYY-MM-DD_theme2-topic]]
+   - originated_with [[theme2-topic-DD-MM-YYYY]]
    ```
 
 4. **Process each note** through remaining steps (5b, 6b, etc.)

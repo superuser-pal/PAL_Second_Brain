@@ -149,38 +149,24 @@ function parseTasks(content: string): Project["tasks"] {
     if (!section) return [];
     const taskLines = section.match(/- \[[ x\/!?I\-]\] .+/g) || [];
     return taskLines.map((line) => {
-      // Parse checkbox symbol
+      // Parse checkbox symbol to determine status
       const checkboxMatch = line.match(/- \[(.)\]/);
       const symbol = checkboxMatch?.[1] || ' ';
-
-      // Parse hashtag (if present)
-      const hashtagMatch = line.match(/#(open|in-progress|blocked|paused|backlog|not-doing|done)/);
-      const hashtag = hashtagMatch?.[1];
 
       let status: Task["status"];
       let checked = false;
 
-      // Checkbox symbols take precedence over hashtags
-      if (symbol !== ' ' && symbol !== 'x') {
-        // Custom checkbox symbol - use it
-        switch (symbol) {
-          case '/': status = 'in-progress'; break;
-          case '!': status = 'blocked'; break;
-          case '?': status = 'paused'; break;
-          case 'I': status = 'backlog'; break;
-          case '-': status = 'not-doing'; break;
-          default: status = 'todo'; break;
-        }
-      } else if (hashtag) {
-        // No custom symbol, use hashtag
-        status = hashtag === 'open' ? 'todo' : hashtag as Task["status"];
-      } else {
-        // Default based on checkbox
-        status = symbol === 'x' ? 'done' : 'todo';
+      switch (symbol) {
+        case 'x': status = 'done'; checked = true; break;
+        case '/': status = 'in-progress'; break;
+        case '!': status = 'blocked'; break;
+        case '?': status = 'paused'; break;
+        case 'I': status = 'backlog'; break;
+        case '-': status = 'not-doing'; break;
+        default: status = 'todo'; break;
       }
 
-      checked = (symbol === 'x' || status === 'done');
-      const text = line.replace(/- \[.\] /, '').replace(/`#[a-z-]+`/, '').trim();
+      const text = line.replace(/- \[.\] /, '').trim();
       return { text, status, checked };
     });
   };
@@ -256,20 +242,6 @@ function getCheckboxSymbol(status: Task["status"]): string {
   }
 }
 
-// Map status to hashtag
-function getHashtag(status: Task["status"]): string {
-  const hashtagMap: Record<Task["status"], string> = {
-    'todo': 'open',
-    'in-progress': 'in-progress',
-    'blocked': 'blocked',
-    'paused': 'paused',
-    'backlog': 'backlog',
-    'not-doing': 'not-doing',
-    'done': 'done',
-  };
-  return hashtagMap[status];
-}
-
 // Generate MASTER.md content
 function generateMasterContent(projects: Project[]): string {
   const now = new Date().toISOString().slice(0, 16).replace("T", " ");
@@ -330,8 +302,7 @@ inactive_tasks: ${inactiveTasks}
         content += `#### Active (${project.tasks.active.length} tasks)\n`;
         for (const task of project.tasks.active) {
           const symbol = getCheckboxSymbol(task.status);
-          const hashtag = getHashtag(task.status);
-          content += `- [${symbol}] ${task.text} \`#${hashtag}\`\n`;
+          content += `- [${symbol}] ${task.text}\n`;
         }
         content += `\n`;
       }
@@ -340,8 +311,7 @@ inactive_tasks: ${inactiveTasks}
         content += `#### Inactive (${project.tasks.inactive.length} tasks)\n`;
         for (const task of project.tasks.inactive) {
           const symbol = getCheckboxSymbol(task.status);
-          const hashtag = getHashtag(task.status);
-          content += `- [${symbol}] ${task.text} \`#${hashtag}\`\n`;
+          content += `- [${symbol}] ${task.text}\n`;
         }
         content += `\n`;
       }

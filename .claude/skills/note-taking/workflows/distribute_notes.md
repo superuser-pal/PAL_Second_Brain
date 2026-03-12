@@ -249,6 +249,29 @@ If no agent is loaded (note has `project:` but processing in blind mode):
 - Actions remain in note's `## Observations` section
 - Will be extracted on second pass with agent
 
+## Step 6e: Standalone Task Extraction to AD_HOC_TASKS.md
+
+**Condition:** Runs when a note has actionable tasks (`- [action]` or `- [ ]`) but NO `project:` field is assigned (`project: null`).
+
+### Process
+
+1. **Scan note for standalone tasks:**
+   - Look for lines matching `- [action] content` or `- [ ] content`
+   - Extract the task text
+
+2. **Locate AD_HOC_TASKS.md:**
+   - Path: `domains/[domain]/01_PROJECTS/AD_HOC_TASKS.md`
+   - If it doesn't exist for this domain, dynamically create it using standard templates.
+
+3. **Move tasks to AD_HOC_TASKS.md:**
+   - Find or create `## Tasks` and `### Open` sections
+   - Add each task with a backlink to the created asset:
+     ```markdown
+     ### Open
+     - [ ] [task content]
+       > Source: [[converted_filename]]
+     ```
+
 ## Step 7: Update Project Reference
 
 If note has `project:` field set (not null):

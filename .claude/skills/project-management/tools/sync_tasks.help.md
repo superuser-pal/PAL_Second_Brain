@@ -4,7 +4,7 @@ Bidirectional task synchronization between project files and the master task lis
 
 ## Overview
 
-This CLI tool automates task aggregation and synchronization across all PAL domains. It scans project files in `domains/*/01_PROJECTS/` and maintains a centralized task list in `/tasks/MASTER.md`.
+This CLI tool automates task aggregation and synchronization across all PAL domains. It scans project files in `domains/*/01_PROJECTS/` and maintains a centralized task list in `Inbox/Tasks/MASTER.md`.
 
 ## Installation
 
@@ -30,7 +30,7 @@ bun sync_tasks.ts pull
 1. Scans all `domains/*/01_PROJECTS/PROJECT_*.md` files
 2. Parses YAML frontmatter and task sections
 3. Extracts `#open` and `#in-progress` tasks
-4. Generates `/tasks/MASTER.md` with grouped tasks
+4. Generates `Inbox/Tasks/MASTER.md` with grouped tasks
 
 **Output:**
 ```
@@ -45,7 +45,7 @@ Task Breakdown:
   In-progress tasks: 4
   Total active: 16
 
-Output: /tasks/MASTER.md
+Output: Inbox/Tasks/MASTER.md
 ```
 
 ### push
@@ -183,5 +183,5 @@ This tool supports the project-management skill workflows:
 | File | Purpose |
 |------|---------|
 | `domains/*/01_PROJECTS/PROJECT_*.md` | Source project files |
-| `/tasks/MASTER.md` | Aggregated task list |
-| `/tasks/DASHBOARD.md` | Optional dashboard output |
+| `Inbox/Tasks/MASTER.md` | Aggregated task list |
+| `Inbox/Tasks/DASHBOARD.md` | Optional dashboard output |

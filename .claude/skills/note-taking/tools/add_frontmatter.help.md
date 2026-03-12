@@ -51,7 +51,7 @@ bun .claude/skills/note-taking/tools/add_frontmatter.ts [options]
 
 **Add basic frontmatter:**
 ```bash
-bun add_frontmatter.ts --file inbox/notes/my_note.md \
+bun add_frontmatter.ts --file Inbox/Notes/my_note.md \
   --domain ProjectAlpha \
   --status ready
 ```
@@ -97,7 +97,7 @@ bun add_frontmatter.ts --file ingested_doc.md \
 
 On success, prints:
 ```
-Frontmatter added: inbox/notes/my_note.md
+Frontmatter added: Inbox/Notes/my_note.md
   status: ready
   domain: ProjectAlpha
   project: (none)

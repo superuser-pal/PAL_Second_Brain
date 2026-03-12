@@ -20,21 +20,48 @@ Ask the user:
 
 Convert user input to `PascalCase`:
 
-| User Input        | Converted Name   |
-| ----------------- | ---------------- |
-| "Project Alpha"   | `ProjectAlpha`   |
-| "My Blog Project" | `MyBlogProject`  |
-| "API_Integration" | `ApiIntegration` |
+| User Input        | Converted Name    |
+| ----------------- | ----------------- |
+| "Project Alpha"   | `ProjectAlpha`    |
+| "My Blog Project" | `MyBlogProject`   |
+| "API_Integration" | `ApiIntegration`  |
+
+## Step 3.5: Determine Destination Repository
+
+Ask user:
+> "Where should this domain be created?"
+> 1. **Personal** - `Domains/` (main repo - private project)
+> 2. **Open Source** - `Domains/PALOpenSource/Domains/` (template domain)
+
+Based on answer, set base path:
+- **Personal:** `Domains/[DomainName]/`
+- **Open Source:** `Domains/PALOpenSource/Domains/[DomainName]/`
+
+After creation, update `.claude/core/reference/REPO_ROUTING.md` domains section with the new entry.
 
 ## Step 4: Create Directory Structure
 
 ```bash
-mkdir -p domains/[DomainName]/00_CONTEXT
-mkdir -p domains/[DomainName]/01_PROJECTS
-mkdir -p domains/[DomainName]/02_SESSIONS
-mkdir -p domains/[DomainName]/03_PAGES
-mkdir -p domains/[DomainName]/04_WORKSPACE
-mkdir -p domains/[DomainName]/05_ARCHIVE
+mkdir -p {base_path}/00_CONTEXT
+mkdir -p {base_path}/01_PROJECTS
+mkdir -p {base_path}/02_SESSIONS
+mkdir -p {base_path}/03_PAGES
+mkdir -p {base_path}/04_WORKSPACE
+mkdir -p {base_path}/05_ARCHIVE
+```
+
+**Example (Personal):**
+
+```bash
+mkdir -p Domains/[DomainName]/00_CONTEXT
+# ... etc
+```
+
+**Example (Open Source):**
+
+```bash
+mkdir -p Domains/PALOpenSource/Domains/[DomainName]/00_CONTEXT
+# ... etc
 ```
 
 ## Step 5: Create README.md Files
@@ -51,6 +78,42 @@ cp .claude/skills/create-domain/templates/README.05_ARCHIVE.template.md domains/
 ```
 
 Each README documents the folder's purpose, naming conventions, and usage guidelines.
+
+## Step 5.5: Create Ad-Hoc Tasks Project
+
+Create `domains/[DomainName]/01_PROJECTS/AD_HOC_TASKS.md` to capture standalone tasks for this domain.
+
+```yaml
+---
+name: AD_HOC_TASKS
+status: active
+priority: medium
+domain: [DomainName]
+created: [YYYY-MM-DD]
+last_modified: [YYYY-MM-DD]
+due_date: null
+owner: null
+tags: ["ad-hoc", "tasks"]
+---
+
+# Project: Ad-Hoc Tasks
+
+## Objective
+
+A centralized collection of standalone, ad-hoc tasks for the [DomainName] domain that do not belong to a specific larger project.
+
+## Tasks
+
+### Open
+
+### In Progress
+
+### Done
+
+## Notes
+
+## References
+```
 
 ## Step 6: Create INDEX.md
 
@@ -91,8 +154,8 @@ owner: [Owner if provided]
 - [Context](00_CONTEXT/)
 - [Projects](01_PROJECTS/)
 - [Sessions](02_SESSIONS/)
-- [Pages](03_PAGES/)
-- [Workspace](04_WORKSPACE/)
+- [Assets](03_PAGES/)
+- [Outputs](04_WORKSPACE/)
 - [Archive](05_ARCHIVE/)
 ```
 
@@ -135,8 +198,8 @@ Expected output:
 
 - `INDEX.md`
 - `CONNECTIONS.yaml`
-- `00_CONTEXT/` (with README.md)
-- `01_PROJECTS/` (with README.md)
+  - `00_CONTEXT/` (with README.md)
+- `01_PROJECTS/` (with README.md and AD_HOC_TASKS.md)
 - `02_SESSIONS/` (with README.md)
 - `03_PAGES/` (with README.md)
 - `04_WORKSPACE/` (with README.md)
@@ -147,7 +210,6 @@ Expected output:
 Ask the user:
 
 > "Does this domain need a domain agent?"
->
 > 1. **Yes** — Create a new domain agent now
 > 2. **No** — Skip agent creation
 
@@ -161,7 +223,21 @@ Invoke the `create_agent` workflow:
 
 **If No:** Proceed to Step 9.
 
-## Step 9: Final Checklist
+## Step 9: Update CLAUDE.md Active Domains Table
+
+Update `.claude/CLAUDE.md` — add a new row to the **Active Domains** table under `### Active Domains`:
+
+```markdown
+| [DomainName] | [agent-name or —] | [Brief purpose] |
+```
+
+- If an agent was created in Step 8.5: use its `name` field (lower-kebab-case)
+- If no agent was created: use `—` as placeholder
+- Derive purpose from the description provided in Step 2
+
+After editing, verify the table renders correctly with consistent column alignment.
+
+## Step 10: Final Checklist
 
 ### Structure
 
@@ -169,6 +245,7 @@ Invoke the `create_agent` workflow:
 - [ ] INDEX.md exists at domain root
 - [ ] CONNECTIONS.yaml exists at domain root
 - [ ] All six core folders exist (00_CONTEXT, 01_PROJECTS, 02_SESSIONS, 03_PAGES, 04_WORKSPACE, 05_ARCHIVE)
+- [ ] `01_PROJECTS/AD_HOC_TASKS.md` exists
 
 ### INDEX.md
 
@@ -192,7 +269,11 @@ Invoke the `create_agent` workflow:
 
 ### Domain Agent
 
-- [ ] Domain agent created (or noted as not needed)
+- [ ] Domain agent created (or `—` noted intentionally in CLAUDE.md)
+
+### CLAUDE.md
+
+- [ ] Active Domains table updated with new domain row
 
 ## Done
 
