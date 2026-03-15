@@ -32,7 +32,7 @@ system-build skill lean optimization complete. 10 workflows operational.
 
 - [Context](00_CONTEXT/)
 - [Projects](01_PROJECTS/)
-- [Sessions](02_SESSIONS/)
-- [Requirements](03_REQUIREMENTS/)
-- [Outputs](04_OUTPUTS/)
+- [Output](03_OUTPUT/)
+- [Sessions](04_SESSIONS/)
 - [Archive](05_ARCHIVE/)
+- [Requirements](06_REQUIREMENTS/)

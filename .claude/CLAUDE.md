@@ -41,14 +41,14 @@ When content routes to LifeOS, classify into:
 | frames   | `00_CONTEXT/frames.md`    | mental frames, perspectives, lenses        |
 | models   | `00_CONTEXT/models.md`    | mental models, decision frameworks         |
 | learned  | `00_CONTEXT/learned.md`   | lessons, realizations, "I learned"         |
-| goals    | `01_PROJECTS/goals.md`    | aspirations, objectives, targets           |
+| goals    | `00_CONTEXT/GOAL_*.md`    | aspirations, objectives, targets           |
 | projects | `01_PROJECTS/projects.md` | active work, initiatives                   |
 
 ### Routing Logic
 
 1. **Detect domain** - Match primary signals (high confidence) or secondary signals
 2. **LifeOS → detect category** - Route to specific file based on content type
-3. **Other domains → 03_PAGES/** - General notes go to domain's pages folder
+3. **Other domains → 02_PAGES/** - General notes go to domain's pages folder
 4. **No match** - Prompt user to select domain
 
 **Threshold:** ≥80% auto-suggest, 60-79% confirm, <60% show menu
@@ -63,7 +63,7 @@ When content routes to LifeOS, classify into:
 | ---------------- | -------------------------- | ------------------------------------- |
 | Capture thoughts | `/action:braindump`        | `Inbox/Notes/braindump_*.md`          |
 | Process inbox    | `/action:process-inbox`    | Adds YAML frontmatter                 |
-| Distribute notes | `/action:distribute-notes` | Moves to `Domains/[name]/03_PAGES/`   |
+| Distribute notes | `/action:distribute-notes` | Moves to `Domains/[name]/02_PAGES/`   |
 | Save URL         | `/action:url-dump`         | `Inbox/Notes/url_*.md`                |
 | Ingest document  | `/action:ingest-longform`  | Converts `ports/In/` → `Inbox/Notes/` |
 

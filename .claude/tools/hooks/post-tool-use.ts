@@ -24,6 +24,7 @@ interface SchemaScope {
   name: string;
   pattern: RegExp;
   requiredFields: string[];
+  description?: string;
 }
 
 // ─────────────────────────────────────────────────────────────────
@@ -38,25 +39,53 @@ const SCHEMA_SCOPES: SchemaScope[] = [
   },
   {
     name: "Domain Page",
-    pattern: /Domains\/[^/]+\/03_PAGES\/.*\.md$/,
+    pattern: /Domains\/[^/]+\/02_PAGES\/.*\.md$/,
     requiredFields: [
-      "status",
-      "domain",
-      "category",
+      "name",
       "type",
+      "domain",
+      "project",
+      "url",
+      "favorite",
+      "tags",
       "created",
-      "last_modified",
+      "last_updated",
     ],
   },
   {
     name: "Domain INDEX",
     pattern: /Domains\/[^/]+\/INDEX\.md$/,
-    requiredFields: ["name", "description", "status", "created", "updated"],
+    requiredFields: ["name", "description", "status", "last_updated"],
   },
   {
     name: "Project File",
     pattern: /Domains\/[^/]+\/01_PROJECTS\/PROJECT_.*\.md$/,
-    requiredFields: ["name", "status", "created"],
+    requiredFields: [
+      "name",
+      "domain",
+      "goal",
+      "status",
+      "priority",
+      "target_deadline",
+      "task_progress",
+      "tags",
+      "created",
+      "last_updated",
+    ],
+  },
+  // Context File (00_CONTEXT/*.md, not GOAL_*)
+  {
+    name: "Context File",
+    pattern: /Domains\/[^/]+\/00_CONTEXT\/(?!GOAL_)[^/]+\.md$/,
+    requiredFields: ["name", "domain", "description", "status", "tags", "last_updated"],
+    description: "Context file",
+  },
+  // Goal File (00_CONTEXT/GOAL_*.md)
+  {
+    name: "Goal File",
+    pattern: /Domains\/[^/]+\/00_CONTEXT\/GOAL_[^/]+\.md$/,
+    requiredFields: ["name", "domain", "description", "status", "target_deadline", "projects_related", "last_updated"],
+    description: "Goal file",
   },
 ];
 

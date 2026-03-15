@@ -54,7 +54,7 @@ If a domain does not follow this structure, it will not load correctly when acce
 | **Project files**    | `UPPER_SNAKE_CASE.md` | `PROJECT_FEATURE_X.md` | Active project files in 01_PROJECTS/.            |
 | **Session logs**     | `YYYY-MM-DD_title.md` | `2026-01-15_sync.md`   | Chronological session logs.                      |
 | **Asset files**      | `lower_snake_case.md` | `api_documentation.md` | Reference materials and assets.                  |
-| **Output files**     | Flexible              | Any naming             | Agent workspace and staging area in 04_WORKSPACE/.           |
+| **Output files**     | Flexible              | Any naming             | Agent workspace and staging area in 03_OUTPUT/.              |
 
 **Convention Rules:**
 
@@ -84,15 +84,15 @@ domains/DomainName/               # PascalCase directory name
 ├── 01_PROJECTS/                  # Active project files
 │   ├── PROJECT_FEATURE_X.md     # Active project for Feature X
 │   └── PROJECT_MIGRATION.md     # Active project for migration work
-├── 02_SESSIONS/                  # Chronological interaction logs
-│   ├── 2026-01-15_kickoff.md    # Session log with date prefix
-│   └── 2026-01-18_review.md    # Another session log
-├── 03_PAGES/                    # Raw documentation and reference materials
+├── 02_PAGES/                    # Raw documentation and reference materials
 │   ├── api_documentation.md     # Reference material
 │   ├── architecture_diagram.png # Visual assets
 │   └── requirements.md         # Project requirements
-├── 04_WORKSPACE/                   # Agent workspace and staging area
+├── 03_OUTPUT/                   # Agent workspace and staging area
 │   └── quarterly_report.pdf     # Output files (flexible naming)
+├── 04_SESSIONS/                  # Chronological interaction logs
+│   ├── 2026-01-15_kickoff.md    # Session log with date prefix
+│   └── 2026-01-18_review.md    # Another session log
 └── 05_ARCHIVE/                   # Deprecated content (Deprecation Pattern)
     └── PROJECT_OLD_FEATURE.md   # Archived project
 ```
@@ -105,9 +105,9 @@ domains/DomainName/               # PascalCase directory name
 | **CONNECTIONS.yaml** | External sources configuration               | Domain root                           |
 | **00_CONTEXT/**      | Domain-specific context and reference docs   | Background info, rules, constraints   |
 | **01_PROJECTS/**     | Active project documents                     | PROJECT_XXX.md files for ongoing work |
-| **02_SESSIONS/**     | Interaction logs and decisions               | Date-prefixed session summaries       |
-| **03_PAGES/**       | Reference materials                          | Documentation, data, diagrams         |
-| **04_WORKSPACE/**      | Agent workspace and staging area                       | Reports, exports, generated files     |
+| **02_PAGES/**        | Reference materials                          | Documentation, data, diagrams         |
+| **03_OUTPUT/**       | Agent workspace and staging area             | Reports, exports, generated files     |
+| **04_SESSIONS/**     | Interaction logs and decisions               | Date-prefixed session summaries       |
 | **05_ARCHIVE/**      | Deprecated content                           | Archived projects and old logs        |
 
 **Nesting Limit:** Do not exceed three vertical levels below the domain root. Flatten deeper structures using semantic naming.
@@ -155,9 +155,9 @@ owner: [Owner name or team]
 
 - [Context](00_CONTEXT/)
 - [Projects](01_PROJECTS/)
-- [Sessions](02_SESSIONS/)
-- [Assets](03_PAGES/)
-- [Outputs](04_WORKSPACE/)
+- [Pages](02_PAGES/)
+- [Output](03_OUTPUT/)
+- [Sessions](04_SESSIONS/)
 - [Archive](05_ARCHIVE/)
 ```
 
@@ -334,7 +334,7 @@ updated: YYYY-MM-DD
 
 ---
 
-## Session Logs (02_SESSIONS/)
+## Session Logs (04_SESSIONS/)
 
 Session logs capture interaction history and decisions.
 
@@ -370,7 +370,7 @@ type: sync | review | planning | decision
 
 ---
 
-## Outputs (04_WORKSPACE/)
+## Outputs (03_OUTPUT/)
 
 Output files are generated deliverables produced from domain work.
 
@@ -378,7 +378,7 @@ Output files are generated deliverables produced from domain work.
 
 **Examples:** Reports, exports, generated documents, compiled assets, presentations.
 
-**Note:** When outputs are no longer actively referenced, they can be archived to `05_ARCHIVE/`.
+**Note:** When outputs are no longer actively referenced, they can be archived to `05_ARCHIVE/`. Folder `03_OUTPUT/` replaces the previous `04_WORKSPACE/` name.
 
 ---
 
@@ -396,7 +396,7 @@ When projects become stale, sessions are no longer relevant, or outputs are supe
 deprecated: YYYY-MM-DD
 reason: Project completed | Superseded by PROJECT_NEW.md | No longer relevant | Cancelled
 original_location:
-  [00_CONTEXT/ | 01_PROJECTS/ | 02_SESSIONS/ | 03_PAGES/ | 04_WORKSPACE/]
+  [00_CONTEXT/ | 01_PROJECTS/ | 02_PAGES/ | 03_OUTPUT/ | 04_SESSIONS/]
 ---
 
 [Original content below]
@@ -413,7 +413,7 @@ Before a domain is complete:
 - [ ] Domain directory uses PascalCase
 - [ ] INDEX.md exists at domain root
 - [ ] CONNECTIONS.yaml exists at domain root (can be empty if no external sources)
-- [ ] All six core folders exist (00_CONTEXT, 01_PROJECTS, 02_SESSIONS, 03_PAGES, 04_WORKSPACE, 05_ARCHIVE)
+- [ ] All six core folders exist (00_CONTEXT, 01_PROJECTS, 02_PAGES, 03_OUTPUT, 04_SESSIONS, 05_ARCHIVE)
 - [ ] No nesting beyond three levels
 
 ### INDEX.md
@@ -421,7 +421,7 @@ Before a domain is complete:
 - [ ] Contains proper YAML frontmatter (name, description, status, created, updated)
 - [ ] Contains Source of Truth content (Current State, Key Facts, Active Work, Quick Links)
 - [ ] Active Work table tracks projects from 01_PROJECTS/
-- [ ] Quick Links reference all six folders
+- [ ] Quick Links reference all six folders (00_CONTEXT, 01_PROJECTS, 02_PAGES, 03_OUTPUT, 04_SESSIONS, 05_ARCHIVE)
 
 ### Naming
 
@@ -449,9 +449,9 @@ Before a domain is complete:
 | **CONNECTIONS.yaml** | External sources config      | Domain root                               |
 | **00_CONTEXT/**      | Domain context and reference | lower_snake_case.md files                 |
 | **01_PROJECTS/**     | Active project documents     | PROJECT_XXX.md files                      |
-| **02_SESSIONS/**     | Interaction logs             | YYYY-MM-DD_title.md files                 |
-| **03_PAGES/**       | Reference materials          | lower_snake_case files                    |
-| **04_WORKSPACE/**      | Agent workspace and staging area       | Flexible naming                           |
+| **02_PAGES/**        | Reference materials          | lower_snake_case files                    |
+| **03_OUTPUT/**       | Agent workspace and staging area | Flexible naming                       |
+| **04_SESSIONS/**     | Interaction logs             | YYYY-MM-DD_title.md files                 |
 | **05_ARCHIVE/**      | Deprecated content           | Preserved original filenames              |
 
 This system ensures:

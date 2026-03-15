@@ -26,9 +26,9 @@ Life OS is the personal life management domain within PAL Second Brain. It store
 |--------|---------|
 | `00_CONTEXT/` | Core philosophy - mission, beliefs, frames, models, learned |
 | `01_PROJECTS/` | Active work - goals, projects |
-| `02_SESSIONS/` | Update logs and session history |
-| `03_ASSETS/` | Raw notes, ideas, inbox items for extraction |
-| `04_OUTPUTS/` | Generated reports and life summaries |
+| `02_PAGES/` | Raw notes, ideas, inbox items for extraction |
+| `03_OUTPUT/` | Generated reports and life summaries |
+| `04_SESSIONS/` | Update logs and session history |
 | `05_ARCHIVE/` | Archived content and backups |
 
 ## Core Files
@@ -48,7 +48,7 @@ Life OS is the personal life management domain within PAL Second Brain. It store
 
 Access via the `life-management` skill:
 - **Update** - Add or edit content in life files
-- **Extract** - Process notes from 03_ASSETS/ into main files
+- **Extract** - Process notes from 02_PAGES/ into main files
 - **Export** - Generate life summary reports
 
 ## Agent
