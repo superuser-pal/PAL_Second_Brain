@@ -4,6 +4,7 @@ description: Personal life operating system - mission, beliefs, goals, projects,
 status: active
 created: 2026-02-15
 updated: 2026-02-15
+domain-agent: life-coach
 ---
 
 # Life OS Domain

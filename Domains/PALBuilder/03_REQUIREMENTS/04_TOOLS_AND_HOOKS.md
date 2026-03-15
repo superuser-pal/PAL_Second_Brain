@@ -323,13 +323,13 @@ Source: [stop.ts](.claude/tools/hooks/stop.ts)
 
 ---
 
-### 4.1.15 post-tool-use Hook Validates Frontmatter Schema
+### 4.1.15 post-tool-use Hook Validates and Heals Frontmatter Schema
 
 **Given** a Write or Edit operation completes on a `.md` file
 **When** the file path matches a validated scope (Inbox Notes, Domain Pages, Domain INDEX, Project files)
 **Then** the hook reads the file from disk and validates YAML frontmatter against the required schema
-
-**And then** missing fields are reported as warnings via `additionalContext` JSON output
+**And then** attempts to auto-heal missing standard fields (e.g. injecting current timestamp or draft status)
+**And then** missing fields that cannot be healed are reported as warnings via `additionalContext` JSON output
 
 Category: Data Quality
 Verification: Write a note to `Inbox/Notes/` without frontmatter, confirm schema warning appears
@@ -385,16 +385,15 @@ Source: [post-tool-use.ts](.claude/tools/hooks/post-tool-use.ts)
 
 ---
 
-### 4.1.20 post-tool-use Hook Never Blocks
+### 4.1.20 post-tool-use Hook Auto-Heals Standard Fields
 
-**Given** a schema validation warning is generated
-**When** the hook outputs the warning
-**Then** the hook exits with code 0 (warning only, never blocking)
-
-**And then** the warning is delivered as `additionalContext` JSON for the agent to see and correct
+**Given** a schema validation finds missing fields like `created`, `status`, or `category`
+**When** the hook has valid defaults to inject
+**Then** the hook silently injects these fields directly into the file's frontmatter
+**And then** logs the auto-healing action via `additionalContext` JSON, avoiding blocking operations.
 
 Category: Data Quality
-Verification: Write file with missing fields, confirm write succeeds and warning is informational only
+Verification: Write file with missing `status` or `created` date, verify file is quietly updated by the hook
 Source: [post-tool-use.ts](.claude/tools/hooks/post-tool-use.ts)
 
 ---

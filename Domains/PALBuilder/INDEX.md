@@ -4,6 +4,7 @@ description: PAL Second Brain system development workspace
 status: active
 created: 2026-02-13
 updated: 2026-02-13
+domain-agent: pal-builder
 ---
 
 # PAL Builder

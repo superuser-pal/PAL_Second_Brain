@@ -83,6 +83,40 @@ Source: [agent_template.md](.claude/skills/create-agent/agent_template.md)
 **When** it activates
 **Then** it executes these steps in order:
 1. Load Persona (agent file already in context)
+2. Load Activation Files (execute AUTO files, e.g., INDEX.md)
+3. Load Activation Folders (index REF folders)
+4. Extract User Name (from ABOUTME.md)
+5. Display Greeting (state role, show Command Menu)
+6. Wait for Input (do not auto-execute)
+
+Category: Functional
+Verification: Run `/[agent-name]` and confirm 6-step initialization
+Source: [AGENT_BASE.md](.claude/core/system/AGENT_BASE.md)
+
+---
+
+### 2.0.6 Agent Command Menu Exposes Delegate Functionality
+
+**Given** an agent is loaded
+**When** the user brings up the command menu
+**Then** the `*delegate` command is available to delegate a task to a sub-agent.
+
+Category: Functional
+Verification: Load any agent and check the `*menu` output for `*delegate`
+Source: [AGENT_BASE.md](.claude/core/system/AGENT_BASE.md)
+
+---
+
+### 2.0.7 Agents Must Delegate Responsibilities Out of Scope
+
+**Given** an agent receives a request outside its domain
+**When** the user explicitly asks it to handle the task
+**Then** the agent should either decline and suggest `*dismiss` to return to PAL Master OR
+**And then** suggest `*delegate to [agent]` to safely invoke another agent and resume later.
+
+Category: Operational
+Verification: Request an agent to complete an unrelated task, verify it offers to delegate or dismiss.
+Source: [AGENT_BASE.md](.claude/core/system/AGENT_BASE.md)
 2. Load Base Context (3 fixed REFs: ABOUTME, DIRECTIVES, GUARDRAILS)
 3. Load Domain Context (INDEX.md as AUTO, domain folders as REF)
 4. Extract User Name from ABOUTME.md
