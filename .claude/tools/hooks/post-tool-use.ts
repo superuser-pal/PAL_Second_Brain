@@ -35,16 +35,17 @@ const SCHEMA_SCOPES: SchemaScope[] = [
   {
     name: "Inbox Note",
     pattern: /Inbox\/Notes\/.*\.md$/,
-    requiredFields: ["status", "category", "created", "last_modified"],
+    requiredFields: ["origin", "type", "status", "created", "last_updated"],
   },
   {
     name: "Domain Page",
     pattern: /Domains\/[^/]+\/02_PAGES\/.*\.md$/,
     requiredFields: [
       "name",
+      "origin",
       "type",
+      "status",
       "domain",
-      "project",
       "url",
       "favorite",
       "tags",
@@ -56,6 +57,12 @@ const SCHEMA_SCOPES: SchemaScope[] = [
     name: "Domain INDEX",
     pattern: /Domains\/[^/]+\/INDEX\.md$/,
     requiredFields: ["name", "description", "status", "last_updated"],
+  },
+  {
+    name: "Task List",
+    pattern: /Domains\/[^/]+\/01_PROJECTS\/AD_HOC_TASKS\.md$/,
+    requiredFields: ["name", "type", "domain", "last_updated"],
+    description: "Ad hoc task list",
   },
   {
     name: "Project File",

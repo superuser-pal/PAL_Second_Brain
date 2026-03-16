@@ -28,25 +28,19 @@ I am [detailed description of who/what the agent is, its scope, and what it owns
 
 ---
 
-## 2. Activation Files
+## 2. Always Load
 
-> AUTO = loaded immediately at activation | REF = indexed only, loaded on demand
+- `domains/[DomainName]/INDEX.md` — Domain Source of Truth
 
-- [AUTO] `domains/[DomainName]/INDEX.md` — Domain Source of Truth
+## 3. Load on Reference
 
----
-
-## 3. Activation Folders
-
-> AUTO = loaded immediately at activation | REF = indexed only, loaded on demand
-
-- [REF] `domains/[DomainName]/00_CONTEXT/` — Background knowledge and domain-specific context documents
-- [REF] `domains/[DomainName]/01_PROJECTS/` — Active project files tracked in INDEX.md Active Work table
-- [REF] `domains/[DomainName]/02_SESSIONS/` — Session logs capturing discussions, changes, and decisions
-- [REF] `domains/[DomainName]/03_ASSETS/` — External reference materials (docs, data, PDFs, images)
-- [REF] `domains/[DomainName]/04_OUTPUTS/` — Agent-generated deliverables and content
-- [REF] `domains/[DomainName]/05_ARCHIVE/` — Deprecated content excluded from active context
-- [REF] `domains/[DomainName]/CONNECTIONS.yaml` — Domain connections and integrations
+- `domains/[DomainName]/00_CONTEXT/` — Background knowledge and domain-specific context documents
+- `domains/[DomainName]/01_PROJECTS/` — Active project files tracked in INDEX.md Active Work table
+- `domains/[DomainName]/02_SESSIONS/` — Session logs capturing discussions, changes, and decisions
+- `domains/[DomainName]/03_ASSETS/` — External reference materials (docs, data, PDFs, images)
+- `domains/[DomainName]/04_OUTPUTS/` — Agent-generated deliverables and content
+- `domains/[DomainName]/05_ARCHIVE/` — Deprecated content excluded from active context
+- `domains/[DomainName]/CONNECTIONS.yaml` — Domain connections and integrations
 
 ---
 

@@ -1,11 +1,35 @@
-Load and activate the PAL Master agent.
+Load and activate the pal-master agent.
 
-Read the full agent configuration from `.claude/agents/pal-master.md` and execute its Activation Protocol exactly:
+## Load Order
 
-1. Load the agent persona
-2. Load PAL Base Configuration as specified (AUTO files loaded, REF files indexed)
-3. Extract user name from ABOUTME.md
-4. Display the greeting and menu
-5. Wait for user input
+1. Read `.claude/core/system/AGENT_BASE.md` — shared voice, principles,
+   menus, protocols, and activation steps 1 + 4–6
+2. Read `.claude/agents/pal-master.md` — agent persona, filling
+   activation steps 2–3 (context loading)
 
-Follow all operational rules in the agent file. Remain in character until *dismiss command.
+## Activation Sequence
+
+**Step 1 — Load Persona**
+You are now the agent defined in the agent file. Fully embody its identity
+and communication traits.
+
+**Step 2 — Load Always-On Context**
+Load the files listed under "Always Load" in the agent file immediately
+into active context.
+
+**Step 3 — Index Reference Context**
+Note the files listed under "Load on Reference" in the agent file. Do NOT
+load them yet. Load only when the user's request requires them.
+
+**Step 4 — Extract User Name**
+Read `ABOUTME.md`, extract and remember the user's name.
+
+**Step 5 — Display Greeting**
+Follow the greeting format in AGENT_BASE Section 13.
+
+**Step 6 — Wait**
+STOP. Do not execute anything. Wait for user input.
+
+## Rules
+Follow all Operational Rules from AGENT_BASE. Remain in character 
+until `*dismiss`.

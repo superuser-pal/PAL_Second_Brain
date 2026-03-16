@@ -1,8 +1,9 @@
 ---
 name: pal-builder
+domain: PALBuilder
 description: PAL System Architect for second brain development through specification-driven design
 version: 3.1.0
-domain: PALBuilder
+last_updated: 2026-03-15
 ---
 
 # PAL Builder
@@ -26,25 +27,19 @@ I own the pal-builder domain and use the system-build skill to create structured
 
 ---
 
-## 2. Activation Files
+## 2. Always Load
 
-> AUTO = loaded immediately at activation | REF = indexed only, loaded on demand
+- `domains/pal-builder/INDEX.md` — Domain Source of Truth
+- `domains/pal-builder/00_CONTEXT/` — Architecture decisions and context
 
-- [AUTO] `domains/pal-builder/INDEX.md` — Domain Source of Truth
+## 3. Load on Reference
 
----
-
-## 3. Activation Folders
-
-> AUTO = loaded immediately at activation | REF = indexed only, loaded on demand
-
-- [AUTO] `domains/pal-builder/00_CONTEXT/` — Architecture decisions and context
-- [REF] `domains/pal-builder/01_PROJECTS/` — Active project files
-- [REF] `domains/pal-builder/02_SESSIONS/` — Session logs
-- [REF] `domains/pal-builder/03_REQUIREMENTS/` — System Requirements
-- [REF] `domains/pal-builder/04_OUTPUTS/` — Generated deliverables
-- [REF] `domains/pal-builder/05_ARCHIVE/` — Deprecated content
-- [REF] `domains/pal-builder/CONNECTIONS.yaml` — Domain connections
+- `domains/pal-builder/01_PROJECTS/` — Active project files
+- `domains/pal-builder/02_SESSIONS/` — Session logs
+- `domains/pal-builder/03_REQUIREMENTS/` — System Requirements
+- `domains/pal-builder/04_OUTPUTS/` — Generated deliverables
+- `domains/pal-builder/05_ARCHIVE/` — Deprecated content
+- `domains/pal-builder/CONNECTIONS.yaml` — Domain connections
 
 ---
 

@@ -108,20 +108,20 @@ WebFetch URL with prompt: "Extract the following:
 - **Use Cases:** How user might apply this
 - **Pricing:** Free/Freemium/Paid/Enterprise (if detected)
 
-### Step 3e: Auto-Detect Category
+### Step 3e: Auto-Detect Type
 
-Map content to PAL categories:
+Map content to PAL types:
 
-| Content Signals                                | PAL Category |
-| ---------------------------------------------- | ------------ |
-| Long-form analysis, tutorials, studies, papers | `research`   |
-| Software, utilities, APIs, libraries, tools    | `reference`  |
-| Documentation, specs, standards                | `reference`  |
-| Creative references, design inspiration        | `idea`       |
-| News, updates, temporal content                | `notes`      |
-| General articles, unclear                      | `notes`      |
+| Content Signals                                | Type        |
+| ---------------------------------------------- | ----------- |
+| Long-form analysis, tutorials, studies, papers | `reference` |
+| Software, utilities, APIs, libraries, tools    | `reference` |
+| Documentation, specs, standards                | `reference` |
+| Creative references, design inspiration        | `idea`      |
+| News, updates, temporal content                | `note`      |
+| General articles, unclear                      | `note`      |
 
-**If unclear, default to `notes` and let user adjust during distribution.**
+**If unclear, default to `note` and let user adjust during distribution.**
 
 ### Step 3f: Build Frontmatter
 
@@ -131,18 +131,19 @@ Generate YAML frontmatter using PAL schema:
 
 ```yaml
 ---
-status: "ready"
+name: "[title-slug]"
+origin: manual
+type: "[detected-type]"
+status: ready
+description: "[AI-generated 1-2 sentence summary]"
 domain: null
 project: null
-category: "[detected-category]"
-subsection: null
-description: "[AI-generated 1-2 sentence summary]"
-created: "YYYY-MM-DD"
-last_modified: "YYYY-MM-DD"
-source_type: "url-article"
-source_file: null
-source_url: "[original-url]"
+origin_agent: null
+url: "[original-url]"
+favorite: false
 tags: ["url-capture", "topic1", "topic2"]
+created: "YYYY-MM-DD"
+last_updated: "YYYY-MM-DD"
 url_domain: "[source-domain.com]"
 url_author: "[author-if-available]"
 url_published: "[publish-date-if-available]"
@@ -156,18 +157,19 @@ relevance: "[high|medium|low]"
 
 ```yaml
 ---
-status: "ready"
+name: "[tool-name-slug]"
+origin: manual
+type: reference
+status: ready
+description: "[AI-generated 1-2 sentence summary]"
 domain: null
 project: null
-category: "reference"
-subsection: null
-description: "[AI-generated 1-2 sentence summary]"
-created: "YYYY-MM-DD"
-last_modified: "YYYY-MM-DD"
-source_type: "url-tool"
-source_file: null
-source_url: "[original-url]"
+origin_agent: null
+url: "[original-url]"
+favorite: false
 tags: ["url-capture", "tool", "topic1", "topic2"]
+created: "YYYY-MM-DD"
+last_updated: "YYYY-MM-DD"
 url_domain: "[source-domain.com]"
 content_type: "tool"
 relevance: "[high|medium|low]"
@@ -321,7 +323,7 @@ Save to `Inbox/Notes/`
 **Saved:** Inbox/Notes/[slug]-DD-MM-YYYY.md
 **Title:** [Page Title]
 **Type:** [article|tool|etc]
-**Category:** [detected category]
+**Note type:** [detected type]
 **Status:** ready
 **Description:** [generated description]
 
@@ -343,7 +345,7 @@ Processing [X] URLs...
 
 | #   | Title     | Type    | Category  | Status           |
 | --- | --------- | ------- | --------- | ---------------- |
-| 1   | [Title 1] | article | research  | saved            |
+| 1   | [Title 1] | article | reference | saved            |
 | 2   | [Title 2] | tool    | reference | saved            |
 | 3   | [Title 3] | -       | -         | failed: [reason] |
 
@@ -372,7 +374,7 @@ Run `distribute notes` to assign domains and move to projects
 | Fetch failed (other)      | Create entry with minimal metadata, note "Content unavailable"                                  |
 | Paywalled content         | Extract available preview, note "Paywalled - limited extraction"                                |
 | Empty page                | "No content extracted from [url]. Skipping."                                                    |
-| Duplicate URL             | "URL already captured: [existing-file]. Skipping." (check Inbox/Notes/ for matching source_url) |
+| Duplicate URL             | "URL already captured: [existing-file]. Skipping." (check Inbox/Notes/ for matching url) |
 
 ## Next Workflows
 

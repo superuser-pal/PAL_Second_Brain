@@ -39,6 +39,15 @@ last_updated: 2026-03-06
 
 ---
 
+## Reference Files
+
+| File | Purpose |
+|------|---------|
+| `DOMAINS_REGISTRY.md` | Single source of truth for all domain definitions, routing signals, and detection patterns |
+| `ROUTING_TABLE.md` | Agent routing decisions |
+
+---
+
 **Version:** 2.1.0
-**Last Updated:** 2026-03-08
+**Last Updated:** 2026-03-16
 **Total:** 3 agents · 12 skill assignments (9 unique skills)

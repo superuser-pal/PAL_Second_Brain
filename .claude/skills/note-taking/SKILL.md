@@ -11,7 +11,7 @@ Unified note management skill with semantic structure (observation categories, e
 ## Semantic Features
 
 - **Observation Categories** (10 types): fact, idea, decision, technique, requirement, question, insight, problem, solution, action
-- **Entity Types** (6 types): concept, decision, reference, meeting, braindump, idea
+- **Entity Types** (12 types): concept, decision, reference, meeting, idea, note, belief, frame, lesson, model, goal, plan
 - **Relation Types** (10 types): part_of, supports, contradicts, evolved_from, informs, blocks, inspired_by, relates_to, originated_with, follows
 - **Dedup Check**: Detects similar notes before creating duplicates
 - **Action Extraction**: Automatically creates tasks from `[action]` observations

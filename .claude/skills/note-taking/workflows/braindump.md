@@ -13,7 +13,7 @@ Capture stream-of-consciousness thoughts with intelligent analysis and life-cont
 ## Output Location
 
 - **Path:** `Inbox/Notes/topic-DD-MM-YYYY.md`
-- **Status:** `ready` (if category assigned) or `unprocessed` (if user skips)
+- **Status:** `ready` (if type assigned) or `unprocessed` (if user skips)
 
 **Topic naming:** The topic prefix is derived from the main theme identified during content analysis (Step 3). Examples:
 - `career-reflections-26-02-2026.md`
@@ -97,7 +97,7 @@ Analyze content to detect target domain, themes, and determine if splitting is a
 
 ### Step 4a: Domain Detection
 
-Before category detection, identify which domain(s) the content relates to.
+Before type detection, identify which domain(s) the content relates to.
 
 **Reference:** `templates/domain_patterns.md`
 
@@ -125,25 +125,23 @@ Before category detection, identify which domain(s) the content relates to.
    - If multiple domains >= 70%: Flag for overlap handling (Step 4e)
    - If no domain >= 60%: `detected_domain = null` (will show menu in Step 5)
 
-### Step 4b: LifeOS Category Detection
+### Step 4b: LifeOS Type Detection
 
 **Condition:** Only runs if `detected_domain == LifeOS` OR `detected_domain == null`
 
-If LifeOS is detected (or no domain detected), check for specific category patterns:
+If LifeOS is detected (or no domain detected), check for specific type patterns:
 
-| Pattern | Category | Confidence Signal |
-|---------|----------|-------------------|
-| "I believe...", values, worldview | `beliefs.md` | Strong |
-| "My purpose...", "why I...", direction | `mission.md` | Strong |
-| "I see it as...", perspective shifts | `frames.md` | Medium |
-| "When X, I do Y", decision frameworks | `models.md` | Medium |
-| "I learned...", "I realized...", insights | `learned.md` | Strong |
-| "I want to...", aspirations, targets | `goals.md` | Strong |
-| "I'm working on...", initiatives | `projects.md` | Strong |
+| Pattern | Type | Confidence Signal |
+|---------|------|-------------------|
+| "I believe...", values, worldview | `belief` | Strong |
+| "I see it as...", perspective shifts | `frame` | Medium |
+| "I learned...", "I realized...", insights | `lesson` | Strong |
+| "When X, I do Y", decision frameworks | `model` | Medium |
+| "I want to...", aspirations, targets | `goal` | Strong |
 
 **Outcome:**
-- If category detected: Set `detected_category = [category].md`
-- If no category: Set `detected_category = notes`
+- If type detected: Set `detected_type = [type]`
+- If no type: Set `detected_type = note`
 
 Note all detected patterns with confidence levels.
 
@@ -159,7 +157,7 @@ Identify distinct themes in the braindump:
 
 2. **For each segment:**
    - Run domain detection (Step 4a patterns)
-   - If LifeOS, run category detection (Step 4b patterns)
+   - If LifeOS, run type detection (Step 4b patterns)
    - Assign confidence score (0-100%)
 
 ### Step 4d: Split Decision Logic
@@ -171,7 +169,7 @@ Identify distinct themes in the braindump:
 
 **Don't split when:**
 - Single dominant theme (>80% of content)
-- Themes share same domain AND same category
+- Themes share same domain AND same type
 - Example: "PAL workflow idea + PAL template idea" both map to PALBuilder = don't split
 
 **Do split when:**
@@ -188,8 +186,8 @@ When content matches multiple domains with high confidence, present choice:
 ```
 This content could belong to multiple destinations:
 
-1. [Domain1] / [category] ([X%]) - "[matched pattern]"
-2. [Domain2] / [category] ([Y%]) - "[matched pattern]"
+1. [Domain1] / [type] ([X%]) - "[matched pattern]"
+2. [Domain2] / [type] ([Y%]) - "[matched pattern]"
 
 Where should this go?
 ```
@@ -207,13 +205,13 @@ I detected 2 distinct themes in this braindump:
 
 Theme 1: [topic summary]
   Domain: [detected_domain]
-  Category: [category if LifeOS, else "notes"]
+  Type: [type if LifeOS, else "note"]
   Confidence: [X%]
   Content: "[preview of first ~50 chars]..."
 
 Theme 2: [topic summary]
   Domain: [detected_domain]
-  Category: [category if LifeOS, else "notes"]
+  Type: [type if LifeOS, else "note"]
   Confidence: [Y%]
   Content: "[preview of first ~50 chars]..."
 
@@ -233,7 +231,7 @@ If user chooses to split:
    - `theme2-topic-DD-MM-YYYY.md`
 
 2. **Assign individual frontmatter** to each:
-   - Each gets its own `category`, `domain`, `type`
+   - Each gets its own `domain`, `type`, `origin`
    - Each gets relevant subset of tags
 
 3. **Add cross-references** using `originated_with` relation:
@@ -247,46 +245,28 @@ If user chooses to split:
 
 ### Cancel Handling
 
-If user cancels split prompt: Keep as single note, proceed with primary category.
+If user cancels split prompt: Keep as single note, proceed with primary type.
 
-## Step 4b: Detect Subsection
-
-After determining category, detect which **subsection** the content belongs to:
-
-| Category | Subsections | Detection Patterns |
-|----------|-------------|-------------------|
-| beliefs.md | Worldview, Values, Convictions | "I see the world...", principles, strong beliefs |
-| mission.md | Purpose, Vision, Direction | "my purpose...", "I envision...", "I'm heading toward..." |
-| frames.md | Mental Lenses, Perspectives | "I see it as...", "think of it like..." |
-| models.md | Decision Frameworks, Heuristics | "when X, I do Y", "my rule is..." |
-| learned.md | Insights, Realizations, Lessons | "I learned...", "I realized...", "what worked..." |
-| goals.md | Short-term, Medium-term, Long-term | timeframe indicators |
-| projects.md | Active, Planned, On Hold | status indicators |
-
-**Detection Rules:**
-- If clear subsection match: Set `subsection: [detected]`
-- If unclear: Set `subsection: null` (will append at end of file)
-
-## Step 5: Domain and Category Assignment
+## Step 5: Domain and Type Assignment
 
 Assignment flow depends on detection results from Step 4.
 
-### Case A: LifeOS domain + category detected
+### Case A: LifeOS domain + type detected
 
 Present detection for confirmation:
 
 ```
-I detected this content belongs to: LifeOS / [category]
+I detected this content belongs to: LifeOS / [type]
 
 Domain confidence: [X%]
-Category confidence: [Y%]
+Type confidence: [Y%]
 
 Extracted: "[relevant quote from content]..."
 
 Is this classification correct? (Y/N/Edit)
 ```
 
-- **User confirms (Y):** Set `domain: LifeOS`, `category: [detected].md`, `status: ready`
+- **User confirms (Y):** Set `domain: LifeOS`, `type: [detected]`, `status: ready`
 - **User edits:** Apply user's correction
 - **User rejects (N):** Proceed to manual selection (Case D)
 
@@ -303,33 +283,31 @@ Evidence: "[matched keywords/patterns]"
 Is this correct? (Y/N/Edit)
 ```
 
-- **User confirms (Y):** Set `domain: [detected]`, `category: notes`, `status: ready`
+- **User confirms (Y):** Set `domain: [detected]`, `type: note`, `status: ready`
 - **User edits:** Show domain selection menu (Case D)
 - **User rejects (N):** Proceed to manual selection (Case D)
 
-### Case C: LifeOS domain detected, no category
+### Case C: LifeOS domain detected, no type
 
-Present domain with category selection:
+Present domain with type selection:
 
 ```
-I detected this belongs to LifeOS but couldn't determine the category.
+I detected this belongs to LifeOS but couldn't determine the type.
 
-Which life-context file should this go to?
+Which type best fits this content?
 
-1. beliefs.md  - Core beliefs and values
-2. frames.md   - Mental perspectives and lenses
-3. learned.md  - Lessons and insights
-4. mission.md  - Purpose and direction
-5. models.md   - Decision frameworks
-6. goals.md    - Objectives and aspirations
-7. projects.md - Active initiatives
-8. None        - Keep as general LifeOS note
+1. belief  - Core beliefs and values
+2. frame   - Mental perspectives and lenses
+3. lesson  - Lessons and insights
+4. model   - Decision frameworks
+5. goal    - Objectives and aspirations
+6. None    - Keep as general note
 
 Your choice:
 ```
 
-- **User selects 1-7:** Set `domain: LifeOS`, `category: [selected].md`, `status: ready`
-- **User selects 8 (None):** Set `domain: LifeOS`, `category: notes`, `status: ready`
+- **User selects 1-5:** Set `domain: LifeOS`, `type: [selected]`, `status: ready`
+- **User selects 6 (None):** Set `domain: LifeOS`, `type: note`, `status: ready`
 
 ### Case D: No domain detected (manual selection)
 
@@ -350,9 +328,9 @@ Available domains:
 Your choice:
 ```
 
-- **User selects 1 (LifeOS):** Proceed to LifeOS category selection (Case C prompt)
-- **User selects 2-6:** Set `domain: [selected]`, `category: notes`, `status: ready`
-- **User selects 7 (None):** Set `domain: null`, `category: notes`, `status: unprocessed`
+- **User selects 1 (LifeOS):** Proceed to LifeOS type selection (Case C prompt)
+- **User selects 2-6:** Set `domain: [selected]`, `type: note`, `status: ready`
+- **User selects 7 (None):** Set `domain: null`, `type: note`, `status: unprocessed`
 
 ## Step 5b: Relation Entry
 
@@ -440,19 +418,19 @@ Generate markdown file:
 
 ```yaml
 ---
+name: [topic-DD-MM-YYYY]
+origin: braindump
+type: [detected type or note]
 status: [ready|unprocessed]
+description: [AI-generated 1-2 sentence summary]
 domain: [LifeOS|PALBuilder|Studio|PALOpenSource|PALProduct|LaraLou (Blog)|null]
 project: null
-category: [selected category]
-type: braindump
-subsection: [detected subsection|null]
-description: [AI-generated 1-2 sentence summary]
-created: YYYY-MM-DD
-last_modified: YYYY-MM-DD
-source_type: braindump
-source_file: null
-source_url: null
+origin_agent: null
+url: null
+favorite: false
 tags: ["braindump", "theme1", "theme2"]
+created: YYYY-MM-DD
+last_updated: YYYY-MM-DD
 ---
 ```
 
@@ -464,7 +442,7 @@ Focus on what the note is about and why it matters.
 > "Reflections on career direction and alignment with personal values. Explores transition from corporate to entrepreneurial path."
 
 **Domain values:**
-- `LifeOS` - Personal life context (with category for specific file)
+- `LifeOS` - Personal life context (with type for specific file)
 - `PALBuilder` - PAL system development
 - `Studio` - Video/presentation production
 - `PALOpenSource` - Release management
@@ -518,7 +496,7 @@ Focus on what the note is about and why it matters.
 
 ## Extracted Content
 
-### For [category]
+### For [type]
 > [Extracted statement ready for appending to target file]
 
 ## Relations
@@ -567,8 +545,7 @@ Present results:
 **Saved:** Inbox/Notes/topic-DD-MM-YYYY.md
 **Status:** [ready|unprocessed]
 **Domain:** [detected domain or "unassigned"]
-**Category:** [category]
-**Subsection:** [subsection|null]
+**Type:** [type]
 **Description:** [generated description]
 
 ### Detection Confidence
@@ -587,13 +564,13 @@ Present results:
 ```
 
 **If `domain: LifeOS` and `status: ready`:**
-> Run `distribute notes` to append content to LifeOS/[category]
+> Run `distribute notes` to append content to LifeOS target file (based on type)
 
 **If `domain: [other]` and `status: ready`:**
 > Run `distribute notes` to move to [domain]/03_PAGES/
 
 **If `status: unprocessed`:**
-> Run `process_inbox` to assign domain/category, then `distribute notes`
+> Run `process_inbox` to assign domain/type, then `distribute notes`
 
 ---
 
@@ -601,11 +578,11 @@ Present results:
 
 - **Empty input:** "Please share your thoughts first. What's on your mind?"
 - **Very short input (<10 words):** Process normally but note "Limited content for analysis"
-- **No themes detected:** Save with `category: notes`, `status: unprocessed`
-- **Multiple categories detected:** Present all to user, ask which is primary
+- **No themes detected:** Save with `type: note`, `status: unprocessed`
+- **Multiple types detected:** Present all to user, ask which is primary
 
 ## Next Workflows
 
 After braindump, suggest:
-- `process_inbox` - If status is unprocessed, assign category
+- `process_inbox` - If status is unprocessed, assign type
 - `distribute_notes` - Move to LifeOS domain and append to target file

@@ -174,6 +174,7 @@ See `.claude/core/reference/SYSTEM_INDEX.md` for full inventory.
 - **Authoritative system docs**: `.claude/core/system/` (ARCHITECTURE, ORCHESTRATION, AGENTS_LOGIC, SKILL_LOGIC, DOMAINS_LOGIC, WORKFLOWS, MEMORY_LOGIC, TOOLBOX)
 - **Security docs**: `.claude/core/security/` (GUARDRAILS, REPOS_RULES)
 - **System inventory**: `.claude/core/reference/SYSTEM_INDEX.md`
+- **Domain definitions**: `.claude/core/reference/DOMAINS_REGISTRY.md` — single source of truth for all domains, routing signals, and detection patterns
 - **Agent routing**: `.claude/core/reference/ROUTING_TABLE.md`
 - **Requirements**: `Domains/PALBuilder/03_REQUIREMENTS/` (167 requirements across 5 docs)
 

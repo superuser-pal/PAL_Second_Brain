@@ -62,17 +62,19 @@ Create the output note with this structure:
 
 ```markdown
 ---
+name: [converted-filename]
+origin: manual
+type: reference
 status: unprocessed
+description: [AI-generated 1-2 sentence summary]
 domain: null
 project: null
-category: reference
-description: [AI-generated 1-2 sentence summary]
-created: [YYYY-MM-DD]
-last_modified: [YYYY-MM-DD]
-source_type: [pdf|docx|txt]
-source_file: [original filename]
-source_url: null
+origin_agent: null
+url: null
+favorite: false
 tags: []
+created: [YYYY-MM-DD]
+last_updated: [YYYY-MM-DD]
 ---
 
 # [Document Title or Filename]
@@ -120,7 +122,7 @@ If running interactively, prompt user:
 2. Add or modify key ideas?
 3. Source URL or publication info to add?
 4. Pre-assign to a domain? (speeds up distribution)
-5. Set category? (research, reference, notes)
+5. Set type? (concept, reference, note, etc.)
 6. Edit description? (Optional)
 
 ## Step 6: Convert Filename and Save

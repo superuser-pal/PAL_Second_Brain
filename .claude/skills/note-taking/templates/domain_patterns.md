@@ -73,7 +73,7 @@ function detect_domain(content):
 | Secondary | "values", "principles", "worldview", "aspiration", "mental model", "framework for life", "personal philosophy" |
 | Exclude | (none - LifeOS is the default personal domain) |
 
-**Note:** LifeOS has additional category detection. See braindump.md Step 4b.
+**Note:** LifeOS has additional type detection. See braindump.md Step 4b.
 
 ### Studio
 
@@ -143,9 +143,9 @@ When a new domain is created:
 ## Workflow Integration
 
 ### braindump.md
-- Step 4a: Domain detection runs before category detection
-- If LifeOS detected, proceeds to category detection (Step 4b)
-- If other domain detected, skips category detection
+- Step 4a: Domain detection runs before type detection
+- If LifeOS detected, proceeds to type detection (Step 4b)
+- If other domain detected, skips type detection
 
 ### process_inbox.md
 - Step 3: Can use domain patterns for suggestions

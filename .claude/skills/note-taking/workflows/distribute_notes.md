@@ -1,6 +1,6 @@
 # distribute_notes Workflow
 
-Distribute processed notes from inbox to their designated domain 03_ASSETS/ folders.
+Distribute processed notes from inbox to their designated domain 02_PAGES/ folders.
 
 ## Step 1: Scan Inbox Notes
 
@@ -12,7 +12,7 @@ ls inbox/notes/*.md 2>/dev/null || echo "No markdown files found"
 
 For each file:
 1. Read file and check for YAML frontmatter
-2. Parse frontmatter to extract: `status`, `domain`, `project`, `category`
+2. Parse frontmatter to extract: `status`, `domain`, `project`, `type`
 3. Filter based on status:
    - `status: ready` → Add to distribution queue
    - `status: draft` → Skip (processed without agent, needs reprocessing with agent)
@@ -20,21 +20,19 @@ For each file:
    - `domain: _unassigned` → Skip (needs domain assignment via agent)
    - No frontmatter → Skip (run process_inbox first)
 
-## Step 2b: Detect LifeOS Categories
+## Step 2b: Detect LifeOS Types
 
-Check if `category` is a LifeOS target file (ends with `.md`):
+Check if `type` maps to a LifeOS target file:
 
-| Category | LifeOS Location |
-|----------|-----------------|
-| `beliefs.md` | 00_CONTEXT/ |
-| `frames.md` | 00_CONTEXT/ |
-| `learned.md` | 00_CONTEXT/ |
-| `mission.md` | 00_CONTEXT/ |
-| `models.md` | 00_CONTEXT/ |
-| `goals.md` | 01_PROJECTS/ |
-| `projects.md` | 01_PROJECTS/ |
+| Type | LifeOS Location |
+|------|-----------------|
+| `belief` | 00_CONTEXT/beliefs.md |
+| `frame` | 00_CONTEXT/frames.md |
+| `lesson` | 00_CONTEXT/learned.md |
+| `model` | 00_CONTEXT/models.md |
+| `goal` | 01_PROJECTS/GOAL_*.md |
 
-- If category ends with `.md` → Add to **LifeOS distribution queue**
+- If type matches a LifeOS type above AND domain is LifeOS → Add to **LifeOS distribution queue**
 - Otherwise → Add to **standard distribution queue**
 
 ## Step 3: Validate Domains
@@ -50,7 +48,7 @@ test -f "domains/[note.domain]/INDEX.md" && echo "exists" || echo "missing"
 
 ## Step 4: Convert Filename
 
-Convert filename to `lower_snake_case` for 03_ASSETS/:
+Convert filename to `lower_snake_case` for 02_PAGES/:
 
 | Original | Converted |
 |----------|-----------|
@@ -63,7 +61,7 @@ Convert filename to `lower_snake_case` for 03_ASSETS/:
 Before moving, check if destination file exists:
 
 ```bash
-test -f "domains/[domain]/03_ASSETS/[filename].md"
+test -f "domains/[domain]/02_PAGES/[filename].md"
 ```
 
 If conflict exists, ask user:
@@ -76,59 +74,41 @@ If conflict exists, ask user:
 **For notes with general categories** (research, meeting, idea, reference, notes):
 
 ```bash
-mv "inbox/notes/[original].md" "domains/[domain]/03_ASSETS/[converted].md"
+mv "inbox/notes/[original].md" "domains/[domain]/02_PAGES/[converted].md"
 ```
 
 After moving, update the note's frontmatter:
 - Set `status: processed`
-- Update `last_modified` to today's date
+- Update `last_updated` to today's date
 
 ## Step 6b: Append to LifeOS File (LifeOS Distribution)
 
-**For notes with LifeOS categories** (beliefs.md, frames.md, learned.md, mission.md, models.md, goals.md, projects.md):
+**For notes with LifeOS types** (belief, frame, lesson, model, goal):
 
 1. **Determine target path:**
    ```
-   beliefs.md | frames.md | learned.md | mission.md | models.md
-   → domains/LifeOS/00_CONTEXT/[category]
-
-   goals.md | projects.md
-   → domains/LifeOS/01_PROJECTS/[category]
+   belief  → domains/LifeOS/00_CONTEXT/beliefs.md
+   frame   → domains/LifeOS/00_CONTEXT/frames.md
+   lesson  → domains/LifeOS/00_CONTEXT/learned.md
+   model   → domains/LifeOS/00_CONTEXT/models.md
+   goal    → domains/LifeOS/01_PROJECTS/GOAL_*.md
    ```
 
 2. **Create backup before modification:**
    - Ensure backup directory exists: `domains/LifeOS/05_ARCHIVE/backups/`
    - Copy target file to backup:
      ```bash
-     cp "domains/LifeOS/[folder]/[category]" \
-        "domains/LifeOS/05_ARCHIVE/backups/[category]_YYYY-MM-DD_HH-MM-SS.md"
+     cp "domains/LifeOS/[folder]/[target_file]" \
+        "domains/LifeOS/05_ARCHIVE/backups/[target_file]_YYYY-MM-DD_HH-MM-SS.md"
      ```
    - If backup fails, STOP and report error (do not proceed with append)
 
 3. **Extract content from note:**
-   - Look for `## Extracted Content` or `## For [category]` section
+   - Look for `## Extracted Content` or `## For [type]` section
    - If not found, use entire note content (excluding frontmatter)
 
-4. **Smart insertion based on subsection:**
+4. **Append extracted content to target file:**
 
-   **If `subsection` field is set (not null):**
-   - Read target file and find `## [subsection]` heading
-   - Find the end of that section (next `---` or next `##` heading)
-   - Insert content BEFORE the section delimiter:
-     ```markdown
-     ## [Subsection]
-
-     [existing content...]
-
-     ---
-     *Source: [original_filename] (YYYY-MM-DD)*
-
-     > [extracted content]
-
-     ---
-     ```
-
-   **If `subsection` is null or heading not found:**
    - Append at end of file (before "Last Updated" footer):
      ```markdown
 
@@ -140,21 +120,21 @@ After moving, update the note's frontmatter:
 
 5. **Move original note to LifeOS assets:**
    ```bash
-   mv "inbox/notes/[original].md" "domains/LifeOS/03_ASSETS/[converted].md"
+   mv "inbox/notes/[original].md" "domains/LifeOS/02_PAGES/[converted].md"
    ```
 
 6. **Update note frontmatter:**
    - Set `status: processed`
-   - Update `last_modified` to today's date
+   - Update `last_updated` to today's date
 
 7. **Log change to UPDATES.md:**
    - Append to `domains/LifeOS/02_SESSIONS/UPDATES.md`:
      ```markdown
      ## YYYY-MM-DD HH:MM
 
-     - **Action:** Appended to [category]
+     - **Action:** Appended to [type]
      - **Source:** [original_filename]
-     - **Subsection:** [subsection or "end of file"]
+     - **Position:** end of file
      - **Backup:** 05_ARCHIVE/backups/[backup_filename]
      ```
 
@@ -287,7 +267,7 @@ If note has `project:` field set (not null):
    ```markdown
    ## References
 
-   - [note_title](../03_ASSETS/[filename].md) - Added YYYY-MM-DD
+   - [note_title](../02_PAGES/[filename].md) - Added YYYY-MM-DD
    ```
 
 4. Update project's `updated:` field in frontmatter to today
@@ -311,14 +291,14 @@ Update the domain's INDEX.md:
 ### Notes Distributed (Standard)
 | Note | Domain | Location | Project Updated |
 |------|--------|----------|-----------------|
-| research_notes.md | ProjectAlpha | 03_ASSETS/ | PROJECT_FEATURE_X.md |
-| api_reference.md | ApiProject | 03_ASSETS/ | - |
+| research_notes.md | ProjectAlpha | 02_PAGES/ | PROJECT_FEATURE_X.md |
+| api_reference.md | ApiProject | 02_PAGES/ | - |
 
 ### Notes Distributed (LifeOS)
-| Note | Category | Subsection | Appended To | Archive Location |
-|------|----------|------------|-------------|------------------|
-| braindump_2026-02-16_1430.md | beliefs.md | Values | 00_CONTEXT/beliefs.md | 03_ASSETS/ |
-| braindump_2026-02-16_1500.md | goals.md | Short-term | 01_PROJECTS/goals.md | 03_ASSETS/ |
+| Note | Type | Appended To | Archive Location |
+|------|------|-------------|------------------|
+| braindump_2026-02-16_1430.md | belief | 00_CONTEXT/beliefs.md | 02_PAGES/ |
+| braindump_2026-02-16_1500.md | goal | 01_PROJECTS/GOAL_*.md | 02_PAGES/ |
 
 ### Notes Skipped (no frontmatter or unprocessed)
 - raw_note.md (no frontmatter)

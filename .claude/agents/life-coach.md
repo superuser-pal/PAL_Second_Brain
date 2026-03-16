@@ -1,8 +1,9 @@
 ---
 name: life-coach
+domain: LifeOS
 description: Domain agent for personal life management - mission, beliefs, goals, projects, mental models, and lessons
 version: 3.1.0
-domain: LifeOS
+last_updated: 2026-03-15
 ---
 
 # Life Coach Agent
@@ -25,25 +26,19 @@ I am your personal life coach, helping you maintain and evolve your life operati
 
 ---
 
-## 2. Activation Files
+## 2. Always Load
 
-> AUTO = loaded immediately at activation | REF = indexed only, loaded on demand
+- `domains/life-os/INDEX.md` — Domain source of truth
 
-- [AUTO] `domains/life-os/INDEX.md` — Domain source of truth
+## 3. Load on Reference
 
----
-
-## 3. Activation Folders
-
-> AUTO = loaded immediately at activation | REF = indexed only, loaded on demand
-
-- [REF] `domains/life-os/00_CONTEXT/` — Philosophy files (mission, beliefs, frames, models, learned)
-- [REF] `domains/life-os/01_PROJECTS/` — Active work (goals, projects)
-- [REF] `domains/life-os/02_SESSIONS/` — Update logs
-- [REF] `domains/life-os/03_ASSETS/` — Raw notes and ideas
-- [REF] `domains/life-os/04_OUTPUTS/` — Generated reports
-- [REF] `domains/life-os/05_ARCHIVE/` — Archived content and backups
-- [REF] `domains/life-os/CONNECTIONS.yaml` — External connections
+- `domains/life-os/00_CONTEXT/` — Philosophy files (mission, beliefs, frames, models, learned)
+- `domains/life-os/01_PROJECTS/` — Active work (goals, projects)
+- `domains/life-os/02_SESSIONS/` — Update logs
+- `domains/life-os/03_ASSETS/` — Raw notes and ideas
+- `domains/life-os/04_OUTPUTS/` — Generated reports
+- `domains/life-os/05_ARCHIVE/` — Archived content and backups
+- `domains/life-os/CONNECTIONS.yaml` — External connections
 
 ---
 

@@ -1,7 +1,9 @@
 ---
 name: pal-master
+domain: null
 description: PAL Master Orchestrator - Primary orchestration agent for intent classification, routing, and execution oversight
 version: 3.1.0
+last_updated: 2026-03-15
 ---
 
 # PAL Master Agent
@@ -25,37 +27,21 @@ I am a master-level expert in the PAL system with comprehensive knowledge of all
 
 ---
 
-## 2. Activation Files
+## 2. Always Load
 
-> AUTO = loaded immediately at activation | REF = indexed only, loaded on demand
+## 3. Load on Reference
 
-Follow this layered structure for indexing. Do **not** read until needed.
-
-**USER Layer (Identity & Preferences):**
-
-- [REF] `.claude/core/user/ABOUTME.md` — Core Identity & Background
-- [REF] `.claude/core/user/DIRECTIVES.md` — Critical System Rules
-- [REF] `.claude/core/user/TERMINOLOGY.md` — Vocabulary Definitions
-- [REF] `.claude/core/user/CONTACTS.md` — Key Contacts
-
----
-
-## 3. Activation Folders
-
-> AUTO = loaded immediately at activation | REF = indexed only, loaded on demand
-
-**SYSTEM Layer (Architecture & Logic):**
-
-- [REF] `.claude/core/system/ORCHESTRATION.md` — Routing & Responsibilities
-- [REF] `.claude/core/system/ARCHITECTURE.md` — System Philosophy
-- [REF] `.claude/core/system/WORKFLOWS.md` — Execution Patterns
-- [REF] `.claude/core/system/MEMORY_LOGIC.md` — Context Tracking
-- [REF] `.claude/core/system/TOOLBOX.md` — Available Tools
-
-**SECURITY Layer (Safety & Policies):**
-
-- [REF] `.claude/core/security/GUARDRAILS.md` — Safety Validation
-- [REF] `.claude/core/security/REPOS_RULES.md` — Code Policy
+- `.claude/core/user/ABOUTME.md` — Core Identity & Background
+- `.claude/core/user/DIRECTIVES.md` — Critical System Rules
+- `.claude/core/user/TERMINOLOGY.md` — Vocabulary Definitions
+- `.claude/core/user/CONTACTS.md` — Key Contacts
+- `.claude/core/system/ORCHESTRATION.md` — Routing & Responsibilities
+- `.claude/core/system/ARCHITECTURE.md` — System Philosophy
+- `.claude/core/system/WORKFLOWS.md` — Execution Patterns
+- `.claude/core/system/MEMORY_LOGIC.md` — Context Tracking
+- `.claude/core/system/TOOLBOX.md` — Available Tools
+- `.claude/core/security/GUARDRAILS.md` — Safety Validation
+- `.claude/core/security/REPOS_RULES.md` — Code Policy
 
 ---
 
