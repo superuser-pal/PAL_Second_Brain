@@ -46,7 +46,7 @@ mkdir -p {base_path}/00_CONTEXT
 mkdir -p {base_path}/01_PROJECTS
 mkdir -p {base_path}/02_SESSIONS
 mkdir -p {base_path}/03_PAGES
-mkdir -p {base_path}/04_WORKSPACE
+mkdir -p {base_path}/04_OUTPUT
 mkdir -p {base_path}/05_ARCHIVE
 ```
 
@@ -73,7 +73,7 @@ cp .claude/skills/create-domain/templates/README.00_CONTEXT.template.md domains/
 cp .claude/skills/create-domain/templates/README.01_PROJECTS.template.md domains/[DomainName]/01_PROJECTS/README.md
 cp .claude/skills/create-domain/templates/README.02_SESSIONS.template.md domains/[DomainName]/02_SESSIONS/README.md
 cp .claude/skills/create-domain/templates/README.03_PAGES.template.md domains/[DomainName]/03_PAGES/README.md
-cp .claude/skills/create-domain/templates/README.04_WORKSPACE.template.md domains/[DomainName]/04_WORKSPACE/README.md
+cp .claude/skills/create-domain/templates/README.04_OUTPUT.template.md domains/[DomainName]/04_OUTPUT/README.md
 cp .claude/skills/create-domain/templates/README.05_ARCHIVE.template.md domains/[DomainName]/05_ARCHIVE/README.md
 ```
 
@@ -155,7 +155,7 @@ owner: [Owner if provided]
 - [Projects](01_PROJECTS/)
 - [Sessions](02_SESSIONS/)
 - [Assets](03_PAGES/)
-- [Outputs](04_WORKSPACE/)
+- [Outputs](04_OUTPUT/)
 - [Archive](05_ARCHIVE/)
 ```
 
@@ -202,7 +202,7 @@ Expected output:
 - `01_PROJECTS/` (with README.md and AD_HOC_TASKS.md)
 - `02_SESSIONS/` (with README.md)
 - `03_PAGES/` (with README.md)
-- `04_WORKSPACE/` (with README.md)
+- `04_OUTPUT/` (with README.md)
 - `05_ARCHIVE/` (with README.md)
 
 ## Step 8.5: Check for Domain Agent
@@ -244,7 +244,7 @@ After editing, verify the table renders correctly with consistent column alignme
 - [ ] Domain directory uses PascalCase
 - [ ] INDEX.md exists at domain root
 - [ ] CONNECTIONS.yaml exists at domain root
-- [ ] All six core folders exist (00_CONTEXT, 01_PROJECTS, 02_SESSIONS, 03_PAGES, 04_WORKSPACE, 05_ARCHIVE)
+- [ ] All six core folders exist (00_CONTEXT, 01_PROJECTS, 02_SESSIONS, 03_PAGES, 04_OUTPUT, 05_ARCHIVE)
 - [ ] `01_PROJECTS/AD_HOC_TASKS.md` exists
 
 ### INDEX.md
@@ -264,7 +264,7 @@ After editing, verify the table renders correctly with consistent column alignme
 - [ ] 01_PROJECTS/README.md exists
 - [ ] 02_SESSIONS/README.md exists
 - [ ] 03_PAGES/README.md exists
-- [ ] 04_WORKSPACE/README.md exists
+- [ ] 04_OUTPUT/README.md exists
 - [ ] 05_ARCHIVE/README.md exists
 
 ### Domain Agent

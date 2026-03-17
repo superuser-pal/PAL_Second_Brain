@@ -41,5 +41,5 @@ Project tracking rules:
 - [Projects](01_PROJECTS/) - Active project files
 - [Sessions](02_SESSIONS/) - Interaction logs
 - [Pages](03_PAGES/) - Raw materials and resources
-- [Workspace](04_WORKSPACE/) - Generated deliverables
+- [Outputs](04_OUTPUT/) - Generated deliverables
 - [Archive](05_ARCHIVE/) - Deprecated content

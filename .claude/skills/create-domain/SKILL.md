@@ -26,7 +26,7 @@ MANDATORY domain creation system for ALL domain creation requests.
 | **Project files**    | `UPPER_SNAKE_CASE.md` | `PROJECT_FEATURE_X.md` | Active project files in 01_PROJECTS/.       |
 | **Session logs**     | `YYYY-MM-DD_title.md` | `2026-01-15_sync.md`   | Chronological session logs.                 |
 | **Pages files**      | `lower_snake_case.md` | `api_documentation.md` | Reference materials and assets.             |
-| **Workspace files**  | Flexible              | Any naming             | Generated deliverables in 04_WORKSPACE/.    |
+| **Outputs files**    | Flexible              | Any naming             | Generated deliverables in 04_OUTPUT/.       |
 
 ---
 
@@ -85,7 +85,7 @@ domains/DomainName/               # PascalCase directory
 ├── 01_PROJECTS/                  # Active project files
 ├── 02_SESSIONS/                  # Chronological interaction logs
 ├── 03_PAGES/                     # Reference materials
-├── 04_WORKSPACE/                 # Staging area for generated files
+├── 04_OUTPUT/                    # Staging area for generated deliverables
 └── 05_ARCHIVE/                   # Deprecated content
 ```
 

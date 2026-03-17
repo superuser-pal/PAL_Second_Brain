@@ -35,5 +35,5 @@ original_location: [Original folder path]
 - Completed projects (from `01_PROJECTS/`)
 - Old session logs (from `02_SESSIONS/`)
 - Outdated pages (from `03_PAGES/`)
-- Superseded outputs (from `04_WORKSPACE/`)
+- Superseded outputs (from `04_OUTPUT/`)
 - Any content no longer actively used

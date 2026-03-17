@@ -19,7 +19,7 @@ ls domains/[DomainName]/00_CONTEXT/
 ls domains/[DomainName]/01_PROJECTS/
 ls domains/[DomainName]/02_SESSIONS/
 ls domains/[DomainName]/03_PAGES/
-ls domains/[DomainName]/04_WORKSPACE/
+ls domains/[DomainName]/04_OUTPUT/
 ls domains/[DomainName]/05_ARCHIVE/
 ```
 
@@ -32,7 +32,7 @@ ls domains/[DomainName]/00_CONTEXT/README.md
 ls domains/[DomainName]/01_PROJECTS/README.md
 ls domains/[DomainName]/02_SESSIONS/README.md
 ls domains/[DomainName]/03_PAGES/README.md
-ls domains/[DomainName]/04_WORKSPACE/README.md
+ls domains/[DomainName]/04_OUTPUT/README.md
 ls domains/[DomainName]/05_ARCHIVE/README.md
 ```
 
@@ -45,7 +45,7 @@ ls domains/[DomainName]/05_ARCHIVE/README.md
    cp .claude/skills/create-domain/templates/README.01_PROJECTS.template.md domains/[DomainName]/01_PROJECTS/README.md
    cp .claude/skills/create-domain/templates/README.02_SESSIONS.template.md domains/[DomainName]/02_SESSIONS/README.md
    cp .claude/skills/create-domain/templates/README.03_PAGES.template.md domains/[DomainName]/03_PAGES/README.md
-   cp .claude/skills/create-domain/templates/README.04_WORKSPACE.template.md domains/[DomainName]/04_WORKSPACE/README.md
+   cp .claude/skills/create-domain/templates/README.04_OUTPUT.template.md domains/[DomainName]/04_OUTPUT/README.md
    cp .claude/skills/create-domain/templates/README.05_ARCHIVE.template.md domains/[DomainName]/05_ARCHIVE/README.md
    ```
 3. Continue with workflow after user confirms
@@ -59,9 +59,9 @@ For each file found, check against expected format:
 | 00_CONTEXT/ | `lower_snake_case.md` | `MyContext.md` | `my_context.md` |
 | 01_PROJECTS/ | `PROJECT_XXX.md` | `feature_x.md` | `PROJECT_FEATURE_X.md` |
 | 02_SESSIONS/ | `YYYY-MM-DD_title.md` | `meeting_notes.md` | `[TODAY]_meeting_notes.md` |
-| 03_PAGES/ | `lower_snake_case.md` | `MyDoc.md` | `my_doc.md` |
-| 04_WORKSPACE/ | Flexible (no enforcement) | — | — |
-| 05_ARCHIVE/ | Preserve original name | — | — |
+| 03_PAGES/ | `lower_snake_case.md` | `api_documentation.md` | Renamed to standard pattern |
+| 04_OUTPUT/ | Flexible (no enforcement) | — | — |
+| 05_ARCHIVE/ | Original file name | Preserve names | — | — |
 
 ### Auto-Fix Rules
 
@@ -85,10 +85,11 @@ For each file found, check against expected format:
 **Assets (03_PAGES/):**
 - Must be lower_snake_case
 - Fix: `MyDocument.md` → `my_document.md`
-- Fix: `API-Reference.md` → `api_reference.md`
+- Fix:**Pages (03_PAGES/):**
+*(List any newly discovered reference files here)*
 
-**Outputs (04_WORKSPACE/):**
-- No naming enforcement. Skip during convention checks.
+**Outputs (04_OUTPUT/):**
+*(List any new generated files here)*nt. Skip during convention checks.
 
 **Archive (05_ARCHIVE/):**
 - Preserve original filenames. Do not rename archived files.
@@ -207,7 +208,7 @@ Output summary of changes:
 - 01_PROJECTS/: [X] files
 - 02_SESSIONS/: [X] files
 - 03_PAGES/: [X] files
-- 04_WORKSPACE/: [X] files
+- 04_OUTPUT/: [X] files
 - 05_ARCHIVE/: [X] files
 
 ### README Files
@@ -215,7 +216,7 @@ Output summary of changes:
 - 01_PROJECTS/README.md: [FOUND | CREATED | MISSING]
 - 02_SESSIONS/README.md: [FOUND | CREATED | MISSING]
 - 03_PAGES/README.md: [FOUND | CREATED | MISSING]
-- 04_WORKSPACE/README.md: [FOUND | CREATED | MISSING]
+- 04_OUTPUT/README.md: [FOUND | CREATED | MISSING]
 - 05_ARCHIVE/README.md: [FOUND | CREATED | MISSING]
 
 ### Naming Fixes Applied

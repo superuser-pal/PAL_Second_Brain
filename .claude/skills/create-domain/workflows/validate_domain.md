@@ -34,8 +34,8 @@ Verify these components exist:
 | `02_SESSIONS/README.md` | Yes | README in folder |
 | `03_PAGES/` | Yes | Directory exists |
 | `03_PAGES/README.md` | Yes | README in folder |
-| `04_WORKSPACE/` | Yes | Directory exists |
-| `04_WORKSPACE/README.md` | Yes | README in folder |
+| `04_OUTPUT/` | Yes | Directory exists |
+| `04_OUTPUT/README.md` | Yes | README in folder |
 | `05_ARCHIVE/` | Yes | Directory exists |
 | `05_ARCHIVE/README.md` | Yes | README in folder |
 
@@ -91,9 +91,9 @@ Check schema compliance:
 | 00_CONTEXT/ | lower_snake_case.md | `background_info.md`, `domain_rules.md` |
 | 01_PROJECTS/ | PROJECT_XXX.md | `PROJECT_FEATURE_X.md`, `PROJECT_MIGRATION.md` |
 | 02_SESSIONS/ | YYYY-MM-DD_title.md | `2026-01-15_sync.md` |
-| 03_PAGES/ | lower_snake_case | `api_documentation.md` |
-| 04_WORKSPACE/ | Flexible (no enforcement) | Any naming convention |
-| 05_ARCHIVE/ | Preserve original name | No renaming expected |
+| 03_PAGES/ | `lower_snake_case.md` | `api_documentation.md` |
+| 04_OUTPUT/ | Flexible (no enforcement) | Any naming convention |
+| 05_ARCHIVE/ | Original filename | Preserve original name | No renaming expected |
 
 ## Step 7: Check Nesting Depth
 
@@ -123,7 +123,7 @@ Output validation results:
 - [ ] 01_PROJECTS/ exists
 - [ ] 02_SESSIONS/ exists
 - [ ] 03_PAGES/ exists
-- [ ] 04_WORKSPACE/ exists
+- [ ] 04_OUTPUT/ exists
 - [ ] 05_ARCHIVE/ exists
 
 ### README Files Check
@@ -131,7 +131,7 @@ Output validation results:
 - [ ] 01_PROJECTS/README.md exists
 - [ ] 02_SESSIONS/README.md exists
 - [ ] 03_PAGES/README.md exists
-- [ ] 04_WORKSPACE/README.md exists
+- [ ] 04_OUTPUT/README.md exists
 - [ ] 05_ARCHIVE/README.md exists
 
 ### INDEX.md Check

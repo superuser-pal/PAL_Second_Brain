@@ -1,396 +1,85 @@
 ---
 title: PAL Architecture System
-version: 1.2.0
+version: 1.3.0
 layer: SYSTEM
-purpose: Founding principles, philosophy, and master system map
-last_updated: 2026-02-07
+purpose: Core structural constraints and Master System Map
+last_updated: 2026-03-17
 ---
 
 # PAL Architecture System
 
-**Version:** 1.2.0
-**Purpose:** PAL's architectural foundation - the "Constitution" defining WHY the system works this way
-**Layer:** SYSTEM
+**The definitive mapping of the PAL Second Brain layers and routing structure.** For human narrative and principles, see `PHILOSOPHY.md`.
 
 ---
 
-## PAL's Core Statement
+## 1. System Layers
 
-> "PAL Second Brain is a pattern-based system that gives non-technical professionals the base and blocks to build AI automations and workflows through organized context engineering and modular design."
+PAL operates across 3 strict layers loaded via the `session-start` hook:
 
----
-
-## Section 1: PAL's 8 Core Principles
-
-PAL's second brain architecture is built on 8 foundational principles:
-
-### Core Pillars
-
-#### 1. Context > Prompts
-
-**Principle:** Context engineering beats prompt engineering.
-
-**What This Means:**
-
-- Base configuration files provide a persistent context for the system behaviour
-- Organizing context in an editable and navigable way provides more control over system responses
-- Skills and agents inherit context from specific knowledge domains
-
-#### 2. Token & Cost Efficiency
-
-**Principle:** Strategic resource management is a core constraint of system design.
-
-**What This Means:**
-
-- The system seeks to be optimized for **Token Efficiency** to remain cost-effective for the user.
-- Context efficiency optimization is how the system ensure a minimum waste in operations.
-- Every function addition is weighed against the cost of the underlying services
-
-#### 3. Pattern-Based JTBD
-
-**Principle:** Patterns are the "How" that achieve the "Job-to-be-Done".
-
-**What This Means:**
-
-- **Patterns** are modular structures—chunks of code, workflows, or skills—that define operation best practices.
-- JTBD is the framework how functions are structured and presented.
-- Patterns dictate best practices for the ingestion, management, and execution of operations.
-
-#### 4. Domain-Driven Documentation
-
-**Principle:** Accessibility via a non-technical UI over traditional IDEs.
-
-**What This Means:**
-
-- **Obsidian** serves as the primary action interface for the Second Brain, replacing the complexity of terminals or IDEs.
-- This enables non-technical users to build and manage their own agentic systems.
-- The UI focuses on navigable knowledge domains where data is structured, siloed, and highly relevant.
-
-#### 5. Self Update System
-
-**Principle:** The system can evolve and improve itself.
-
-**What This Means:**
-
-- Updates are modular and self-contained to specific areas of the system
-- Skills can be added or modified without a system rebuild
-- Pattern Library expands with new operation templates
-
-#### 6. PAL Master with Specialized Sub-Agents
-
-**Principle:** Primary orchestrator with domain-specific agents for focused work.
-
-**What This Means:**
-
-- **PAL Master** = Primary agent, handles routing and orchestration
-- **Domain Agents** = Specialized agents loaded via `/[agent]` commands
-- Domain agents inherit Base context + domain skills + workflows
-
-#### 7. Inbox-First Capture
-
-**Principle:** The Inbox is the primary friction-free entry point for all raw data.
-
-**What This Means:**
-
-- Notes, whiteboards, resources, and tasks are initially funneled into a single central location
-- Rapid capture is prioritized over immediate organization to maintain creative flow
-- Items are periodically distributed from the Inbox to their specific Domains to inherit relevant context
-
-#### 8. Spec-Driven Development
-
-**Principle:** System evolution is governed by persistent, accessible requirements.
-
-**What This Means:**
-
-- Requirements and logic for the Second Brain are always available for reference
-- It is highly recommended that new features or processes follow a formal specification process to be added to the system.
-- Self-referencing requirements ensure a structured order for all future changes and decisions.
+| Layer        | Purpose                                         | Key Files                                                                                               | Access Pattern                                            |
+| ------------ | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| **USER**     | Personal context, preferences, domain knowledge | ABOUTME, DIRECTIVES, TERMINOLOGY, CONTACTS                                                              | Loaded at SessionStart → Full context to PAL Master       |
+| **SYSTEM**   | Operational logic, orchestration, workflows     | ARCHITECTURE, ORCHESTRATION, WORKFLOWS, MEMORY_LOGIC, TOOLBOX, AGENTS_LOGIC, SKILL_LOGIC, DOMAINS_LOGIC | Reference for routing, patterns, and agent/skill schemas  |
+| **SECURITY** | Constraints and blocklists                      | GUARDRAILS, REPOS_RULES                                                                                 | Enforced by PreToolUse hook                               |
 
 ---
 
-## Section 2: Layered Architecture
+## 2. Master System Map
 
-PAL organizes context and operations into 3 layers:
-
-| Layer        | Purpose                                         | Files   | Key Files                                                                                               | Characteristics                                                                                                                                  | Access Pattern                                                                                  |
-| ------------ | ----------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
-| **USER**     | Personal context, preferences, domain knowledge | 4 files | ABOUTME, DIRECTIVES, TERMINOLOGY, CONTACTS                                                              | • Uppercase filenames<br>• User-editable, frequently updated<br>• YAML frontmatter<br>• Persistent context to PAL Master                         | SessionStart hook loads all → PAL Master has full context → Skills/agents inherit               |
-| **SYSTEM**   | Operational logic, orchestration, workflows     | 8 files | ARCHITECTURE, ORCHESTRATION, WORKFLOWS, MEMORY_LOGIC, TOOLBOX, AGENTS_LOGIC, SKILL_LOGIC, DOMAINS_LOGIC | • Uppercase filenames<br>• User-readable, infrequently modified<br>• YAML frontmatter<br>• Documents HOW system operates                         | PAL Master references for logic → Pattern Library provides education → Users read to understand |
-| **SECURITY** | Permissive security with catastrophic blocking  | 2 files | GUARDRAILS, REPOS_RULES                                                                                 | • Uppercase filenames<br>• User-configurable, rarely modified<br>• Enforced via PreToolUse hook<br>• Blocks catastrophic, allows controlled risk | PreToolUse hook reads files → Validates against rules → Block/warn/allow decision               |
-
----
-
-## Section 3: Master System Map
-
-### Component Relationships
-
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────┐
-│                         USER LAYER                                   │
-│                                                                       │
-│  ABOUTME • DIRECTIVES • TERMINOLOGY • CONTACTS                        │
-│                                                                       │
-│  [User's persistent context - loaded at session start]               │
+│                          USER INPUT                                 │
 └─────────────────────────────────────────────────────────────────────┘
                                   ↓
-                     ┌────────────────────────┐
-                     │   SessionStart Hook    │
-                     │  (Loads Base Context)  │
-                     └────────────────────────┘
-                                  ↓
 ┌─────────────────────────────────────────────────────────────────────┐
-│                         PAL MASTER                                   │
-│                                                                       │
-│  Core Responsibilities:                                              │
-│  • Intent Classification (analyze user request)                      │
-│  • Routing Decisions (skill/agent/workflow/tool)                     │
-│  • Context Assembly (Base + patterns)                                │
-│  • Plan Presentation (when appropriate)                              │
-│  • Execution Oversight (monitor and report)                          │
-│                                                                       │
-│  Has access to: USER context, SYSTEM docs, SECURITY rules            │
+│                       SESSION START HOOK                            │
+│         Loads Base Context (USER + SYSTEM + SECURITY layers)        │
 └─────────────────────────────────────────────────────────────────────┘
                                   ↓
-                    ┌──────────────────────────┐
-                    │   Routing Logic           │
-                    │                           │
-                    │  • Skill Activation       │
-                    │  • Agent Loading          │
-                    │  • Workflow Execution     │
-                    │  • Tool Selection         │
-                    └──────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────┐
+│                          PAL MASTER                                 │
+│ - Intent Classification       - Routing Decisions                   │
+│ - Context Assembly            - Plan Presentation & Oversight       │
+└─────────────────────────────────────────────────────────────────────┘
+                                  ↓
+                  [ CONCEPTUAL MATCHING & ROUTING ]
                                   ↓
           ┌───────────────────────┼───────────────────────┐
           ↓                       ↓                       ↓
-    ┌─────────┐           ┌─────────────┐         ┌──────────┐
-    │ SKILLS  │           │   AGENTS    │         │WORKFLOWS │
-    │         │           │             │         │          │
-    │Blogging │           │Blog Agent   │         │Sequential│
-    │Art      │           │Art Agent    │         │Condition.│
-    │Security │           │Security Ag. │         │Nested    │
-    │Prompting│           │(via /*)│         │          │
-    └─────────┘           └─────────────┘         └──────────┘
+    ┌───────────┐           ┌───────────┐         ┌───────────┐
+    │  SKILLS   │           │  AGENTS   │         │ WORKFLOWS │
+    │ Flat Dirs │           │ /[agent]  │         │ Sequences │
+    └───────────┘           └───────────┘         └───────────┘
           ↓                       ↓                       ↓
     ┌────────────────────────────────────────────────────────┐
-    │              PreToolUse Hook                            │
-    │         (Security validation before execution)          │
+    │                   PRE-TOOL-USE HOOK                    │
+    │         (Validates GUARDRAILS & REPOS_RULES)           │
     └────────────────────────────────────────────────────────┘
                                   ↓
-                          [ Execution ]
+                           [ EXECUTION ]
                                   ↓
     ┌────────────────────────────────────────────────────────┐
-    │                Stop Hook                                │
-    │       (Notifications on session end)                    │
+    │                  POST-TOOL-USE HOOK                    │
+    │            (YAML Schema validation on write)           │
+    └────────────────────────────────────────────────────────┘
+                                  ↓
+    ┌────────────────────────────────────────────────────────┐
+    │                      STOP HOOK                         │
+    │         (Notifications & cleanup on session end)       │
     └────────────────────────────────────────────────────────┘
 ```
 
-### Data Flow Visualization
+---
 
-```
-User Input (through CLI, IDE, or API)
-    ↓
-PAL Master receives input
-    ↓
-Intent Classification
-    ↓
-┌────────────────────────────────────────────────┐
-│ Routing Decision:                               │
-│ • Skill match? → Activate skill                 │
-│ • Agent requested? (/*) → Load agent      │
-│ • Otherwise → Direct workflow/tool execution   │
-└────────────────────────────────────────────────┘
-    ↓
-Context Assembly (USER + SYSTEM + patterns)
-    ↓
-Plan Presentation (if complex task) → User Approval
-    ↓
-┌────────────────────────────────────────────────┐
-│ PreToolUse Hook validates:                     │
-│ • GUARDRAILS.md rules                           │
-│ • REPOS_RULES.md data policies                  │
-│ • Decision: Block / Warn / Allow                │
-└────────────────────────────────────────────────┘
-    ↓
-Tool/Workflow Execution
-    ↓
-Results returned to user
-    ↓
-Session End → Stop Hook (notifications)
-```
+## 3. Extension Points
+
+- **Skills (`.claude/skills/`):** Create per `SKILL_LOGIC.md` constraints. Must have `SKILL.md` and `tools/`.
+- **Custom Agents (`.claude/agents/`):** Create per `AGENTS_LOGIC.md` constraints. Single file, inherits from `AGENT_BASE.md`. Must bind to a Domain.
+- **Domains (`Domains/`):** Create per `DOMAINS_LOGIC.md` constraints. Must have `INDEX.md` as source of truth.
+- **Toolbox (`.claude/tools/`):** Extend CLI utilities in TypeScript. Create per `TOOLBOX.md`.
 
 ---
 
-## Section 4: Skills Architecture
-
-### What Are Skills?
-
-**Skills** = Domain-specific capabilities containing knowledge, workflows, and execution logic
-
-**Location:** `.claude/skills/` directory
-
-**Purpose:** Execute domain-specific work (write blog posts, generate art, audit security, create prompts)
-
-**Authoritative Source:** [SKILL_LOGIC.md](SKILL_LOGIC.md)
-
-### Skill Structure
-
-Each skill follows this structure:
-
-```
-.claude/skills/blogging/           # lower-kebab-case directory
-├── SKILL.md                       # Skill definition with YAML frontmatter
-├── prosody_guide.md               # Context files in skill root (lower_snake_case)
-├── workflows/                     # Workflow definitions
-│   ├── create_post.md             # lower_snake_case workflow files
-│   ├── edit_post.md
-│   └── publish_post.md
-└── tools/                         # Skill-specific CLI tools (ALWAYS present)
-    └── publish.ts
-```
-
-**Key Structure Rules:**
-
-- **Skill directories:** Use `lower-kebab-case`
-- **SKILL.md:** Always uppercase
-- **Context files:** Live in skill root, use `lower_snake_case`
-- **Workflow files:** Use `lower_snake_case`
-- **tools/ directory:** ALWAYS present (even if empty)
-- **NO templates/ or examples/ subdirectories**
-
-### Skill Activation
-
-Skills activate via **intent-based routing** using the `USE WHEN` clause in the YAML description.
-
-```yaml
-# SKILL.md YAML frontmatter
----
-name: blogging
-description: Complete blog workflow. USE WHEN user mentions doing anything with their blog, website, site, including things like update, proofread, write, edit, publish, preview, blog posts, articles, headers, or website pages.
----
-```
-
-**How It Works:**
-
-1. User expresses intent: "I need to write a blog post about AI ethics"
-2. PAL Master reads all `SKILL.md` YAML descriptions
-3. Conceptually matches intent to blogging skill USE WHEN clause
-4. Activates blogging skill (loads context into PAL Master)
-5. Blogging workflows become available
-6. PAL Master suggests relevant workflow or user selects
-
-**See:** [SKILL_LOGIC.md](SKILL_LOGIC.md) for complete skill configuration rules
-
----
-
-## Section 5: Domain Architecture
-
-### What Are Domains?
-
-**Domains** = Project workspaces for organizing project-specific work, documentation, and context
-
-**Location:** `domains/` directory at project root
-
-**Purpose:** Provide structured, siloed environments for project work. Each domain contains its own index, plans, sessions, and assets.
-
-**Authoritative Source:** [DOMAINS_LOGIC.md](DOMAINS_LOGIC.md)
-
-### Domain Structure
-
-Each domain follows this structure:
-
-```
-domains/ProjectAlpha/             # PascalCase directory
-├── INDEX.md                      # Source of Truth (at domain root)
-├── CONNECTIONS.yaml              # External sources (at domain root)
-├── 00_CONTEXT/                   # Domain-specific context and reference docs
-│   └── background_info.md
-├── 01_PROJECTS/                  # Active project files
-│   └── PROJECT_FEATURE_X.md
-├── 02_SESSIONS/                  # Chronological interaction logs
-│   └── 2026-01-18_sync.md
-├── 03_PAGES/                    # Pages and reference materials
-│   └── api_documentation.md
-├── 04_WORKSPACE/                   # Agent workspace and staging area
-│   └── quarterly_report.pdf
-└── 05_ARCHIVE/                   # Deprecated content
-```
-
-**Key Characteristics:**
-
-- **Context containers** - Domains hold documentation and reference materials
-- **Agent-loaded** - Domains are accessed via Domain Agents, not auto-activated
-- **Siloed environments** - Each domain is isolated to prevent context pollution
-- **INDEX.md as Source of Truth** - Contains domain overview, current state, and key facts
-- **Mandatory for agents** - Every domain agent must bind to an existing domain
-
-### Domain-Agent Relationship
-
-Domains are accessed through Domain Agents using the **two-group context model**:
-
-1. User loads agent: `/ProjectAlpha-agent`
-2. Agent has domain binding: specifies which domain to load via `domain:` field
-3. Context loading: Agent loads **Base Context** (3 fixed REFs: ABOUTME, DIRECTIVES, GUARDRAILS) + **Domain Context** (INDEX.md as AUTO, folders as REF)
-4. Work execution: Agent operates with domain context via 6-step activation protocol
-
-**See:** [DOMAINS_LOGIC.md](DOMAINS_LOGIC.md) for complete domain configuration rules
-**See:** [AGENTS_LOGIC.md](AGENTS_LOGIC.md) for two-group context model and 8-section agent structure
-
----
-
-## Section 6: Hook System Architecture
-
-### What Are Hooks?
-
-**Hooks** = TypeScript code that executes at specific system lifecycle points
-
-**Location:** `.claude/tools/hooks/` directory
-
-**Purpose:** Control system behavior deterministically (context loading, security validation, notifications)
-
-### PAL Hooks (4 Essential)
-
-| Hook             | Trigger Point          | Purpose                                                     | Implementation     |
-| ---------------- | ---------------------- | ----------------------------------------------------------- | ------------------ |
-| **SessionStart** | Session initialization | Load Base context (USER + SYSTEM + SECURITY files)          | `session-start.ts` |
-| **PreToolUse**   | Before tool execution  | Validate operation against GUARDRAILS.md and REPOS_RULES.md | `pre-tool-use.ts`  |
-| **PostToolUse**  | After Write/Edit       | Validate YAML frontmatter schema on notes and domain files  | `post-tool-use.ts` |
-| **Stop**         | Session end            | Send notifications, save transcript, log summary            | `stop.ts`          |
-
-### Hook Execution Flow
-
-**Session Lifecycle:**
-
-1. **Session Start** → SessionStart hook loads Base (USER + SYSTEM + SECURITY files) → PAL Master initialized with full context
-2. **During Execution** → Before tool use, PreToolUse hook validates against GUARDRAILS.md and REPOS_RULES.md → Decision: Block (catastrophic) / Warn (risky) / Allow (safe). After Write/Edit, PostToolUse hook validates YAML frontmatter schema → Warns on missing fields (never blocks)
-3. **Session End** → Stop hook executes: notifications, save transcript, log summary, cleanup
-
-**See table above for detailed hook specifications. See:** [MEMORY_LOGIC.md](MEMORY_LOGIC.md) for hook implementation guidance
-
----
-
-## Section 7: Extension Points
-
-PAL is designed for user customization and extension:
-
-| Extension Type    | When to Extend                                                                                                                                  | How to Extend                          | Key Details                                                                           |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------- |
-| **Skills**        | Domain-specific work requires specialized knowledge, workflows, vocabulary                                                                      | Use skill creation commands/patterns   | Each skill includes SKILL.md definition, workflows/, optional templates/ and tools/   |
-| **Base Files**    | USER Layer: When preferences/context changes<br>SYSTEM Layer: When changing fundamental behavior (rare)<br>SECURITY Layer: When policies evolve | Direct file editing in `.claude/core/` | **Best Practice:** Maintain in version control, review changes in session transcripts |
-| **Custom Agents** | Extended domain work requiring specialized persona                                                                                              | Use agent creation commands/patterns   | Agents inherit Base context + domain skill, loaded via `/[agent]`                     |
-| **Toolbox**       | Need CLI utilities, external integrations, workflow automation                                                                                  | Add to `.claude/tools/` directory      | **See:** [TOOLBOX.md](TOOLBOX.md) for configuration                                   |
-
-### Current Toolbox
-
-- Notifications (Stop hook)
-- Security Validation (PreToolUse hook)
-- Schema Validation (PostToolUse hook)
-- File Validation
-- Bun Commands (CLI utilities)
-
----
-
-**Document Version:** 1.2.0
-**Last Updated:** 2026-02-07
-**Related Files:** ORCHESTRATION.md, WORKFLOWS.md, MEMORY_LOGIC.md, TOOLBOX.md, AGENTS_LOGIC.md, SKILL_LOGIC.md, DOMAINS_LOGIC.md, GUARDRAILS.md
-
----
+**Document Version:** 1.3.0
+**Last Updated:** 2026-03-17
+**Related Files:** PHILOSOPHY.md, ORCHESTRATION.md, AGENTS_LOGIC.md, SKILL_LOGIC.md, DOMAINS_LOGIC.md, MEMORY_LOGIC.md
