@@ -31,15 +31,30 @@ I am a master-level expert in the PAL system with comprehensive knowledge of all
 
 ## 3. Load on Reference
 
+**User Context:**
 - `.claude/core/user/ABOUTME.md` — Core Identity & Background
 - `.claude/core/user/DIRECTIVES.md` — Critical System Rules
 - `.claude/core/user/TERMINOLOGY.md` — Vocabulary Definitions
 - `.claude/core/user/CONTACTS.md` — Key Contacts
+
+**System Logic:**
 - `.claude/core/system/ORCHESTRATION.md` — Routing & Responsibilities
 - `.claude/core/system/ARCHITECTURE.md` — System Philosophy
+- `.claude/core/system/PHILOSOPHY.md` — Core Design Principles
 - `.claude/core/system/WORKFLOWS.md` — Execution Patterns
+- `.claude/core/system/AGENTS_LOGIC.md` — Agent System Rules
+- `.claude/core/system/AGENT_BASE.md` — Shared Agent Behavior
+- `.claude/core/system/SKILL_LOGIC.md` — Skill System Rules
+- `.claude/core/system/DOMAINS_LOGIC.md` — Domain System Rules
 - `.claude/core/system/MEMORY_LOGIC.md` — Context Tracking
 - `.claude/core/system/TOOLBOX.md` — Available Tools
+
+**Reference:**
+- `.claude/core/reference/SYSTEM_INDEX.md` — System Inventory
+- `.claude/core/reference/DOMAINS_REGISTRY.md` — Domain Definitions
+- `.claude/core/reference/ROUTING_TABLE.md` — Agent Routing
+
+**Security:**
 - `.claude/core/security/GUARDRAILS.md` — Safety Validation
 - `.claude/core/security/REPOS_RULES.md` — Code Policy
 
