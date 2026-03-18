@@ -14,6 +14,28 @@ Start the day with a clear picture of system state and set intentional focus are
 4. Prompt: "You have [X] unprocessed notes. Would you like to process them now before setting daily intentions?"
    - If yes, invoke `process_inbox` workflow first.
 
+### Step 1.5: Surface Active Week
+
+1. Scan `Inbox/Plan/` for file with `status: active` in frontmatter
+2. If found, read and extract:
+   - `week_number`, `week_goal`
+   - Count committed tasks by status (`[ ]`, `[/]`, `[x]`)
+   - Calculate days remaining (end_date - today)
+3. Present:
+
+```markdown
+### Active Week: W[X]
+- Goal: [week_goal]
+- Progress: [done]/[total] tasks ([X]%)
+- Days remaining: [N]
+
+#### Today's Week Tasks
+- [ ] Uncommitted task from week
+- [/] In-progress task from week
+```
+
+4. If no active week, note: "No active week. Run weekly_planning to start one."
+
 ### Step 2: Surface Active Projects
 
 1. Grep frontmatter from all `Domains/*/01_PROJECTS/PROJECT_*.md` and `PLAN_*.md` files
@@ -29,7 +51,7 @@ Start the day with a clear picture of system state and set intentional focus are
 
 ### Step 4: Check Today's Daily Note
 
-1. Check if `Inbox/Daily/DD-MM-YY.md` exists (today's date)
+1. Check if `Inbox/Plan/DD-MM-YY.md` exists (today's date)
 2. If exists, read and surface any existing intentions or notes
 3. If not, note that we'll create it in Step 6
 
@@ -53,10 +75,13 @@ Present the following as a structured briefing:
 
 ### Step 6: Set Daily Intentions
 
-1. Ask: "What are your top 1-3 focus areas for today?"
-2. Note: Users can explicitly select tasks from the Active Projects table. If a task is selected, automatically update its state to `[/]` (In-Progress) using the task source reference.
-3. Collect user response
-4. Create or update `Inbox/Daily/DD-MM-YY.md` with:
+1. If active week exists, default suggestions to uncommitted week tasks
+2. Note: "These intentions align with week goal: [week_goal]"
+3. Ask: "What are your top 1-3 focus areas for today?"
+4. Users can select tasks from Active Week (Step 1.5) or Active Projects (Step 2)
+5. If a task is selected, update its state to `[/]` (In-Progress) in both week file and source project
+6. Collect user response
+7. Create or update `Inbox/Plan/DD-MM-YY.md` with:
 
 ```yaml
 ---

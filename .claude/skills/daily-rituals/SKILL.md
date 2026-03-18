@@ -1,6 +1,6 @@
 ---
 name: daily-rituals
-description: Structured morning, evening, and weekly review workflows. USE WHEN morning routine OR start my day OR evening review OR end of day OR weekly review OR daily checkin OR what should I focus on OR daily ritual OR morning checkin OR evening checkin.
+description: Structured morning, evening, weekly review, and weekly planning workflows. USE WHEN morning routine OR start my day OR evening review OR end of day OR weekly review OR daily checkin OR what should I focus on OR daily ritual OR morning checkin OR evening checkin OR weekly planning OR plan week OR plan my week OR close week OR week retro OR sunday ritual OR full sunday.
 user-invocable: false
 ---
 
@@ -15,6 +15,9 @@ Structured rituals that surface system state — inbox health, domain project st
 | **morning_checkin** | "morning routine", "start my day", "morning checkin", "what should I focus on" | `workflows/morning_checkin.md` |
 | **evening_review** | "evening review", "end of day", "evening checkin", "wrap up" | `workflows/evening_review.md` |
 | **weekly_review** | "weekly review", "week in review", "weekly checkin" | `workflows/weekly_review.md` |
+| **weekly_planning** | "weekly planning", "plan week", "plan my week" | `workflows/weekly_planning.md` |
+| **weekly_closing** | "close week", "week retro", "end week" | `workflows/weekly_closing.md` |
+| **sunday_ritual** | "sunday ritual", "full sunday" | `workflows/sunday_ritual.md` |
 
 ## Examples
 
@@ -26,7 +29,7 @@ User: "morning routine"
 -> Reads active PROJECT_*.md files for open tasks
 -> Checks yesterday's session log
 -> Presents: inbox state, top priorities, suggested focus
--> Creates Inbox/Daily/DD-MM-YY.md with intentions
+-> Creates Inbox/Plan/DD-MM-YY.md with intentions
 ```
 
 **Example 2: End the day with reflection**
@@ -36,7 +39,7 @@ User: "end of day"
 -> Reads today's session logs
 -> Summarizes accomplishments and progress
 -> Captures learnings and blockers
--> Appends review to Inbox/Daily/DD-MM-YY.md
+-> Appends review to Inbox/Plan/DD-MM-YY.md
 -> Suggests tomorrow's priority
 ```
 
@@ -48,7 +51,18 @@ User: "weekly review"
 -> Reviews inbox health (unprocessed count)
 -> Checks project status changes
 -> Identifies stalled projects
--> Creates weekly summary in Inbox/Daily/
+-> Creates weekly summary in Inbox/Plan/
+```
+
+**Example 4: Sunday weekly ritual**
+```
+User: "sunday ritual"
+-> Invokes sunday_ritual workflow (orchestrator)
+-> If active week exists: runs weekly_closing first
+-> Runs weekly_review for progress summary
+-> Runs weekly_planning for upcoming week
+-> Creates week file in Inbox/Plan/
+-> Archives week and daily files to Inbox/Plan/archive/
 ```
 
 ## Data Sources
@@ -59,4 +73,5 @@ User: "weekly review"
 | `Inbox/Tasks/MASTER.md` | Task aggregation stats | Read frontmatter: `open_tasks`, `total_tasks` |
 | `Domains/*/01_PROJECTS/PROJECT_*.md` | Active project status | Grep frontmatter for `status`, `task_open` |
 | `.claude/sessions/` | Recent session logs | Read most recent session file |
-| `Inbox/Daily/` | Previous daily notes | Read yesterday's file if exists |
+| `Inbox/Plan/` | Daily and weekly planning files | Read DD-MM-YY.md (daily) and W[X]_YYYY-MM-DD.md (weekly) files |
+| `Inbox/Plan/archive/` | Archived daily and weekly files | Historical daily notes, weekly reviews, and closed week files |

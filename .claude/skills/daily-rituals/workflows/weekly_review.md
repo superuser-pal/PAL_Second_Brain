@@ -22,7 +22,7 @@ Cross-domain progress review, inbox health check, and goal alignment. Run once p
 
 ### Step 3: Review Daily Notes
 
-1. List all `Inbox/Daily/DD-MM-YY.md` files from the past 7 days
+1. List all `Inbox/Plan/DD-MM-YY.md` files from the past 7 days
 2. Extract key themes: accomplishments, learnings, blockers
 3. Summarize patterns: "This week you focused on [X], got blocked on [Y]"
 
@@ -65,12 +65,13 @@ Cross-domain progress review, inbox health check, and goal alignment. Run once p
 
 ### Step 7: Set Next Week's Focus
 
-1. Ask: "What are your top 1-3 priorities for next week?"
-2. Collect response
+1. Note: "Detailed task selection will happen in weekly_planning workflow"
+2. Ask: "What are your high-level priorities or themes for next week?"
+3. Collect response (themes only, not specific tasks)
 
 ### Step 8: Write Weekly Entry
 
-Create `Inbox/Daily/DD-MM-YY_weekly_review.md`:
+Create `Inbox/Plan/DD-MM-YY_weekly_review.md`:
 
 ```yaml
 ---

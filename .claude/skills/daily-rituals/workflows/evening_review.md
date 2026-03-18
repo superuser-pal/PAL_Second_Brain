@@ -8,16 +8,21 @@ Close the day with a structured reflection — capture what happened, what was l
 
 ### Step 1: Read Today's Context
 
-1. Check if `Inbox/Daily/DD-MM-YY.md` exists (today's date)
+1. Check if `Inbox/Plan/DD-MM-YY.md` exists (today's date)
 2. If exists, read the morning intentions
 3. Scan `Inbox/Notes/` and `Inbox/Tasks/` for files created or modified with today's date to understand today's captured information and activity.
+4. Check for active week in `Inbox/Plan/` — load week_goal and committed tasks
 
 ### Step 2: Gather Accomplishments
 
 1. Ask the user to verify completion of today's focused project tasks. If completed, automatically mark them as `[x]` (Done) and trigger `update_plan`.
-2. Ask: "What did you accomplish today? (Quick bullets are fine)"
-3. Supplement with key actions and insights derived from today's notes and tasks.
-4. Compile a combined list
+2. If active week exists, match accomplishments to week's committed tasks:
+   - Auto-mark matched tasks as `[x]` in week file
+   - Move task from "Active" to "Done" section in week file
+   - Update `completed_count` in week frontmatter
+3. Ask: "What did you accomplish today? (Quick bullets are fine)"
+4. Supplement with key actions and insights derived from today's notes and tasks.
+5. Compile a combined list
 
 ### Step 3: Capture Learnings
 
@@ -29,6 +34,25 @@ Close the day with a structured reflection — capture what happened, what was l
 1. Ask: "Anything blocked or stalled?"
 2. If user reports blockers, note which project/domain they relate to
 
+### Step 4.5: Week Progress Check
+
+If active week exists:
+
+1. Calculate task progress: `completed_count / planned_capacity`
+2. Calculate time progress: `days_elapsed / 7`
+3. Compare progress vs time:
+   - Progress > Time + 10%: "ahead"
+   - Progress within 10% of Time: "on-track"
+   - Progress < Time - 10%: "behind"
+4. Present:
+
+```markdown
+### Week Progress
+- Tasks: [M]/[N] ([X]%)
+- Time: [D]/7 days ([Y]%)
+- Status: [ahead|on-track|behind]
+```
+
 ### Step 5: Set Tomorrow's Priority
 
 1. Based on today's blockers and active project state, suggest a top priority for tomorrow
@@ -36,7 +60,7 @@ Close the day with a structured reflection — capture what happened, what was l
 
 ### Step 6: Write Evening Entry
 
-Append to `Inbox/Daily/DD-MM-YY.md` (create if doesn't exist):
+Append to `Inbox/Plan/DD-MM-YY.md` (create if doesn't exist):
 
 ```markdown
 ## Evening Review
