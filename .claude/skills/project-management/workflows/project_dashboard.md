@@ -9,34 +9,43 @@
 ## Prerequisites
 
 - At least one domain exists in `Domains/`
-- Project files follow naming convention: `*_PROJECT.md` or `PLAN_*.md`
+- **Formal projects** follow naming convention: `PROJECT_*.md` or `PLAN_*.md`
+- **Ad-hoc tasks** are tracked in `AD_HOC_TASKS.md` (NOT counted as projects)
 - Located in `Domains/*/01_PROJECTS/`
+
+**Important Distinction:**
+- `PROJECT_*.md` / `PLAN_*.md` = Formal projects with full metadata
+- `AD_HOC_TASKS.md` = Individual tasks without project structure
 
 ---
 
 ## Workflow Steps
 
-### Step 1: Scan All Projects
+### Step 1: Scan Projects and Ad-Hoc Tasks
 
-Scan all domains for project files:
+Scan all domains separately for formal projects and ad-hoc tasks:
 
-**Patterns to match:**
-- `Domains/*/01_PROJECTS/*_PROJECT.md`
+**Formal Project Patterns:**
+- `Domains/*/01_PROJECTS/PROJECT_*.md`
 - `Domains/*/01_PROJECTS/PLAN_*.md`
+
+**Ad-Hoc Task Pattern:**
+- `Domains/*/01_PROJECTS/AD_HOC_TASKS.md` (NOT counted as projects)
 
 **Example output:**
 ```
-Scanning projects across all domains...
-Found 5 projects in 3 domains
+Scanning across all domains...
+Found 3 formal projects in 2 domains
+Found 6 ad-hoc tasks in 2 domains
 ```
 
 ---
 
-### Step 2: Parse Project Metadata
+### Step 2: Parse Metadata
 
-For each project file, extract:
+**For Formal Projects (PROJECT_*.md / PLAN_*.md):**
 
-**YAML Frontmatter Fields:**
+Extract YAML frontmatter fields:
 - `name` - Project identifier (UPPER_SNAKE_CASE)
 - `status` - Current state (planning, active, in-progress, review, completed, blocked)
 - `priority` - Importance level (high, medium, low, null)
@@ -49,11 +58,19 @@ For each project file, extract:
 - `task_open` - Open task count (number)
 - `task_done` - Completed task count (number)
 
-**Task Section Parsing:**
-- Count lines starting with `- [ ]` or `- [x]` in:
-  - `### Open` section
-  - `### In Progress` section
-  - `### Done` section
+Count tasks in sections:
+- `### Open` section
+- `### In Progress` section
+- `### Done` section
+
+**For Ad-Hoc Tasks (AD_HOC_TASKS.md):**
+
+Extract domain from frontmatter `domain` field.
+
+Count tasks:
+- Lines starting with `- [ ]` in `### Open` section
+- Lines starting with `- [/]` in `### In Progress` section (if exists)
+- Lines starting with `- [x]` in `### Done` section (if exists)
 
 ---
 
@@ -107,7 +124,7 @@ domains_scanned: 7
 domains_with_projects: 3
 projects_scanned: 5
 
-# Project Status Summary
+# Project Status Summary (Formal Projects Only)
 projects_by_status:
   planning: 3
   active: 1
@@ -116,21 +133,25 @@ projects_by_status:
   completed: 0
   blocked: 0
 
-# Priority Distribution
+# Priority Distribution (Formal Projects Only)
 projects_by_priority:
   high: 2
   medium: 2
   low: 1
   unset: 0
 
-# Task Metrics
+# Task Metrics (Formal Projects Only)
 total_tasks: 33
 task_breakdown:
   open: 29
   in_progress: 0
   done: 4
 
-# Health Indicators
+# Ad-Hoc Task Metrics (Separate from Projects)
+ad_hoc_tasks: 12
+ad_hoc_domains: 3
+
+# Health Indicators (Formal Projects Only)
 overdue_count: 0
 stale_count: 1
 blocked_count: 0
@@ -142,20 +163,21 @@ blocked_count: 0
 ```markdown
 # Project Dashboard
 
-> Generated: 2026-03-08 14:30:00 | Domains: 7 | Projects: 5 | Tasks: 33
+> Generated: 2026-03-08 14:30:00 | Domains: 7 | Projects: 5 | Ad-Hoc Tasks: 12
 
 ## 📊 Executive Summary
 
 | Metric | Value | Status |
 |--------|-------|--------|
-| Total Projects | 5 | 🟢 |
-| Total Tasks | 33 | 🟡 |
+| Formal Projects | 5 | 🟢 |
+| Project Tasks | 33 | 🟡 |
+| Ad-Hoc Tasks | 12 | 🟡 |
 | Completion Rate | 12% | 🔴 |
 | Overdue Projects | 0 | 🟢 |
 | Blocked Projects | 0 | 🟢 |
 | Stale Projects | 1 | 🟡 |
 
-**Key Insight**: High task volume with low completion rate. Consider focusing on completing existing tasks before starting new projects.
+**Key Insight**: High task volume with low completion rate. 12 ad-hoc tasks should be evaluated for conversion to formal projects.
 
 ---
 
@@ -212,7 +234,7 @@ Total:                    5 projects
 
 ---
 
-## 🗂️ By Domain
+## 🗂️ Formal Projects by Domain
 
 ### PALProduct (2 projects, 15 tasks)
 
@@ -236,12 +258,59 @@ Total:                    5 projects
 
 ---
 
-### Other Domains
+### Domains Without Formal Projects
 
-**PALBuilder**: No active projects | [Create Project](../Domains/PALBuilder/01_PROJECTS/)
-**PALGrowth**: No active projects | [Create Project](../Domains/PALGrowth/01_PROJECTS/)
-**LifeOS**: No active projects | [Create Project](../Domains/LifeOS/01_PROJECTS/)
-**Studio**: No active projects | [Create Project](../Domains/Studio/01_PROJECTS/)
+**PALBuilder**: No formal projects | [Create Project](../Domains/PALBuilder/01_PROJECTS/)
+**PALGrowth**: No formal projects | [Create Project](../Domains/PALGrowth/01_PROJECTS/)
+**LifeOS**: No formal projects | [Create Project](../Domains/LifeOS/01_PROJECTS/)
+**Studio**: No formal projects | [Create Project](../Domains/Studio/01_PROJECTS/)
+
+---
+
+## 📝 Ad-Hoc Tasks by Domain
+
+### PALBuilder (4 tasks)
+
+**Source**: [AD_HOC_TASKS.md](../Domains/PALBuilder/01_PROJECTS/AD_HOC_TASKS.md)
+
+- [ ] Create project dashboard feature
+- [ ] Add task filtering to MASTER.md
+- [ ] Document workflow patterns
+- [ ] Implement task sync logic
+
+**Notes**: Consider creating PROJECT_DASHBOARD.md for dashboard feature work.
+
+---
+
+### LaraLou (5 tasks)
+
+**Source**: [AD_HOC_TASKS.md](../Domains/LaraLou/01_PROJECTS/AD_HOC_TASKS.md)
+
+- [ ] Define PromtPAL content topics
+- [ ] Write first Substack note
+- [ ] Create content calendar
+- [ ] Research viral note patterns
+- [ ] Set up analytics tracking
+
+**Notes**: High volume of tasks - consider formalizing into PLAN_PROMTPAL_CONTENT.md.
+
+---
+
+### Studio (3 tasks)
+
+**Source**: [AD_HOC_TASKS.md](../Domains/Studio/01_PROJECTS/AD_HOC_TASKS.md)
+
+- [ ] Plan YouTube video script
+- [ ] Record first video
+- [ ] Set up video editing workflow
+
+**Notes**: Video production tasks - consider PROJECT_YOUTUBE_SERIES.md.
+
+---
+
+### Domains Without Ad-Hoc Tasks
+
+**PALProduct** | **PALGrowth** | **LifeOS**
 
 ---
 
