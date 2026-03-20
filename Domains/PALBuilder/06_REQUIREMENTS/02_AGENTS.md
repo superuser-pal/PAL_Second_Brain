@@ -25,7 +25,7 @@ An agent is a specialized persona that takes over your PAL session to handle a s
 
 Category: Validation
 Verification: Check `.claude/agents/` and confirm only `.md` files exist, no folders
-Source: [AGENTS_LOGIC.md](.claude/base/system/AGENTS_LOGIC.md)
+Source: [AGENTS_LOGIC.md](.claude/core/system/AGENTS_LOGIC.md)
 
 ---
 
@@ -37,7 +37,7 @@ Source: [AGENTS_LOGIC.md](.claude/base/system/AGENTS_LOGIC.md)
 
 Category: Validation
 Verification: Check any domain agent's YAML and confirm `domain:` field exists and matches a real domain
-Source: [AGENTS_LOGIC.md](.claude/base/system/AGENTS_LOGIC.md)
+Source: [AGENTS_LOGIC.md](.claude/core/system/AGENTS_LOGIC.md)
 
 ---
 
@@ -53,7 +53,7 @@ Source: [AGENTS_LOGIC.md](.claude/base/system/AGENTS_LOGIC.md)
 
 Category: Validation
 Verification: Check any agent's YAML frontmatter and confirm exactly 4 fields
-Source: [AGENTS_LOGIC.md](.claude/base/system/AGENTS_LOGIC.md)
+Source: [AGENTS_LOGIC.md](.claude/core/system/AGENTS_LOGIC.md)
 
 ---
 
@@ -125,7 +125,7 @@ Source: [AGENT_BASE.md](.claude/core/system/AGENT_BASE.md)
 
 Category: Functional
 Verification: Load an agent and confirm greeting appears with menu, then waits for input
-Source: [AGENTS_LOGIC.md](.claude/base/system/AGENTS_LOGIC.md)
+Source: [AGENTS_LOGIC.md](.claude/core/system/AGENTS_LOGIC.md)
 
 ---
 
@@ -140,7 +140,7 @@ Source: [AGENTS_LOGIC.md](.claude/base/system/AGENTS_LOGIC.md)
 
 Category: Validation
 Verification: Check Section 5 of any agent and confirm capabilities have all three fields
-Source: [AGENTS_LOGIC.md](.claude/base/system/AGENTS_LOGIC.md)
+Source: [AGENTS_LOGIC.md](.claude/core/system/AGENTS_LOGIC.md)
 
 ---
 
@@ -153,7 +153,7 @@ Source: [AGENTS_LOGIC.md](.claude/base/system/AGENTS_LOGIC.md)
 
 Category: Functional
 Verification: Ask an agent to do something outside its capabilities and confirm it declines
-Source: [AGENTS_LOGIC.md](.claude/base/system/AGENTS_LOGIC.md)
+Source: [AGENTS_LOGIC.md](.claude/core/system/AGENTS_LOGIC.md)
 
 ---
 
@@ -219,7 +219,7 @@ Source: [pal-master.md](.claude/agents/pal-master.md)
 
 Category: Functional
 Verification: Request skill-related work and confirm appropriate skill activates
-Source: [ORCHESTRATION.md](.claude/base/system/ORCHESTRATION.md)
+Source: [ORCHESTRATION.md](.claude/core/system/ORCHESTRATION.md)
 
 ---
 
@@ -259,7 +259,7 @@ Source: [pal-master.md](.claude/agents/pal-master.md)
 
 Category: Functional
 Verification: Request a multi-file change and confirm plan is presented before execution
-Source: [ORCHESTRATION.md](.claude/base/system/ORCHESTRATION.md)
+Source: [ORCHESTRATION.md](.claude/core/system/ORCHESTRATION.md)
 
 ---
 
@@ -281,9 +281,9 @@ Source: [ORCHESTRATION.md](.claude/base/system/ORCHESTRATION.md)
 - `[AUTO]` INDEX.md — Domain Source of Truth
 - `[REF]` 00_CONTEXT/ — Architecture decisions
 - `[REF]` 01_PROJECTS/ — Active specs and plans
-- `[REF]` 02_SESSIONS/ — Session logs
-- `[REF]` 03_ASSETS/ — Reference materials
-- `[REF]` 04_OUTPUTS/ — Generated artifacts
+- `[REF]` 04_SESSIONS/ — Session logs
+- `[REF]` 02_PAGES/ — Reference materials
+- `[REF]` 03_OUTPUT/ — Generated artifacts
 - `[REF]` 05_ARCHIVE/ — Completed work
 
 Category: Functional
@@ -361,9 +361,9 @@ Source: [pal-builder.md](.claude/agents/pal-builder.md)
 |-----------|-------------|--------|
 | Architecture decisions | 00_CONTEXT/ | lower_snake_case.md |
 | Active specs/plans | 01_PROJECTS/ | PROJECT_*.md or PLAN_*.md |
-| Session logs | 02_SESSIONS/ | YYYY-MM-DD_title.md |
-| Reference docs | 03_ASSETS/ | lower_snake_case.md |
-| Generated artifacts | 04_OUTPUTS/ | Flexible |
+| Session logs | 04_SESSIONS/ | YYYY-MM-DD_title.md |
+| Reference docs | 02_PAGES/ | lower_snake_case.md |
+| Generated artifacts | 03_OUTPUT/ | Flexible |
 | Completed work | 05_ARCHIVE/ | Preserve original name |
 
 Category: Validation
@@ -389,9 +389,9 @@ Source: [pal-builder.md](.claude/agents/pal-builder.md)
 **Then** it loads context from `domains/studio/`:
 - `[AUTO]` INDEX.md — Domain Source of Truth
 - `[REF]` 01_PLANS/ — Production plans
-- `[REF]` 02_SESSIONS/ — Production session logs
-- `[REF]` 03_ASSETS/whiteboards/ — Scaledraw .excalidraw files
-- `[REF]` 03_ASSETS/media/ — Production icons and pictures
+- `[REF]` 04_SESSIONS/ — Production session logs
+- `[REF]` 02_PAGES/whiteboards/ — Scaledraw .excalidraw files
+- `[REF]` 02_PAGES/media/ — Production icons and pictures
 
 Category: Functional
 Verification: Load Studio Agent and run `*context` to confirm domain files are indexed
@@ -451,7 +451,7 @@ Source: [studio-agent.md](.claude/agents/studio-agent.md)
 
 **Given** Scaledraw files exist
 **When** the user requests `*whiteboards`
-**Then** Studio Agent lists all `.excalidraw` files in `03_ASSETS/whiteboards/`
+**Then** Studio Agent lists all `.excalidraw` files in `02_PAGES/whiteboards/`
 
 Category: Functional
 Verification: Run `*whiteboards` and confirm .excalidraw files are listed
@@ -476,8 +476,8 @@ Source: [studio-agent.md](.claude/agents/studio-agent.md)
 **Then** it loads context from `domains/LaraLou/`:
 - `[AUTO]` INDEX.md — Domain Source of Truth
 - `[REF]` 01_PLANS/ — Growth and content strategies
-- `[REF]` 03_ASSETS/ — Notes metadata
-- `[REF]` 03_ASSETS/essays/ — All published essays
+- `[REF]` 02_PAGES/ — Notes metadata
+- `[REF]` 02_PAGES/essays/ — All published essays
 
 Category: Functional
 Verification: Load Substack Manager and run `*context` to confirm domain files are indexed
@@ -489,7 +489,7 @@ Source: [substack-manager.md](.claude/agents/substack-manager.md)
 
 **Given** Substack Manager is active
 **When** essay references are needed
-**Then** it has indexed access to all essays in `03_ASSETS/essays/` with dates and titles
+**Then** it has indexed access to all essays in `02_PAGES/essays/` with dates and titles
 
 Category: Functional
 Verification: Ask about a specific essay date and confirm agent can reference it
@@ -543,7 +543,7 @@ Source: [substack-manager.md](.claude/agents/substack-manager.md)
 
 Category: UI
 Verification: Review agent responses and confirm first-person pronouns throughout
-Source: [ARCHITECTURE.md](.claude/base/system/ARCHITECTURE.md)
+Source: [ARCHITECTURE.md](.claude/core/system/ARCHITECTURE.md)
 
 ---
 
@@ -555,7 +555,7 @@ Source: [ARCHITECTURE.md](.claude/base/system/ARCHITECTURE.md)
 
 Category: Functional
 Verification: Load any agent and confirm it waits after greeting
-Source: [AGENTS_LOGIC.md](.claude/base/system/AGENTS_LOGIC.md)
+Source: [AGENTS_LOGIC.md](.claude/core/system/AGENTS_LOGIC.md)
 
 ---
 
@@ -567,7 +567,7 @@ Source: [AGENTS_LOGIC.md](.claude/base/system/AGENTS_LOGIC.md)
 
 Category: Security
 Verification: Attempt a guardrails-blocked operation and confirm it's rejected
-Source: [GUARDRAILS.md](.claude/base/security/GUARDRAILS.md)
+Source: [GUARDRAILS.md](.claude/core/security/GUARDRAILS.md)
 
 ---
 
@@ -582,7 +582,7 @@ Source: [GUARDRAILS.md](.claude/base/security/GUARDRAILS.md)
 
 Category: Functional
 Verification: Trigger an error and confirm clear explanation with options appears
-Source: [ARCHITECTURE.md](.claude/base/system/ARCHITECTURE.md)
+Source: [ARCHITECTURE.md](.claude/core/system/ARCHITECTURE.md)
 
 ---
 
@@ -594,7 +594,31 @@ Source: [ARCHITECTURE.md](.claude/base/system/ARCHITECTURE.md)
 
 Category: Functional
 Verification: Run `*dismiss` from any agent and confirm PAL Master takes over
-Source: [AGENTS_LOGIC.md](.claude/base/system/AGENTS_LOGIC.md)
+Source: [AGENTS_LOGIC.md](.claude/core/system/AGENTS_LOGIC.md)
+
+### 2.5.6 All Agents Write .current-session on Load
+
+**Given** a domain agent is activated via `/agent:[name]`
+**When** the agent completes its activation sequence
+**Then** it writes `.claude/sessions/.current-session` with its name, domain, and Always Load file paths
+**And then** overwrites any existing content (supports mid-session agent switching — last loaded agent wins)
+
+Category: Functional
+Verification: Load any agent, read `.current-session`, confirm agent name, domain, and loaded_paths are present
+Source: [AGENT_BASE.md](.claude/core/system/AGENT_BASE.md)
+
+---
+
+### 2.5.7 All Agents Clear .current-session on Dismiss
+
+**Given** a domain agent is active
+**When** the user enters `*dismiss`
+**Then** `.claude/sessions/.current-session` is cleared (written as empty)
+**And then** control returns to PAL Master
+
+Category: Functional
+Verification: Load an agent, confirm .current-session has content, run *dismiss, confirm file is empty
+Source: [AGENT_BASE.md](.claude/core/system/AGENT_BASE.md)
 
 ---
 

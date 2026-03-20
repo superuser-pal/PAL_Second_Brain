@@ -1,15 +1,9 @@
 ---
 title: PAL Agents System
-version: 5.2.0
+version: 1.0.0
 layer: SYSTEM
 purpose: Strict configuration schema for PAL Agents
 last_updated: 2026-03-17
----
-
-# PAL Agents System
-
-**The definitive schema for constructing domain agents.** See `PHILOSOPHY.md` for narrative.
-
 ---
 
 ## 1. Absolute Constraints
@@ -83,6 +77,30 @@ Domain Agents enforce standard isolation by loading ONLY:
 2. **Domain Context (Configured in sections 2/3):** Mapped strictly from `INDEX.md`. Use `[AUTO]` for immediate memory load, `[REF]` for indexing only.
 
 ---
-**Version:** 5.2.0
-**Last Updated:** 2026-03-17
-**Related Files:** AGENT_BASE.md, SYSTEM_INDEX.md, DOMAINS_LOGIC.md
+
+## 5. Agent Lifecycle & `.current-session`
+
+Every agent load/dismiss cycle MUST maintain `.claude/sessions/.current-session`:
+
+**On agent load:**
+- Write the following YAML to `.claude/sessions/.current-session` (overwrite any existing content):
+  ```yaml
+  ---
+  agent: [agent-name]
+  domain: [DomainName]
+  loaded_paths:
+    - [path to each Always Load file]
+  loaded_at: [ISO 8601 timestamp]
+  ---
+  ```
+- This supports mid-session agent switching — the file always reflects the **currently active** agent.
+
+**On `*dismiss`:**
+- Clear `.claude/sessions/.current-session` by writing an empty file.
+
+**Consumers:**
+- `distribute_notes` workflow reads this file to build an enriched candidate pool without cold scanning agent-loaded files.
+- If file is empty or absent, consumers treat it as "no agent active" and fall back to cold scan.
+
+---
+

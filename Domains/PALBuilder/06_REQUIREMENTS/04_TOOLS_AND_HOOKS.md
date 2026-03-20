@@ -351,12 +351,12 @@ Source: [post-tool-use.ts](.claude/tools/hooks/post-tool-use.ts)
 
 ### 4.1.17 post-tool-use Hook Validates Domain Pages
 
-**Given** a file is written to `Domains/*/03_PAGES/*.md`
+**Given** a file is written to `Domains/*/02_PAGES/*.md`
 **When** the post-tool-use hook executes
 **Then** it validates required fields: `status`, `domain`, `category`, `type`, `created`, `last_modified`
 
 Category: Data Quality
-Verification: Write page to domain 03_PAGES/ with missing `domain`, confirm warning
+Verification: Write page to domain 02_PAGES/ with missing `domain`, confirm warning
 Source: [post-tool-use.ts](.claude/tools/hooks/post-tool-use.ts)
 
 ---
@@ -394,6 +394,34 @@ Source: [post-tool-use.ts](.claude/tools/hooks/post-tool-use.ts)
 
 Category: Data Quality
 Verification: Write file with missing `status` or `created` date, verify file is quietly updated by the hook
+Source: [post-tool-use.ts](.claude/tools/hooks/post-tool-use.ts)
+
+---
+
+### 4.1.21 post-tool-use Hook Validates Destination Field on Inbox Notes
+
+**Given** an Inbox Note is written or edited with a `destination` field
+**When** the post-tool-use hook runs
+**Then** it checks the value against allowed values: `pages`, `context`, `projects`, `all`, `null`
+**And then** emits a schema warning if the value is unrecognized
+**And then** passes silently if the field is absent or null
+
+Category: Validation
+Verification: Write an inbox note with `destination: everywhere`, confirm hook emits a schema warning
+Source: [post-tool-use.ts](.claude/tools/hooks/post-tool-use.ts)
+
+---
+
+### 4.1.22 post-tool-use Hook Validates Current Session Schema
+
+**Given** `.claude/sessions/.current-session` is written with YAML content
+**When** the post-tool-use hook runs
+**Then** it validates the file contains all required fields: `agent`, `domain`, `loaded_paths`, `loaded_at`
+**And then** emits a schema warning for any missing required field
+**And then** skips validation if the file is empty (cleared on dismiss)
+
+Category: Validation
+Verification: Write .current-session missing the `loaded_at` field, confirm hook warns about the missing field
 Source: [post-tool-use.ts](.claude/tools/hooks/post-tool-use.ts)
 
 ---
