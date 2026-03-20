@@ -1,7 +1,7 @@
 # PAL Second Brain - Requirements Documentation
 
-**Version:** 1.5.0
-**Last Updated:** 2026-02-25
+**Version:** 1.6.0
+**Last Updated:** 2026-03-20
 
 ---
 
@@ -163,11 +163,11 @@ Some behaviors need multiple conditions or outcomes:
 | Document | Sections | Requirements |
 |----------|----------|--------------|
 | Core System | 5 | 20 |
-| Skills | 9 | 74 |
-| Agents | 6 | 26 |
+| Skills | 9 | 80 |
+| Agents | 6 | 28 |
 | Commands | 3 | 29 |
-| Tools and Hooks | 2 | 18 |
-| **Total** | **25** | **167** |
+| Tools and Hooks | 2 | 20 |
+| **Total** | **25** | **177** |
 
 ---
 
@@ -220,16 +220,17 @@ The following skills are intentionally excluded from this requirements documenta
 | 1.3.0 | 2026-02-16 | Added life-management (1.7) and system-cleaner (1.8) skills; extended note-taking and system-build sections |
 | 1.4.0 | 2026-02-21 | Added 03_COMMANDS.md (29 requirements) and 04_TOOLS_AND_HOOKS.md (18 requirements) |
 | 1.5.0 | 2026-02-25 | Added note-taking semantic features (1.4.9-1.4.26): observation categories, entity types, relation types, dedup, blind mode, action extraction, braindump splitting |
+| 1.6.0 | 2026-03-20 | Added smart note distribution (1.4.40-1.4.45): multi-pool scanning, Jaccard scoring, destination field, agent context enrichment, confirmation list. Added agent .current-session lifecycle (2.5.6-2.5.7). Added hook validation for destination field and .current-session schema (4.1.21-4.1.22) |
 
 ---
 
 ## Related Resources
 
-- **System Architecture:** `.claude/base/system/ARCHITECTURE.md`
-- **Orchestration Logic:** `.claude/base/system/ORCHESTRATION.md`
-- **Skill Logic:** `.claude/base/system/SKILL_LOGIC.md`
-- **Agent Logic:** `.claude/base/system/AGENTS_LOGIC.md`
-- **Domain Logic:** `.claude/base/system/DOMAINS_LOGIC.md`
+- **System Architecture:** `.claude/core/system/ARCHITECTURE.md`
+- **Orchestration Logic:** `.claude/core/system/ORCHESTRATION.md`
+- **Skill Logic:** `.claude/core/system/SKILL_LOGIC.md`
+- **Agent Logic:** `.claude/core/system/AGENTS_LOGIC.md`
+- **Domain Logic:** `.claude/core/system/DOMAINS_LOGIC.md`
 
 ---
 

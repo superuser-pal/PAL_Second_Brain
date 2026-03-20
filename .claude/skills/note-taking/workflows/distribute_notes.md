@@ -1,28 +1,41 @@
 # distribute_notes Workflow
 
-Distribute processed notes from inbox to their designated domain 02_PAGES/ folders.
+Distribute processed notes from inbox to their designated domain folders. Uses Jaccard similarity to find the best matching target files across `02_PAGES/`, `00_CONTEXT/`, and `01_PROJECTS/`, presents a confirmation list, and writes only to confirmed targets.
 
-## Step 1: Scan Inbox Notes
+---
+
+## Step 1: Read Agent Context
+
+Before scanning any files, check if a domain agent is active.
+
+1. Read `.claude/sessions/.current-session`
+2. If file exists and contains YAML with `agent`, `domain`, and `loaded_paths`:
+   - Parse `loaded_paths` as the **agent candidate pool** (list of pre-loaded file paths)
+   - Store `agent_domain` for domain mismatch check (Step 3b)
+3. If file is absent, empty, or unparseable → set agent candidate pool to `null` (no-agent session)
+
+---
+
+## Step 2: Scan Inbox Notes
 
 ```bash
-ls inbox/notes/*.md 2>/dev/null || echo "No markdown files found"
+ls Inbox/Notes/*.md 2>/dev/null || echo "No markdown files found"
 ```
 
-## Step 2: Filter Notes with Frontmatter
-
 For each file:
-1. Read file and check for YAML frontmatter
-2. Parse frontmatter to extract: `status`, `domain`, `project`, `type`
-3. Filter based on status:
+1. Read frontmatter
+2. Parse: `status`, `domain`, `destination`, `project`, `type`, `origin`
+3. Filter:
    - `status: ready` → Add to distribution queue
-   - `status: draft` → Skip (processed without agent, needs reprocessing with agent)
-   - `status: unprocessed` → Skip (needs processing first)
-   - `domain: _unassigned` → Skip (needs domain assignment via agent)
+   - `status: unprocessed` → Skip (needs process_inbox first)
+   - `domain: _unassigned` → Skip (needs domain assignment)
    - No frontmatter → Skip (run process_inbox first)
+
+---
 
 ## Step 2b: Detect LifeOS Types
 
-Check if `type` maps to a LifeOS target file:
+Check if `domain: LifeOS` and `type` is a LifeOS-specific type:
 
 | Type | LifeOS Location |
 |------|-----------------|
@@ -30,299 +43,289 @@ Check if `type` maps to a LifeOS target file:
 | `frame` | 00_CONTEXT/frames.md |
 | `lesson` | 00_CONTEXT/learned.md |
 | `model` | 00_CONTEXT/models.md |
-| `goal` | 01_PROJECTS/GOAL_*.md |
+| `goal` | 00_CONTEXT/GOAL_*.md (create new GOAL file) |
 
-- If type matches a LifeOS type above AND domain is LifeOS → Add to **LifeOS distribution queue**
-- Otherwise → Add to **standard distribution queue**
+- If `domain: LifeOS` AND `type` matches above → Route directly via LifeOS distribution (Step 7b). Skip smart routing steps below.
+- `plan` and `note` types with `domain: LifeOS` → proceed through smart routing like all other domains.
 
-## Step 3: Validate Domains
+---
 
-For each note to distribute:
+## Step 3: Determine Scan Pool
 
-```bash
-test -f "domains/[note.domain]/INDEX.md" && echo "exists" || echo "missing"
+For each note in the distribution queue:
+
+1. Read `destination` field from frontmatter:
+
+| `destination` value | Scan pool |
+|---|---|
+| `pages` | `Domains/[domain]/02_PAGES/` only |
+| `context` | `Domains/[domain]/00_CONTEXT/` only |
+| `projects` | `Domains/[domain]/01_PROJECTS/` only |
+| `all` | All three folders |
+| `null` / absent | All three folders |
+
+2. Remove any folder from the pool that does not exist on disk — skip silently.
+
+### Step 3b: Agent Domain Mismatch Check
+
+If an agent is active (`agent_domain` is set):
+- Compare `agent_domain` to the note's `domain` field
+- If they differ → **do not use agent candidate pool for this note** (wrong domain); fall back to cold scan only
+- If they match → use agent candidate pool as described in Step 4
+
+---
+
+## Step 4: Collect Candidates
+
+For each folder in the scan pool:
+
+1. Glob all `.md` files in that folder
+2. For each file:
+   - If file path is in the **agent candidate pool** → mark as `pre-loaded: true`, skip disk read for content (use already-loaded content)
+   - Otherwise → read frontmatter only (do not load full file content)
+3. Build candidate list:
+   ```
+   { path, folder, title, tags, description, pre_loaded }
+   ```
+
+Agent-context candidates are listed before cold-scan candidates in all subsequent steps.
+
+---
+
+## Step 5: Score Candidates (Jaccard Similarity)
+
+Apply Jaccard similarity to each candidate against the note being distributed.
+
+### Algorithm
+
+**Input sets:**
+- Note: extract tags + significant words from `description`, `name`, and observation content
+- Candidate: extract tags + significant words from `title`, `description`, `tags` frontmatter fields
+
+**Score:**
+```
+J(A, B) = |A ∩ B| / |A ∪ B|
 ```
 
-- If domain exists, continue
-- If domain missing, report error and skip note
+**Combined score:**
+```
+score = (Jaccard × 0.6) + (tag_overlap × 0.4)
+```
+Where `tag_overlap = matching_tags / total_unique_tags`.
 
-## Step 4: Convert Filename
+**Threshold:** Score >= 0.60 (60%) → include in confirmation list. Below threshold → exclude.
 
-Convert filename to `lower_snake_case` for 02_PAGES/:
+**Fallback:** If no candidates score >= 60% → proceed to Step 5b.
 
-| Original | Converted |
-|----------|-----------|
-| `My Note.md` | `my_note.md` |
-| `Research-Notes.md` | `research_notes.md` |
-| `API Reference.md` | `api_reference.md` |
+### Step 5b: No-Match Fallback
 
-## Step 5: Check for Conflicts
+If no candidates score above threshold:
 
-Before moving, check if destination file exists:
+```
+No matching files found in [scan pool folders].
 
-```bash
-test -f "domains/[domain]/02_PAGES/[filename].md"
+Options:
+1. Create new page in 02_PAGES/ (recommended)
+2. Expand search to all folders (override destination scope)
+3. Keep in inbox — skip distribution for this note
+
+Your choice (1-3):
 ```
 
-If conflict exists, ask user:
-1. Overwrite existing file
-2. Rename new file (append timestamp)
-3. Skip this note
+- Option 1 → Skip to Step 7 (standard distribution, new file)
+- Option 2 → Reset scan pool to all three folders, repeat Steps 4–5 once
+- Option 3 → Set `status: insubstantial`, skip note
 
-## Step 6: Move Note to Domain (Standard Distribution)
+---
 
-**For notes with general categories** (research, meeting, idea, reference, notes):
+## Step 6: Confirmation List
 
-```bash
-mv "inbox/notes/[original].md" "domains/[domain]/02_PAGES/[converted].md"
+Present all candidates above threshold as a single numbered list:
+
+```
+Smart distribution for: [note filename]
+Domain: [domain]
+
+Matching targets found:
+
+  [agent context]
+  1. 00_CONTEXT/beliefs.md (84%)
+  2. 01_PROJECTS/PROJECT_FEATURE_X.md (71%)
+
+  [pages]
+  3. 02_PAGES/product_philosophy.md (65%)
+
+Select targets (e.g. "1", "1 3", "all", or "none"):
 ```
 
-After moving, update the note's frontmatter:
-- Set `status: processed`
-- Update `last_updated` to today's date
+**Rules:**
+- Agent-context candidates appear first under `[agent context]` header
+- Cold-scan candidates appear after under their folder name
+- If no agent is active, skip the `[agent context]` header entirely
+- User enters comma or space-separated numbers, "all", or "none"
+- "none" → proceed to Step 5b (no-match fallback options)
 
-## Step 6b: Append to LifeOS File (LifeOS Distribution)
+---
 
-**For notes with LifeOS types** (belief, frame, lesson, model, goal):
+## Step 7: Write to Confirmed Targets
+
+For each confirmed target:
+
+### Determine write action:
+
+| Target folder | File exists? | Action |
+|---|---|---|
+| `02_PAGES/` | No | Create new file (move from inbox) |
+| `02_PAGES/` | Yes | Append to existing page |
+| `00_CONTEXT/` | Yes | Append to context file (smart insertion per Step 7b rules) |
+| `01_PROJECTS/` | Yes | Append to project file under `## References` or `## Notes` section |
+
+### For append targets:
+
+```markdown
+---
+
+## From: [source_note_title]
+_Added: YYYY-MM-DD from [[source_note_filename]]_
+
+[source_note_body — excluding frontmatter]
+```
+
+### For new page creation (`02_PAGES/`):
+
+- Convert filename to `lower_snake_case`
+- Check for conflicts (Step 6 original flow)
+- Move file from `Inbox/Notes/` to `Domains/[domain]/02_PAGES/[filename].md`
+- Update frontmatter: `status: processed`, `last_updated: today`
+
+---
+
+## Step 7b: Append to LifeOS File (LifeOS Distribution)
+
+**For notes with LifeOS types** (belief, frame, lesson, model, goal) where `domain: LifeOS`:
 
 1. **Determine target path:**
    ```
-   belief  → domains/LifeOS/00_CONTEXT/beliefs.md
-   frame   → domains/LifeOS/00_CONTEXT/frames.md
-   lesson  → domains/LifeOS/00_CONTEXT/learned.md
-   model   → domains/LifeOS/00_CONTEXT/models.md
-   goal    → domains/LifeOS/01_PROJECTS/GOAL_*.md
+   type: belief → Domains/LifeOS/00_CONTEXT/beliefs.md
+   type: frame  → Domains/LifeOS/00_CONTEXT/frames.md
+   type: lesson → Domains/LifeOS/00_CONTEXT/learned.md
+   type: model  → Domains/LifeOS/00_CONTEXT/models.md
+   type: goal   → Domains/LifeOS/00_CONTEXT/GOAL_[name].md (create new GOAL file)
    ```
 
 2. **Create backup before modification:**
-   - Ensure backup directory exists: `domains/LifeOS/05_ARCHIVE/backups/`
+   - Ensure backup directory exists: `Domains/LifeOS/05_ARCHIVE/backups/`
    - Copy target file to backup:
      ```bash
-     cp "domains/LifeOS/[folder]/[target_file]" \
-        "domains/LifeOS/05_ARCHIVE/backups/[target_file]_YYYY-MM-DD_HH-MM-SS.md"
+     cp "Domains/LifeOS/[folder]/[category]" \
+        "Domains/LifeOS/05_ARCHIVE/backups/[category]_YYYY-MM-DD_HH-MM-SS.md"
      ```
    - If backup fails, STOP and report error (do not proceed with append)
 
 3. **Extract content from note:**
-   - Look for `## Extracted Content` or `## For [type]` section
+   - Look for `## Extracted Content` or `## For [category]` section
    - If not found, use entire note content (excluding frontmatter)
 
-4. **Append extracted content to target file:**
+4. **Smart insertion based on subsection:**
 
-   - Append at end of file (before "Last Updated" footer):
-     ```markdown
+   **If `subsection` field is set (not null):**
+   - Read target file and find `## [subsection]` heading
+   - Insert content BEFORE the section delimiter
 
-     ---
-     *Source: [original_filename] (YYYY-MM-DD)*
-
-     > [extracted content]
-     ```
+   **If `subsection` is null or heading not found:**
+   - Append at end of file (before "Last Updated" footer)
 
 5. **Move original note to LifeOS assets:**
    ```bash
-   mv "inbox/notes/[original].md" "domains/LifeOS/02_PAGES/[converted].md"
+   mv "Inbox/Notes/[original].md" "Domains/LifeOS/02_PAGES/[converted].md"
    ```
 
-6. **Update note frontmatter:**
-   - Set `status: processed`
-   - Update `last_updated` to today's date
+6. **Update note frontmatter:** `status: processed`, `last_updated: today`
 
 7. **Log change to UPDATES.md:**
-   - Append to `domains/LifeOS/02_SESSIONS/UPDATES.md`:
-     ```markdown
-     ## YYYY-MM-DD HH:MM
+   - Append to `Domains/LifeOS/04_SESSIONS/UPDATES.md`
 
-     - **Action:** Appended to [type]
-     - **Source:** [original_filename]
-     - **Position:** end of file
-     - **Backup:** 05_ARCHIVE/backups/[backup_filename]
-     ```
+---
 
-## Step 6c: Validate Relations
+## Step 7c: Validate Relations
 
 For each note being distributed, check its `## Relations` section:
 
-### Process
+1. Parse relations (format: `- relation_type [[Target Note]]`)
+2. For each relation target, check if it exists in the destination domain
+3. If missing → warn (forward reference), do not block distribution
 
-1. Parse relations from the note (format: `- relation_type [[Target Note]]`)
-2. For each relation target, check if it exists in the destination domain:
-   ```bash
-   find "domains/[domain]" -name "*.md" | xargs grep -l "# [Target Note Title]"
+---
+
+## Step 7d: Action Extraction to PROJECT Files
+
+**Condition:** Note has a `project:` field AND agent context is loaded.
+
+1. Scan note for `- [action] content #tags`
+2. Locate project file at `Domains/[domain]/01_PROJECTS/[project]`
+3. Add each action as task under `## Tasks`:
+   ```markdown
+   - [ ] [action content] (from: [[Source Note]])
    ```
 
-### Validation Outcomes
+**No agent:** Skip action extraction. Actions remain in note observations for second pass.
 
-| Target Status | Action |
-|---------------|--------|
-| **Target exists** | Relation is valid, no action needed |
-| **Target missing** | Warn but allow (forward reference) |
+---
 
-### Warning Format
+## Step 7e: Standalone Task Extraction
 
-```
-⚠️ Relation target not found:
+**Condition:** Note has actionable tasks but NO `project:` field.
 
-Note: [current_note.md]
-Relation: supports [[Nonexistent Note]]
-Domain: [domain]
+1. Scan for `- [action] content` or `- [ ] content`
+2. Route to `Domains/[domain]/01_PROJECTS/AD_HOC_TASKS.md` (create if missing)
+3. Add under `### Open` with backlink to source note
 
-This is a forward reference - it will resolve when the target note is created.
-Obsidian will display this as an unresolved link.
+---
 
-Continue distribution? (Y/n)
-```
-
-**Note:** Missing relation targets do NOT block distribution. They are expected for forward references and will resolve when target notes are created.
-
-## Step 6d: Action Extraction to PROJECT Files
-
-**Condition:** Only runs when note has a `project:` field AND agent context is loaded.
-
-Extract `[action]` observations from the note and create tasks in the PROJECT file.
-
-### Process
-
-1. **Scan note for action observations:**
-   - Look for lines matching `- [action] content #tags`
-   - Extract the content portion
-
-2. **Locate PROJECT file:**
-   - Path: `domains/[domain]/01_PROJECTS/[project]`
-   - Verify file exists
-
-3. **Add tasks to PROJECT file:**
-   - Find or create `## Tasks` section
-   - Add each action as a task with backlink:
-     ```markdown
-     ## Tasks
-
-     - [ ] [action content] (from: [[Source Note]])
-     ```
-
-### Task Format
-
-```markdown
-- [ ] Review the API documentation (from: [[braindump_2026-02-25_1430]])
-```
-
-**Elements:**
-- `- [ ]` - Unchecked task checkbox
-- `[action content]` - Original action text (without `[action]` prefix and tags)
-- `(from: [[Source Note]])` - Backlink to source note using wikilink syntax
-
-### Example
-
-**Source note observation:**
-```markdown
-- [action] Review the API documentation #api #tasks
-```
-
-**Added to PROJECT file:**
-```markdown
-- [ ] Review the API documentation (from: [[meeting_notes_api_review]])
-```
-
-### No Agent Handling
-
-If no agent is loaded (note has `project:` but processing in blind mode):
-- Skip action extraction
-- Actions remain in note's `## Observations` section
-- Will be extracted on second pass with agent
-
-## Step 6e: Standalone Task Extraction to AD_HOC_TASKS.md
-
-**Condition:** Runs when a note has actionable tasks (`- [action]` or `- [ ]`) but NO `project:` field is assigned (`project: null`).
-
-### Process
-
-1. **Scan note for standalone tasks:**
-   - Look for lines matching `- [action] content` or `- [ ] content`
-   - Extract the task text
-
-2. **Locate AD_HOC_TASKS.md:**
-   - Path: `domains/[domain]/01_PROJECTS/AD_HOC_TASKS.md`
-   - If it doesn't exist for this domain, dynamically create it using standard templates.
-
-3. **Move tasks to AD_HOC_TASKS.md:**
-   - Find or create `## Tasks` and `### Open` sections
-   - Add each task with a backlink to the created asset:
-     ```markdown
-     ### Open
-     - [ ] [task content]
-       > Source: [[converted_filename]]
-     ```
-
-## Step 7: Update Project Reference
+## Step 8: Update Project Reference
 
 If note has `project:` field set (not null):
 
-1. Read project file:
-   ```bash
-   cat "domains/[domain]/01_PROJECTS/[project]"
-   ```
-
+1. Read project file
 2. Find or create `## References` section
+3. Add link: `- [note_title](../02_PAGES/[filename].md) - Added YYYY-MM-DD`
+4. Update project's `updated:` frontmatter field
 
-3. Add link to the new asset:
-   ```markdown
-   ## References
+---
 
-   - [note_title](../02_PAGES/[filename].md) - Added YYYY-MM-DD
-   ```
+## Step 9: Update Domain INDEX.md
 
-4. Update project's `updated:` field in frontmatter to today
+Update `updated:` field in `Domains/[domain]/INDEX.md` to today.
 
-If project file doesn't exist, log warning but continue with move.
+---
 
-## Step 8: Update Domain INDEX.md
+## Step 10: Report Summary
 
-Update the domain's INDEX.md:
-- Set `updated:` field to today's date
-
-```bash
-# Read current INDEX.md and update the updated field
 ```
-
-## Step 9: Report Summary
-
-```markdown
 ## Distribution Complete
 
-### Notes Distributed (Standard)
-| Note | Domain | Location | Project Updated |
-|------|--------|----------|-----------------|
-| research_notes.md | ProjectAlpha | 02_PAGES/ | PROJECT_FEATURE_X.md |
-| api_reference.md | ApiProject | 02_PAGES/ | - |
+### Notes Distributed
+| Note | Domain | Target(s) | Action | Project Updated |
+|------|--------|-----------|--------|-----------------|
+| research_notes.md | PALBuilder | 00_CONTEXT/constitution.md | appended | — |
+| meeting_notes.md | PALBuilder | 02_PAGES/meeting_notes.md | created | PROJECT_X.md |
 
-### Notes Distributed (LifeOS)
-| Note | Type | Appended To | Archive Location |
-|------|------|-------------|------------------|
-| braindump_2026-02-16_1430.md | belief | 00_CONTEXT/beliefs.md | 02_PAGES/ |
-| braindump_2026-02-16_1500.md | goal | 01_PROJECTS/GOAL_*.md | 02_PAGES/ |
-
-### Notes Skipped (no frontmatter or unprocessed)
+### Notes Skipped
 - raw_note.md (no frontmatter)
 - draft.md (status: unprocessed)
 
-### Notes Skipped (domain not found)
-- orphan_note.md → domain 'OldProject' not found
+### Notes Kept in Inbox
+- small_note.md (user chose: keep in inbox)
 
-### Conflicts Resolved
-- existing_doc.md → renamed to existing_doc_20260211.md
-
-**Total:** X distributed (Y standard, Z LifeOS), W skipped
+Total: X distributed, Y skipped, Z kept
 ```
+
+---
 
 ## Error Handling
 
 - **Missing domain:** Report error, leave note in inbox
 - **Missing project file:** Warn but still move note, skip project update
-- **File conflict:** Prompt user for resolution
-- **Permission error:** Report and suggest checking permissions
-
-## Next Steps
-
-After distribution:
-- Review notes in their new locations
-- Check project files for updated references
-- Archive or delete notes from inbox if desired
+- **Destination scope returns no matches:** Offer fallback (Step 5b)
+- **Write conflict on new page:** Prompt — overwrite, rename (append timestamp), or skip
+- **Agent domain mismatch:** Fall back to cold scan silently, no warning needed

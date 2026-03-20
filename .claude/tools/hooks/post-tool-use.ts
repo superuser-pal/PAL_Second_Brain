@@ -24,12 +24,13 @@ interface SchemaScope {
   name: string;
   pattern: RegExp;
   requiredFields: string[];
-  description?: string;
 }
 
 // ─────────────────────────────────────────────────────────────────
 // SCHEMA SCOPES
 // ─────────────────────────────────────────────────────────────────
+
+const VALID_DESTINATION_VALUES = ["pages", "context", "projects", "all"];
 
 const SCHEMA_SCOPES: SchemaScope[] = [
   {
@@ -40,18 +41,7 @@ const SCHEMA_SCOPES: SchemaScope[] = [
   {
     name: "Domain Page",
     pattern: /Domains\/[^/]+\/02_PAGES\/.*\.md$/,
-    requiredFields: [
-      "name",
-      "origin",
-      "type",
-      "status",
-      "domain",
-      "url",
-      "favorite",
-      "tags",
-      "created",
-      "last_updated",
-    ],
+    requiredFields: ["name", "origin", "type", "status", "domain", "url", "favorite", "tags", "created", "last_updated"],
   },
   {
     name: "Domain INDEX",
@@ -62,37 +52,26 @@ const SCHEMA_SCOPES: SchemaScope[] = [
     name: "Task List",
     pattern: /Domains\/[^/]+\/01_PROJECTS\/AD_HOC_TASKS\.md$/,
     requiredFields: ["name", "type", "domain", "last_updated"],
-    description: "Ad hoc task list",
   },
   {
     name: "Project File",
     pattern: /Domains\/[^/]+\/01_PROJECTS\/PROJECT_.*\.md$/,
-    requiredFields: [
-      "name",
-      "domain",
-      "goal",
-      "status",
-      "priority",
-      "target_deadline",
-      "task_progress",
-      "tags",
-      "created",
-      "last_updated",
-    ],
+    requiredFields: ["name", "domain", "goal", "status", "priority", "target_deadline", "task_progress", "tags", "created", "last_updated"],
   },
-  // Context File (00_CONTEXT/*.md, not GOAL_*)
   {
     name: "Context File",
     pattern: /Domains\/[^/]+\/00_CONTEXT\/(?!GOAL_)[^/]+\.md$/,
     requiredFields: ["name", "domain", "description", "status", "tags", "last_updated"],
-    description: "Context file",
   },
-  // Goal File (00_CONTEXT/GOAL_*.md)
   {
     name: "Goal File",
     pattern: /Domains\/[^/]+\/00_CONTEXT\/GOAL_[^/]+\.md$/,
     requiredFields: ["name", "domain", "description", "status", "target_deadline", "projects_related", "last_updated"],
-    description: "Goal file",
+  },
+  {
+    name: "Current Session",
+    pattern: /\.claude\/sessions\/\.current-session$/,
+    requiredFields: ["agent", "domain", "loaded_paths", "loaded_at"],
   },
 ];
 
@@ -126,13 +105,13 @@ function parseFrontmatter(content: string): Record<string, unknown> | null {
 }
 
 // ─────────────────────────────────────────────────────────────────
-// VALIDATION LOGIC
+// VALIDATION & AUTO-HEALING LOGIC
 // ─────────────────────────────────────────────────────────────────
 
-function validateSchema(
+async function validateAndHealSchema(
   filePath: string,
   fileContent: string
-): string | null {
+): Promise<string | null> {
   // Find matching scope
   const scope = SCHEMA_SCOPES.find((s) => s.pattern.test(filePath));
   if (!scope) return null; // Not a validated file type
@@ -141,18 +120,74 @@ function validateSchema(
   const fields = parseFrontmatter(fileContent);
 
   if (!fields) {
-    return `Schema warning for ${scope.name}: Missing YAML frontmatter. Expected fields: ${scope.requiredFields.join(", ")}`;
+    return `Schema warning for ${scope.name}: Missing YAML frontmatter block entirely. Manual fix required. Expected fields: ${scope.requiredFields.join(", ")}`;
+  }
+
+  // Validate destination field for Inbox Notes (optional field, but value must be valid if present)
+  if (scope.name === "Inbox Note" && "destination" in fields) {
+    const dest = fields["destination"] as string;
+    if (dest && dest !== "null" && !VALID_DESTINATION_VALUES.includes(dest)) {
+      return `Schema warning for Inbox Note "${filePath.split("/").pop()}": Invalid destination value "${dest}". Allowed: pages, context, projects, all, null`;
+    }
   }
 
   // Check required fields
   const missing = scope.requiredFields.filter((f) => !(f in fields));
 
-  if (missing.length > 0) {
-    const fileName = filePath.split("/").pop() || filePath;
-    return `Schema warning for ${scope.name} "${fileName}": Missing fields: ${missing.join(", ")}`;
+  if (missing.length === 0) {
+    return null; // All good
   }
 
-  return null; // All good
+  // Try to auto-heal missing fields
+  const healedFields: Record<string, string> = {};
+  const now = new Date().toISOString();
+
+  for (const field of missing) {
+    if (field === "created" || field === "last_updated" || field === "updated") {
+      healedFields[field] = now;
+    } else if (field === "status" && (scope.name === "Inbox Note" || scope.name === "Domain Page" || scope.name === "Domain INDEX" || scope.name === "Project File")) {
+      healedFields[field] = scope.name === "Inbox Note" ? "unprocessed" : "draft";
+    } else if (field === "origin") {
+      healedFields[field] = "manual";
+    } else if (field === "type") {
+      healedFields[field] = "note";
+    }
+  }
+
+  const successfullyHealed = Object.keys(healedFields);
+  const stillMissing = missing.filter((f) => !successfullyHealed.includes(f));
+  
+  // If we healed anything, rewrite the file
+  if (successfullyHealed.length > 0) {
+    let newContent = fileContent;
+    
+    // Simple top-level injection right after the first `---`
+    // This assumes the file has a valid YAML block format as checked by parseFrontmatter
+    const match = fileContent.match(/^---\n([\s\S]*?)\n---/);
+    if (match) {
+      const injectionString = successfullyHealed.map(k => `${k}: ${healedFields[k]}`).join("\n") + "\n";
+      newContent = newContent.replace(/^---\n/, `---\n${injectionString}`);
+      
+      try {
+        await Bun.write(filePath, newContent);
+        
+        let message = `Auto-healed frontmatter in ${scope.name} "${filePath.split("/").pop()}": injected [${successfullyHealed.join(", ")}].`;
+        if (stillMissing.length > 0) {
+          message += ` Still missing (could not auto-heal): [${stillMissing.join(", ")}].`;
+        }
+        return message;
+      } catch (e) {
+        return `Schema warning for ${scope.name}: Missing fields: [${missing.join(", ")}]. Auto-heal failed: write error.`;
+      }
+    }
+  }
+
+  if (stillMissing.length > 0) {
+    const fileName = filePath.split("/").pop() || filePath;
+    return `Schema warning for ${scope.name} "${fileName}": Missing fields: ${stillMissing.join(", ")}`;
+  }
+
+  return null;
 }
 
 // ─────────────────────────────────────────────────────────────────
@@ -186,9 +221,16 @@ async function main() {
 
   const filePath = tool_input.file_path || "";
 
-  // Only validate .md files
-  if (!filePath.endsWith(".md")) {
+  // Only validate .md files and .current-session
+  const isCurrentSession = filePath.endsWith(".current-session");
+  if (!filePath.endsWith(".md") && !isCurrentSession) {
     process.exit(0);
+  }
+
+  // Skip validation for empty .current-session (cleared on *dismiss)
+  if (isCurrentSession) {
+    const raw = await Bun.file(filePath).text().catch(() => "");
+    if (!raw.trim()) process.exit(0);
   }
 
   // Read file from disk (PostToolUse — file already written)
@@ -201,7 +243,7 @@ async function main() {
   }
 
   // Validate schema
-  const warning = validateSchema(filePath, fileContent);
+  const warning = await validateAndHealSchema(filePath, fileContent);
 
   if (warning) {
     // Output as additionalContext for Claude to see

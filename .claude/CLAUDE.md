@@ -63,7 +63,7 @@ When content routes to LifeOS, classify into:
 | ---------------- | -------------------------- | ------------------------------------- |
 | Capture thoughts | `/action:braindump`        | `Inbox/Notes/braindump_*.md`          |
 | Process inbox    | `/action:process-inbox`    | Adds YAML frontmatter                 |
-| Distribute notes | `/action:distribute-notes` | Moves to `Domains/[name]/02_PAGES/`   |
+| Distribute notes | `/action:distribute-notes` | Routes to best-matching files across `02_PAGES/`, `00_CONTEXT/`, `01_PROJECTS/` via Jaccard similarity; respects optional `destination` frontmatter field; requires user confirmation before writing |
 | Save URL         | `/action:url-dump`         | `Inbox/Notes/url_*.md`                |
 | Ingest document  | `/action:ingest-longform`  | Converts `ports/In/` → `Inbox/Notes/` |
 
@@ -97,9 +97,9 @@ Break content into atomic observations:
 | Action         | Command                  | Description                        |
 | -------------- | ------------------------ | ---------------------------------- |
 | Create project | `/action:create-project` | New `PROJECT_*.md` in domain       |
-| Sync tasks     | `/action:update-plan`    | Push MASTER.md changes to projects |
+| Sync tasks     | `/action:update-tasks`   | Push TASKS.md changes to projects |
 
-**Paths:** `Domains/*/01_PROJECTS/PROJECT_*.md`, `/tasks/MASTER.md`
+**Paths:** `Domains/*/01_PROJECTS/PROJECT_*.md`, `Inbox/Dashboards/TASKS.md`
 
 **Task format:** `- [ ] Description #open|#in-progress|#done`
 
@@ -109,7 +109,7 @@ Break content into atomic observations:
 
 **Core:** `.claude/` — agents, skills, commands, core protocols, sessions, hooks
 **Domains:** `Domains/[Name]/` — INDEX.md (source of truth), folders 00-05, CONNECTIONS.yaml
-**Inbox:** `Inbox/` — capture layer (Notes/, Tasks/, Resources/)
+**Inbox:** `Inbox/` — capture layer (Notes/, Dashboards/, Resources/)
 
 See `.claude/core/reference/SYSTEM_INDEX.md` for full inventory.
 

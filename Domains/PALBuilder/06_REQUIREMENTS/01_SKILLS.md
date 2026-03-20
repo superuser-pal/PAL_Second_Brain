@@ -2,8 +2,8 @@
 
 **Document Purpose:** Functional requirements for all PAL skills, written for non-technical builders and developers.
 
-**Version:** 1.4.0
-**Last Updated:** 2026-02-25
+**Version:** 1.5.0
+**Last Updated:** 2026-03-08
 
 ---
 
@@ -25,7 +25,7 @@ A skill is a reusable capability that PAL can use to perform specific tasks. Thi
 
 Category: Functional
 Verification: Say "I want to create a new agent" and confirm create-agent skill activates
-Source: [SKILL_LOGIC.md](.claude/base/system/SKILL_LOGIC.md)
+Source: [SKILL_LOGIC.md](.claude/core/system/SKILL_LOGIC.md)
 
 ---
 
@@ -47,7 +47,7 @@ Source: [SKILL_LOGIC.md](.claude/base/system/SKILL_LOGIC.md)
 
 Category: Validation
 Verification: Check any skill directory and confirm no nesting beyond 2 levels
-Source: [SKILL_LOGIC.md](.claude/base/system/SKILL_LOGIC.md)
+Source: [SKILL_LOGIC.md](.claude/core/system/SKILL_LOGIC.md)
 
 ---
 
@@ -59,7 +59,7 @@ Source: [SKILL_LOGIC.md](.claude/base/system/SKILL_LOGIC.md)
 
 Category: Validation
 Verification: Confirm no `context/` or `docs/` subdirectories exist in any skill
-Source: [SKILL_LOGIC.md](.claude/base/system/SKILL_LOGIC.md)
+Source: [SKILL_LOGIC.md](.claude/core/system/SKILL_LOGIC.md)
 
 ---
 
@@ -71,7 +71,7 @@ Source: [SKILL_LOGIC.md](.claude/base/system/SKILL_LOGIC.md)
 
 Category: Validation
 Verification: Check any skill directory and confirm `tools/` folder exists
-Source: [SKILL_LOGIC.md](.claude/base/system/SKILL_LOGIC.md)
+Source: [SKILL_LOGIC.md](.claude/core/system/SKILL_LOGIC.md)
 
 ---
 
@@ -124,7 +124,7 @@ Source: [create-agent SKILL.md](.claude/skills/create-agent/SKILL.md)
 
 Category: Validation
 Verification: Check `.claude/agents/` and confirm only `.md` files exist, no folders
-Source: [AGENTS_LOGIC.md](.claude/base/system/AGENTS_LOGIC.md)
+Source: [AGENTS_LOGIC.md](.claude/core/system/AGENTS_LOGIC.md)
 
 ---
 
@@ -184,9 +184,9 @@ Source: [validate_agent.md](.claude/skills/create-agent/workflows/validate_agent
 - `CONNECTIONS.yaml` (at root - external integrations)
 - `00_CONTEXT/` (background and reference docs)
 - `01_PROJECTS/` (active project files)
-- `02_SESSIONS/` (session logs)
-- `03_ASSETS/` (reference materials)
-- `04_OUTPUTS/` (generated deliverables)
+- `04_SESSIONS/` (session logs)
+- `02_PAGES/` (reference materials)
+- `03_OUTPUT/` (generated deliverables)
 - `05_ARCHIVE/` (deprecated content)
 
 Category: Functional
@@ -207,7 +207,7 @@ Source: [create-domain SKILL.md](.claude/skills/create-domain/SKILL.md)
 
 Category: Functional
 Verification: Create a domain and confirm INDEX.md has all required sections
-Source: [DOMAINS_LOGIC.md](.claude/base/system/DOMAINS_LOGIC.md)
+Source: [DOMAINS_LOGIC.md](.claude/core/system/DOMAINS_LOGIC.md)
 
 ---
 
@@ -219,7 +219,7 @@ Source: [DOMAINS_LOGIC.md](.claude/base/system/DOMAINS_LOGIC.md)
 
 Category: Validation
 Verification: Attempt to create deeply nested folders and confirm system prevents or warns
-Source: [DOMAINS_LOGIC.md](.claude/base/system/DOMAINS_LOGIC.md)
+Source: [DOMAINS_LOGIC.md](.claude/core/system/DOMAINS_LOGIC.md)
 
 ---
 
@@ -282,7 +282,7 @@ Source: [create-skill SKILL.md](.claude/skills/create-skill/SKILL.md)
 
 Category: Validation
 Verification: Check any SKILL.md and confirm USE WHEN is present in description
-Source: [SKILL_LOGIC.md](.claude/base/system/SKILL_LOGIC.md)
+Source: [SKILL_LOGIC.md](.claude/core/system/SKILL_LOGIC.md)
 
 ---
 
@@ -294,7 +294,7 @@ Source: [SKILL_LOGIC.md](.claude/base/system/SKILL_LOGIC.md)
 
 Category: Validation
 Verification: Create a skill and confirm directory name uses kebab-case
-Source: [SKILL_LOGIC.md](.claude/base/system/SKILL_LOGIC.md)
+Source: [SKILL_LOGIC.md](.claude/core/system/SKILL_LOGIC.md)
 
 ---
 
@@ -306,7 +306,7 @@ Source: [SKILL_LOGIC.md](.claude/base/system/SKILL_LOGIC.md)
 
 Category: Validation
 Verification: Check workflows/ folder and confirm files use snake_case
-Source: [SKILL_LOGIC.md](.claude/base/system/SKILL_LOGIC.md)
+Source: [SKILL_LOGIC.md](.claude/core/system/SKILL_LOGIC.md)
 
 ---
 
@@ -339,7 +339,9 @@ Source: [canonicalize_skill.md](.claude/skills/create-skill/workflows/canonicali
 
 **What It Does:** Manages notes with semantic structure and knowledge graph capabilities — from inbox through processing to distribution across domains. Supports observation categories, entity types, relation types, dedup detection, and braindump splitting.
 
-**Activates When:** User mentions "process notes", "organize notes", "add frontmatter", "distribute notes", "ingest PDF", "ingest document", "convert document", "inbox notes", "note management", "scan inbox", "move notes to domain", "braindump", "brain dump", "capture thoughts", "dump thoughts", "url dump", "save link", "bookmark url", "capture url", "save for later", "categorize observations", "add relations", "link notes", "knowledge graph"
+**Activates When:** User mentions "process notes", "organize notes", "add frontmatter", "distribute notes", "ingest PDF", "ingest document", "convert document", "inbox notes", "note management", "scan inbox", "move notes to domain", "braindump", "brain dump", "capture thoughts", "dump thoughts", "url dump", "save link", "bookmark url", "capture url", "save for later", "categorize observations", "add relations", "link notes", "knowledge graph", "export life summary", "life report", "generate life summary"
+
+**Note:** As of v1.5.0, this skill absorbs life-management functionality. Life context updates flow through braindump → distribute workflows.
 
 **Source:** [note-taking SKILL.md](.claude/skills/note-taking/SKILL.md)
 
@@ -362,7 +364,7 @@ Source: [process_inbox.md](.claude/skills/note-taking/workflows/process_inbox.md
 
 **Given** processed notes have `status: ready` in frontmatter
 **When** the distribute_notes workflow runs
-**Then** notes are moved to `domains/[domain]/03_ASSETS/`
+**Then** notes are moved to `domains/[domain]/02_PAGES/`
 **And then** if a project field is set, a reference link is added to the corresponding PROJECT_*.md
 
 Category: Functional
@@ -694,6 +696,279 @@ Source: [process_inbox.md](.claude/skills/note-taking/workflows/process_inbox.md
 
 ---
 
+### 1.4.27 Braindump Domain Detection with Confidence Scoring
+
+**Given** braindump content is analyzed
+**When** domain detection runs (Step 4a)
+**Then** it scores each domain using pattern matching:
+- Primary keyword match: +40% (max 1)
+- Secondary keyword match: +25% each (max 2)
+- Exclusion pattern: -30% each
+**And then** determines outcome:
+- Top domain >= 80%: Auto-assign (high confidence)
+- Top domain 60-79%: Suggest for confirmation (medium confidence)
+- Multiple domains >= 70%: Show overlap menu
+- No domain >= 60%: Show manual selection menu
+
+Category: Functional
+Verification: Braindump with PAL-specific content, confirm PALBuilder domain detected with score
+Source: [braindump.md](.claude/skills/note-taking/workflows/braindump.md)
+
+---
+
+### 1.4.28 Braindump Subsection Detection Within Categories
+
+**Given** LifeOS category is detected for braindump
+**When** subsection detection runs (Step 4b)
+**Then** it identifies which subsection within the category file (e.g., "Worldview" in beliefs.md)
+**And then** sets `subsection: [detected]` in frontmatter
+**And then** if unclear, sets `subsection: null` to append at end of file
+
+Category: Functional
+Verification: Braindump "I believe in X", confirm `subsection: Worldview` detected for beliefs.md
+Source: [braindump.md](.claude/skills/note-taking/workflows/braindump.md)
+
+---
+
+### 1.4.29 URL Dump Tool Template for SaaS Products
+
+**Given** url_dump processes a URL detected as "tool" type
+**When** content extraction completes
+**Then** it applies tool template including:
+- Pricing information
+- Key features list
+- Evaluation checklist
+**And then** saves with tool-specific structure
+
+Category: Functional
+Verification: Process a SaaS product URL, confirm tool template with pricing and evaluation sections
+Source: [url_dump.md](.claude/skills/note-taking/workflows/url_dump.md)
+
+---
+
+### 1.4.30 Process Inbox Auto-Generates Descriptions When Skipped
+
+**Given** user processes a note and skips description field
+**When** frontmatter is added
+**Then** AI generates a concise 1-2 sentence description from note content
+**And then** description follows format: "[What note is about]. [Key insight or value]."
+
+Category: Functional
+Verification: Process note and skip description, confirm AI-generated description appears in frontmatter
+Source: [process_inbox.md](.claude/skills/note-taking/workflows/process_inbox.md)
+
+---
+
+### 1.4.31 Process Inbox Ensures Protected Notes Section
+
+**Given** a note is processed with frontmatter
+**When** the workflow completes
+**Then** it checks for `## Notes` section at end of file
+**And then** if missing, appends protected Notes section with preservation comment
+**And then** content below `## Notes` is NEVER modified by any workflow
+
+Category: Validation
+Verification: Process note without Notes section, confirm section added with preservation comment
+Source: [process_inbox.md](.claude/skills/note-taking/workflows/process_inbox.md)
+
+---
+
+### 1.4.32 Braindump Multi-Domain Overlap Handling
+
+**Given** braindump content scores >= 70% on multiple domains
+**When** overlap is detected (Step 4e)
+**Then** it presents all matched domains with scores and patterns
+**And then** user selects primary destination
+**And then** non-selected matches can be added as relations
+
+Category: Functional
+Verification: Braindump with content matching both Studio and LaraLou, confirm overlap menu appears
+Source: [braindump.md](.claude/skills/note-taking/workflows/braindump.md)
+
+---
+
+### 1.4.33 Braindump Observation Extraction with Tag Suggestions
+
+**Given** raw braindump content is analyzed
+**When** observation extraction runs (Step 3b)
+**Then** it identifies distinct statements
+**And then** categorizes each with appropriate observation type
+**And then** suggests 2-3 relevant tags per observation
+**And then** presents extractions to user for confirmation/adjustment
+
+Category: Functional
+Verification: Braindump with mixed content, confirm observations extracted with category and tag suggestions
+Source: [braindump.md](.claude/skills/note-taking/workflows/braindump.md)
+
+---
+
+### 1.4.34 Distribute Creates Backup Before LifeOS Writes
+
+**Given** a note has a LifeOS category (beliefs.md, frames.md, learned.md, mission.md, models.md, goals.md, projects.md)
+**When** distribute_notes appends content to a LifeOS file
+**Then** it creates a timestamped backup at `domains/LifeOS/05_ARCHIVE/backups/[category]_YYYY-MM-DD_HH-MM-SS.md`
+**And then** proceeds with the append only after backup succeeds
+
+**If backup fails:**
+**Then** STOP immediately and do NOT modify the LifeOS file
+
+Category: Validation
+Verification: Distribute a LifeOS-categorized note, confirm backup exists in 05_ARCHIVE/backups/
+Source: [distribute_notes.md](.claude/skills/note-taking/workflows/distribute_notes.md)
+
+---
+
+### 1.4.35 Distribute Logs LifeOS Changes to UPDATES.md
+
+**Given** distribute_notes appends content to a LifeOS file
+**When** the append completes successfully
+**Then** it appends an entry to `domains/LifeOS/04_SESSIONS/UPDATES.md` with:
+- Timestamp
+- Action performed (Appended to [category])
+- Source filename
+- Subsection (or "end of file")
+- Backup filename
+
+Category: Functional
+Verification: Distribute a LifeOS-categorized note, confirm log entry in UPDATES.md
+Source: [distribute_notes.md](.claude/skills/note-taking/workflows/distribute_notes.md)
+
+---
+
+### 1.4.36 Export Life Summary Generates Comprehensive Report
+
+**Given** user triggers "export life summary" or "life report"
+**When** the export_life_summary workflow runs
+**Then** it reads all 7 LifeOS files (mission, beliefs, frames, models, learned, goals, projects)
+**And then** generates a structured markdown summary report
+**And then** saves to `domains/LifeOS/03_OUTPUT/life_summary_[YYYY-MM-DD].md`
+**And then** logs the export action to UPDATES.md
+
+Category: Functional
+Verification: Run "export life summary" and confirm report created in 03_OUTPUT/
+Source: [export_life_summary.md](.claude/skills/note-taking/workflows/export_life_summary.md)
+
+---
+
+### 1.4.37 Export Life Summary Supports Filtering
+
+**Given** user wants a filtered life report
+**When** export is invoked with filter options
+**Then** it supports:
+- Category export: Only specified categories (e.g., "export just goals and projects")
+- Timeline export: Focus on recent changes (e.g., "export updates from last month")
+
+Category: Functional
+Verification: Run "export just goals" and confirm only goals section appears in report
+Source: [export_life_summary.md](.claude/skills/note-taking/workflows/export_life_summary.md)
+
+---
+
+### 1.4.38 Quick Capture Fast-Path to Daily Note
+
+**Given** user triggers "quick add", "add task", or "capture this"
+**When** the quick_capture workflow runs
+**Then** it prompts for the thought or task
+**And then** asks if it is a task or a note
+**And then** appends it directly to today's Daily Note (`Inbox/Daily/DD-MM-YY.md`) under a `## Quick Capture` section without AI analysis
+
+Category: Functional
+Verification: Run "quick add Buy milk", select Task, confirm it appears in today's daily note
+Source: [quick_capture.md](.claude/skills/note-taking/workflows/quick_capture.md)
+
+---
+
+### 1.4.39 Distribute Extracts Standalone Tasks to Ad-Hoc Projects
+
+**Given** a note contains actionable tasks (`- [action]` or `- [ ]`) but NO `project:` field assigned
+**When** distribute_notes runs
+**Then** it moves the standalone tasks to the domain's `01_PROJECTS/AD_HOC_TASKS.md`
+**And then** leaves a backlink to the domain's deployed asset
+
+Category: Functional
+Verification: Distribute a note with tasks but no project, confirm tasks appear in AD_HOC_TASKS.md with source links
+Source: [distribute_notes.md](.claude/skills/note-taking/workflows/distribute_notes.md)
+
+### 1.4.40 Distribute Scans All Three Domain Pools for Matching Targets
+
+**Given** a note with `status: ready` and no `destination` field is in the inbox
+**When** distribute_notes runs
+**Then** it scans `02_PAGES/`, `00_CONTEXT/`, and `01_PROJECTS/` of the note's domain for candidate files
+**And then** scores each candidate using Jaccard similarity against the note's content and tags
+**And then** presents all candidates scoring >= 60% as a numbered list before writing anything
+
+Category: Functional
+Verification: Distribute a ready note with no destination field, confirm candidates appear from all three pools
+Source: [distribute_notes.md](.claude/skills/note-taking/workflows/distribute_notes.md)
+
+---
+
+### 1.4.41 Distribute Destination Field Limits Scan Pool
+
+**Given** a note has a `destination` field set to `pages`, `context`, or `projects`
+**When** distribute_notes runs
+**Then** it scans only the folder matching that value
+**And then** still presents a confirmation list before writing — the destination field does not bypass confirmation
+
+Category: Functional
+Verification: Set `destination: context` on a note, run distribute, confirm only 00_CONTEXT/ candidates appear
+Source: [distribute_notes.md](.claude/skills/note-taking/workflows/distribute_notes.md)
+
+---
+
+### 1.4.42 Distribute Requires User Confirmation Before Any Write
+
+**Given** distribute_notes has scored candidates for a note
+**When** the confirmation list is presented
+**Then** no file is written until the user explicitly selects targets by number
+**And then** only the confirmed targets are written to
+
+Category: Validation
+Verification: Run distribute, observe the numbered list, select "none", confirm zero files are written
+Source: [distribute_notes.md](.claude/skills/note-taking/workflows/distribute_notes.md)
+
+---
+
+### 1.4.43 Distribute Uses Agent Context as Enriched Candidate Pool
+
+**Given** a domain agent is loaded and `.claude/sessions/.current-session` contains loaded file paths
+**And given** the note's domain matches the active agent's domain
+**When** distribute_notes runs
+**Then** agent-loaded files appear as candidates without requiring a cold frontmatter scan
+**And then** agent-context candidates are listed first in the confirmation list under an `[agent context]` header
+
+Category: Functional
+Verification: Load a domain agent, distribute a ready note for that domain, confirm agent-loaded files appear first
+Source: [distribute_notes.md](.claude/skills/note-taking/workflows/distribute_notes.md)
+
+---
+
+### 1.4.44 Distribute Falls Back to New Page When No Matches Found
+
+**Given** no candidate files score >= 60% similarity threshold
+**When** distribute_notes has exhausted the scan pool
+**Then** it presents a 3-option fallback: create new page in 02_PAGES/, expand search to all folders, or keep in inbox
+**And then** proceeds only with the user's chosen option
+
+Category: Functional
+Verification: Distribute a note with unique content unlikely to match anything, confirm fallback menu appears
+Source: [distribute_notes.md](.claude/skills/note-taking/workflows/distribute_notes.md)
+
+---
+
+### 1.4.45 Distribute Confirmation List Format Includes Path and Score
+
+**Given** candidates are found above the similarity threshold
+**When** the confirmation list is displayed
+**Then** each entry shows the folder-relative path and score in the format `{folder}/{filename} (score%)`
+**And then** entries from agent context are grouped separately from cold-scan results
+
+Category: UI
+Verification: Run distribute with an agent loaded, confirm list format matches `00_CONTEXT/beliefs.md (82%)` pattern
+Source: [distribute_notes.md](.claude/skills/note-taking/workflows/distribute_notes.md)
+
+---
+
 ## 1.5 Skill: project-management
 
 **What It Does:** Manages projects and tasks across domains with bidirectional sync between project files and a master task list.
@@ -752,17 +1027,17 @@ Source: [project_dashboard.md](.claude/skills/project-management/workflows/proje
 
 ---
 
-### 1.5.4 Tasks Use Checkbox Syntax with Status Tags
+### 1.5.4 Tasks Grouped into Active, Inactive, and Done Sections
 
-**Given** tasks are tracked in project files
-**When** tasks are formatted
-**Then** they use:
-- `- [ ] Task description \`#open\`` for not started
-- `- [ ] Task description \`#in-progress\`` for active work
-- `- [x] Task description \`#done\`` for completed
+**Given** tasks exist in project files
+**When** tasks are organized
+**Then** they are grouped into three sections:
+- `### Active` - Contains `[ ]` (to do) and `[/]` (in-progress) tasks
+- `### Inactive` - Contains `[!]` (blocked), `[?]` (paused), `[I]` (backlog), `[-]` (not doing) tasks
+- `### Done` - Contains `[x]` (done) tasks
 
 Category: Validation
-Verification: Check any PROJECT_*.md and confirm task format matches
+Verification: Check any PROJECT_*.md and confirm three-section structure
 Source: [project_template.md](.claude/skills/project-management/project_template.md)
 
 ---
@@ -777,6 +1052,98 @@ Source: [project_template.md](.claude/skills/project-management/project_template
 Category: Functional
 Verification: Archive a project and confirm it moves to 05_ARCHIVE
 Source: [archive_project.md](.claude/skills/project-management/workflows/archive_project.md)
+
+---
+
+### 1.5.6 Update Tasks Pushes TASKS.md Changes to Projects
+
+**Given** tasks in `Inbox/Dashboards/TASKS.md` have been modified
+**When** the update_tasks workflow runs
+**Then** it compares TASKS.md tasks with source project files using #ProjectName tags
+**And then** applies changes (status updates, task additions, completions) back to project files
+**And then** updates domain INDEX.md files
+
+Category: Functional
+Verification: Modify tasks in TASKS.md, run update_tasks, confirm changes reflected in project files
+Source: [update_tasks.md](.claude/skills/project-management/workflows/update_tasks.md)
+
+---
+
+### 1.5.7 Update Tasks Detects and Resolves Conflicts
+
+**Given** a source project file was modified after last pull
+**When** update_tasks detects timestamp conflicts
+**Then** it presents options: Force update, Skip project, or Manual review
+**And then** user chooses conflict resolution strategy
+**And then** applies user's choice
+
+Category: Functional
+Verification: Create conflict, run update_tasks, confirm options presented
+Source: [update_tasks.md](.claude/skills/project-management/workflows/update_tasks.md)
+
+---
+
+### 1.5.8 Update Plan Preserves Deleted Tasks (Tombstoning)
+
+**Given** a user fully deletes a task line from `MASTER.md`
+**When** the update_plan workflow detects the deletion
+**Then** it prompts the user instead of silently deleting the task from the source project file
+**And** provides options to archive the task, restore it, or permanently delete it.
+
+Category: Operational
+Verification: Delete a task from MASTER.md, run upate_plan, verify prompt.
+Source: [update_plan.md](.claude/skills/project-management/workflows/update_plan.md)
+
+Category: Functional
+Verification: Modify project after pull, modify MASTER.md, run update_plan, confirm conflict prompt
+Source: [update_plan.md](.claude/skills/project-management/workflows/update_plan.md)
+
+---
+
+### 1.5.8 Tasks Use Checkbox Symbols for Status
+
+**Given** tasks exist in project files
+**When** tasks are formatted
+**Then** they use checkbox symbols (not hashtags):
+- `[ ]` To Do (in Active section)
+- `[/]` In Progress (in Active section)
+- `[!]` Blocked (in Inactive section)
+- `[?]` Paused (in Inactive section)
+- `[I]` Backlog (in Inactive section)
+- `[-]` Not Doing (in Inactive section)
+- `[x]` Done (in Done section)
+
+Category: Validation
+Verification: Check any PROJECT_*.md and confirm checkbox symbol format
+Source: [project_template.md](.claude/skills/project-management/project_template.md)
+
+---
+
+### 1.5.9 Update Plan Moves Tasks Between Sections on Status Change
+
+**Given** a task's checkbox symbol changes in MASTER.md
+**When** update_plan syncs changes
+**Then** it moves the task to the appropriate section:
+- `[ ]` or `[/]` → Active section
+- `[!]`, `[?]`, `[I]`, `[-]` → Inactive section
+- `[x]` → Done section
+
+Category: Functional
+Verification: Change task from `[ ]` to `[!]` in MASTER.md, run update_plan, confirm task moved to Inactive
+Source: [update_plan.md](.claude/skills/project-management/workflows/update_plan.md)
+
+---
+
+### 1.5.10 Pull Tasks Includes Active and Inactive Separation
+
+**Given** projects contain tasks with different checkbox symbols
+**When** pull_tasks aggregates tasks
+**Then** MASTER.md separates tasks into Active and Inactive sections per project
+**And then** displays task counts by status in summary
+
+Category: Functional
+Verification: Create tasks with mixed statuses, pull tasks, confirm MASTER.md shows Active/Inactive sections
+Source: [pull_tasks.md](.claude/skills/project-management/workflows/pull_tasks.md)
 
 ---
 
@@ -907,128 +1274,21 @@ Source: [document_skill.md](.claude/skills/system-build/workflows/document_skill
 
 ---
 
-## 1.7 Skill: life-management
+## 1.7 Skill: life-management (DEPRECATED)
 
-**What It Does:** Manage personal life context within the life-os domain — mission, beliefs, goals, projects, mental models, and lessons.
+> **Deprecated as of v1.5.0:** This skill has been merged into **note-taking**. Life context management now flows through the unified capture → distribute workflow.
 
-**Activates When:** User mentions "update beliefs", "add goal", "life mission", "add lesson", "update projects", "mental models", "frames", "extract notes", "process ideas", "export life summary", "life report"
+**Migration:**
+- `update` workflow → Use `braindump` to capture thoughts, then `distribute_notes` routes to LifeOS files
+- `extract` workflow → Handled by `distribute_notes` with LifeOS category detection
+- `export` workflow → Now `export_life_summary` in note-taking skill
 
-**Source:** [life-management SKILL.md](.claude/skills/life-management/SKILL.md)
+**Key changes:**
+- Backup and logging preserved (see requirements 1.4.34, 1.4.35)
+- Export functionality preserved (see requirements 1.4.36, 1.4.37)
+- No more direct updates to life files; everything flows through braindump → process → distribute
 
----
-
-### 1.7.1 Update Triggers on Life Context Modifications
-
-**Given** user requests to modify life context (beliefs, mission, goals, etc.)
-**When** the update workflow processes the request
-**Then** it parses the request to determine target file and content
-**And then** confirms with user before proceeding
-
-Category: Functional
-Verification: Say "add a goal" and confirm workflow identifies goals.md as target
-Source: [update.md](.claude/skills/life-management/workflows/update.md)
-
----
-
-### 1.7.2 Update Creates Timestamped Backup Before Changes
-
-**Given** user approves an update to a life file
-**When** the update workflow applies changes
-**Then** it creates a timestamped backup at `05_ARCHIVE/backups/[filename]_YYYY-MM-DD_HH-MM-SS.md`
-**And then** proceeds with the update only after backup succeeds
-
-**If backup fails:**
-**Then** STOP immediately and do NOT modify original file
-
-Category: Validation
-Verification: Update a life file and confirm backup exists in 05_ARCHIVE/backups/
-Source: [update.md](.claude/skills/life-management/workflows/update.md)
-
----
-
-### 1.7.3 Update Logs All Changes to UPDATES.md
-
-**Given** an update completes successfully
-**When** the file is modified
-**Then** the workflow appends an entry to `02_SESSIONS/UPDATES.md` with:
-- Timestamp
-- Action performed
-- Files modified
-- Notes
-
-Category: Functional
-Verification: Update a life file and confirm log entry appears in UPDATES.md
-Source: [update.md](.claude/skills/life-management/workflows/update.md)
-
----
-
-### 1.7.4 Extract Scans 03_ASSETS and Classifies into 7 Categories
-
-**Given** raw notes exist in `domains/life-os/03_ASSETS/`
-**When** the extract workflow runs
-**Then** it scans all text-based files (.md, .txt)
-**And then** classifies content into 7 categories: mission, beliefs, frames, models, learned, goals, projects
-
-Category: Functional
-Verification: Add notes to 03_ASSETS/, run extract, confirm classification into categories
-Source: [extract.md](.claude/skills/life-management/workflows/extract.md)
-
----
-
-### 1.7.5 Extract Deduplicates with 4-Tier Rule System
-
-**Given** extract workflow consolidates content from multiple notes
-**When** duplicate content is detected
-**Then** it applies 4-tier deduplication:
-1. Exact match → Keep first, note all sources
-2. High similarity (>80%) → Ask user to merge or keep separate
-3. Semantic match → Present for user decision
-4. Unsure → Keep both
-
-Category: Validation
-Verification: Include duplicate content in notes, run extract, confirm deduplication prompt appears
-Source: [extract.md](.claude/skills/life-management/workflows/extract.md)
-
----
-
-### 1.7.6 Extract Requires User Approval Before Applying
-
-**Given** extract workflow completes analysis
-**When** extraction preview is presented
-**Then** user must approve (Y/N/Edit) before any files are modified
-**And then** backups are created before applying approved changes
-
-Category: Validation
-Verification: Run extract and confirm preview with approval prompt before any file changes
-Source: [extract.md](.claude/skills/life-management/workflows/extract.md)
-
----
-
-### 1.7.7 Export Generates Life Summary Report
-
-**Given** user triggers "export life summary" or "life report"
-**When** the export workflow runs
-**Then** it reads all 7 life files and generates a comprehensive markdown report
-**And then** saves to `04_OUTPUTS/life_summary_[YYYY-MM-DD].md`
-**And then** logs the export action to UPDATES.md
-
-Category: Functional
-Verification: Run "export life summary" and confirm report created in 04_OUTPUTS/
-Source: [export.md](.claude/skills/life-management/workflows/export.md)
-
----
-
-### 1.7.8 Export Supports Category and Timeline Filtering
-
-**Given** user wants a filtered life report
-**When** export is invoked with filter options
-**Then** it supports:
-- Category export: Only specified categories (e.g., "export just goals and projects")
-- Timeline export: Focus on recent changes (e.g., "export updates from last month")
-
-Category: Functional
-Verification: Run "export just goals" and confirm only goals section appears in report
-Source: [export.md](.claude/skills/life-management/workflows/export.md)
+**See:** Section 1.4 (note-taking) for current requirements.
 
 ---
 
@@ -1087,7 +1347,7 @@ Source: [audit_references.md](.claude/skills/system-cleaner/workflows/audit_refe
 **When** the audit_domains workflow runs
 **Then** it validates each domain has:
 - INDEX.md and CONNECTIONS.yaml at root
-- 6 required folders: 00_CONTEXT/, 01_PROJECTS/, 02_SESSIONS/, 03_ASSETS/, 04_OUTPUTS/, 05_ARCHIVE/
+- 6 required folders: 00_CONTEXT/, 01_PROJECTS/, 04_SESSIONS/, 02_PAGES/, 03_OUTPUT/, 05_ARCHIVE/
 
 **And then** flags missing components as MISSING STRUCTURE
 
@@ -1177,7 +1437,7 @@ Source: [audit_orphans.md](.claude/skills/system-cleaner/workflows/audit_orphans
 
 ### 1.8.10 audit_orphans Detects Stale Sessions
 
-**Given** session files exist in 02_SESSIONS/ folders across domains
+**Given** session files exist in 04_SESSIONS/ folders across domains
 **When** the audit_orphans workflow runs
 **Then** it flags files older than configurable threshold (default 30 days) as STALE SESSION
 **And then** suggests archiving to 05_ARCHIVE/
