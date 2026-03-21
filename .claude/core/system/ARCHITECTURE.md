@@ -6,12 +6,6 @@ purpose: Core structural constraints and Master System Map
 last_updated: 2026-03-17
 ---
 
-# PAL Architecture System
-
-**The definitive mapping of the PAL Second Brain layers and routing structure.** For human narrative and principles, see `PHILOSOPHY.md`.
-
----
-
 ## 1. System Layers
 
 PAL operates across 3 strict layers loaded via the `session-start` hook:

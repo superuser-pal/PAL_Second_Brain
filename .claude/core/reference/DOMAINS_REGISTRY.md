@@ -75,6 +75,125 @@ Each domain entry contains:
 
 ---
 
+### PALProduct
+
+| Field | Value |
+|-------|-------|
+| **Name** | `PALProduct` |
+| **Path** | `Domains/PALProduct/` |
+| **Agent** | `product-manager` |
+| **Scope** | Product strategy, roadmap, user research, competitive analysis for PAL Open Source |
+
+**Primary Signals:** `"product strategy"`, `"roadmap"`, `"PRD"`, `"user research"`, `"feature request"`, `"product strategy"`
+
+**Secondary Signals:** `"persona"`, `"hypothesis"`, `"metrics"`, `"user value"`, `"competitive"`, `"market"`, `"pricing"`, `"positioning"`
+
+**Exclude Patterns:** `"code"`, `"implementation"`, `"architecture"` _(PALBuilder signals)_
+
+---
+
+### PALGrowth
+
+| Field | Value |
+|-------|-------|
+| **Name** | `PALGrowth` |
+| **Path** | `Domains/PALGrowth/` |
+| **Agent** | `null` |
+| **Scope** | PAL growth strategy, marketing, metrics tracking, community building |
+
+**Primary Signals:** `"growth"`, `"marketing"`, `"distribution"`, `"community"`, `"metrics"`, `"github stars"`, `"product hunt"`, `"content strategy"`
+
+**Secondary Signals:** `"audience"`, `"engagement"`, `"newsletter"`, `"social"`, `"funnel"`, `"conversion"`, `"retention"`
+
+**Exclude Patterns:** _(none)_
+
+---
+
+### LaraLou
+
+| Field | Value |
+|-------|-------|
+| **Name** | `LaraLou` |
+| **Path** | `Domains/LaraLou/` |
+| **Agent** | `substack-manager` |
+| **Scope** | Substack essays and content strategy for LaraLou |
+
+**Primary Signals:** `"substack"`, `"newsletter"`, `"essay"`, `"blog post"`, `"subscriber"`, `"LaraLou"`
+
+**Secondary Signals:** `"writing"`, `"growth"`, `"publish"`, `"Lara"`, `"audience"`, `"engagement"`, `"content calendar"`
+
+**Exclude Patterns:** _(none)_
+
+---
+
+### Studio
+
+| Field | Value |
+|-------|-------|
+| **Name** | `Studio` |
+| **Path** | `Domains/Studio/` |
+| **Agent** | `studio-agent` |
+| **Scope** | Video production and presentation-ready visual architecture |
+
+**Primary Signals:** `"video"`, `"Scaledraw"`, `"presentation"`, `"production"`, `"whiteboard"`, `"visual content"`
+
+**Secondary Signals:** `"recording"`, `"editing"`, `"visual"`, `"media"`, `"demo"`, `"animation"`, `"graphics"`, `"thumbnail"`
+
+**Exclude Patterns:** _(none)_
+
+---
+
+### PALOpenSource
+
+| Field | Value |
+|-------|-------|
+| **Name** | `PALOpenSource` |
+| **Path** | `Domains/PALOpenSource/` |
+| **Agent** | `pal-release-manager` |
+| **Scope** | Release management, changelog, public distribution, open source packaging |
+
+**Primary Signals:** `"release"`, `"changelog"`, `"version"`, `"open source"`, `"public repo"`, `"distribution"`
+
+**Secondary Signals:** `"sync"`, `"publish"`, `"MIT license"`, `"github release"`, `"tag"`, `"semantic versioning"`
+
+**Exclude Patterns:** _(none)_
+
+---
+
+### EvToyota
+
+| Field | Value |
+|-------|-------|
+| **Name** | `EvToyota` |
+| **Path** | `Domains/EvToyota/` |
+| **Agent** | `professional-assistant` |
+| **Scope** | Toyota product management — EV features, mobile app, roadmap, and stakeholder work |
+
+**Primary Signals:** `"toyota"`, `"EV feature"`, `"ebtoyota"`, `"toyota app"`, `"toyota roadmap"`, `"toyota stakeholder"`
+
+**Secondary Signals:** `"electric vehicle"`, `"mobile app"`, `"feature spec"`, `"sprint"`, `"release plan"`, `"toyota PM"`
+
+**Exclude Patterns:** `"PAL"`, `"open source"`, `"github"` _(PAL domain signals)_
+
+---
+
+### PALSecondBrain
+
+| Field | Value |
+|-------|-------|
+| **Name** | `PALSecondBrain` |
+| **Path** | `Domains/PALSecondBrain/` |
+| **Agent** | `null` |
+| **Scope** | PAL Open Source second brain project on GitHub — strategic direction, documentation, and project tracking |
+
+**Primary Signals:** `"pal second brain"`, `"second brain github"`, `"open source second brain"`, `"pal github"`
+
+**Secondary Signals:** `"github repo"`, `"contributors"`, `"open source"`, `"pal project"`, `"documentation"`
+
+**Exclude Patterns:** `"toyota"`, `"laralou"`, `"I believe"`, `"my goal"` _(signals for other domains)_
+
+---
+
 ## Detection Algorithm
 
 Used by the `note-taking` skill for domain routing during braindump and process_inbox:

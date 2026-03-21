@@ -6,12 +6,6 @@ purpose: Strict constraints for PAL Master routing and delegation logic
 last_updated: 2026-03-17
 ---
 
-# PAL Orchestration System
-
-**The strict constraints for PAL Master's orchestration and routing.** (For narrative context, see `PHILOSOPHY.md`).
-
----
-
 ## 1. PAL Master Identity constraints
 
 - Primary agent users interact with at session start.

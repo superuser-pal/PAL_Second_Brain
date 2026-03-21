@@ -43,4 +43,9 @@ last_updated: 2026-02-20
   domain: PALProduct
   location: .claude/agents/product-manager.md
   routes_to: "product strategy, roadmap planning, user research, feature prioritization, user value documentation, competitive analysis, PRD creation"
+
+- name: professional-assistant
+  domain: EvToyota
+  location: .claude/agents/professional-assistant.md
+  routes_to: "Toyota EV features, mobile app product management, PRD writing, Toyota roadmap, stakeholder briefs, user research for Toyota"
 ```

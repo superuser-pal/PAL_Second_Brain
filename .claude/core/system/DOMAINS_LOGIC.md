@@ -1,15 +1,9 @@
 ---
 title: PAL Domains System
-version: 1.2.0
+version: 1.0.0
 layer: SYSTEM
 purpose: Strict structural constraints for configuring and managing Domains
 last_updated: 2026-03-17
----
-
-# PAL Domains System
-
-**The definitive schema for all PAL generic workspaces (Domains).** For narrative context, see `PHILOSOPHY.md`.
-
 ---
 
 ## 1. Domain Definition (MANDATORY)
@@ -63,6 +57,3 @@ The `INDEX.md` file MUST exist at `Domains/[DomainName]/INDEX.md`. It acts as th
 3. **Agent Binding:** Specific domain behavior is implemented by an agent pointing its `domain:` YAML field to the domain's directory name.
 
 ---
-**Version:** 1.2.0
-**Last Updated:** 2026-03-17
-**Related Files:** AGENTS_LOGIC.md, SYSTEM_INDEX.md

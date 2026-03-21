@@ -1,15 +1,9 @@
 ---
 title: PAL Skills System
-version: 1.2.0
+version: 1.0.0
 layer: SYSTEM
 purpose: Mandatory configuration system and structure for all PAL skills
 last_updated: 2026-03-17
----
-
-# PAL Skills System
-
-**The MANDATORY configuration system for ALL PAL skills.** For philosophy and examples, see `PHILOSOPHY.md`.
-
 ---
 
 ## 1. Naming Conventions (MANDATORY)
@@ -92,7 +86,3 @@ Tools MUST:
 - Exit with standard codes (0=Success, 1=Fail)
 
 ---
-
-**Document Version:** 1.2.0
-**Last Updated:** 2026-03-17
-**Related Files:** PHILOSOPHY.md, SYSTEM_INDEX.md, WORKFLOWS.md

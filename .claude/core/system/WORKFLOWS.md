@@ -1,15 +1,9 @@
 ---
 title: PAL Workflows System
-version: 1.2.0
+version: 1.0.0
 layer: SYSTEM
 purpose: Strict structural constraints for constructing workflows
 last_updated: 2026-03-17
----
-
-# PAL Workflows System
-
-**The strict syntax for declaring and executing task patterns.** See `PHILOSOPHY.md` for narrative.
-
 ---
 
 ## 1. Mandatory Location & Naming
@@ -57,6 +51,3 @@ description: [Short action-oriented description of what this achieves, e.g. "Gen
 - Agents MUST validate the output against "Validation Criteria" before completing the workflow.
 
 ---
-**Version:** 1.2.0
-**Last Updated:** 2026-03-17
-**Related Files:** SKILL_LOGIC.md

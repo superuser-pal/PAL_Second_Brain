@@ -1,16 +1,9 @@
 ---
 title: PAL Toolbox System
-version: 1.2.0
+version: 1.0.0
 layer: SYSTEM
 purpose: Strict constraints for Tool creation and execution
 last_updated: 2026-03-17
----
-
-# PAL Toolbox System
-
-**The strict specification for creating and managing PAL utilities.**
-See `PHILOSOPHY.md` for narrative.
-
 ---
 
 ## 1. Tool Categorization
@@ -72,6 +65,3 @@ process.exit(0);
 ```
 
 ---
-**Version:** 1.2.0
-**Last Updated:** 2026-03-17
-**Related Files:** MEMORY_LOGIC.md, SKILL_LOGIC.md

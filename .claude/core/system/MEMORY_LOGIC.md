@@ -1,15 +1,9 @@
 ---
 title: PAL Memory System
-version: 1.1.0
+version: 1.0.0
 layer: SYSTEM
 purpose: Strict constraints for Context Lifecycle and State Management
 last_updated: 2026-03-17
----
-
-# PAL Memory System
-
-**The definitive constraints for managing Agent Context and Session Lifecycle.** See `PHILOSOPHY.md` for narrative.
-
 ---
 
 ## 1. Context Lifecycle (Hooks)
@@ -55,6 +49,3 @@ Context behaviors are controlled globally via `.claude/settings.json`.
    - The newly invoked agent reads and deletes this file.
 
 ---
-**Version:** 1.1.0
-**Last Updated:** 2026-03-17
-**Related Files:** ORCHESTRATION.md, AGENT_BASE.md, TOOLBOX.md
