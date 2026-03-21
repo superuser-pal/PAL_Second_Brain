@@ -1,6 +1,6 @@
 ---
 name: project-management
-description: Manage projects and tasks across domains. USE WHEN create project OR new project OR pull tasks OR sync tasks OR update plan OR project status OR list projects OR task dashboard OR archive project OR project management OR track tasks.
+description: Manage projects and tasks across domains. USE WHEN create project OR new project OR pull tasks OR sync tasks OR update tasks OR project status OR list projects OR task dashboard OR archive project OR project management OR track tasks.
 user-invocable: false
 ---
 
@@ -14,7 +14,7 @@ Centralized project and task management across PAL domains with bidirectional sy
 | ----------------- | --------------------------------------------------------------------- | -------------------------------- |
 | Create Project    | "create project", "new project", "start project"                      | `workflows/create_project.md`    |
 | Pull Tasks        | "pull tasks", "sync tasks", "aggregate tasks", "gather tasks"         | `workflows/pull_tasks.md`        |
-| Update Plan       | "update plan", "push tasks", "sync back", "update projects"           | `workflows/update_plan.md`       |
+| Update Tasks      | "update tasks", "push tasks", "sync back", "update projects"          | `workflows/update_tasks.md`      |
 | Project Dashboard | "project dashboard", "list projects", "task summary", "show projects" | `workflows/project_dashboard.md` |
 | Archive Project   | "archive project", "complete project", "close project"                | `workflows/archive_project.md`   |
 
@@ -56,7 +56,7 @@ Project created: domains/example-domain/01_PROJECTS/API_INTEGRATION_PROJECT.md
 1. Scan all domains for \*\_PROJECT.md files
 2. Parse task sections from each project
 3. Filter for `#open` and `#in-progress` tasks
-4. Generate `Inbox/Tasks/MASTER.md` with grouped tasks
+4. Generate `Inbox/Dashboards/TASKS.md` with grouped tasks
 
 **Output:**
 
@@ -66,7 +66,7 @@ Tasks pulled successfully:
 - Projects found: 7
 - Active tasks: 12 (8 to do, 4 in-progress)
 - Inactive tasks: 5 (1 blocked, 1 paused, 2 backlog, 1 not doing)
-- Master file: Inbox/Tasks/MASTER.md
+- Master file: Inbox/Dashboards/TASKS.md
 ```
 
 ### Example 3: View Project Dashboard
@@ -144,7 +144,7 @@ Tasks use **checkbox symbols** to indicate status. The symbol inside the checkbo
 | Location                 | Purpose                        |
 | ------------------------ | ------------------------------ |
 | `domains/*/01_PROJECTS/` | Project files (\*\_PROJECT.md) |
-| `Inbox/Tasks/MASTER.md`  | Aggregated task list           |
+| `Inbox/Dashboards/TASKS.md`  | Aggregated task list       |
 | `project_template.md`    | Template for new projects      |
 
 ## Related Documentation

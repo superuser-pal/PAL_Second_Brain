@@ -173,11 +173,11 @@ Remove project from Active Work table:
 
 Also update `updated:` timestamp in INDEX.md frontmatter.
 
-### Step 7: Update MASTER.md (if exists)
+### Step 7: Update TASKS.md (if exists)
 
-If `Inbox/Tasks/MASTER.md` exists and contains tasks from archived project:
+If `Inbox/Dashboards/TASKS.md` exists and contains tasks from archived project:
 
-- Remove the project section from MASTER.md
+- Remove the project section from TASKS.md
 - Update task counts in frontmatter
 
 ### Step 8: Report Success
@@ -195,7 +195,7 @@ Updates applied:
   ✓ Deprecation header added
   ✓ File moved to 05_ARCHIVE/
   ✓ Removed from domain INDEX.md Active Work table
-  ✓ Removed from Inbox/Tasks/MASTER.md
+  ✓ Removed from Inbox/Dashboards/TASKS.md
 
 To restore this project, move it back to 01_PROJECTS/ and remove the deprecation header.
 ```
@@ -252,4 +252,4 @@ Select option:
 - Project file moved to `domains/[domain]/05_ARCHIVE/`
 - Deprecation header added to file
 - Domain INDEX.md updated
-- MASTER.md updated (if exists)
+- TASKS.md updated (if exists)

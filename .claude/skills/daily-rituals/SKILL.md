@@ -70,7 +70,7 @@ User: "sunday ritual"
 | Source | What It Provides | How To Read |
 | :--- | :--- | :--- |
 | `Inbox/Notes/` | Unprocessed note count | `ls` + count files without `status: processed` |
-| `Inbox/Tasks/MASTER.md` | Task aggregation stats | Read frontmatter: `open_tasks`, `total_tasks` |
+| `Inbox/Dashboards/TASKS.md` | Task aggregation stats | Read frontmatter: `open_tasks`, `total_tasks` |
 | `Domains/*/01_PROJECTS/PROJECT_*.md` | Active project status | Grep frontmatter for `status`, `task_open` |
 | `.claude/sessions/` | Recent session logs | Read most recent session file |
 | `Inbox/Plan/` | Daily and weekly planning files | Read DD-MM-YY.md (daily) and W[X]_YYYY-MM-DD.md (weekly) files |

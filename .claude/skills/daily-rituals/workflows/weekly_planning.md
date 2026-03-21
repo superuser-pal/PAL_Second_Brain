@@ -22,7 +22,7 @@ Plan the upcoming week by setting a goal and selecting committed tasks. Run on S
 
 ### Step 3: Review Available Tasks
 
-1. Read `Inbox/Tasks/MASTER.md`
+1. Read `Inbox/Dashboards/TASKS.md`
 2. Pull all tasks with status `[ ]` (To Do) or `[!]` (Blocked)
 3. Group by domain and display with project context
 4. Show task counts per domain

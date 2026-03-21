@@ -16,7 +16,7 @@ Cross-domain progress review, inbox health check, and goal alignment. Run once p
 ### Step 2: Inbox Health Check
 
 1. Count all files in `Inbox/Notes/` by status (unprocessed, draft, ready)
-2. Count files in `Inbox/Tasks/`
+2. Count files in `Inbox/Dashboards/`
 3. Report totals and flag if unprocessed > 10: "Inbox overflow — consider running process-inbox"
 4. Prompt: "You have [X] unprocessed notes. Would you like to process them now via `process_inbox`?"
 

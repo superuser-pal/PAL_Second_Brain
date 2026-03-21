@@ -1,6 +1,6 @@
 # Project Dashboard Workflow
 
-**Purpose:** Generate and update a persistent dashboard file at `Inbox/Tasks/DASHBOARD.md` with comprehensive project and task statistics across all domains.
+**Purpose:** Generate and update a persistent dashboard file at `Inbox/Dashboards/TASKS.md` with comprehensive project and task statistics across all domains.
 
 **Version:** 2.0.0 (Minimum Viable Dashboard)
 
@@ -108,7 +108,7 @@ Count tasks:
 
 ### Step 5: Generate Dashboard File
 
-Create/overwrite `Inbox/Tasks/DASHBOARD.md` with:
+Create/overwrite `Inbox/Dashboards/TASKS.md` with:
 
 #### Frontmatter (YAML)
 
@@ -274,7 +274,7 @@ Total:                    5 projects
 **Source**: [AD_HOC_TASKS.md](../Domains/PALBuilder/01_PROJECTS/AD_HOC_TASKS.md)
 
 - [ ] Create project dashboard feature
-- [ ] Add task filtering to MASTER.md
+- [ ] Add task filtering to TASKS.md
 - [ ] Document workflow patterns
 - [ ] Implement task sync logic
 
@@ -317,13 +317,13 @@ Total:                    5 projects
 ## ⚡ Quick Actions
 
 ### Common Commands
-- `pull tasks` - Refresh MASTER.md with latest tasks
-- `update plan` - Sync changes back to project files
+- `pull tasks` - Refresh TASKS.md with latest tasks
+- `update tasks` - Sync changes back to project files
 - `create project` - Start a new project
 - `archive project` - Archive completed projects
 
 ### Related Files
-- [MASTER.md](./MASTER.md) - Aggregated task list
+- [TASKS.md](./TASKS.md) - Aggregated task list
 - [Projects.base](../Bases/Projects.base) - Obsidian dashboard view
 
 ### Project File Locations
@@ -378,13 +378,13 @@ Planning = 3 → 60% → 6 blocks filled
 ## File Output Logic
 
 **Always generate file:**
-- Path: `Inbox/Tasks/DASHBOARD.md`
+- Path: `Inbox/Dashboards/TASKS.md`
 - Mode: Overwrite (no prompt needed)
 - This is a regenerated view, not an editable file
 
 **No terminal display:**
 - Dashboard is file-only output
-- User opens `DASHBOARD.md` in Obsidian after generation
+- User opens `TASKS.md` in Obsidian after generation
 
 ---
 
@@ -440,20 +440,20 @@ After generating dashboard:
 
 ## Integration Points
 
-**MASTER.md:**
+**TASKS.md:**
 - Task-level view (individual tasks listed)
-- DASHBOARD.md = Project-level view (aggregated stats)
+- Dashboard section = Project-level view (aggregated stats)
 
 **Projects.base (Obsidian):**
 - Query on project files (live data)
-- DASHBOARD.md = Pre-computed summary (snapshot)
+- TASKS.md = Pre-computed summary (snapshot)
 
 **Domain INDEX.md files:**
 - Source of truth for individual domains
-- DASHBOARD.md = Cross-domain rollup
+- TASKS.md = Cross-domain rollup
 
 ---
 
 **Workflow Version:** 2.0.0
 **Last Updated:** 2026-03-08
-**Related Workflows:** pull_tasks.md, update_plan.md, create_project.md
+**Related Workflows:** pull_tasks.md, update_tasks.md, create_project.md

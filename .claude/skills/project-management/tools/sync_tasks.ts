@@ -30,8 +30,8 @@ const colors = {
 // Configuration
 const PROJECT_ROOT = process.cwd();
 const DOMAINS_DIR = path.join(PROJECT_ROOT, "domains");
-const TASKS_DIR = path.join(PROJECT_ROOT, "tasks");
-const MASTER_FILE = path.join(TASKS_DIR, "MASTER.md");
+const DASHBOARDS_DIR = path.join(PROJECT_ROOT, "Inbox", "Dashboards");
+const TASKS_FILE = path.join(DASHBOARDS_DIR, "TASKS.md");
 
 // Types
 interface Task {
@@ -81,15 +81,15 @@ ${colors.bold}USAGE:${colors.reset}
   bun sync_tasks.ts <command> [options]
 
 ${colors.bold}COMMANDS:${colors.reset}
-  pull      Aggregate tasks from all projects into MASTER.md
-  push      Push task changes from MASTER.md back to projects
+  pull      Aggregate tasks from all projects into TASKS.md
+  push      Push task changes from TASKS.md back to projects
   status    Show sync status without making changes
 
 ${colors.bold}OPTIONS:${colors.reset}
   -h, --help     Show this help message
   -f, --force    Force push without conflict checking
   -q, --quiet    Minimal output
-  -o, --output   Output file path (default: tasks/MASTER.md)
+  -o, --output   Output file path (default: Inbox/Dashboards/TASKS.md)
 
 ${colors.bold}EXAMPLES:${colors.reset}
   # Pull all tasks into master list
@@ -242,7 +242,7 @@ function getCheckboxSymbol(status: Task["status"]): string {
   }
 }
 
-// Generate MASTER.md content
+// Generate TASKS.md content
 function generateMasterContent(projects: Project[]): string {
   const now = new Date().toISOString().slice(0, 16).replace("T", " ");
   const domains = [...new Set(projects.map((p) => p.domain))];
@@ -270,7 +270,7 @@ inactive_tasks: ${inactiveTasks}
 # Task Master List
 
 > Last synchronized: ${now}
-> Run \`update plan\` to push changes back to projects
+> Run \`update tasks\` to push changes back to projects
 
 **Checkbox Symbol Reference:**
 - \`[ ]\` To Do  |  \`[/]\` In Progress  |  \`[!]\` Blocked  |  \`[?]\` Paused  |  \`[I]\` Backlog  |  \`[-]\` Not Doing  |  \`[x]\` Done
@@ -332,13 +332,13 @@ async function pullTasks(): Promise<void> {
     return;
   }
 
-  // Ensure tasks directory exists
-  if (!fs.existsSync(TASKS_DIR)) {
-    fs.mkdirSync(TASKS_DIR, { recursive: true });
+  // Ensure dashboards directory exists
+  if (!fs.existsSync(DASHBOARDS_DIR)) {
+    fs.mkdirSync(DASHBOARDS_DIR, { recursive: true });
   }
 
   const content = generateMasterContent(projects);
-  const outputPath = values.output || MASTER_FILE;
+  const outputPath = values.output || TASKS_FILE;
 
   fs.writeFileSync(outputPath, content);
 
@@ -395,21 +395,21 @@ To push changes back to projects, run: ${colors.cyan}bun sync_tasks.ts push${col
 `);
 }
 
-// Push command - update projects from MASTER.md
+// Push command - update projects from TASKS.md
 async function pushTasks(): Promise<void> {
-  if (!fs.existsSync(MASTER_FILE)) {
-    console.log(`${colors.red}Error: MASTER.md not found. Run 'pull' first.${colors.reset}`);
+  if (!fs.existsSync(TASKS_FILE)) {
+    console.log(`${colors.red}Error: TASKS.md not found. Run 'pull' first.${colors.reset}`);
     process.exit(1);
   }
 
-  console.log(`${colors.cyan}Reading MASTER.md...${colors.reset}`);
+  console.log(`${colors.cyan}Reading TASKS.md...${colors.reset}`);
 
-  const masterContent = fs.readFileSync(MASTER_FILE, "utf-8");
-  const masterFrontmatter = parseFrontmatter(masterContent);
+  const tasksContent = fs.readFileSync(TASKS_FILE, "utf-8");
+  const tasksFrontmatter = parseFrontmatter(tasksContent);
 
-  console.log(`${colors.gray}Last pulled: ${masterFrontmatter.last_pulled}${colors.reset}`);
+  console.log(`${colors.gray}Last pulled: ${tasksFrontmatter.last_pulled}${colors.reset}`);
   console.log(`${colors.yellow}Push functionality requires manual implementation of task comparison logic.${colors.reset}`);
-  console.log(`${colors.gray}For now, use the update_plan workflow for guided task updates.${colors.reset}`);
+  console.log(`${colors.gray}For now, use the update_tasks workflow for guided task updates.${colors.reset}`);
 }
 
 // Status command - show sync status
@@ -432,14 +432,14 @@ async function showStatus(): Promise<void> {
   console.log(`${colors.bold}Projects:${colors.reset} ${projects.length} across ${domains.length} domains`);
   console.log(`${colors.bold}Tasks:${colors.reset} ${activeCount} active, ${inactiveCount} inactive, ${doneCount} done`);
 
-  if (fs.existsSync(MASTER_FILE)) {
-    const stat = fs.statSync(MASTER_FILE);
-    const frontmatter = parseFrontmatter(fs.readFileSync(MASTER_FILE, "utf-8"));
-    console.log(`\n${colors.bold}MASTER.md:${colors.reset}`);
+  if (fs.existsSync(TASKS_FILE)) {
+    const stat = fs.statSync(TASKS_FILE);
+    const frontmatter = parseFrontmatter(fs.readFileSync(TASKS_FILE, "utf-8"));
+    console.log(`\n${colors.bold}TASKS.md:${colors.reset}`);
     console.log(`  Last pulled: ${frontmatter.last_pulled}`);
     console.log(`  File modified: ${stat.mtime.toISOString().slice(0, 16).replace("T", " ")}`);
   } else {
-    console.log(`\n${colors.yellow}MASTER.md not found. Run 'pull' to create.${colors.reset}`);
+    console.log(`\n${colors.yellow}TASKS.md not found. Run 'pull' to create.${colors.reset}`);
   }
 }
 

@@ -59,7 +59,7 @@ For each incomplete task, ask user to select action:
 2. **Move to backlog** — Change status to `[I]` in source project
 3. **Drop** — Mark as `[-]` (Not Doing) in source project
 
-Update the source project files accordingly via `update_plan`.
+Update the source project files accordingly via `update_tasks`.
 
 ### Step 5: Gather Retrospective
 

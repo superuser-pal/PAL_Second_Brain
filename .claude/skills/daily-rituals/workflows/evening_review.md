@@ -10,12 +10,12 @@ Close the day with a structured reflection — capture what happened, what was l
 
 1. Check if `Inbox/Plan/DD-MM-YY.md` exists (today's date)
 2. If exists, read the morning intentions
-3. Scan `Inbox/Notes/` and `Inbox/Tasks/` for files created or modified with today's date to understand today's captured information and activity.
+3. Scan `Inbox/Notes/` and `Inbox/Dashboards/` for files created or modified with today's date to understand today's captured information and activity.
 4. Check for active week in `Inbox/Plan/` — load week_goal and committed tasks
 
 ### Step 2: Gather Accomplishments
 
-1. Ask the user to verify completion of today's focused project tasks. If completed, automatically mark them as `[x]` (Done) and trigger `update_plan`.
+1. Ask the user to verify completion of today's focused project tasks. If completed, automatically mark them as `[x]` (Done) and trigger `update_tasks`.
 2. If active week exists, match accomplishments to week's committed tasks:
    - Auto-mark matched tasks as `[x]` in week file
    - Move task from "Active" to "Done" section in week file

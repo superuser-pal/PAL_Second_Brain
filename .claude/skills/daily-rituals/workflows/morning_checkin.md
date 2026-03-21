@@ -9,7 +9,7 @@ Start the day with a clear picture of system state and set intentional focus are
 ### Step 1: Scan Inbox Health
 
 1. Count files in `Inbox/Notes/` — report total unprocessed
-2. Read the `active_tasks` count from `Inbox/Tasks/MASTER.md` frontmatter — report pending task items
+2. Read the `active_tasks` count from `Inbox/Dashboards/TASKS.md` frontmatter — report pending task items
 3. If unprocessed items > 5, flag: "Inbox needs attention"
 4. Prompt: "You have [X] unprocessed notes. Would you like to process them now before setting daily intentions?"
    - If yes, invoke `process_inbox` workflow first.

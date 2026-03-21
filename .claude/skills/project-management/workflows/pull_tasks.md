@@ -5,7 +5,7 @@
 ## Prerequisites
 
 - At least one domain with projects in `01_PROJECTS/`
-- `Inbox/Tasks/` directory exists at project root
+- `Inbox/Dashboards/` directory exists at project root
 
 ## Workflow Steps
 
@@ -48,9 +48,9 @@ For each project file and Inbox note:
 - Status determined by tag (`#open`, `#in-progress`, `#done`), or checkbox symbol
 - Preserve full task text (minus the tag for display)
 
-### Step 4: Generate MASTER.md
+### Step 4: Generate TASKS.md
 
-Create `Inbox/Tasks/MASTER.md` with aggregated tasks:
+Create `Inbox/Dashboards/TASKS.md` with aggregated tasks:
 
 ```markdown
 ---
@@ -68,7 +68,7 @@ inactive_tasks: 5
 # Task Master List
 
 > Last synchronized: 2026-02-11 14:30
-> Run `update plan` to push changes back to projects
+> Run `update tasks` to push changes back to projects
 
 **Checkbox Symbol Reference:**
 - `[ ]` To Do  |  `[/]` In Progress  |  `[!]` Blocked  |  `[?]` Paused  |  `[I]` Backlog  |  `[-]` Not Doing  |  `[x]` Done
@@ -171,9 +171,9 @@ Task Breakdown:
     - [I] Backlog: 2
     - [-] Not Doing: 1
 
-Output: Inbox/Tasks/MASTER.md
+Output: Inbox/Dashboards/TASKS.md
 
-To push changes back to projects, run: update plan
+To push changes back to projects, run: update tasks
 ```
 
 ## Task Source Reference Format
@@ -184,7 +184,7 @@ Each project section includes a source reference for bidirectional sync:
 > Source: domains/[domain]/01_PROJECTS/[NAME]\_PROJECT.md
 ```
 
-This reference is used by `update_plan` workflow to locate the original file.
+This reference is used by `update_tasks` workflow to locate the original file.
 
 ## Error Handling
 
@@ -193,10 +193,10 @@ This reference is used by `update_plan` workflow to locate the original file.
 | No domains found             | Report "No domains exist"                 |
 | Domain has no 01_PROJECTS/   | Skip domain, note in summary              |
 | Project has no task sections | Skip project, note in summary             |
-| Inbox/Tasks/ doesn't exist   | Create the directory                      |
+| Inbox/Dashboards/ doesn't exist | Create the directory                   |
 | Parse error in project       | Log warning, continue with other projects |
 
 ## Output
 
-- `Inbox/Tasks/MASTER.md` - Aggregated task list with source references
+- `Inbox/Dashboards/TASKS.md` - Aggregated task list with source references
 - Summary report with scan statistics

@@ -4,7 +4,7 @@ Bidirectional task synchronization between project files and the master task lis
 
 ## Overview
 
-This CLI tool automates task aggregation and synchronization across all PAL domains. It scans project files in `domains/*/01_PROJECTS/` and maintains a centralized task list in `Inbox/Tasks/MASTER.md`.
+This CLI tool automates task aggregation and synchronization across all PAL domains. It scans project files in `domains/*/01_PROJECTS/` and maintains a centralized task list in `Inbox/Dashboards/TASKS.md`.
 
 ## Installation
 
@@ -20,7 +20,7 @@ bun .claude/skills/project-management/tools/sync_tasks.ts <command> [options]
 
 ### pull
 
-Aggregate tasks from all projects into MASTER.md.
+Aggregate tasks from all projects into TASKS.md.
 
 ```bash
 bun sync_tasks.ts pull
@@ -30,7 +30,7 @@ bun sync_tasks.ts pull
 1. Scans all `domains/*/01_PROJECTS/PROJECT_*.md` files
 2. Parses YAML frontmatter and task sections
 3. Extracts `#open` and `#in-progress` tasks
-4. Generates `Inbox/Tasks/MASTER.md` with grouped tasks
+4. Generates `Inbox/Dashboards/TASKS.md` with grouped tasks
 
 **Output:**
 ```
@@ -45,12 +45,12 @@ Task Breakdown:
   In-progress tasks: 4
   Total active: 16
 
-Output: Inbox/Tasks/MASTER.md
+Output: Inbox/Dashboards/TASKS.md
 ```
 
 ### push
 
-Push task changes from MASTER.md back to source projects.
+Push task changes from TASKS.md back to source projects.
 
 ```bash
 bun sync_tasks.ts push
@@ -60,7 +60,7 @@ bun sync_tasks.ts push --force
 **Options:**
 - `--force, -f` - Skip conflict detection, overwrite source files
 
-**Note:** The push command provides basic functionality. For guided task updates with conflict resolution, use the `update_plan` workflow instead.
+**Note:** The push command provides basic functionality. For guided task updates with conflict resolution, use the `update_tasks` workflow instead.
 
 ### status
 
@@ -75,7 +75,7 @@ bun sync_tasks.ts status
 Projects: 7 across 3 domains
 Tasks: 12 open, 4 in-progress, 18 done
 
-MASTER.md:
+TASKS.md:
   Last pulled: 2026-02-11 14:30
   File modified: 2026-02-11 15:45
 ```
@@ -87,7 +87,7 @@ MASTER.md:
 | `--help` | `-h` | Show help message |
 | `--force` | `-f` | Force push without conflict checking |
 | `--quiet` | `-q` | Minimal output |
-| `--output` | `-o` | Custom output file path |
+| `--output` | `-o` | Custom output file path (default: Inbox/Dashboards/TASKS.md) |
 
 ## Task Format
 
@@ -109,9 +109,9 @@ The tool recognizes tasks in this format:
 - Status tag: `#open`, `#in-progress`, or `#done`
 - Tasks grouped under `### Open`, `### In Progress`, `### Done` headers
 
-## MASTER.md Format
+## TASKS.md Format
 
-Generated MASTER.md includes:
+Generated TASKS.md includes:
 
 ```yaml
 ---
@@ -141,7 +141,7 @@ Each project section includes source reference:
 # Morning: Pull latest tasks
 bun sync_tasks.ts pull
 
-# Work on tasks in MASTER.md...
+# Work on tasks in TASKS.md...
 
 # End of day: Check status
 bun sync_tasks.ts status
@@ -167,7 +167,7 @@ bun sync_tasks.ts pull --quiet && echo "Done"
 | Error | Cause | Resolution |
 |-------|-------|------------|
 | "domains/ directory not found" | No domains exist | Create a domain first |
-| "MASTER.md not found" | Never pulled | Run `pull` command |
+| "TASKS.md not found" | Never pulled | Run `pull` command |
 | "Parse error" | Invalid frontmatter | Check project file YAML |
 
 ## Integration with Workflows
@@ -175,7 +175,7 @@ bun sync_tasks.ts pull --quiet && echo "Done"
 This tool supports the project-management skill workflows:
 
 - **pull_tasks workflow** → Uses `pull` command
-- **update_plan workflow** → Uses `push` command (or manual updates)
+- **update_tasks workflow** → Uses `push` command (or manual updates)
 - **project_dashboard workflow** → Uses `status` command data
 
 ## File Locations
@@ -183,5 +183,4 @@ This tool supports the project-management skill workflows:
 | File | Purpose |
 |------|---------|
 | `domains/*/01_PROJECTS/PROJECT_*.md` | Source project files |
-| `Inbox/Tasks/MASTER.md` | Aggregated task list |
-| `Inbox/Tasks/DASHBOARD.md` | Optional dashboard output |
+| `Inbox/Dashboards/TASKS.md` | Aggregated task list |
